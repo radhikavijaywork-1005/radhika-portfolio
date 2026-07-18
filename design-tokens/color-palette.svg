@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="800" viewBox="0 0 1000 800" font-family="DM Sans, Helvetica, Arial, sans-serif">
+  <rect width="1000" height="800" fill="#ffffff"/>
+
+  <text x="40" y="48" font-size="26" font-weight="700" fill="#21201B" font-family="Georgia, serif">Radhika Portfolio — Color Palette</text>
+  <text x="40" y="72" font-size="13" fill="#5C5A4E">Token name, role, and hex/rgba value — light mode vs dark mode</text>
+
+  <text x="330" y="108" font-size="14" font-weight="700" fill="#21201B">LIGHT</text>
+  <text x="670" y="108" font-size="14" font-weight="700" fill="#EEF2E9" stroke="#21201B" stroke-width="0.4">DARK</text>
+
+  <!-- row template: label block at x=40, light swatch at x=300, dark swatch at x=640 -->
+
+  <!-- paper -->
+  <g transform="translate(40,120)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">paper</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Page background</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#FFFDF2" stroke="#e5e0cc"/>
+    <text x="270" y="24" font-size="12" fill="#21201B">#FFFDF2</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#14201A"/>
+    <text x="610" y="24" font-size="12" fill="#EEF2E9">#14201A</text>
+  </g>
+
+  <!-- cream-deep -->
+  <g transform="translate(40,172)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">cream-deep</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Marquee band / gallery placeholder</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#FAF6E8" stroke="#e5e0cc"/>
+    <text x="270" y="24" font-size="12" fill="#21201B">#FAF6E8</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#1A2620"/>
+    <text x="610" y="24" font-size="12" fill="#EEF2E9">#1A2620</text>
+  </g>
+
+  <!-- card -->
+  <g transform="translate(40,224)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">card</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Work card background</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#FFFEFB" stroke="#e5e0cc"/>
+    <text x="270" y="24" font-size="12" fill="#21201B">#FFFEFB</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#1C2921"/>
+    <text x="610" y="24" font-size="12" fill="#EEF2E9">#1C2921</text>
+  </g>
+
+  <!-- forest -->
+  <g transform="translate(40,276)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">forest</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Strong text / button bg / footer emphasis</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#1C3A31"/>
+    <text x="270" y="24" font-size="12" fill="#FFFDF2">#1C3A31</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#DCE8D6"/>
+    <text x="610" y="24" font-size="12" fill="#14201A">#DCE8D6</text>
+  </g>
+
+  <!-- forest-soft -->
+  <g transform="translate(40,328)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">forest-soft</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Muted headings / labels / stat pills</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#3D5850"/>
+    <text x="270" y="24" font-size="12" fill="#FFFDF2">#3D5850</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#A8C2AC"/>
+    <text x="610" y="24" font-size="12" fill="#14201A">#A8C2AC</text>
+  </g>
+
+  <!-- sage -->
+  <g transform="translate(40,380)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">sage</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Portrait circle gradient (outer)</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#B3C1B4"/>
+    <text x="270" y="24" font-size="12" fill="#21201B">#B3C1B4</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#445247"/>
+    <text x="610" y="24" font-size="12" fill="#EEF2E9">#445247</text>
+  </g>
+
+  <!-- sage-deep -->
+  <g transform="translate(40,432)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">sage-deep</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Portrait circle gradient (inner)</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#92A693"/>
+    <text x="270" y="24" font-size="12" fill="#21201B">#92A693</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#313D34"/>
+    <text x="610" y="24" font-size="12" fill="#EEF2E9">#313D34</text>
+  </g>
+
+  <!-- footer-bg -->
+  <g transform="translate(40,484)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">footer-bg</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Footer section background</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#A7AC9C"/>
+    <text x="270" y="24" font-size="12" fill="#21201B">#A7AC9C</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#232F28"/>
+    <text x="610" y="24" font-size="12" fill="#EEF2E9">#232F28</text>
+  </g>
+
+  <!-- ink -->
+  <g transform="translate(40,536)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">ink</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Primary body text</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#21201B"/>
+    <text x="270" y="24" font-size="12" fill="#FFFDF2">#21201B</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#EEF2E9"/>
+    <text x="610" y="24" font-size="12" fill="#14201A">#EEF2E9</text>
+  </g>
+
+  <!-- ink-soft -->
+  <g transform="translate(40,588)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">ink-soft</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Secondary / muted body text</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#5C5A4E"/>
+    <text x="270" y="24" font-size="12" fill="#FFFDF2">#5C5A4E</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#AAB5A7"/>
+    <text x="610" y="24" font-size="12" fill="#14201A">#AAB5A7</text>
+  </g>
+
+  <!-- line -->
+  <g transform="translate(40,640)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">line</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Hairline borders / dividers</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#FFFDF2" stroke="#e5e0cc"/>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="rgba(28,58,31,0.14)"/>
+    <text x="270" y="24" font-size="11" fill="#21201B">rgba(28,58,31,0.14)</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#14201A"/>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="rgba(220,232,214,0.14)"/>
+    <text x="610" y="24" font-size="11" fill="#EEF2E9">rgba(220,232,214,0.14)</text>
+  </g>
+
+  <!-- line-strong -->
+  <g transform="translate(40,692)">
+    <text x="0" y="16" font-size="14" font-weight="600" fill="#21201B">line-strong</text>
+    <text x="0" y="32" font-size="11" fill="#5C5A4E">Stronger borders (pills, dots, wave dividers)</text>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="#FFFDF2" stroke="#e5e0cc"/>
+    <rect x="260" y="0" width="220" height="40" rx="8" fill="rgba(28,58,31,0.28)"/>
+    <text x="270" y="24" font-size="11" fill="#21201B">rgba(28,58,31,0.28)</text>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="#14201A"/>
+    <rect x="600" y="0" width="220" height="40" rx="8" fill="rgba(220,232,214,0.26)"/>
+    <text x="610" y="24" font-size="11" fill="#EEF2E9">rgba(220,232,214,0.26)</text>
+  </g>
+
+  <text x="40" y="770" font-size="11" fill="#92A693">Fraunces (display) · DM Sans (body) · Noto Sans Devanagari (fallback)</text>
+</svg>

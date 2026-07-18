@@ -1,0 +1,237 @@
+.pv {
+  position: relative;
+  background: #f6f1e4;
+  overflow: hidden;
+}
+
+/* Paper/grain texture on the background — subtle, sits under everything. */
+.pv::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.62  0 0 0 0 0.56  0 0 0 0 0.44  0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 160px 160px;
+}
+
+.pv-svg-full {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.pv-stem {
+  stroke: #a9c2a0;
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  fill: none;
+  opacity: 0.75;
+}
+
+.pv-leaf {
+  fill: #b6cca9;
+  opacity: 0.8;
+}
+
+.pv-tendril {
+  stroke: #c2d3b6;
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  fill: none;
+}
+
+/* ---------- Hero ---------- */
+.pv-hero {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  padding: clamp(60px, 8vw, 120px) 6vw 80px;
+}
+
+.pv-pill {
+  display: inline-flex;
+  padding: 8px 18px;
+  border: 1px solid rgba(28, 58, 31, 0.2);
+  border-radius: 999px;
+  font-size: 13px;
+  margin-bottom: 22px;
+  color: var(--ink-soft);
+}
+
+.pv-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4.6vw, 50px);
+  font-weight: 600;
+  line-height: 1.12;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+
+.pv-sub {
+  font-size: clamp(16px, 1.7vw, 18px);
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+  max-width: 46ch;
+}
+
+.pv-meta {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.pv-meta strong {
+  color: var(--ink);
+}
+
+.pv-portrait {
+  display: none;
+}
+
+/* ---------- Work ---------- */
+.pv-work {
+  position: relative;
+  z-index: 2;
+  padding: 40px 6vw 100px;
+}
+
+.pv-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.8vw, 32px);
+  margin-bottom: 32px;
+  color: var(--ink);
+}
+
+.pv-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 900px;
+}
+
+.pv-card {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(28, 58, 31, 0.14);
+  background: rgba(255, 253, 242, 0.7);
+}
+
+.pv-card__cover {
+  height: 160px;
+  background-size: cover;
+}
+
+.pv-card__title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  padding: 18px 18px 8px;
+  color: var(--ink);
+}
+
+.pv-card__stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 0 18px 18px;
+}
+
+.pv-card__stats span {
+  font-size: 11.5px;
+  color: var(--forest-soft);
+  border: 1px solid rgba(28, 58, 31, 0.2);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+/* ---------- Quote ---------- */
+.pv-quote {
+  position: relative;
+  z-index: 2;
+  padding: 40px 6vw 100px;
+  border-top: 1px solid rgba(28, 58, 31, 0.14);
+  border-bottom: 1px solid rgba(28, 58, 31, 0.14);
+  max-width: 700px;
+  margin-inline: 6vw;
+}
+
+.pv-quote__sanskrit {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 28px);
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.pv-quote__translation {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* ---------- Footer: vine blooms into a garden ---------- */
+.pv-footer {
+  position: relative;
+  z-index: 2;
+  padding: 140px 6vw 0;
+  min-height: 420px;
+  background: linear-gradient(to bottom, transparent, rgba(139, 166, 130, 0.14) 60%, rgba(139, 166, 130, 0.28));
+  overflow: hidden;
+}
+
+.pv-footer__heading {
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.4vw, 38px);
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.pv-footer__sub {
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+
+.pv-garden {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 130px;
+  pointer-events: none;
+}
+
+.pv-blade {
+  position: absolute;
+  bottom: 0;
+  width: 3px;
+  height: 60px;
+  background: #8fae82;
+  border-radius: 4px 4px 0 0;
+  transform-origin: bottom center;
+  animation: pv-sway 4s ease-in-out infinite alternate;
+}
+
+.pv-flower {
+  position: absolute;
+  bottom: 40px;
+  font-size: 22px;
+}
+
+@keyframes pv-sway {
+  from {
+    transform: rotate(-6deg);
+  }
+  to {
+    transform: rotate(6deg);
+  }
+}
+
+@media (max-width: 760px) {
+  .pv-grid {
+    grid-template-columns: 1fr;
+  }
+}

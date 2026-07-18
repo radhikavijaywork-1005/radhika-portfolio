@@ -1,0 +1,1675 @@
+/* Case-study specific tokens, scoped to .cs so they can't collide with the
+   global palette or the shadcn --accent token. Maroon pulled from the real
+   STAGE paywall brand. Layout is one shared CSS Grid (nav rail + content
+   column) so the header, nav, and every section line up on the same edges. */
+.cs {
+  /* Matches the #6b0000 STAGE brand red used everywhere else on this page
+     (title, stats, badges, tags) — was #7a2118 (a different, duller red),
+     which made the nav's active state and Timeline numbers look off.
+     Brightened in dark mode below since dark maroon on a dark page bg
+     loses almost all contrast. */
+  --maroon: #6b0000;
+  --ink-on-dark: #f4ede1;
+  --ink-on-dark-soft: rgba(244, 237, 225, 0.68);
+  /* nav 200 + gap 60 + content 940 = 1200, matching the homepage's
+     --container width exactly (Figma node 133:628: nav-card is 200px,
+     content column is 940px, both inside the same 1200px frame). */
+  --cs-nav-col: 200px;
+  --cs-gap: 60px;
+  --cs-measure: 940px;
+  /* Same page bg as the rest of the site — Home/About also read var(--paper). */
+  background: var(--paper);
+
+  /* Case-study-local semantic tokens. Every hardcoded color that used to be
+     scattered through this file (card bg #fefefe/#fff, text #1a1a1a/#323232/
+     #464646/#8a8a8a, hairline borders #d8d8d8/#d9d9d9) now routes through
+     one of these, so the whole page can flip with the site's dark theme by
+     overriding this one block instead of touching every rule. */
+  --cs-card-bg: #fefefe;
+  --cs-ink: #1a1a1a;
+  --cs-body: #323232;
+  --cs-soft: #464646;
+  --cs-muted: #8a8a8a;
+  --cs-line: #d8d8d8;
+}
+
+.dark .cs {
+  --maroon: #e0625f;
+  --cs-card-bg: #1c2921;
+  --cs-ink: #eef2e9;
+  --cs-body: #cfcabe;
+  --cs-soft: #b0ab9e;
+  --cs-muted: #93938d;
+  --cs-line: rgba(220, 232, 214, 0.32);
+}
+
+/* ---------- Shared grid ---------- */
+.cs-grid {
+  display: grid;
+  grid-template-columns: var(--cs-nav-col) minmax(0, var(--cs-measure));
+  gap: var(--cs-gap);
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 40px;
+}
+
+/* Header bleeds the full nav+gap+content width (its left edge meets the
+   nav's left edge), but the nav itself only starts at row 2 — vertically
+   level with the Summary section, not the header — matching the real site. */
+.cs-grid > .cs-header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.cs-grid > .cs-page-nav {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.cs-grid > .cs-content {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+@media (max-width: 1080px) {
+  .cs {
+    --cs-nav-col: 0px;
+    --cs-gap: 0px;
+  }
+  .cs-grid {
+    grid-template-columns: minmax(0, var(--cs-measure));
+  }
+  .cs-grid > .cs-header,
+  .cs-grid > .cs-page-nav,
+  .cs-grid > .cs-content {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .cs-grid {
+    padding-inline: 20px;
+  }
+}
+
+.cs-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--cs-soft);
+  margin-bottom: 28px;
+  transition: color 0.2s ease;
+}
+
+.cs-back:hover {
+  color: var(--maroon);
+}
+
+/* ---------- Header ---------- */
+.cs-header {
+  padding-top: clamp(24px, 4vw, 40px);
+  padding-bottom: clamp(28px, 4vw, 40px);
+}
+
+/* Exact Figma spec (node 133:638): logo lockup, 16px gap, then a fixed
+   148x1px divider — not a border-bottom stretching to content width. */
+.cs-company {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 22px;
+  width: fit-content;
+}
+
+.cs-company::after {
+  content: "";
+  display: block;
+  width: 148px;
+  height: 0.5px;
+  background: var(--cs-muted);
+}
+
+.cs-company__logo {
+  display: block;
+  height: 34px;
+  width: auto;
+}
+
+.cs-title {
+  font-size: clamp(30px, 4.2vw, 44px);
+  line-height: 1.125;
+  letter-spacing: -0.01em;
+  color: var(--maroon);
+  margin-bottom: 24px;
+}
+
+.cs-subhead {
+  font-size: clamp(15px, 1.7vw, 18px);
+  line-height: 1.4;
+  letter-spacing: 0.015em;
+  color: var(--cs-body);
+  margin-bottom: 0;
+  max-width: 62ch;
+}
+
+.cs-subhead strong {
+  font-weight: 800;
+  color: var(--cs-ink);
+}
+
+/* Exact Figma spec (node 133:673/674): a maroon-gradient card holding the
+   3 paywall-phase phone mockups side by side, each in its own dark
+   4px-bordered frame — not one flat composed screenshot. */
+.cs-hero-img-wrap {
+  margin-top: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(20px, 6vw, 62px);
+  padding: clamp(28px, 5vw, 72px) clamp(20px, 6vw, 65px);
+  background: linear-gradient(180deg, #330000, #6b0000);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.cs-hero-phone {
+  flex: 1;
+  max-width: 240px;
+  aspect-ratio: 230 / 491;
+  border: 4px solid #464646;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.cs-hero-phone img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 640px) {
+  .cs-hero-img-wrap {
+    flex-wrap: wrap;
+  }
+  .cs-hero-phone {
+    flex: 1 1 40%;
+    min-width: 100px;
+  }
+}
+
+/* ---------- Page navigator ---------- */
+.cs-page-nav {
+  position: sticky;
+  top: 120px;
+  align-self: start;
+}
+
+.cs-page-nav ul {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cs-page-nav li {
+  border-left: 2px solid var(--cs-line);
+  transition: border-color 0.25s var(--ease-flow);
+}
+
+.cs-page-nav li.is-active {
+  border-left-color: var(--maroon);
+}
+
+.cs-page-nav a {
+  display: block;
+  padding: 8px 0 8px 16px;
+  font-size: 13.5px;
+  color: var(--cs-soft);
+  transition: color 0.2s ease;
+  white-space: nowrap;
+}
+
+.cs-page-nav li.is-active a {
+  color: var(--maroon);
+  font-weight: 500;
+}
+
+.cs-page-nav a:hover {
+  color: var(--cs-ink);
+}
+
+@media (max-width: 1080px) {
+  .cs-page-nav {
+    display: none;
+  }
+}
+
+/* ---------- Shared ---------- */
+/* No padding on the section wrapper itself — Figma's sections butt
+   together with zero gap, each owning a single top-only gap before its
+   own heading (see .cs-h2 margin-top below). Padding on both top AND
+   bottom here was doubling up between adjacent sections, which is what
+   made spacing feel inconsistent from section to section. */
+.cs-section {
+  scroll-margin-top: 110px;
+}
+
+/* Exact Figma spec: Fraunces SemiBold 36px, then a short 148px divider —
+   not a full-width border-bottom. */
+/* Single source of the section-to-section gap (Figma's flat 72px rhythm,
+   scaled down slightly) — applies uniformly whether the heading starts a
+   new <section> or is a second heading inside one (e.g. "Overview of
+   STAGE" after "Summary"), so every gap in the page is the same size. */
+.cs-h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 3.6vw, 36px);
+  color: var(--cs-ink);
+  margin-top: clamp(48px, 6vw, 72px);
+  margin-bottom: 48px;
+}
+
+/* The very first heading on the page starts flush with the nav rail. */
+.cs-content > .cs-section:first-child > .cs-h2:first-child {
+  margin-top: 0;
+}
+
+/* Sub-heading variant (e.g. "Phase 2: Impacts" inside a phase) — smaller
+   and no divider, since it isn't a top-level page section. */
+.cs-h2--sub {
+  font-size: clamp(22px, 2.8vw, 28px);
+  margin-top: 32px;
+  margin-bottom: 32px;
+}
+
+.cs-h2::after {
+  content: "";
+  display: block;
+  width: 148px;
+  height: 0.5px;
+  background: var(--cs-muted);
+  margin-top: 12px;
+}
+
+/* Must come after .cs-h2::after — same specificity, so source order decides
+   which wins, and this needs to be the one that sticks. */
+.cs-h2--sub::after {
+  display: none;
+}
+
+.cs-h2__note {
+  font-weight: 300;
+  font-size: 0.65em;
+  color: var(--cs-ink);
+}
+
+.cs-body {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--cs-body);
+  margin-bottom: 16px;
+}
+
+.cs-body strong {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+.cs-caption {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  line-height: 32px;
+  color: var(--cs-body);
+  margin-top: 8px;
+  text-align: center;
+}
+
+/* ---------- Meta row ---------- */
+.cs-meta-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px;
+  margin-top: 40px;
+  padding: 24px;
+  border-top: 1px solid var(--cs-line);
+  border-bottom: 1px solid var(--cs-line);
+}
+
+.cs-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-right: 40px;
+  border-right: 1px solid var(--cs-line);
+}
+
+.cs-meta:last-child {
+  padding-right: 0;
+  border-right: none;
+}
+
+.cs-meta__label {
+  font-size: 13px;
+  font-weight: 300;
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
+  color: var(--cs-muted);
+}
+
+.cs-meta__value {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cs-meta__primary {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 19px;
+  letter-spacing: 0.015em;
+  color: var(--cs-ink);
+}
+
+.cs-meta__detail {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.4;
+  letter-spacing: 0.015em;
+  color: var(--cs-body);
+}
+
+@media (max-width: 640px) {
+  .cs-meta-row {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  .cs-meta {
+    padding-right: 0;
+    border-right: none;
+    padding-top: 16px;
+    border-top: 1px solid var(--cs-line);
+  }
+  .cs-meta:first-child {
+    padding-top: 0;
+    border-top: none;
+  }
+}
+
+/* ---------- Summary ---------- */
+.cs-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-bottom: 40px;
+}
+
+.cs-summary-card {
+  padding: 24px 32px 24px 24px;
+  border: 0.5px solid var(--cs-muted);
+  border-radius: 12px;
+  background: var(--cs-card-bg);
+}
+
+.cs-summary-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(107, 0, 0, 0.1);
+  border: 0.5px solid var(--cs-muted);
+  font-size: 20px;
+  margin-bottom: 24px;
+}
+
+.cs-summary-card__label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+  color: var(--cs-ink);
+}
+
+.cs-summary-card__text {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.34;
+  color: var(--cs-body);
+}
+
+.cs-summary-card__text strong {
+  font-weight: 600;
+}
+
+@media (max-width: 640px) {
+  .cs-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- STAGE overview ---------- */
+.cs-overview-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+
+.cs-overview-brand__logo {
+  height: 28px;
+  width: auto;
+  display: block;
+}
+
+.cs-overview-brand__tag {
+  font-size: 14.5px;
+  color: var(--cs-body);
+}
+
+.cs-overview-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 32px;
+}
+
+.cs-overview-fact {
+  display: flex;
+  flex-direction: column;
+  padding: 24px 32px 24px 24px;
+  border: 0.5px solid var(--cs-muted);
+  border-radius: 12px;
+  background: var(--cs-card-bg);
+}
+
+.cs-overview-fact__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(107, 0, 0, 0.1);
+  border: 0.5px solid var(--cs-muted);
+  font-size: 20px;
+  margin-bottom: 24px;
+}
+
+.cs-overview-fact__title {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--cs-ink);
+  margin-bottom: 8px;
+}
+
+.cs-overview-fact__body {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.34;
+  color: var(--cs-body);
+}
+
+@media (max-width: 640px) {
+  .cs-overview-facts {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Stats ---------- */
+.cs-stat-row {
+  display: flex;
+  gap: clamp(48px, 10vw, 135px);
+  margin: 32px 0 32px;
+  flex-wrap: wrap;
+}
+
+.cs-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.cs-stat__value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 4.5vw, 44px);
+  color: var(--maroon);
+  line-height: 1.25;
+}
+
+.cs-stat__label {
+  font-size: 15px;
+  color: var(--cs-body);
+  line-height: 22px;
+}
+
+.cs-stat__sublabel {
+  font-size: 15px;
+  color: var(--cs-body);
+  line-height: 22px;
+}
+
+/* ---------- Images ---------- */
+.cs-existing-img-wrap {
+  max-width: 260px;
+  margin: 8px auto 32px;
+}
+
+.cs-existing-img {
+  width: 100%;
+  border-radius: 14px;
+}
+
+/* The existing.svg asset already has the maroon outer frame + dark phone
+   bezel baked into the vector art (see the file's two <rect> strokes) —
+   no CSS border/padding needed here, that would just double the frame. */
+.cs-breakdown-block .cs-existing-img-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-breakdown-block .cs-existing-img {
+  border-radius: 0;
+}
+
+.cs-existing-img-caption {
+  display: block;
+  margin-top: 12px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--cs-ink);
+}
+
+.cs-dashboard-img-wrap,
+.cs-sheet-img-wrap {
+  margin: 32px 0 8px;
+  padding: 48px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  border-radius: 24px;
+}
+
+/* Both Dashboard.png and sheet.png already have their own border baked
+   into the PNG (transparent corners, solid-color edge pixels matching
+   #8a8a8a / #16332b respectively) — no CSS border needed, that just
+   doubles it. */
+.cs-dashboard-img,
+.cs-sheet-img {
+  width: 100%;
+  border-radius: 12px;
+  display: block;
+}
+
+.cs-sheet-img {
+  border: 1px solid var(--cs-line);
+}
+
+.cs-flow-img-wrap {
+  margin: 28px 0 8px;
+}
+
+.cs-flow-img {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+}
+
+.cs-future-img-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 220px;
+}
+
+.cs-future-img__highlight {
+  position: absolute;
+  top: -14px;
+  right: -18px;
+  width: 32px;
+  height: auto;
+  transform: rotate(90deg);
+  pointer-events: none;
+}
+
+.cs-future-img {
+  /* future.png already has the #969696 phone frame baked into the PNG
+     (transparent corners, grey border pixels) — no CSS border needed. */
+  width: 100%;
+  display: block;
+}
+
+.cs-problem-quote-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  gap: 20px;
+  margin: 28px 0 8px;
+}
+
+/* Exact Figma spec (node 133:814), scaled ~0.81x to this card's smaller
+   size. Card is a fixed 499px tall box with overflow:hidden; the phone is
+   positioned to start at top:78px and is itself ~498px tall, so its bottom
+   ~77px bleeds past the card and gets cropped — matching how the person
+   card on the right bleeds flush to its own bottom edge. */
+.cs-flow-gif-wrap {
+  position: relative;
+  height: 499px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.cs-flow-gif__frame {
+  position: absolute;
+  top: 78px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.cs-flow-gif__highlight {
+  position: absolute;
+  top: -30px;
+  left: -20px;
+  width: 26px;
+  height: auto;
+  pointer-events: none;
+}
+
+.cs-flow-gif__note {
+  position: absolute;
+  top: 40px;
+  right: 24px;
+  width: 175px;
+  text-align: right;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 300;
+  font-size: 14px;
+  color: var(--cs-ink);
+}
+
+.cs-flow-gif {
+  box-sizing: border-box;
+  width: 245px;
+  max-width: none;
+  height: 498px;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 16px;
+  border: 12px solid #323232;
+  display: block;
+}
+
+/* Person card: image bleeds flush to the right + bottom edges (top:48px,
+   width:301px in the scaled spec — its own bottom edge lands exactly on
+   the card's bottom, no cropping needed here, unlike the phone). */
+.cs-quote-person-wrap {
+  position: relative;
+  height: 499px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.cs-problem-quote-img {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 301px;
+  display: block;
+}
+
+.cs-user-quote {
+  position: absolute;
+  top: 25px;
+  left: 19px;
+  z-index: 1;
+  max-width: 175px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  border-radius: 18px;
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
+  padding: 14px 18px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.3;
+  color: var(--cs-ink);
+}
+
+.cs-user-quote__tail span {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
+}
+
+.cs-user-quote__tail span:first-child {
+  width: 12px;
+  height: 12px;
+  bottom: -8px;
+  right: 28px;
+}
+
+.cs-user-quote__tail span:last-child {
+  width: 7px;
+  height: 7px;
+  bottom: -18px;
+  right: 18px;
+}
+
+@media (max-width: 640px) {
+  .cs-problem-quote-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Breakdown ---------- */
+.cs-breakdown-block {
+  display: flex;
+  gap: 62px;
+  align-items: center;
+  margin-top: 28px;
+  padding: 48px;
+}
+
+.cs-existing-img-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cs-breakdown-block .cs-existing-img-wrap {
+  margin: 0;
+  width: 260px;
+  max-width: 260px;
+}
+
+.cs-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-top: 4px;
+}
+
+.cs-breakdown-item {
+  display: flex;
+  gap: 24px;
+}
+
+.cs-breakdown-item__n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--cs-card-bg);
+  border: 0.5px solid var(--cs-line);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--cs-ink);
+}
+
+.cs-breakdown-item__title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 6px;
+  color: var(--cs-ink);
+}
+
+.cs-breakdown-item__body {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--cs-soft);
+}
+
+@media (max-width: 720px) {
+  .cs-breakdown-block {
+    flex-direction: column;
+    gap: 24px;
+    padding: 28px;
+  }
+  .cs-breakdown-block .cs-existing-img-wrap {
+    margin: 0 auto;
+    width: 220px;
+    max-width: 100%;
+  }
+}
+
+/* ---------- Research ---------- */
+/* Numbered pills — real <ol> markers, matching Figma's "1. Barriers"
+   style instead of a plain unordered tag row. */
+.cs-tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0 0 32px;
+  padding-left: 0;
+}
+
+.cs-tag-list li {
+  list-style: none;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--maroon);
+}
+
+/* Unified white card holding the stacked quotes (left) and the calling
+   sheet image (right), matching Figma's single bordered panel. */
+.cs-research-card {
+  display: flex;
+  gap: 32px;
+  align-items: stretch;
+  padding: 48px;
+  margin: 0 0 8px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.cs-research-card .cs-quote-grid {
+  flex-shrink: 0;
+  width: 315px;
+}
+
+.cs-quote-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.cs-quote-card {
+  padding: 16px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  border-left: 2px solid var(--maroon);
+  border-radius: 0 24px 0 0;
+  box-shadow: 0 0 2px rgba(70, 70, 70, 0.25);
+}
+
+.cs-quote-card__text {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--cs-ink);
+  margin-bottom: 8px;
+  font-style: italic;
+}
+
+.cs-quote-card__attr {
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--cs-soft);
+}
+
+.cs-sheet-img-wrap {
+  flex: 1;
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.cs-sheet-img-wrap .cs-sheet-img {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  object-fit: cover;
+  object-position: left top;
+}
+
+.cs-sheet-img-wrap .cs-caption {
+  flex-shrink: 0;
+  margin-top: 8px;
+}
+
+/* ---------- Insights ---------- */
+.cs-insight-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
+
+.cs-insight-card {
+  padding: 24px 32px 24px 24px;
+  border: 0.5px solid var(--cs-muted);
+  border-radius: 12px;
+  background: var(--cs-card-bg);
+}
+
+.cs-insight-card__n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(107, 0, 0, 0.1);
+  border: 0.5px solid var(--cs-muted);
+  font-family: var(--font-display);
+  color: var(--maroon);
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 24px;
+}
+
+.cs-insight-card__title {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.35;
+  margin-bottom: 8px;
+  color: var(--cs-ink);
+}
+
+.cs-insight-card__body {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--cs-body);
+}
+
+@media (max-width: 640px) {
+  .cs-research-card {
+    flex-direction: column;
+    padding: 32px;
+  }
+  .cs-research-card .cs-quote-grid {
+    width: 100%;
+    padding-left: 0;
+  }
+  .cs-insight-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Phases ---------- */
+.cs-phase {
+  padding-block: 36px;
+  border-top: 2px dotted var(--cs-line);
+}
+
+.cs-phase:first-of-type {
+  border-top: none;
+  padding-top: 0;
+}
+
+.cs-phase__tag {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: var(--cs-card-bg);
+  border: 0.5px solid var(--maroon);
+  border-radius: 24px 24px 0 24px;
+  margin-bottom: 32px;
+}
+
+.cs-phase__tag-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(107, 0, 0, 0.08);
+  border: 1px solid var(--maroon);
+  color: var(--maroon);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 17px;
+}
+
+.cs-phase__tag-label {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 20px;
+  letter-spacing: 0.015em;
+  color: var(--cs-ink);
+}
+
+.cs-phase__eyebrow {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
+  color: var(--cs-soft);
+  margin-bottom: 18px;
+}
+
+/* Figma's divider here is a filled 0.72px bar at 20% opacity (node
+   133:1165: bg-#323232 opacity-20), not a CSS border — using a background
+   line instead of border-bottom avoids the subpixel rendering inconsistency
+   borders can have at fractional widths. */
+.cs-phase__hypothesis {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--cs-ink);
+  margin-bottom: 22px;
+}
+
+.cs-phase__hypothesis::after {
+  content: "";
+  display: block;
+  height: 1px;
+  margin-top: 18px;
+  background: rgba(50, 50, 50, 0.2);
+}
+
+.cs-phase__hyp-body {
+  font-weight: 600;
+}
+
+.cs-phase__how-label {
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
+  color: var(--cs-soft);
+  margin-bottom: 18px;
+}
+
+.cs-phase__how-body {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--cs-ink);
+  margin-bottom: 20px;
+  white-space: pre-line;
+}
+
+.cs-phase__how-body strong {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+/* Phase 1: one spacious white card. The 5 baseline variants scroll
+   horizontally in a single strip, with the Clarity narrative block sitting
+   full-width below — a simpler, reliably-responsive composition instead of
+   fighting flex-wrap to split variants across two rows. */
+.cs-phase1-card {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding: 40px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  border-radius: 24px;
+  margin-bottom: 24px;
+}
+
+.cs-variant-row--scroll {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+}
+
+.cs-variant-row--scroll:active {
+  cursor: grabbing;
+}
+
+.cs-variant-row--scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.cs-variant {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 210px;
+  width: 210px;
+  scroll-snap-align: start;
+}
+
+.cs-variant img {
+  width: 100%;
+  aspect-ratio: 230 / 498;
+  object-fit: cover;
+  -webkit-user-drag: none;
+  border: 4px solid #969696;
+  border-radius: 16px;
+  margin-bottom: 12px;
+}
+
+.cs-variant__label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--cs-soft);
+  margin-bottom: 2px;
+}
+
+.cs-variant__title {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 13.5px;
+  color: var(--cs-body);
+}
+
+.cs-clarity-block {
+  display: flex;
+  flex-direction: column;
+  padding-top: 24px;
+  border-top: 1px solid var(--cs-line);
+}
+
+.cs-clarity-block__eyebrow {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--cs-muted);
+  padding-bottom: 14px;
+  border-bottom: 0.5px solid var(--cs-muted);
+  margin-bottom: 24px;
+  width: 148px;
+}
+
+.cs-clarity-block__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(24px, 3vw, 34px);
+  color: var(--cs-ink);
+  margin-bottom: 24px;
+}
+
+.cs-clarity-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.cs-clarity-item__title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 16px;
+  margin-bottom: 6px;
+  color: var(--cs-ink);
+}
+
+.cs-clarity-item__body {
+  font-size: 14.5px;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--cs-soft);
+}
+
+/* Phase 2 / Phase 3 spotlight card */
+.cs-spotlight {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 60px;
+  padding: 48px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  border-radius: 24px;
+  margin-bottom: 24px;
+}
+
+.cs-spotlight__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.cs-spotlight__eyebrow {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--cs-muted);
+  padding-bottom: 14px;
+  border-bottom: 0.5px solid var(--cs-muted);
+  margin-bottom: 24px;
+  width: 148px;
+}
+
+.cs-spotlight__title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: clamp(24px, 3vw, 34px);
+  color: var(--cs-ink);
+  margin-bottom: 16px;
+}
+
+.cs-spotlight__body {
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--cs-soft);
+}
+
+.cs-spotlight__body strong {
+  font-weight: 600;
+  color: var(--cs-soft);
+}
+
+.cs-spotlight__img-wrap {
+  position: relative;
+  flex-shrink: 0;
+  width: 210px;
+}
+
+.cs-spotlight__img-wrap img,
+.cs-spotlight__img-wrap video {
+  width: 100%;
+  border: 4px solid #969696;
+  border-radius: 16px;
+  display: block;
+  object-fit: cover;
+}
+
+.cs-spotlight__img-wrap .cs-spotlight__highlight {
+  position: absolute;
+  top: -14px;
+  right: -18px;
+  width: 32px;
+  height: auto;
+  border: none;
+  border-radius: 0;
+  transform: rotate(90deg);
+  pointer-events: none;
+}
+
+@media (max-width: 720px) {
+  .cs-spotlight {
+    flex-direction: column;
+    padding: 28px;
+  }
+  .cs-spotlight__img-wrap {
+    width: 180px;
+  }
+}
+
+/* Exact Figma spec: a white bordered card, not a dark maroon panel — the
+   big 64px stat number itself carries the maroon color. */
+.cs-impact-card {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  border-radius: 24px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  color: var(--cs-ink);
+}
+
+.cs-impact-card__label {
+  display: block;
+  order: 2;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--cs-ink);
+  margin-top: 14px;
+}
+
+.cs-impact-card__label::after {
+  content: "";
+  display: block;
+  width: 86px;
+  height: 0.5px;
+  background: var(--cs-line);
+  margin-top: 12px;
+}
+
+.cs-impact-card__stat {
+  display: block;
+  order: 1;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(26px, 3.4vw, 34px);
+  color: var(--maroon);
+  line-height: 1.25;
+}
+
+.cs-impact-card__body {
+  order: 3;
+  margin-top: 14px;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--cs-body);
+}
+
+.cs-impact-card__body strong {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+.cs-future-live-wrap {
+  display: flex;
+  align-items: center;
+  gap: clamp(32px, 6vw, 84px);
+  margin-top: 28px;
+  padding: clamp(28px, 4vw, 48px);
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  border-radius: 24px;
+}
+
+/* ---------- Overall impact ---------- */
+.cs-overall-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.cs-overall-card {
+  padding: 32px 24px;
+  border-radius: 12px;
+  background: #323232;
+  color: var(--ink-on-dark);
+}
+
+.cs-overall-card__value-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.cs-overall-card__value {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(32px, 4.5vw, 44px);
+  color: var(--ink-on-dark);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.cs-overall-card__trend {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.cs-overall-card__trend--up {
+  color: #7cc98a;
+}
+
+.cs-overall-card__trend--down {
+  color: #e8836f;
+}
+
+.cs-overall-card__label {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--ink-on-dark);
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(244, 237, 225, 0.24);
+}
+
+.cs-overall-card__body {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: var(--ink-on-dark);
+  opacity: 0.8;
+}
+
+@media (max-width: 640px) {
+  .cs-overall-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Pull-quote (real filmstrip graphic) ---------- */
+/* This is the Reflection section's first child (not a .cs-h2), so it needs
+   its own top gap matching the .cs-h2 rhythm — otherwise it butts straight
+   against the previous section's content with no gap at all. */
+.cs-quote-img-wrap {
+  margin-top: clamp(48px, 6vw, 72px);
+  margin-bottom: 40px;
+}
+
+.cs-quote-img {
+  width: 100%;
+  display: block;
+  border-radius: 8px;
+}
+
+/* ---------- Challenges ---------- */
+.cs-challenge-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: stretch;
+  gap: 32px;
+  margin-top: 24px;
+}
+
+.cs-challenge-card {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+  padding: 24px;
+  border: 1px solid var(--cs-line);
+  border-radius: 12px;
+  background: var(--cs-card-bg);
+}
+
+.cs-challenge-card__n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--maroon);
+  color: var(--ink-on-dark);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.cs-challenge-card__title {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--cs-ink);
+}
+
+.cs-challenge-card__title::after {
+  content: "";
+  display: block;
+  width: 100%;
+  max-width: 187px;
+  height: 0.5px;
+  background: var(--cs-line);
+  margin-top: 12px;
+}
+
+.cs-challenge-card__body {
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--cs-soft);
+}
+
+.cs-challenge-card__body strong {
+  font-weight: 600;
+  color: var(--cs-soft);
+}
+
+@media (max-width: 640px) {
+  .cs-challenge-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Future scope ---------- */
+.cs-future-list {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  flex: 1;
+  min-width: 0;
+}
+
+.cs-future-list__item {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--cs-ink);
+}
+
+.cs-future-list__n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--cs-card-bg);
+  border: 0.5px solid var(--cs-line);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--cs-ink);
+}
+
+.cs-future-list__item strong {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+@media (max-width: 720px) {
+  .cs-future-live-wrap {
+    flex-direction: column;
+  }
+}
+
+/* ---------- Sparkle divider (Figma node 133:1316) ---------- */
+.cs-sparkle-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin-top: 20px;
+  padding-top: 16px;
+}
+
+.cs-sparkle-divider__line {
+  flex: 1 0 0;
+  height: 1.5px;
+  border-top: 1px dashed var(--line-strong);
+}
+
+.cs-sparkle-divider__mark {
+  flex-shrink: 0;
+  font-size: 18px;
+  line-height: 1;
+  color: var(--line-strong);
+  text-align: center;
+}
+
+/* ---------- Next case study ---------- */
+.cs-next {
+  position: relative;
+  padding-top: 48px;
+  padding-bottom: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cs-next__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 2.6vw, 27px);
+  color: var(--cs-ink);
+  width: fit-content;
+  text-decoration: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 6px;
+  transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+.cs-next__link:hover {
+  color: var(--cs-next-color, var(--maroon));
+  text-decoration-color: currentColor;
+}
+
+.cs-next__arrow {
+  transition: transform 0.25s var(--ease-snap);
+}
+
+.cs-next__link:hover .cs-next__arrow {
+  transform: rotate(45deg);
+}
+
+.cs-next__preview {
+  position: absolute;
+  top: 28px;
+  right: 40px;
+  width: 130px;
+  height: 92px;
+  border-radius: 10px;
+  overflow: hidden;
+  background: var(--cs-card-bg);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+  pointer-events: none;
+}
+
+.cs-next__preview-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.cs-next__preview-phones {
+  position: absolute;
+  left: 50%;
+  bottom: -6px;
+  transform: translateX(-50%);
+  max-width: none;
+}
+
+@media (max-width: 640px) {
+  .cs-next__preview {
+    display: none;
+  }
+}

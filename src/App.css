@@ -1,0 +1,825 @@
+/* ---------- Click bubble-pop ---------- */
+/* The visual half of the click feedback pattern (sound + effect) — a small
+   bubble that immediately bursts into droplets flying outward from the
+   exact click/tap point, on every device including touch, since there's
+   no hover cursor there to react. */
+.click-pop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  z-index: 3100;
+}
+
+.click-pop__bubble {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: rgba(var(--sage-rgb), 0.5);
+  border: 1.5px solid var(--cursor-border);
+}
+
+.click-pop__droplet {
+  position: absolute;
+  top: -3px;
+  left: -3px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--forest-soft);
+}
+
+/* ---------- Custom cursor ---------- */
+.cursor-anchor {
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 3000;
+}
+
+.cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: var(--cursor-fill);
+  border: 1px solid var(--cursor-border);
+  mix-blend-mode: var(--cursor-blend);
+  transition: background-color 0.4s var(--ease-flow), border-color 0.4s var(--ease-flow);
+}
+
+/* Pill label — replaces the dot while hovering anything tagged
+   data-cursor-label (work cards' "Read Case Study" / "In Writing"). White
+   pill + dark text reads clearly over both the light and dark card covers. */
+.cursor-label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* The pointed (sharp) bottom-right corner sits exactly on the cursor
+     hotspot — the label extends up-and-left from there, like a real
+     message-tag tail anchored at the pointer, not centered on it. */
+  transform: translate(-100%, -100%);
+  white-space: nowrap;
+  padding: 10px 18px;
+  border-radius: 999px 999px 0 999px;
+  background: rgba(var(--sage-rgb), 0.55);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(var(--sage-rgb), 0.4);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 8px 24px -8px rgba(26, 26, 26, 0.35);
+}
+
+@media (hover: none) {
+  .cursor-anchor {
+    display: none;
+  }
+}
+
+/* ---------- Nav ---------- */
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding-block: 28px;
+  background: rgba(var(--paper-rgb), 0);
+  backdrop-filter: blur(0px);
+  border-bottom: 1px solid rgba(var(--paper-rgb), 0);
+  transition: background 0.25s var(--ease-snap), backdrop-filter 0.25s var(--ease-snap),
+    border-color 0.25s var(--ease-snap), padding-block 0.25s var(--ease-snap);
+}
+
+.nav--scrolled {
+  padding-block: 16px;
+  background: rgba(var(--paper-rgb), 0.82);
+  backdrop-filter: blur(10px);
+  border-bottom-color: var(--line);
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* The monogram glyph itself is narrow, giving it a tiny click target —
+   padding expands the actual hit area well past the visible mark without
+   shifting surrounding layout (offset by a matching negative margin). */
+.nav__mark {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 18px;
+  margin: -14px -18px;
+}
+
+.nav__mark-img {
+  height: 44px;
+  width: auto;
+  display: block;
+}
+
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.nav__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.nav__item a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s ease, transform 0.15s var(--ease-snap);
+}
+
+.nav__item a:hover {
+  color: var(--forest);
+}
+
+.nav__item a:active {
+  transform: scale(0.94);
+}
+
+/* Dotted underline reveal on hover — grows in from the left rather than
+   just appearing, so it reads as a small deliberate motion, not a snap. */
+.nav__item--underline a {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav__resume-arrow {
+  transition: transform 0.25s var(--ease-snap);
+}
+
+.nav__item--underline a:hover .nav__resume-arrow {
+  transform: rotate(45deg);
+}
+
+.nav__item--underline a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 6px;
+  background: var(--forest-soft);
+  -webkit-mask-image: var(--wave-x-small);
+  mask-image: var(--wave-x-small);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 16px 6px;
+  mask-size: 16px 6px;
+  opacity: 0;
+  transform: scaleX(0.5);
+  transform-origin: left;
+  transition: opacity 0.2s var(--ease-snap), transform 0.3s var(--ease-snap);
+}
+
+.nav__item--underline a:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.nav__dash {
+  color: var(--line-strong);
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.15s var(--ease-snap);
+}
+
+.theme-toggle:hover {
+  color: var(--forest);
+}
+
+.theme-toggle:active {
+  transform: scale(0.88);
+}
+
+/* ---------- Hero ---------- */
+/* Extends up behind the sticky, transparent-until-scrolled .nav (101px
+   tall at rest) so the dot-wave background reads as starting from the very
+   top of the page, not just below the header. The matching padding-top
+   keeps the actual content sitting at the same visual position as before. */
+.hero {
+  position: relative;
+  overflow: hidden;
+  margin-top: -101px;
+  padding-top: calc(101px + clamp(16px, 3vw, 32px));
+  /* The title now fits on one line, freeing up vertical room — tighten the
+     bottom padding rather than leaving the old two-line-title whitespace. */
+  padding-bottom: clamp(24px, 3vw, 40px);
+  /* Dragging across the section to play with the dot-wave shouldn't
+     trigger native text selection or image-ghost dragging. */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.hero__portrait {
+  -webkit-user-drag: none;
+  user-drag: none;
+}
+
+/* Full-bleed live WebGL dot-wave (HeroDotWave.jsx), sat behind all hero
+   content — content gets z-index so it stays legible on top. */
+.hero__dotwave {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero__inner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 40px;
+  align-items: center;
+}
+
+/* Exact Figma spec (Frame 1597880578): message-tag shape — every corner
+   rounded except the bottom-right, which is sharp. */
+.hero__pill {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 24px;
+  border: 1px solid #ccdeb5;
+  border-radius: 24px 24px 0 24px;
+  background: rgba(204, 222, 181, 0.1);
+  box-shadow: inset 0 2px 3px rgba(26, 53, 45, 0.1);
+  font-size: 13px;
+  color: var(--forest-soft);
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.dark .hero__pill {
+  border-color: rgba(var(--sage-rgb), 0.6);
+  background: rgba(var(--sage-rgb), 0.12);
+}
+
+/* Diagonal light sweep on hover — clipped to the pill's own shape via
+   overflow:hidden on the parent. */
+.hero__pill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.65) 48%,
+    rgba(255, 255, 255, 0.65) 52%,
+    transparent 70%
+  );
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+.hero__pill:hover::after {
+  animation: pill-shimmer 1.7s var(--ease-flow);
+}
+
+.dark .hero__pill::after {
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(220, 232, 214, 0.35) 48%,
+    rgba(220, 232, 214, 0.35) 52%,
+    transparent 70%
+  );
+}
+
+@keyframes pill-shimmer {
+  from {
+    transform: translateX(-130%);
+  }
+  to {
+    transform: translateX(130%);
+  }
+}
+
+.hero__title {
+  font-size: clamp(28px, 4.2vw, 44px);
+  font-weight: 700;
+  white-space: nowrap;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 560px) {
+  .hero__title {
+    white-space: normal;
+  }
+}
+
+.hero__subhead {
+  font-size: clamp(18px, 2vw, 21px);
+  color: var(--ink-soft);
+  max-width: 46ch;
+  margin-bottom: 22px;
+}
+
+.hero__meta {
+  font-size: 15px;
+  color: var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px 6px;
+}
+
+.hero__meta strong {
+  color: var(--ink);
+}
+
+.hero__meta-logo {
+  height: 20px;
+  width: auto;
+  vertical-align: middle;
+}
+
+/* Adani's wordmark reads visually heavier than STAGE's at the same pixel
+   height (lowercase letterforms vs. STAGE's all-caps + icon), so it needs
+   to run a touch smaller to feel size-matched, not literally equal-height. */
+.hero__meta-logo--adani {
+  height: 15px;
+}
+
+.hero__art {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.hero__portrait {
+  position: relative;
+  z-index: 1;
+  width: min(340px, 100%);
+}
+
+@media (max-width: 860px) {
+  .hero__inner {
+    grid-template-columns: 1fr;
+  }
+  .hero__art {
+    order: -1;
+    padding: 8px;
+  }
+  .hero__portrait {
+    width: 220px;
+  }
+}
+
+/* ---------- Section shared ---------- */
+.section-heading {
+  font-size: clamp(30px, 3.6vw, 40px);
+  font-weight: 400;
+  margin-bottom: 0;
+}
+
+/* ---------- Work ---------- */
+/* No bottom padding of its own — .quote-inner's 72px top padding alone is
+   the gap into Quote, matching the single 72px rhythm used elsewhere
+   instead of stacking two 72px paddings into a 144px gap. */
+.work-section {
+  padding-bottom: 0;
+}
+
+.work-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.work-heading__rule {
+  height: 5px;
+  background: var(--line-strong);
+  -webkit-mask-image: var(--wave-x);
+  mask-image: var(--wave-x);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 1161px 5px;
+  mask-size: 1161px 5px;
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+/* Exact spec from the Figma "Casestudy_1" frame: 40px padding on every
+   side, 40px gap between the visual tile and the text block, 24px corner
+   radius on the card. The visual tile itself is inset (not edge-to-edge)
+   with its own 12px radius — see .work-card__visual. */
+.work-card__link {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 40px;
+  border: 1px solid var(--line-strong);
+  border-radius: 24px;
+  background: var(--card);
+  transition: box-shadow 0.3s var(--ease-flow), background-color 0.3s var(--ease-flow);
+}
+
+/* The card itself doesn't lift — the whole-card shadow/tint is the
+   "elevate" read, while the phone screenshots are a separate layer that
+   rises on their own (matches the Figma component's actual Prototype
+   interaction: trigger "While hovering", Smart Animate, 300ms ease-in-out
+   — the logo/background panel stays fixed, only the phones move). */
+.work-card__link:hover {
+  box-shadow: 0 16px 32px -16px rgba(28, 58, 31, 0.25);
+  background: var(--card-hover);
+}
+
+/* Exact Figma delta: phone-group moves from (X:140,Y:80) to (X:140,Y:24)
+   within the 500x256 tile. X never changes — only Y rises, by 56px
+   (21.875% of the 256px tile height). */
+.work-card__link:hover .work-card__phones {
+  transform: translateY(-21.875%);
+}
+
+@media (hover: none) {
+  .work-card__link:hover {
+    box-shadow: none;
+    background: var(--card);
+  }
+
+  .work-card__link:hover .work-card__phones {
+    transform: none;
+  }
+}
+
+.work-card__visual {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  aspect-ratio: 500 / 256;
+  background-size: cover;
+  background-position: center;
+}
+
+.work-card__bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Exact Figma Default-variant position: X:140,Y:80 within the 500x256
+   tile = left:28%, top:31.25%. The phones sit low enough to overflow
+   past the tile's bottom edge at rest; hover raises them to X:140,Y:24
+   (left unchanged, only top moves — see the transform above). */
+.work-card__phones {
+  position: absolute;
+  top: 31.25%;
+  left: 28%;
+  height: auto;
+  transition: transform 0.3s ease-in-out;
+}
+
+.work-card__hover-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.work-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(19px, 1.8vw, 23px);
+  font-weight: 600;
+  line-height: 1.28;
+  max-width: 26ch;
+}
+
+.work-card__stats {
+  margin: 0;
+}
+
+/* Neutral grays, not the theme's sage-tinted tokens — matches the exact
+   Figma values (#f8f8f8 / #d8d8d8 / #323232) for these specific chips. */
+.work-card__stats span {
+  background: #f8f8f8;
+  border: 1px solid #d8d8d8;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #323232;
+  text-transform: none;
+  letter-spacing: -0.28px;
+}
+
+.dark .work-card__stats span {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+@media (max-width: 720px) {
+  .work-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Quote ---------- */
+/* Exact Figma spec (Frame 1171276705): display:flex, width:1200px,
+   padding:72px 0, align-items:center — a horizontal row, not the old
+   block/absolute-doodle treatment. Own vertical padding lives here, so the
+   outer .quote-section zeroes its generic --space-section padding below. */
+
+/* Only the quote->footer divider ("Line 6" in Figma) is full-canvas-width,
+   edge to edge, so it lives on the full-bleed section. The line above the
+   quote (work->quote boundary) stays container-scoped on .quote-inner. */
+.quote-section {
+  position: relative;
+  padding-block: 0;
+}
+
+.quote-section::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 5px;
+  background: var(--line-strong);
+  -webkit-mask-image: var(--wave-x);
+  mask-image: var(--wave-x);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 1161px 5px;
+  mask-size: 1161px 5px;
+}
+
+/* Exact Figma spec: display:flex, align-items:center, gap:166px (no
+   justify-content — the fixed gap plus .quote-copy's flex:1 does the
+   spacing, not an auto-distributed space-between). */
+.quote-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 166px;
+  text-align: left;
+  padding-block: 72px;
+}
+
+/* Short wavy rule between the Sanskrit line and its translation — not a
+   full-width divider, just under the Sanskrit text's own width. Uses the
+   real hand-drawn zigzag asset (--wave-x), not the small nav-underline one. */
+.quote-rule {
+  display: block;
+  width: 220px;
+  max-width: 100%;
+  height: 5px;
+  background: var(--line-strong);
+  -webkit-mask-image: var(--wave-x);
+  mask-image: var(--wave-x);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 1161px 5px;
+  mask-size: 1161px 5px;
+}
+
+.quote-copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.quote-sanskrit {
+  font-family: "Amita", "Noto Sans Devanagari", serif;
+  font-weight: 400;
+  font-size: clamp(22px, 3vw, 30px);
+}
+
+.quote-translation {
+  font-family: "Fraunces", serif;
+  font-weight: 300;
+  font-style: italic;
+  font-size: clamp(16px, 2vw, 19px);
+  color: var(--ink-soft);
+}
+
+/* Exact Figma spec (image 9277): 244x200, aspect-ratio 61/50. */
+.quote-doodle-gif {
+  width: clamp(144px, 14vw, 248px);
+  height: auto;
+  aspect-ratio: 1 / 1;
+  flex-shrink: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  animation: doodle-float 4.5s ease-in-out infinite;
+}
+
+/* Slow ambient bob + a touch of rotation — a placeholder motion until the
+   real animated GIF version is ready. */
+@keyframes doodle-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(-2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .quote-doodle-gif {
+    animation: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .quote-inner {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .quote-doodle-gif {
+    display: none;
+  }
+}
+
+/* ---------- Footer ---------- */
+/* Exact Figma spec (Footer/Default): padding 72px 120px. The 120px sides
+   are already handled by .container, so only the 72px top/bottom lives
+   here. Internal gaps below (4px heading->sub, 48px sub->divider and
+   divider->bottom row) mirror the Figma auto-layout gaps exactly. */
+.footer {
+  background: var(--footer-bg);
+  padding-block: 72px;
+}
+
+.footer__heading {
+  font-size: clamp(26px, 3.6vw, 34px);
+  margin-bottom: 4px;
+}
+
+.footer__sub {
+  font-size: 15px;
+  color: var(--forest);
+  margin-bottom: 48px;
+}
+
+/* Same wavy hover-underline as the nav links (Work/About Me/Resume). */
+.footer__link {
+  position: relative;
+  display: inline-flex;
+  color: var(--forest);
+  font-weight: 400;
+}
+
+.footer__link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -6px;
+  height: 6px;
+  background: var(--forest-soft);
+  -webkit-mask-image: var(--wave-x-small);
+  mask-image: var(--wave-x-small);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 16px 6px;
+  mask-size: 16px 6px;
+  opacity: 0;
+  transform: scaleX(0.5);
+  transform-origin: left;
+  transition: opacity 0.2s var(--ease-snap), transform 0.3s var(--ease-snap);
+}
+
+.footer__link:hover::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+/* No heading/sub-text and no divider line above anymore (removed per the
+   latest Figma pass) — just the outer .footer padding-block for spacing. */
+.footer__bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--forest);
+}
+
+.footer__social {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer__social-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.footer__dash {
+  color: var(--forest);
+}
+
+@media (max-width: 640px) {
+  .footer__bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+/* ---------- Marquee ---------- */
+.marquee {
+  overflow: hidden;
+  border-block: 1px solid var(--line);
+  padding-block: 18px;
+  background: var(--cream-deep);
+}
+
+.marquee__track {
+  display: flex;
+  width: max-content;
+  animation-name: marquee-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.marquee__group {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.marquee__item {
+  display: inline-flex;
+  align-items: center;
+  gap: 28px;
+  padding-inline: 14px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.marquee__sep {
+  color: var(--forest-soft);
+  font-size: 12px;
+}
+
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(-100% / var(--marquee-repeats, 2)));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__track {
+    animation: none;
+  }
+}

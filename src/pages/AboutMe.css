@@ -1,0 +1,705 @@
+.about {
+  background: var(--paper);
+}
+
+/* ---------- Story (title + chapters + sticky photo) ---------- */
+/* Sits right under the nav, so only the top gap is reduced (matches
+   .hero's same treatment on Home) — bottom stays the standard
+   --space-section gap shared by every other section boundary. */
+.about-story {
+  padding-top: clamp(16px, 3vw, 32px);
+}
+
+.about-story__inner {
+  display: grid;
+  grid-template-columns: 1fr 328px;
+  gap: 48px;
+  align-items: start;
+}
+
+.about-story__main {
+  min-width: 0;
+}
+
+.about-hero__title {
+  font-size: clamp(30px, 4vw, 44px);
+  line-height: 1.15;
+  margin-bottom: clamp(28px, 4vw, 44px);
+}
+
+.about-hero__title em {
+  font-style: italic;
+  color: var(--forest-soft);
+}
+
+/* Exact Figma spec (node 168:1002): the photo is clipped to a torn-paper
+   arch shape (full semicircle top, one square + one softly rounded bottom
+   corner), not a plain border-radius rectangle. The "frame" div is the
+   same mask stroked in a lighter sage as a 4px border-ring: it's the
+   identical mask painted on a slightly larger box, with the actual photo
+   (masked the same way) inset 4px inside it — a border that follows an
+   arbitrary mask shape isn't otherwise possible in CSS. */
+/* The portrait asset (about-portrait.png) is a fully pre-composited
+   transparent PNG — arch shape, torn-paper edge, sage card, and the two
+   wavy dividers are all baked into the image itself, matching Figma node
+   168:1002 exactly. No CSS shaping needed, just position + width. */
+.about-story__art {
+  position: sticky;
+  top: 100px;
+}
+
+.about-story__art img {
+  display: block;
+  width: 100%;
+}
+
+@media (max-width: 860px) {
+  .about-story__inner {
+    grid-template-columns: 1fr;
+  }
+  .about-story__art {
+    position: static;
+    max-width: 280px;
+    margin-inline: auto;
+    order: -1;
+    margin-bottom: 32px;
+  }
+}
+
+/* Exact Figma spec (node 168:995): 18px/32px throughout, body text and
+   bold spans both near-black (var(--ink)), lead-ins (but.../later.../
+   now..) in Fraunces SemiBold Italic, forest-green. Blocks are separated
+   by a single blank 32px line in the design, not a separate margin
+   system — approximated here with a matching 32px gap. */
+.about-chapter {
+  margin-bottom: 32px;
+}
+
+.about-chapter--last {
+  margin-bottom: 0;
+}
+
+.about-chapter__lead {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 32px;
+  color: var(--forest);
+}
+
+.about-chapter__body {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 32px;
+  color: #1a1a1a;
+  max-width: 56ch;
+}
+
+.dark .about-chapter__body {
+  color: var(--ink);
+}
+
+.about-chapter__body strong {
+  font-weight: 600;
+}
+
+/* ---------- Shared section heading + wavy rule (Experience/Achievements/Curious soul) ---------- */
+.section-heading-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.section-heading-group__rule {
+  height: 5px;
+  background: var(--line-strong);
+  -webkit-mask-image: var(--wave-x);
+  mask-image: var(--wave-x);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 1161px 5px;
+  mask-size: 1161px 5px;
+}
+
+/* ---------- Experience ---------- */
+/* No card/background — bare timeline sitting directly on the page,
+   matching kishore.design/about's experience list. */
+.about-experience {
+  position: relative;
+  margin-top: clamp(28px, 4vw, 44px);
+}
+
+/* One continuous dotted line for the whole timeline (verified directly on
+   kishore.design/about: a single line running badge-to-badge, passing
+   through each circle, not a separate segment per row) rather than a
+   per-row connector — a per-row line can't reliably reach the next badge
+   since each row's height varies with its own text length. */
+.about-experience::before {
+  content: "";
+  position: absolute;
+  left: 23px;
+  top: 24px;
+  bottom: 24px;
+  width: 2px;
+  background-image: radial-gradient(circle, var(--forest) 1px, transparent 1.2px);
+  background-repeat: repeat-y;
+  background-size: 2px 8px;
+  background-position: center;
+  opacity: 0.3;
+  z-index: 0;
+}
+
+.about-experience__row {
+  position: relative;
+  display: flex;
+  gap: 20px;
+  padding-bottom: clamp(48px, 6vw, 72px);
+  transition: transform 0.3s var(--ease-snap);
+}
+
+.about-experience__row:last-child {
+  padding-bottom: 0;
+}
+
+.about-experience__row.is-hovered {
+  transform: translateY(-4px);
+}
+
+/* Full-row background tint on hover — a pseudo-element extending past the
+   row's own box (rather than padding the row itself) so the highlight
+   doesn't shift layout or fight the badge/preview positioning. */
+/* Full-width highlight (badge included) that stops right after the actual
+   text content. The row/marker/main boxes all stretch (flex align-items:
+   stretch) to match the tallest sibling, so their own bounding-box height
+   is much taller than the visible text — measured directly, the dates
+   line ends ~57px down while the box reports ~92px. A fixed height tied
+   to the badge's own 48px, not the stretched box, is what actually lines
+   up with where the connector visually begins. */
+.about-experience__row::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -16px;
+  right: -16px;
+  height: 68px;
+  border-radius: 16px;
+  background: var(--card-hover);
+  opacity: 0;
+  z-index: -1;
+  transition: opacity 0.25s var(--ease-snap);
+}
+
+.about-experience__row.is-hovered::before {
+  opacity: 1;
+}
+
+.about-experience__marker {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 48px;
+}
+
+.about-experience__badge {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: 0 3px 8px rgba(26, 53, 45, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.dark .about-experience__badge {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* max-width/height (not a fixed width) so tall/narrow marks like TDB's
+   (58x100, portrait) scale down to fit within the circle instead of
+   overflowing past it — a fixed width:60% with height:auto only works
+   for roughly-square logos. */
+.about-experience__logo {
+  max-width: 55%;
+  max-height: 55%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+}
+
+.about-experience__initial {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--forest-soft);
+}
+
+.about-experience__main {
+  flex: 1;
+  min-width: 0;
+  padding-top: 4px;
+}
+
+.about-experience__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.about-experience__company {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(18px, 2vw, 21px);
+  transition: color 0.25s var(--ease-snap);
+}
+
+.about-experience__row.is-hovered .about-experience__company {
+  color: var(--forest);
+}
+
+.dark .about-experience__row.is-hovered .about-experience__company {
+  color: var(--forest-soft);
+}
+
+.about-experience__role {
+  font-size: 17px;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+.about-experience__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.about-experience__dates {
+  display: block;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+/* No pill/border — a small uppercase, letter-spaced label reads as tag
+   metadata on editorial sites without adding another bordered shape to
+   the page (the achievements section already owns that treatment). */
+.about-experience__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
+.about-experience__tag::before {
+  content: "";
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: currentColor;
+  opacity: 0.6;
+}
+
+/* Centered via margin offsets rather than a CSS transform, since
+   Framer Motion drives its own transform (scale/rotate) inline and would
+   otherwise clobber a transform-based centering trick. */
+.about-experience__preview {
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  width: 128px;
+  height: 84px;
+  margin-top: -42px;
+  margin-left: -64px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 12px 24px rgba(26, 53, 45, 0.2);
+  pointer-events: none;
+  z-index: 5;
+}
+
+@media (max-width: 640px) {
+  .about-experience__preview {
+    display: none;
+  }
+}
+
+/* ---------- Achievements ---------- */
+/* Exact Figma spec (node 393:3004): card is a white "mounted photo" card —
+   photo sits inset with even 40px padding, pin dots at the top edge, then
+   title/body/pill below with the same padding. */
+/* Radhika's own pattern asset, processed (black keyed to transparent,
+   linework recolored) so it tiles cleanly as a subtle overlay instead of
+   rendering as an opaque black rectangle. */
+/* Single full-bleed image, not tiled — the pattern's diamond grid period
+   doesn't divide evenly into any reasonable tile size, so repeating it
+   left a visible seam down the middle. As one cover image it's seamless. */
+.about-achievements__frame {
+  margin-top: clamp(28px, 4vw, 44px);
+  padding: 40px;
+  border: 0.5px solid #d8d8d8;
+  border-radius: 24px;
+  background-color: #efe6d2;
+  background-image: url("../assets/site/achievements/pattern-final.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.dark .about-achievements__frame {
+  background-color: var(--cream-deep);
+  border-color: var(--line-strong);
+  background-image: url("../assets/site/achievements/pattern-final-dark.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.about-achievements {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 40px;
+}
+
+.about-achievements__card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 40px;
+  border: 0.5px solid #8a8a8a;
+  border-radius: 24px;
+  background: #fffffb;
+}
+
+.dark .about-achievements__card {
+  background: var(--card);
+  border-color: var(--line-strong);
+}
+
+.about-achievements__pin {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  width: calc(100% - 32px);
+  pointer-events: none;
+}
+
+/* Matches the source photos' native 1505:773 ratio exactly — every image
+   is shown in full, never cropped, and the box never resizes between slides. */
+.about-achievements__photo {
+  aspect-ratio: 1505 / 773;
+  overflow: hidden;
+}
+
+.about-achievements__photo-cycle {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.about-achievements__photo-cycle::-webkit-scrollbar {
+  display: none;
+}
+
+.about-achievements__photo-cycle:focus {
+  outline: none;
+}
+
+.about-achievements__photo-cycle:focus-visible {
+  outline: 2px solid var(--line-strong);
+  outline-offset: 2px;
+}
+
+.about-achievements__photo-frame {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  scroll-snap-align: start;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.about-achievements__body {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-achievements__title {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.24px;
+  line-height: 40.712px;
+  color: #1a1a1a;
+}
+
+.dark .about-achievements__title {
+  color: var(--ink);
+}
+
+.about-achievements__desc {
+  margin-top: 16px;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 32px;
+  letter-spacing: -0.18px;
+  color: #323232;
+}
+
+.dark .about-achievements__desc {
+  color: var(--ink-soft);
+}
+
+.about-achievements__pill {
+  display: inline-block;
+  align-self: flex-start;
+  margin-top: 16px;
+  background: #f8f8f8;
+  border: 1px solid #d8d8d8;
+  border-radius: 10px;
+  padding: 8px 16px;
+  font-size: 14px;
+  line-height: 20px;
+  letter-spacing: -0.28px;
+  font-weight: 600;
+  color: #323232;
+}
+
+.dark .about-achievements__pill {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.82);
+}
+
+@media (max-width: 640px) {
+  .about-achievements__frame {
+    padding: 20px;
+  }
+
+  .about-achievements {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .about-achievements__card {
+    padding: 20px;
+    gap: 16px;
+  }
+
+  .about-achievements__title {
+    font-size: 20px;
+  }
+
+  .about-achievements__desc {
+    font-size: 15px;
+    line-height: 1.6;
+  }
+}
+
+/* ---------- Gallery ---------- */
+/* Zero the bottom padding right before Quote, same as .work-section on the
+   homepage — quote-inner's own 72px top padding supplies that rhythm, so
+   this avoids stacking two --space-section paddings into one big gap. */
+.about-gallery-section {
+  padding-bottom: 0;
+}
+
+.about-gallery__caption {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 18px;
+  line-height: 32px;
+  color: #1a1a1a;
+  max-width: 62ch;
+  margin-top: 16px;
+  margin-bottom: 36px;
+}
+
+.dark .about-gallery__caption {
+  color: var(--ink);
+}
+
+.about-gallery__caption strong {
+  font-weight: 600;
+}
+
+/* ---------- Photo carousel ---------- */
+.photo-carousel__bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 24px;
+}
+
+.photo-carousel__controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.photo-carousel__toggle,
+.photo-carousel__arrow {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--ink-soft);
+  background: none;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background-color 0.2s var(--ease-snap), color 0.2s var(--ease-snap);
+}
+
+.photo-carousel__toggle {
+  padding: 6px 16px;
+}
+
+.photo-carousel__arrow {
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.photo-carousel__toggle:hover,
+.photo-carousel__arrow:hover {
+  background: var(--cream-deep);
+  color: var(--ink);
+}
+
+.photo-carousel__stage {
+  position: relative;
+  height: 268px;
+  perspective: 1200px;
+  perspective-origin: 50% 50%;
+  overflow: hidden;
+  cursor: grab;
+  touch-action: pan-y;
+}
+
+.photo-carousel__stage:active {
+  cursor: grabbing;
+}
+
+.photo-carousel__track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+}
+
+.photo-carousel__item {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: clamp(150px, 16vw, 200px);
+  aspect-ratio: 10 / 13;
+  border-radius: 16px;
+  overflow: hidden;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  background: var(--cream-deep);
+  backface-visibility: hidden;
+  box-shadow: 0 12px 30px rgba(26, 53, 45, 0.16);
+  will-change: transform;
+}
+
+.photo-carousel__item.is-active {
+  box-shadow: 0 18px 40px rgba(26, 53, 45, 0.24);
+}
+
+.photo-carousel__captions {
+  position: relative;
+  height: 32px;
+  margin-top: 6px;
+}
+
+.photo-carousel__caption {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  white-space: nowrap;
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding: 6px 14px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  will-change: transform, opacity;
+  transition: background-color 0.25s var(--ease-snap), border-color 0.25s var(--ease-snap), color 0.25s var(--ease-snap);
+}
+
+.photo-carousel__caption.is-active {
+  border-color: var(--line-strong);
+  background: var(--card);
+  color: var(--ink);
+}
+
+.photo-carousel__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@media (max-width: 640px) {
+  .photo-carousel__stage {
+    height: 268px;
+  }
+  .photo-carousel__item {
+    width: clamp(96px, 26vw, 150px);
+  }
+}
+
+/* ---------- Quote (About) ---------- */
+/* Reuses the shared .quote-* classes as-is (same App.css rules the
+   homepage quote uses) — kept visually identical across both pages,
+   only the doodle asset differs. */
+.about-quote__copy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  flex: 1;
+  min-width: 0;
+}
+
+.about-quote__doodle {
+  width: clamp(160px, 16vw, 252px);
+  height: auto;
+  flex-shrink: 0;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  animation: doodle-float 4.5s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .about-quote__doodle {
+    animation: none;
+  }
+}

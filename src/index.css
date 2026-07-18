@@ -1,0 +1,372 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+@import "@fontsource-variable/geist";
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Real palette, matched from the actual site (Portfolio_Web_Works.pdf).
+     Do NOT name a custom color token "--accent" — Tailwind/shadcn own that
+     name in this project and will silently overwrite it on `shadcn add`. */
+  --paper: #f7f2e6;
+  --paper-rgb: 247, 242, 230;
+  --cream-deep: #faf6e8;
+  --card: #fffefb;
+  --card-hover: #faf6e8;
+  --forest: #1c3a31;
+  --forest-soft: #3d5850;
+  --sage: #b3c1b4;
+  --sage-rgb: 179, 193, 180;
+  --sage-deep: #92a693;
+  --sage-deep-rgb: 146, 166, 147;
+  --footer-bg: #a7ac9c;
+  --line: rgba(28, 58, 31, 0.14);
+  --line-strong: rgba(28, 58, 31, 0.28);
+  --ink: #21201b;
+  --ink-soft: #5c5a4e;
+  --cursor-fill: rgba(28, 58, 31, 0.16);
+  --cursor-border: rgba(28, 58, 31, 0.3);
+  --cursor-blend: multiply;
+
+  --font-display: "Fraunces", "Noto Sans Devanagari", serif;
+  --font-body: "DM Sans", "Noto Sans Devanagari", sans-serif;
+  --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
+
+  --container: 1200px;
+  --space-section: clamp(56px, 6vw, 88px);
+
+  /* Motion tokens. Flowy/organic curve for ambient & entrance motion
+     (nature-inspired — softer, breathing), a snappier curve reserved for
+     direct feedback (button press/hover) where responsiveness matters more
+     than atmosphere. Sourced from the installed animation-vocabulary /
+     review-animations skill standards, not hand-rolled. */
+  --ease-flow: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-snap: cubic-bezier(0.23, 1, 0.32, 1);
+
+  /* Thin wave tiles used as mask shapes wherever a straight divider line
+     would otherwise sit — nav underline, section dividers, the About
+     timeline rail. Masking a plain background-color (rather than baking
+     the color into the SVG) means these stay theme-aware automatically:
+     recolor the element and the wave recolors with it, light or dark.
+     --wave-x is the actual hand-drawn zigzag asset (1161x5) for full
+     section-width dividers; --wave-x-small is the real hand-drawn nav
+     hover underline asset (HOVER.svg, 77x4). */
+  --wave-x: url("./assets/site/lines/zigzag-line.svg");
+  --wave-x-small: url("./assets/site/lines/nav-underline.svg");
+  --wave-y: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='6' height='24' viewBox='0 0 6 24'%3E%3Cpath d='M3,0 C1,3 1,9 3,12 C5,15 5,21 3,24' stroke='black' stroke-width='1.4' fill='none'/%3E%3C/svg%3E");
+
+  color-scheme: light;
+
+  --background: oklch(1 0 0);
+
+  --foreground: oklch(0.145 0 0);
+
+  --card-foreground: oklch(0.145 0 0);
+
+  --popover: oklch(1 0 0);
+
+  --popover-foreground: oklch(0.145 0 0);
+
+  --primary: oklch(0.205 0 0);
+
+  --primary-foreground: oklch(0.985 0 0);
+
+  --secondary: oklch(0.97 0 0);
+
+  --secondary-foreground: oklch(0.205 0 0);
+
+  --muted: oklch(0.97 0 0);
+
+  --muted-foreground: oklch(0.556 0 0);
+
+  /* shadcn's own semantic token, kept separate from our own colors so a
+     future `shadcn add` can't silently clobber a brand color again. */
+  --accent: oklch(0.97 0 0);
+
+  --accent-foreground: oklch(0.205 0 0);
+
+  --destructive: oklch(0.577 0.245 27.325);
+
+  --border: oklch(0.922 0 0);
+
+  --input: oklch(0.922 0 0);
+
+  --ring: oklch(0.708 0 0);
+
+  --chart-1: oklch(0.87 0 0);
+
+  --chart-2: oklch(0.556 0 0);
+
+  --chart-3: oklch(0.439 0 0);
+
+  --chart-4: oklch(0.371 0 0);
+
+  --chart-5: oklch(0.269 0 0);
+
+  --radius: 0.625rem;
+
+  --sidebar: oklch(0.985 0 0);
+
+  --sidebar-foreground: oklch(0.145 0 0);
+
+  --sidebar-primary: oklch(0.205 0 0);
+
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+
+  --sidebar-accent: oklch(0.97 0 0);
+
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+
+  --sidebar-border: oklch(0.922 0 0);
+
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/* Dark mode — same forest/sage/cream character as the light palette, with
+   lightness inverted rather than swapped for a generic gray/black theme.
+   Keeping --forest lighter than --paper here (mirroring how --forest is
+   darker than --paper in light mode) means every rule that already pairs
+   the two — buttons, footer text — keeps its contrast automatically. */
+.dark {
+  --paper: #14201a;
+  --paper-rgb: 20, 32, 26;
+  --cream-deep: #1a2620;
+  --card: #1c2921;
+  --card-hover: #1a2620;
+  --forest: #dce8d6;
+  --forest-soft: #a8c2ac;
+  --sage: #445247;
+  --sage-rgb: 68, 82, 71;
+  --sage-deep: #313d34;
+  --sage-deep-rgb: 49, 61, 52;
+  --footer-bg: #232f28;
+  --line: rgba(220, 232, 214, 0.14);
+  --line-strong: rgba(220, 232, 214, 0.26);
+  --ink: #eef2e9;
+  --ink-soft: #aab5a7;
+  --cursor-fill: rgba(220, 232, 214, 0.18);
+  --cursor-border: rgba(220, 232, 214, 0.35);
+  --cursor-blend: screen;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+#top,
+#work {
+  scroll-margin-top: 90px;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  transition: background-color 0.4s var(--ease-flow), color 0.4s var(--ease-flow);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none;
+  }
+}
+
+/* Paper/sand grain — subtle, fixed, sits above everything for a consistent
+   textured feel regardless of section background color. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 2500;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.35 0 0 0 0 0.3 0 0 0 0 0.2 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (hover: none) {
+  body::before {
+    display: none;
+  }
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  color: var(--ink);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.15;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+.tag-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--forest-soft);
+}
+
+.section {
+  position: relative;
+  padding-block: var(--space-section);
+}
+
+.section + .section {
+  padding-top: 0;
+}
+
+@media (max-width: 720px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: 'Geist Variable', sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans;
+  }
+}

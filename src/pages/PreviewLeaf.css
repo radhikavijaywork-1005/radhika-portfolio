@@ -1,0 +1,290 @@
+.pl {
+  background: #fdfbf2;
+  overflow: visible;
+}
+
+/* ---------- Hero ---------- */
+/* Matches the real site's .container exactly (max-width:1200px, 40px
+   side padding, centered) instead of viewport-relative 6vw, so margins
+   don't drift apart from the actual dev build at different widths. */
+.pl-hero {
+  position: relative;
+  width: 100%;
+  overflow: visible;
+}
+
+.pl-hero__inner {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  align-items: start;
+  gap: 40px;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: clamp(60px, 8vw, 110px) 40px 100px;
+}
+
+.pl-hero__copy {
+  max-width: 560px;
+}
+
+.pl-hero__art {
+  position: relative;
+  width: min(360px, 100%);
+  margin-inline: auto;
+}
+
+.pl-portrait {
+  display: block;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+/* Barely-there cloud drift — 10-20px of motion over a very long, slow,
+   seamless loop. The point is that it should be almost impossible to
+   notice, not an obvious animated background. */
+.pl-clouds {
+  position: absolute;
+  inset: -40px -10vw auto -10vw;
+  height: 340px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.pl-cloud {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(28px);
+  opacity: 0.5;
+  background: radial-gradient(circle, #eef0e2 0%, transparent 70%);
+}
+
+.pl-cloud--a {
+  width: 420px;
+  height: 160px;
+  top: 10px;
+  left: 8%;
+  animation: pl-drift-a 46s ease-in-out infinite alternate;
+}
+
+.pl-cloud--b {
+  width: 340px;
+  height: 130px;
+  top: 90px;
+  right: 6%;
+  animation: pl-drift-b 58s ease-in-out infinite alternate;
+}
+
+@keyframes pl-drift-a {
+  from { transform: translateX(0); }
+  to { transform: translateX(18px); }
+}
+
+@keyframes pl-drift-b {
+  from { transform: translateX(0); }
+  to { transform: translateX(-14px); }
+}
+
+.dleaf.pl-branch-slot {
+  position: absolute;
+  top: -34px;
+  right: -6%;
+  z-index: 2;
+  width: clamp(150px, 15vw, 210px);
+  pointer-events: none;
+}
+
+.pl-pill {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  padding: 8px 18px;
+  border: 1px solid rgba(28, 58, 31, 0.2);
+  border-radius: 999px;
+  font-size: 13px;
+  margin-bottom: 22px;
+  color: var(--ink-soft);
+}
+
+.pl-title {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4.6vw, 50px);
+  font-weight: 600;
+  line-height: 1.12;
+  color: var(--ink);
+  margin-bottom: 18px;
+}
+
+.pl-sub {
+  position: relative;
+  z-index: 1;
+  font-size: clamp(16px, 1.7vw, 18px);
+  color: var(--ink-soft);
+  margin-bottom: 16px;
+  max-width: 46ch;
+}
+
+.pl-meta {
+  position: relative;
+  z-index: 1;
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.pl-meta strong {
+  color: var(--ink);
+}
+
+/* ---------- Work ---------- */
+.pl-work {
+  max-width: 1200px;
+  margin-inline: auto;
+  padding: 40px 40px 100px;
+}
+
+.pl-h2 {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 2.8vw, 32px);
+  margin-bottom: 32px;
+  color: var(--ink);
+}
+
+.pl-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+  max-width: 900px;
+}
+
+.pl-card {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(28, 58, 31, 0.14);
+  background: rgba(255, 253, 242, 0.7);
+}
+
+.pl-card__cover {
+  height: 160px;
+  background-size: cover;
+}
+
+.pl-card__title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  padding: 18px 18px 8px;
+  color: var(--ink);
+}
+
+.pl-card__stats {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 0 18px 18px;
+}
+
+.pl-card__stats span {
+  font-size: 11.5px;
+  color: var(--forest-soft);
+  border: 1px solid rgba(28, 58, 31, 0.2);
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+/* ---------- Quote ---------- */
+.pl-quote {
+  padding: 40px 40px 100px;
+  border-top: 1px solid rgba(28, 58, 31, 0.14);
+  border-bottom: 1px solid rgba(28, 58, 31, 0.14);
+  max-width: 700px;
+  margin-inline: auto;
+}
+
+.pl-quote__sanskrit {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 3vw, 28px);
+  color: var(--ink);
+  margin-bottom: 10px;
+}
+
+.pl-quote__translation {
+  font-family: var(--font-display);
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+/* ---------- Footer: sparse watercolor garden ---------- */
+.pl-footer {
+  position: relative;
+  padding: 60px 40px 0;
+  min-height: 320px;
+  background: linear-gradient(to bottom, transparent, rgba(139, 166, 130, 0.08) 70%);
+  overflow: hidden;
+}
+
+.pl-footer__heading,
+.pl-footer__sub {
+  max-width: 1200px;
+  margin-inline: auto;
+}
+
+.pl-garden {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 220px;
+  pointer-events: none;
+}
+
+.pl-footer__heading {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: clamp(28px, 3.4vw, 38px);
+  color: var(--ink);
+  margin-bottom: 12px;
+}
+
+.pl-footer__sub {
+  position: relative;
+  font-size: 15px;
+  color: var(--ink-soft);
+}
+
+/* ---------- DetachingLeaf component ---------- */
+.dleaf {
+  position: relative;
+  width: 100%;
+}
+
+.dleaf__branch {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.dleaf__leaf-wrap {
+  position: absolute;
+  top: 56px;
+  right: 18px;
+  width: 22px;
+  height: 22px;
+  transform-origin: top center;
+}
+
+.dleaf__leaf {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+@media (max-width: 760px) {
+  .pl-grid {
+    grid-template-columns: 1fr;
+  }
+  .pl-branch-slot {
+    width: 140px;
+  }
+}

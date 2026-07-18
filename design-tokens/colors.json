@@ -1,0 +1,30 @@
+{
+  "light": {
+    "paper": { "value": "#FFFDF2", "type": "color", "description": "Page background" },
+    "cream-deep": { "value": "#FAF6E8", "type": "color", "description": "Secondary panel bg (marquee band, gallery placeholder)" },
+    "card": { "value": "#FFFEFB", "type": "color", "description": "Card background (work cards)" },
+    "forest": { "value": "#1C3A31", "type": "color", "description": "Strong text / button bg / footer link emphasis" },
+    "forest-soft": { "value": "#3D5850", "type": "color", "description": "Muted heading/label color (chapter labels, stat pills)" },
+    "sage": { "value": "#B3C1B4", "type": "color", "description": "Portrait circle gradient (outer)" },
+    "sage-deep": { "value": "#92A693", "type": "color", "description": "Portrait circle gradient (inner)" },
+    "footer-bg": { "value": "#A7AC9C", "type": "color", "description": "Footer section background" },
+    "ink": { "value": "#21201B", "type": "color", "description": "Primary body text" },
+    "ink-soft": { "value": "#5C5A4E", "type": "color", "description": "Secondary/muted body text" },
+    "line": { "value": "rgba(28, 58, 31, 0.14)", "type": "color", "description": "Hairline borders/dividers" },
+    "line-strong": { "value": "rgba(28, 58, 31, 0.28)", "type": "color", "description": "Stronger borders (pills, dots, wave dividers)" }
+  },
+  "dark": {
+    "paper": { "value": "#14201A", "type": "color", "description": "Page background" },
+    "cream-deep": { "value": "#1A2620", "type": "color", "description": "Secondary panel bg (marquee band, gallery placeholder)" },
+    "card": { "value": "#1C2921", "type": "color", "description": "Card background (work cards)" },
+    "forest": { "value": "#DCE8D6", "type": "color", "description": "Strong text / button bg / footer link emphasis" },
+    "forest-soft": { "value": "#A8C2AC", "type": "color", "description": "Muted heading/label color (chapter labels, stat pills)" },
+    "sage": { "value": "#445247", "type": "color", "description": "Portrait circle gradient (outer)" },
+    "sage-deep": { "value": "#313D34", "type": "color", "description": "Portrait circle gradient (inner)" },
+    "footer-bg": { "value": "#232F28", "type": "color", "description": "Footer section background" },
+    "ink": { "value": "#EEF2E9", "type": "color", "description": "Primary body text" },
+    "ink-soft": { "value": "#AAB5A7", "type": "color", "description": "Secondary/muted body text" },
+    "line": { "value": "rgba(220, 232, 214, 0.14)", "type": "color", "description": "Hairline borders/dividers" },
+    "line-strong": { "value": "rgba(220, 232, 214, 0.26)", "type": "color", "description": "Stronger borders (pills, dots, wave dividers)" }
+  }
+}
