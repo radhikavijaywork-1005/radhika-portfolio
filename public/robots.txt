@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /preview/
 
-Sitemap: https://radhikavijaydesign.vercel.app/sitemap.xml
+Sitemap: https://radhikadesign.vercel.app/sitemap.xml

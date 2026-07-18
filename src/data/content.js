@@ -20,7 +20,7 @@ export const profile = {
     medium: "https://medium.com/@radhikavijaywork",
     behance: "https://www.behance.net/radhikavijay5895",
     dribbble: "https://dribbble.com/radhikavijay5895",
-    resume: "https://drive.google.com/file/d/1qEIlPMhSRHDiERqNhkV68ftIfDTk_5BD/view",
+    resume: "https://drive.google.com/file/d/1MHXP-gohy68EWDdOVNpIZf2UqTFAreaN/view",
     email: "radhikavijaywork@gmail.com",
   },
 };
