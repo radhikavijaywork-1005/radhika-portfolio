@@ -120,6 +120,15 @@
   }
 }
 
+/* Portrait dropped entirely on mobile — matches the Home hero illustration
+   being hidden at the same breakpoint, so the bio text gets the full
+   column instead of sharing space with the portrait. */
+@media (max-width: 640px) {
+  .about-story__art {
+    display: none;
+  }
+}
+
 /* Exact Figma spec (node 168:995): 18px/32px throughout, body text and
    bold spans both near-black (var(--ink)), lead-ins (but.../later.../
    now..) in Fraunces SemiBold Italic, forest-green. Blocks are separated
