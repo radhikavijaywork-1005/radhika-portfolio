@@ -2,46 +2,19 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { profile } from "../data/content";
 import { useTheme } from "../context/ThemeContext";
-import heroLineColorLight from "../assets/site/hero-line-color.png";
-import heroLineColorDark from "../assets/site/hero-line-color-dark.png";
+import heroSketch from "../assets/site/hero-sketch.png";
 import stageLogo from "../assets/site/stage-icon.png";
 import stageLogoWhite from "../assets/site/stage-icon-white.svg";
 import adaniLogo from "../assets/site/adani-wordmark.svg";
-import HeroDotWave from "./HeroDotWave";
+import HeroPortraitDots from "./HeroPortraitDots";
 import SplitText from "./SplitText";
-import PortraitLiquid from "./PortraitLiquid";
-import { useTiltEffect } from "../hooks/useTiltEffect";
 
-// Same mouse-tracked tilt + liquid ripple as the About portrait — a plain
-// sibling of the entrance-fade motion.div (not the animated element
-// itself), so its own CSS transform isn't fought by Framer's inline style.
-// Light and dark illustrations are two stacked layers cross-fading on
-// theme toggle, rather than swapping the <img> src outright — a src swap
-// would pop instantly; opacity-transitioning both layers together reads
-// as a smooth dissolve between them.
-function HeroPortraitTilt({ lightSrc, darkSrc, alt }) {
-  const tilt = useTiltEffect(16);
-  const { theme } = useTheme();
-  const isDark = theme === "dark";
-  return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
-      <div
-        className="hero-portrait-tilt"
-        ref={tilt.ref}
-        onMouseMove={tilt.onMouseMove}
-        onMouseLeave={tilt.onMouseLeave}
-      >
-        <div className={`hero-portrait-tilt__layer ${isDark ? "" : "is-active"}`}>
-          <PortraitLiquid src={lightSrc} alt={alt} ariaHidden={isDark} className="hero-portrait-tilt__canvas" />
-        </div>
-        <div className={`hero-portrait-tilt__layer ${isDark ? "is-active" : ""}`}>
-          <PortraitLiquid src={darkSrc} alt={alt} ariaHidden={!isDark} className="hero-portrait-tilt__canvas" />
-        </div>
-      </div>
-    </motion.div>
-  );
-}
-
+// Variant of Hero.jsx testing: drop the full-page dot-wave background,
+// scope the dotted motion to the portrait itself instead — dots read as
+// part of her presence rather than generic background wallpaper the
+// illustration happens to sit on. Everything else (text reveal, pill,
+// meta, scroll parallax) matches the live Hero exactly for a fair
+// comparison. See PreviewHeroPortraitMotion for the isolated route.
 const container = {
   hidden: {},
   show: {
@@ -58,15 +31,11 @@ const item = {
   },
 };
 
-export default function Hero() {
+export default function HeroPortraitMotion() {
   const heroRef = useRef(null);
   const { theme } = useTheme();
   const stageLogoSrc = theme === "dark" ? stageLogoWhite : stageLogo;
 
-  // Scroll-linked parallax: the whole illustration drifts down slower than
-  // the page scrolls, so it reads as sitting further back than the copy.
-  // No mouse-tracked drift on the portrait itself — it stays put, grounded,
-  // rather than chasing the cursor.
   const { scrollYProgress } = useScroll({
     target: heroRef,
     offset: ["start start", "end start"],
@@ -75,15 +44,8 @@ export default function Hero() {
 
   return (
     <section id="top" ref={heroRef} className="section hero">
-      <HeroDotWave className="hero__dotwave" dotOpacity={0.32} ambientAmplitude={0.5} />
-
       <div className="container hero__inner">
-        <motion.div
-          className="hero__copy"
-          variants={container}
-          initial="hidden"
-          animate="show"
-        >
+        <motion.div className="hero__copy" variants={container} initial="hidden" animate="show">
           <motion.span variants={item} className="hero__pill">
             <span className="hero__pill-live" aria-hidden="true">
               <span className="hero__pill-live-dot" />
@@ -111,10 +73,15 @@ export default function Hero() {
         </motion.div>
 
         <motion.div className="hero__art" style={{ y: artY }}>
-          <HeroPortraitTilt
-            lightSrc={heroLineColorLight}
-            darkSrc={heroLineColorDark}
+          <HeroPortraitDots className="hero__art-dots" />
+          <motion.img
+            className="hero__portrait"
+            src={heroSketch}
             alt="Illustrated portrait of Radhika"
+            draggable={false}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           />
         </motion.div>
       </div>

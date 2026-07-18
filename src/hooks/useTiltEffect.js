@@ -6,7 +6,7 @@ import { useCallback, useRef } from "react";
 // frame rate). Pair with the .portrait-tilt CSS.
 const MAX_TILT = 10; // degrees
 
-export function useTiltEffect() {
+export function useTiltEffect(maxTilt = MAX_TILT) {
   const ref = useRef(null);
 
   const onMouseMove = useCallback((e) => {
@@ -15,8 +15,8 @@ export function useTiltEffect() {
     const rect = el.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top) / rect.height;
-    const tiltY = (x - 0.5) * MAX_TILT * 2;
-    const tiltX = (0.5 - y) * MAX_TILT * 2;
+    const tiltY = (x - 0.5) * maxTilt * 2;
+    const tiltX = (0.5 - y) * maxTilt * 2;
     el.style.setProperty("--tilt-x", `${tiltX}deg`);
     el.style.setProperty("--tilt-y", `${tiltY}deg`);
     el.style.setProperty("--shine-x", `${x * 100}%`);

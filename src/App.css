@@ -43,52 +43,6 @@
   mix-blend-mode: overlay;
 }
 
-/* ---------- Gradient spotlight (card hover) ---------- */
-/* Mouse-following shimmer on the card's border/stroke — same visual idea
-   as Skiper UI's "gradient hover cards" (skiper90, a paid/Pro component
-   we don't have a license for), built from scratch with CSS custom
-   properties updated on mousemove via useGradientSpotlight. The
-   double-background + mask-composite:exclude trick paints the gradient
-   only in a ring the width of `padding`, so the card interior/text is
-   never covered — no z-index/isolation tricks needed, the "hole" is
-   genuinely transparent. */
-.gradient-spotlight {
-  position: relative;
-}
-
-.gradient-spotlight::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  border-radius: inherit;
-  padding: 1.5px;
-  pointer-events: none;
-  background: radial-gradient(
-    220px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-    rgba(var(--sage-rgb), 0.9),
-    transparent 70%
-  );
-  opacity: var(--spot-opacity, 0);
-  transition: opacity 0.35s ease;
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-}
-
-.dark .gradient-spotlight::before {
-  background: radial-gradient(
-    220px circle at var(--spot-x, 50%) var(--spot-y, 50%),
-    rgba(var(--sage-rgb), 0.8),
-    transparent 70%
-  );
-}
-
-@media (hover: none) {
-  .gradient-spotlight::before {
-    display: none;
-  }
-}
 
 /* ---------- Click bubble-pop ---------- */
 /* The visual half of the click feedback pattern (sound + effect) — a small
@@ -696,8 +650,94 @@
   position: relative;
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* The portrait (293px) is narrower than this grid column, so centering
+     it split the leftover space evenly on both sides — dead space to the
+     right of the portrait, and not enough breathing room between it and
+     the copy on the left. Flush it to the end instead: all the leftover
+     space becomes one deliberate gap next to the text. */
+  justify-content: flex-end;
   padding: 20px;
+  /* perspective on the direct parent of .hero-portrait-tilt, so its
+     rotateX/rotateY transform actually renders in 3D. */
+  perspective: 1200px;
+}
+
+/* Same tilt + liquid-ripple + shadow treatment as the About portrait
+   (.about-portrait-tilt in AboutMe.css) — PortraitLiquid's canvas fills
+   width:100%/height:100% of this box, so it needs a resolved aspect-ratio
+   rather than sizing off the old plain <img>'s natural dimensions.
+   hero-line-color.png already has real alpha transparency baked in, so
+   the canvas composites normally — no blend-mode trick needed. */
+.hero-portrait-tilt {
+  position: relative;
+  z-index: 1;
+  /* min(340px, 100%) collapses to 0px here — this box's only children are
+     absolutely-positioned crossfade layers with no intrinsic content size,
+     and combined with aspect-ratio + flex-item percentage resolution, the
+     100% branch resolves against an indeterminate size instead of the
+     flex container's actual content box. width + max-width sidesteps it.
+     293px (not the old 340px) because this illustration's aspect ratio
+     (1008/1200 ≈ 0.84) is taller/narrower than the old hero-sketch.png
+     (878/900 ≈ 0.976) — 293px reproduces the exact same rendered height
+     the old portrait had at 340px, so the hero's vertical rhythm/spacing
+     matches the live site instead of growing taller with the new art. */
+  width: 293px;
+  max-width: 100%;
+  aspect-ratio: 1008 / 1200;
+  -webkit-user-drag: none;
+  user-drag: none;
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, filter 0.25s ease-out;
+  will-change: transform;
+  filter: drop-shadow(0 14px 20px rgba(26, 53, 45, 0.14));
+}
+
+/* Light/dark illustrations are two stacked layers cross-fading on theme
+   toggle (see HeroPortraitTilt in Hero.jsx) rather than swapping the
+   image src outright, so the switch dissolves smoothly instead of
+   popping instantly. */
+.hero-portrait-tilt__layer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  pointer-events: none;
+}
+
+.hero-portrait-tilt__layer.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hero-portrait-tilt__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-portrait-tilt:hover {
+  filter: drop-shadow(0 18px 24px rgba(26, 53, 45, 0.18));
+}
+
+.dark .hero-portrait-tilt:hover {
+  filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.3));
+}
+
+@media (hover: none) {
+  .hero-portrait-tilt {
+    transform: none !important;
+    filter: drop-shadow(0 14px 20px rgba(26, 53, 45, 0.14)) !important;
+  }
+}
+
+/* Oversized relative to the portrait so the radial dot cloud has room to
+   spread beyond her silhouette rather than clipping at its edges. */
+.hero__art-dots {
+  position: absolute;
+  inset: -30%;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .hero__portrait {
@@ -716,6 +756,11 @@
   }
   .hero__portrait {
     width: 220px;
+  }
+  .hero-portrait-tilt {
+    /* Same height-matching logic as the desktop width above, scaled to
+       the old mobile 220px footprint. */
+    width: 189px;
   }
 }
 
@@ -794,6 +839,13 @@
   gap: 24px;
 }
 
+/* perspective must sit on the DIRECT parent of the transformed element
+   (.work-card__link) to take effect — it does not propagate through the
+   intermediate .work-card wrapper to grandchildren. */
+.work-card {
+  perspective: 1200px;
+}
+
 /* Exact spec from the Figma "Casestudy_1" frame: 40px padding on every
    side, 40px gap between the visual tile and the text block, 24px corner
    radius on the card. The visual tile itself is inset (not edge-to-edge)
@@ -806,16 +858,22 @@
   border: 1px solid var(--line-strong);
   border-radius: 24px;
   background: var(--card);
-  transition: box-shadow 0.3s var(--ease-flow), background-color 0.3s var(--ease-flow);
+  transform: translateY(var(--card-lift, 0px)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, box-shadow 0.3s var(--ease-flow),
+    background-color 0.3s var(--ease-flow);
 }
 
-/* The card itself doesn't lift — the whole-card shadow/tint is the
-   "elevate" read, while the phone screenshots are a separate layer that
+/* A gentle lift + cursor-tracked tilt + a stronger directional shadow
+   underneath is the "subtle 3D" read — the card tips toward the cursor
+   like it's a physical card, not just a flat tint change. The phone
+   screenshots are a separate layer that
    rises on their own (matches the Figma component's actual Prototype
    interaction: trigger "While hovering", Smart Animate, 300ms ease-in-out
    — the logo/background panel stays fixed, only the phones move). */
 .work-card__link:hover {
-  box-shadow: 0 16px 32px -16px rgba(28, 58, 31, 0.25);
+  --card-lift: -8px;
+  box-shadow: 0 32px 48px -20px rgba(28, 58, 31, 0.4);
   background: var(--card-hover);
 }
 
@@ -828,6 +886,7 @@
 
 @media (hover: none) {
   .work-card__link:hover {
+    transform: none;
     box-shadow: none;
     background: var(--card);
   }
@@ -1019,10 +1078,14 @@
 /* Exact Figma spec: display:flex, align-items:center, gap:166px (no
    justify-content — the fixed gap plus .quote-copy's flex:1 does the
    spacing, not an auto-distributed space-between). */
+/* align-items: flex-start, not center — with the typewriter reveal, the
+   copy block's height changes on every character (especially if a line
+   wraps mid-type), and center-alignment was re-centering the whole row
+   on every one of those changes, reading as a visible jitter. */
 .quote-inner {
   position: relative;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 166px;
   text-align: left;
   padding-block: 72px;

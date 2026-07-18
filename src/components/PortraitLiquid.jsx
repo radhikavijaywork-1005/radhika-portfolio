@@ -23,15 +23,15 @@ const FRAGMENT_SHADER = `
   void main() {
     vec2 uv = vUv;
     float dist = distance(uv, uMouse);
-    float radius = 0.32;
-    float strength = smoothstep(radius, 0.0, dist) * uHover * 0.06;
+    float radius = 0.3;
+    float strength = smoothstep(radius, 0.0, dist) * uHover * 0.05;
     vec2 dir = uv - uMouse;
     uv += dir * strength;
     gl_FragColor = texture2D(uTexture, uv);
   }
 `;
 
-export default function PortraitLiquid({ src, alt, className }) {
+export default function PortraitLiquid({ src, alt, className, ariaHidden }) {
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -62,7 +62,9 @@ export default function PortraitLiquid({ src, alt, className }) {
 
     const loader = new THREE.TextureLoader();
     loader.load(src, (tex) => {
-      tex.colorSpace = THREE.SRGBColorSpace;
+      // No colorSpace tag either — with outputColorSpace also set to
+      // NoColorSpace above, this is a fully raw passthrough: the texture's
+      // encoded bytes go in and come out unchanged, same as a plain <img>.
       uniforms.uTexture.value = tex;
     });
 
@@ -113,5 +115,13 @@ export default function PortraitLiquid({ src, alt, className }) {
     };
   }, [src]);
 
-  return <div className={className} ref={mountRef} role="img" aria-label={alt} />;
+  return (
+    <div
+      className={className}
+      ref={mountRef}
+      role={ariaHidden ? undefined : "img"}
+      aria-label={ariaHidden ? undefined : alt}
+      aria-hidden={ariaHidden || undefined}
+    />
+  );
 }

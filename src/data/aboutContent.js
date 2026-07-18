@@ -93,7 +93,7 @@ export const experience = [
     company: "The Design Bridge",
     role: "UX Research & Design Manager",
     dates: "Sept 2018 – May 2020",
-    category: "B2B Research",
+    category: "B2B2C Marketplace",
     logoKey: "tdb",
     hoverImageKey: "tdb",
   },

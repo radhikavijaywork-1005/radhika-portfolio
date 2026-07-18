@@ -21,6 +21,8 @@ import PreviewWorkStack from "./pages/PreviewWorkStack";
 import PreviewHeroCalm from "./pages/PreviewHeroCalm";
 import PreviewHeroOrganic from "./pages/PreviewHeroOrganic";
 import PreviewPortraitMotion from "./pages/PreviewPortraitMotion";
+import PreviewHeroPortraitMotion from "./pages/PreviewHeroPortraitMotion";
+import PreviewDotPortrait from "./pages/PreviewDotPortrait";
 import { skills } from "./data/content";
 
 function Home() {
@@ -38,6 +40,17 @@ function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Framer Motion's whileInView IntersectionObservers can end up stuck
+    // reporting nothing as intersecting right after a fresh load or an
+    // instant/programmatic scroll reset — a 1px scroll nudge forces the
+    // browser to recompute and fire the pending callbacks for content
+    // that's already on screen, instead of leaving it stuck at its
+    // "hidden" variant until the user happens to scroll.
+    const raf = requestAnimationFrame(() => {
+      window.scrollBy(0, 1);
+      window.scrollBy(0, -1);
+    });
+    return () => cancelAnimationFrame(raf);
   }, [pathname]);
   return null;
 }
@@ -66,6 +79,8 @@ function App() {
         <Route path="/preview/hero-calm" element={<PreviewHeroCalm />} />
         <Route path="/preview/hero-organic" element={<PreviewHeroOrganic />} />
         <Route path="/preview/portrait-motion" element={<PreviewPortraitMotion />} />
+        <Route path="/preview/hero-portrait-motion" element={<PreviewHeroPortraitMotion />} />
+        <Route path="/preview/dot-portrait" element={<PreviewDotPortrait />} />
       </Routes>
       {!isPreview && <Footer />}
     </>

@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { work } from "../data/content";
 import { useSoundContext } from "../context/SoundContext";
-import { useGradientSpotlight } from "../hooks/useGradientSpotlight";
+import { useTiltEffect } from "../hooks/useTiltEffect";
 
 const card = {
   hidden: { opacity: 0, transform: "translateY(20px)" },
@@ -15,7 +15,7 @@ const card = {
 
 function WorkCard({ item, i }) {
   const { playHover, playClick } = useSoundContext();
-  const spotlight = useGradientSpotlight();
+  const tilt = useTiltEffect();
   const disabled = !item.href;
   const isInternal = !disabled && item.href.startsWith("/");
   const Wrapper = disabled ? "div" : isInternal ? Link : "a";
@@ -41,10 +41,10 @@ function WorkCard({ item, i }) {
       transition={{ delay: i * 0.07 }}
     >
       <Wrapper
-        className="work-card__link gradient-spotlight"
-        ref={spotlight.ref}
-        onMouseMove={spotlight.onMouseMove}
-        onMouseLeave={spotlight.onMouseLeave}
+        className="work-card__link tilt-card"
+        ref={tilt.ref}
+        onMouseMove={tilt.onMouseMove}
+        onMouseLeave={tilt.onMouseLeave}
         {...wrapperProps}
       >
         {/* Cursor-label trigger is scoped to just the gradient tile + title,

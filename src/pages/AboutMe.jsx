@@ -5,9 +5,12 @@ import PhotoCarousel from "../components/PhotoCarousel";
 import { traits, bio, experience, achievements, galleryCaption, galleryCaptions, aboutQuote } from "../data/aboutContent";
 import { useTheme } from "../context/ThemeContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import { useGradientSpotlight } from "../hooks/useGradientSpotlight";
 import SplitText from "../components/SplitText";
-import aboutPortrait from "../assets/site/about-portrait.png";
+import TypewriterText from "../components/TypewriterText";
+import { useTiltEffect } from "../hooks/useTiltEffect";
+import PortraitLiquid from "../components/PortraitLiquid";
+import aboutPortraitLight from "../assets/site/about-portrait.png";
+import aboutPortraitDark from "../assets/site/about-portrait-dark.png";
 import stageLogo from "../assets/site/experience/stage.svg";
 import adaniLogo from "../assets/site/experience/adani.svg";
 import partLogo from "../assets/site/experience/part.svg";
@@ -130,42 +133,59 @@ function AchievementPhotoCycle({ images, hovered }) {
   );
 }
 
-function AchievementCard({ item, i }) {
-  const spotlight = useGradientSpotlight();
-  const [hovered, setHovered] = useState(false);
+// Same mouse-tracked tilt as the Work/Highlights cards — a plain sibling
+// of Reveal's motion element (not Reveal itself), so its own CSS
+// transform isn't fought by Reveal's inline entrance-animation transform.
+// Light/dark are two stacked layers cross-fading on theme toggle (same
+// approach as HeroPortraitTilt in Hero.jsx) rather than swapping the src
+// outright, so the switch dissolves smoothly instead of popping instantly.
+function AboutPortraitTilt({ lightSrc, darkSrc, alt }) {
+  const tilt = useTiltEffect();
+  const { theme } = useTheme();
+  const isDark = theme === "dark";
   return (
-    <Reveal
-      as="div"
-      className="about-achievements__card gradient-spotlight"
-      delay={i * 0.06}
-      innerRef={spotlight.ref}
-      onMouseEnter={() => setHovered(true)}
-      onMouseMove={spotlight.onMouseMove}
-      onMouseLeave={() => {
-        setHovered(false);
-        spotlight.onMouseLeave();
-      }}
+    <div
+      className="about-portrait-tilt"
+      ref={tilt.ref}
+      onMouseMove={tilt.onMouseMove}
+      onMouseLeave={tilt.onMouseLeave}
     >
-      <img className="about-achievements__pin" src={pinCorners} alt="" aria-hidden="true" />
-      <div className="about-achievements__photo">
-        <AchievementPhotoCycle images={achievementImages[item.title]} hovered={hovered} />
+      <div className={`about-portrait-tilt__layer ${isDark ? "" : "is-active"}`}>
+        <PortraitLiquid src={lightSrc} alt={alt} ariaHidden={isDark} className="about-portrait-tilt__canvas" />
       </div>
-      <div className="about-achievements__body">
-        <SplitText as="h3" className="about-achievements__title" text={item.title} amount={0.6} />
-        <p className="about-achievements__desc">{item.description}</p>
-        <span className="about-achievements__pill">{item.year}</span>
+      <div className={`about-portrait-tilt__layer ${isDark ? "is-active" : ""}`}>
+        <PortraitLiquid src={darkSrc} alt={alt} ariaHidden={!isDark} className="about-portrait-tilt__canvas" />
       </div>
-    </Reveal>
+    </div>
   );
 }
 
-function RichText({ parts }) {
-  return parts.map((part, i) =>
-    typeof part === "string" ? (
-      <span key={i}>{part}</span>
-    ) : (
-      <strong key={i}>{part.b}</strong>
-    )
+function AchievementCard({ item, i }) {
+  const [hovered, setHovered] = useState(false);
+  const tilt = useTiltEffect();
+  return (
+    <Reveal as="div" className="about-achievements__card-slot" delay={i * 0.06}>
+      <div
+        className="about-achievements__card tilt-card"
+        ref={tilt.ref}
+        onMouseEnter={() => setHovered(true)}
+        onMouseMove={tilt.onMouseMove}
+        onMouseLeave={() => {
+          setHovered(false);
+          tilt.onMouseLeave();
+        }}
+      >
+        <img className="about-achievements__pin" src={pinCorners} alt="" aria-hidden="true" />
+        <div className="about-achievements__photo">
+          <AchievementPhotoCycle images={achievementImages[item.title]} hovered={hovered} />
+        </div>
+        <div className="about-achievements__body">
+          <SplitText as="h3" className="about-achievements__title" text={item.title} amount={0.6} />
+          <p className="about-achievements__desc">{item.description}</p>
+          <span className="about-achievements__pill">{item.year}</span>
+        </div>
+      </div>
+    </Reveal>
   );
 }
 
@@ -226,28 +246,30 @@ export default function AboutMe() {
       <section className="section about-story">
         <div className="container about-story__inner">
           <div className="about-story__main">
-            <Reveal as="h1" className="about-hero__title">
-              From <em>Spaces</em> to Screens! ~
-            </Reveal>
+            <SplitText
+              as="h1"
+              className="about-hero__title"
+              parts={["From ", { em: "Spaces" }, " to Screens! ~"]}
+            />
 
             {bio.map((block, i) => (
               <div className={`about-chapter${i === bio.length - 1 ? " about-chapter--last" : ""}`} key={i}>
                 {block.lead && (
-                  <Reveal as="p" className="about-chapter__lead">
-                    {block.lead}
-                  </Reveal>
+                  <SplitText as="p" className="about-chapter__lead" text={block.lead} amount={0.4} delay={0.2} />
                 )}
                 {block.body.map((parts, j) => (
-                  <Reveal as="p" className="about-chapter__body" key={j} delay={0.05}>
-                    <RichText parts={parts} />
-                  </Reveal>
+                  <SplitText as="p" className="about-chapter__body" key={j} delay={0.05} parts={parts} />
                 ))}
               </div>
             ))}
           </div>
 
           <Reveal as="div" className="about-story__art" delay={0.1}>
-            <img src={aboutPortrait} alt="Radhika in the mountains" />
+            <AboutPortraitTilt
+              lightSrc={aboutPortraitLight}
+              darkSrc={aboutPortraitDark}
+              alt="Radhika in the mountains"
+            />
           </Reveal>
         </div>
       </section>
@@ -259,10 +281,12 @@ export default function AboutMe() {
           <SectionHeading>Experience ~</SectionHeading>
 
           <div className="about-experience">
-            {experience.map((role) => (
-              <div
+            {experience.map((role, i) => (
+              <Reveal
+                as="div"
                 className={`about-experience__row${hoveredRole === role.company ? " is-hovered" : ""}`}
                 key={role.company}
+                delay={i * 0.08}
                 onMouseEnter={() => role.hoverImageKey && setHoveredRole(role.company)}
                 onMouseLeave={() => setHoveredRole(null)}
               >
@@ -281,7 +305,7 @@ export default function AboutMe() {
                 </div>
                 <div className="about-experience__main">
                   <div className="about-experience__head">
-                    <h3 className="about-experience__company">{role.company}</h3>
+                    <SplitText as="h3" className="about-experience__company" text={role.company} amount={0.8} />
                     <span className="about-experience__role">{role.role}</span>
                   </div>
                   <div className="about-experience__meta">
@@ -306,7 +330,7 @@ export default function AboutMe() {
                     )}
                   </AnimatePresence>
                 )}
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -329,9 +353,7 @@ export default function AboutMe() {
       <section className="section about-gallery-section">
         <div className="container">
           <SectionHeading>Curious Soul! ~</SectionHeading>
-          <Reveal as="p" className="about-gallery__caption" delay={0.05}>
-            <RichText parts={galleryCaption} />
-          </Reveal>
+          <SplitText as="p" className="about-gallery__caption" delay={0.05} parts={galleryCaption} />
 
           <Reveal as="div" delay={0.1}>
             <PhotoCarousel items={gallery} captions={galleryCaptions} />
@@ -342,9 +364,20 @@ export default function AboutMe() {
       <section className="section quote-section">
         <Reveal as="div" className="container quote-inner about-quote">
           <div className="about-quote__copy">
-            <h2 className="quote-sanskrit">{aboutQuote.sanskrit} ~</h2>
+            <TypewriterText
+              as="h2"
+              className="quote-sanskrit"
+              text={`${aboutQuote.sanskrit} ~`}
+              speed={34}
+            />
             <span className="quote-rule" aria-hidden="true" />
-            <p className="quote-translation">{aboutQuote.translation}</p>
+            <TypewriterText
+              as="p"
+              className="quote-translation"
+              text={aboutQuote.translation}
+              speed={20}
+              startDelay={aboutQuote.sanskrit.length * 34 + 400}
+            />
           </div>
           <img className="about-quote__doodle" src={aboutQuoteDoodle} alt="" aria-hidden="true" />
         </Reveal>

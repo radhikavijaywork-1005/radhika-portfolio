@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { quote } from "../data/content";
 import quoteDoodle from "../assets/site/quote-doodle-new.svg";
+import TypewriterText from "./TypewriterText";
 
 export default function Quote() {
   return (
@@ -13,9 +14,15 @@ export default function Quote() {
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="quote-copy">
-          <h2 className="quote-sanskrit">{quote.sanskrit}</h2>
+          <TypewriterText as="h2" className="quote-sanskrit" text={quote.sanskrit} speed={34} />
           <span className="quote-rule" aria-hidden="true" />
-          <p className="quote-translation">{quote.translation}</p>
+          <TypewriterText
+            as="p"
+            className="quote-translation"
+            text={quote.translation}
+            speed={20}
+            startDelay={quote.sanskrit.length * 34 + 400}
+          />
         </div>
         <img className="quote-doodle-gif" src={quoteDoodle} alt="" aria-hidden="true" loading="lazy" />
       </motion.div>
