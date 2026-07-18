@@ -18,6 +18,9 @@ import PreviewVine from "./pages/PreviewVine";
 import PreviewLeaf from "./pages/PreviewLeaf";
 import PreviewWorkRows from "./pages/PreviewWorkRows";
 import PreviewWorkStack from "./pages/PreviewWorkStack";
+import PreviewHeroCalm from "./pages/PreviewHeroCalm";
+import PreviewHeroOrganic from "./pages/PreviewHeroOrganic";
+import PreviewPortraitMotion from "./pages/PreviewPortraitMotion";
 import { skills } from "./data/content";
 
 function Home() {
@@ -60,6 +63,9 @@ function App() {
         <Route path="/preview/leaf" element={<PreviewLeaf />} />
         <Route path="/preview/work-rows" element={<PreviewWorkRows />} />
         <Route path="/preview/work-stack" element={<PreviewWorkStack />} />
+        <Route path="/preview/hero-calm" element={<PreviewHeroCalm />} />
+        <Route path="/preview/hero-organic" element={<PreviewHeroOrganic />} />
+        <Route path="/preview/portrait-motion" element={<PreviewPortraitMotion />} />
       </Routes>
       {!isPreview && <Footer />}
     </>

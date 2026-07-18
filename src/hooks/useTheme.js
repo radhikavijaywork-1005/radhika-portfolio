@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 
 const STORAGE_KEY = "rv-theme";
 
@@ -14,7 +14,11 @@ function getInitialTheme() {
 export function useTheme() {
   const [theme, setTheme] = useState(getInitialTheme);
 
-  useEffect(() => {
+  // Layout effect (not a passive effect) so the class change lands
+  // synchronously within the same commit — startViewTransition needs the
+  // DOM already updated before it snapshots the "new" state, otherwise the
+  // circle-reveal animation captures the wrong frame.
+  useLayoutEffect(() => {
     document.documentElement.classList.toggle("dark", theme === "dark");
     localStorage.setItem(STORAGE_KEY, theme);
   }, [theme]);

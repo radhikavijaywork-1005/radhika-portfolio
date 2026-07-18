@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { work } from "../data/content";
 import { useSoundContext } from "../context/SoundContext";
+import { useGradientSpotlight } from "../hooks/useGradientSpotlight";
 
 const card = {
   hidden: { opacity: 0, transform: "translateY(20px)" },
@@ -14,6 +15,7 @@ const card = {
 
 function WorkCard({ item, i }) {
   const { playHover, playClick } = useSoundContext();
+  const spotlight = useGradientSpotlight();
   const disabled = !item.href;
   const isInternal = !disabled && item.href.startsWith("/");
   const Wrapper = disabled ? "div" : isInternal ? Link : "a";
@@ -38,7 +40,13 @@ function WorkCard({ item, i }) {
       viewport={{ once: true, amount: 0.25 }}
       transition={{ delay: i * 0.07 }}
     >
-      <Wrapper className="work-card__link" {...wrapperProps}>
+      <Wrapper
+        className="work-card__link gradient-spotlight"
+        ref={spotlight.ref}
+        onMouseMove={spotlight.onMouseMove}
+        onMouseLeave={spotlight.onMouseLeave}
+        {...wrapperProps}
+      >
         {/* Cursor-label trigger is scoped to just the gradient tile + title,
             not the full card padding or the stats row, so it doesn't read
             as "active" outside the actual visual/text content. */}
@@ -53,12 +61,17 @@ function WorkCard({ item, i }) {
             />
           </div>
 
-          <h3 className="work-card__title">{item.title}</h3>
+          <div className="work-card__heading">
+            <span className="work-card__category">{item.category}</span>
+            <h3 className="work-card__title">{item.title}</h3>
+          </div>
         </div>
 
         <div className="tag-list work-card__stats">
-          {item.stats.map((stat) => (
-            <span key={stat}>{stat}</span>
+          {item.metrics.map((metric) => (
+            <span className="work-card__metric" key={metric}>
+              {metric}
+            </span>
           ))}
         </div>
       </Wrapper>

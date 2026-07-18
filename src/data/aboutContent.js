@@ -123,7 +123,7 @@ export const galleryCaption = [
   { b: "choreographing" },
   " new steps or exploring ",
   { b: "new places" },
-  ". Here is a glimpse from my gallery.",
+  ".",
 ];
 
 export const aboutQuote = {

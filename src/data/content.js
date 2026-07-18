@@ -29,7 +29,8 @@ export const work = [
   {
     company: "STAGE",
     title: "Improving trial conversion through paywall experiments",
-    stats: ["+250% increase", "14L/mo revenue", "Acquisition"],
+    metrics: ["+250% increase", "14L/mo revenue"],
+    category: "Acquisition",
     cta: "Read Case Study",
     href: "/work/paywall-experiments",
     bg: bgStage1,
@@ -40,7 +41,8 @@ export const work = [
   {
     company: "STAGE",
     title: "Building a new revenue stream end-to-end with AI",
-    stats: ["+26% opt in", "+40-60L/yr Revenue", "Monetisation"],
+    metrics: ["+26% opt in", "23L/yr revenue"],
+    category: "Monetisation",
     cta: "In Writing",
     href: null,
     bg: bgStage2,
@@ -51,7 +53,8 @@ export const work = [
   {
     company: "Adani One",
     title: "Reducing Waitlist Uncertainty with Trip Assurance",
-    stats: ["28% opt in rate", "+30% ATV", "Conversion"],
+    metrics: ["28% opt in rate", "+30% ATV"],
+    category: "Conversion",
     cta: "Read Case Study",
     href: "https://www.figma.com/proto/9jxcUHpEVLdB8Av1qfpEXc/Radhika_Portfolio?page-id=161%3A1537&node-id=850-11893&viewport=435%2C403%2C0.02&t=aH7m7jaEBVjnhPb5-1&scaling=scale-down&content-scaling=fixed",
     bg: bgAdaniOne,
@@ -62,7 +65,8 @@ export const work = [
   {
     company: "Trainman",
     title: "Reducing Booking Failures: Post Payment Flow",
-    stats: ["Flow Improvement", "57% reduction"],
+    metrics: ["57% reduction"],
+    category: "Flow Improvement",
     cta: "Read Case Study",
     href: "https://www.figma.com/proto/9jxcUHpEVLdB8Av1qfpEXc/Radhika_Portfolio?page-id=161%3A2531&node-id=846-30517&viewport=151%2C383%2C0.02&t=O2AgLqr3f1L0vrnm-1&scaling=scale-down&content-scaling=fixed",
     bg: bgTrainman,

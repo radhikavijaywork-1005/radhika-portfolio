@@ -1,3 +1,95 @@
+/* ---------- Portrait motion previews ---------- */
+.preview-portrait {
+  width: 100%;
+  aspect-ratio: 982 / 1576;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.portrait-tilt {
+  perspective: 1000px;
+}
+
+.portrait-tilt__inner {
+  position: relative;
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transition: transform 0.15s ease-out;
+  transform-style: preserve-3d;
+  will-change: transform;
+  border-radius: inherit;
+  overflow: hidden;
+}
+
+.portrait-tilt__inner img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}
+
+.portrait-tilt__shine {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(
+    240px circle at var(--shine-x, 50%) var(--shine-y, 50%),
+    rgba(255, 255, 255, 0.4),
+    transparent 60%
+  );
+  opacity: var(--shine-opacity, 0);
+  transition: opacity 0.3s ease;
+  mix-blend-mode: overlay;
+}
+
+/* ---------- Gradient spotlight (card hover) ---------- */
+/* Mouse-following shimmer on the card's border/stroke — same visual idea
+   as Skiper UI's "gradient hover cards" (skiper90, a paid/Pro component
+   we don't have a license for), built from scratch with CSS custom
+   properties updated on mousemove via useGradientSpotlight. The
+   double-background + mask-composite:exclude trick paints the gradient
+   only in a ring the width of `padding`, so the card interior/text is
+   never covered — no z-index/isolation tricks needed, the "hole" is
+   genuinely transparent. */
+.gradient-spotlight {
+  position: relative;
+}
+
+.gradient-spotlight::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  border-radius: inherit;
+  padding: 1.5px;
+  pointer-events: none;
+  background: radial-gradient(
+    220px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(var(--sage-rgb), 0.9),
+    transparent 70%
+  );
+  opacity: var(--spot-opacity, 0);
+  transition: opacity 0.35s ease;
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.dark .gradient-spotlight::before {
+  background: radial-gradient(
+    220px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+    rgba(var(--sage-rgb), 0.8),
+    transparent 70%
+  );
+}
+
+@media (hover: none) {
+  .gradient-spotlight::before {
+    display: none;
+  }
+}
+
 /* ---------- Click bubble-pop ---------- */
 /* The visual half of the click feedback pattern (sound + effect) — a small
    bubble that immediately bursts into droplets flying outward from the
@@ -15,21 +107,21 @@
 
 .click-pop__bubble {
   position: absolute;
-  top: -10px;
-  left: -10px;
-  width: 20px;
-  height: 20px;
+  top: -16px;
+  left: -16px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: rgba(var(--sage-rgb), 0.5);
-  border: 1.5px solid var(--cursor-border);
+  background: rgba(var(--sage-rgb), 0.65);
+  border: 2px solid var(--cursor-border);
 }
 
 .click-pop__droplet {
   position: absolute;
-  top: -3px;
-  left: -3px;
-  width: 6px;
-  height: 6px;
+  top: -4.5px;
+  left: -4.5px;
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
   background: var(--forest-soft);
 }
@@ -226,6 +318,105 @@
   transform: scale(0.88);
 }
 
+/* ---------- Nav: mobile menu ---------- */
+/* Desktop keeps the inline Work ~ About ~ Resume row; below the breakpoint
+   that row is swapped for a hamburger + slide-down panel instead of letting
+   the same items wrap/cram into each other at narrow widths. */
+.nav__mobile-controls {
+  display: none;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Same 28x28 footprint as .theme-toggle/.theme-toggle (sound) so all
+   three header icons sit at identical size — was 32x32, the one bigger
+   icon in the row. */
+.nav__menu-toggle {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+/* Same weight (1.3px stroke) AND color (var(--ink-soft)) as the theme/
+   sound icons — bars used var(--ink) directly before, reading darker/
+   heavier than its neighbors despite matching stroke width. */
+.nav__menu-toggle-bar {
+  display: block;
+  width: 16px;
+  height: 1.3px;
+  background: var(--ink-soft);
+  transition: transform 0.25s var(--ease-snap), opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.nav--menu-open .nav__menu-toggle-bar:first-child {
+  transform: translateY(3.5px) rotate(45deg);
+}
+
+.nav--menu-open .nav__menu-toggle-bar:last-child {
+  transform: translateY(-3.5px) rotate(-45deg);
+}
+
+/* Invisible click-outside-to-close catcher — no visual dimming (matches
+   the kishore.design reference: the card sits solidly over content, the
+   rest of the page stays undimmed, not a modal-style scrim). */
+.nav__drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 90;
+}
+
+/* Rounded dropdown card anchored under the header, not a full-height
+   side drawer — each link is its own bordered row inside it. Fixed/
+   portaled to <body>, so it overlays content instead of pushing it down. */
+.nav__mobile-panel {
+  position: fixed;
+  top: 84px;
+  right: 20px;
+  left: 20px;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  box-shadow: 0 16px 40px -12px rgba(26, 53, 45, 0.22);
+}
+
+.nav__mobile-link {
+  padding: 16px 18px;
+  font-size: 16px;
+  color: var(--ink-soft);
+  border: 1px solid transparent;
+  border-radius: 16px;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.nav__mobile-link.is-active {
+  color: var(--ink);
+  border-color: var(--line-strong);
+}
+
+@media (max-width: 680px) {
+  .nav__links {
+    display: none;
+  }
+  .nav__mobile-controls {
+    display: flex;
+  }
+}
+
 /* ---------- Hero ---------- */
 /* Extends up behind the sticky, transparent-until-scrolled .nav (101px
    tall at rest) so the dot-wave background reads as starting from the very
@@ -259,6 +450,86 @@
   pointer-events: none;
 }
 
+/* Dappled-light leaf shadows (HeroOrganic preview only) — blurred, dark,
+   multiply-blended silhouettes with a slow independent sway per leaf so
+   they read as real shadows moving in a breeze, not a repeating pattern. */
+.hero__leaf-shadows {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.leaf-shadow {
+  position: absolute;
+  fill: var(--forest);
+  opacity: 0.18;
+  filter: blur(2.5px);
+  mix-blend-mode: multiply;
+  transform-origin: 50% 30%;
+}
+
+.leaf-shadow__vein {
+  fill: none;
+  stroke: var(--paper);
+  stroke-width: 1.5;
+  opacity: 0.5;
+}
+
+.dark .leaf-shadow {
+  opacity: 0.3;
+  mix-blend-mode: soft-light;
+  fill: #9db89e;
+}
+
+.leaf-shadow--a {
+  animation: leaf-sway-a 14s ease-in-out infinite alternate;
+}
+
+.leaf-shadow--b {
+  animation: leaf-sway-b 18s ease-in-out infinite alternate;
+  animation-delay: -4s;
+}
+
+.leaf-shadow--c {
+  animation: leaf-sway-c 11s ease-in-out infinite alternate;
+  animation-delay: -7s;
+}
+
+@keyframes leaf-sway-a {
+  from {
+    transform: rotate(-4deg) translate(0, 0);
+  }
+  to {
+    transform: rotate(3deg) translate(6px, 4px);
+  }
+}
+
+@keyframes leaf-sway-b {
+  from {
+    transform: rotate(3deg) translate(0, 0);
+  }
+  to {
+    transform: rotate(-5deg) translate(-8px, 5px);
+  }
+}
+
+@keyframes leaf-sway-c {
+  from {
+    transform: rotate(-2deg) translate(0, 0);
+  }
+  to {
+    transform: rotate(4deg) translate(5px, -3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .leaf-shadow {
+    animation: none !important;
+  }
+}
+
 .hero__inner {
   position: relative;
   z-index: 1;
@@ -274,6 +545,7 @@
   position: relative;
   display: inline-flex;
   align-items: center;
+  gap: 8px;
   padding: 8px 24px;
   border: 1px solid #ccdeb5;
   border-radius: 24px 24px 0 24px;
@@ -283,6 +555,50 @@
   color: var(--forest-soft);
   margin-bottom: 20px;
   overflow: hidden;
+}
+
+/* Subtle "live" status dot — soft sage pulse, not a bright/alerting color,
+   so it reads as a quiet status signal rather than a notification badge. */
+.hero__pill-live {
+  position: relative;
+  display: inline-flex;
+  width: 6px;
+  height: 6px;
+  flex-shrink: 0;
+}
+
+/* A touch more saturated than --sage-deep so the dot actually reads as
+   "live" — still a muted grassy green, not a neon/alert color. */
+.hero__pill-live-dot {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #5a9c68;
+}
+
+.hero__pill-live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: #5a9c68;
+  animation: pill-live-pulse 2.2s ease-out infinite;
+}
+
+.dark .hero__pill-live-dot,
+.dark .hero__pill-live-dot::after {
+  background: #7fd192;
+}
+
+@keyframes pill-live-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
 }
 
 .dark .hero__pill {
@@ -298,10 +614,10 @@
   inset: 0;
   background: linear-gradient(
     115deg,
-    transparent 30%,
-    rgba(255, 255, 255, 0.65) 48%,
-    rgba(255, 255, 255, 0.65) 52%,
-    transparent 70%
+    transparent 44%,
+    rgba(255, 255, 255, 0.55) 49%,
+    rgba(255, 255, 255, 0.55) 51%,
+    transparent 56%
   );
   transform: translateX(-130%);
   pointer-events: none;
@@ -314,10 +630,10 @@
 .dark .hero__pill::after {
   background: linear-gradient(
     115deg,
-    transparent 30%,
-    rgba(220, 232, 214, 0.35) 48%,
-    rgba(220, 232, 214, 0.35) 52%,
-    transparent 70%
+    transparent 44%,
+    rgba(220, 232, 214, 0.3) 49%,
+    rgba(220, 232, 214, 0.3) 51%,
+    transparent 56%
   );
 }
 
@@ -400,6 +716,42 @@
   }
   .hero__portrait {
     width: 220px;
+  }
+}
+
+/* Wrapping "| Previously worked at [logo]" in one span (so it can be
+   hidden as a unit on mobile) pulled it out of .hero__meta's own flex
+   gap — without its own inline-flex + matching gap, the pipe/text/logo
+   inside it would bunch together with no spacing. Must stay ABOVE the
+   mobile media query below: same specificity, so whichever rule is later
+   in the file wins at mobile widths too — this has to lose that fight. */
+.hero__meta-previous {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px 6px;
+}
+
+/* Below phone width the portrait illustration competes too hard with the
+   headline/subhead for space — dropped entirely so the hero text gets the
+   full column instead of fighting a shrinking image for room. */
+@media (max-width: 640px) {
+  .hero__art {
+    display: none;
+  }
+  .hero__meta {
+    font-size: 13px;
+  }
+  .hero__meta-logo {
+    height: 16px;
+  }
+  .hero__meta-logo--adani {
+    height: 12px;
+  }
+  /* "Previously worked at Adani" dropped on mobile — keeps the meta line
+     to the one current-role fact instead of two company mentions
+     competing for a single narrow line. */
+  .hero__meta-previous {
+    display: none;
   }
 }
 
@@ -519,6 +871,12 @@
   gap: 40px;
 }
 
+.work-card__heading {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .work-card__title {
   font-family: var(--font-display);
   font-size: clamp(19px, 1.8vw, 23px);
@@ -529,31 +887,102 @@
 
 .work-card__stats {
   margin: 0;
+  align-items: center;
 }
 
-/* Neutral grays, not the theme's sage-tinted tokens — matches the exact
-   Figma values (#f8f8f8 / #d8d8d8 / #323232) for these specific chips. */
-.work-card__stats span {
+/* Standard site-wide pill (same values as .about-achievements__pill) —
+   the metric's own weight/hierarchy now comes from position (last, below
+   the headline) rather than a one-off heavier style. Shimmer sweep on
+   hover reuses the exact .hero__pill mechanism/keyframe for consistency. */
+.work-card__metric {
+  position: relative;
+  overflow: hidden;
   background: #f8f8f8;
   border: 1px solid #d8d8d8;
   border-radius: 10px;
   padding: 8px 16px;
   font-size: 14px;
   font-weight: 600;
+  font-variant-numeric: tabular-nums;
   color: #323232;
-  text-transform: none;
   letter-spacing: -0.28px;
 }
 
-.dark .work-card__stats span {
+.work-card__metric::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 44%,
+    rgba(255, 255, 255, 0.55) 49%,
+    rgba(255, 255, 255, 0.55) 51%,
+    transparent 56%
+  );
+  transform: translateX(-130%);
+  pointer-events: none;
+}
+
+.work-card__metric:hover::after {
+  animation: pill-shimmer 1.7s var(--ease-flow);
+}
+
+.dark .work-card__metric {
   background: rgba(255, 255, 255, 0.06);
   border-color: rgba(255, 255, 255, 0.16);
   color: rgba(255, 255, 255, 0.82);
 }
 
+.dark .work-card__metric::after {
+  background: linear-gradient(
+    115deg,
+    transparent 44%,
+    rgba(220, 232, 214, 0.3) 49%,
+    rgba(220, 232, 214, 0.3) 51%,
+    transparent 56%
+  );
+}
+
+/* Category leads the card (above the title) as quiet context — plain
+   no-pill label, Light weight per the type system. */
+.work-card__category {
+  display: block;
+  font-size: 12px;
+  font-weight: 300;
+  color: #8a8a8a;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.dark .work-card__category {
+  color: rgba(255, 255, 255, 0.5);
+}
+
 @media (max-width: 720px) {
   .work-grid {
     grid-template-columns: 1fr;
+  }
+  /* The fixed 40px card padding was eating too much of the available
+     mobile width, which combined with .tag-list's flex-wrap made the
+     three stat pills stack one-per-line instead of reading as a row. */
+  .work-card__link {
+    padding: 16px;
+    gap: 16px;
+  }
+  .work-card__stats {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding-bottom: 2px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .work-card__stats::-webkit-scrollbar {
+    display: none;
+  }
+  .work-card__metric {
+    flex-shrink: 0;
+    padding: 6px 12px;
+    font-size: 13px;
   }
 }
 
@@ -769,6 +1198,16 @@
   .footer__bottom {
     flex-direction: column;
     align-items: flex-start;
+  }
+  /* Shrink the legal copyright line so the social links (the part people
+     actually want to tap) read as the more prominent element on mobile. */
+  .footer__copyright {
+    font-size: 12px;
+    order: 2;
+  }
+  .footer__social {
+    font-size: 15px;
+    order: 1;
   }
 }
 

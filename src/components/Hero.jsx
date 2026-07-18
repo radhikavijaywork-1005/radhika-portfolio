@@ -1,12 +1,13 @@
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
 import { profile } from "../data/content";
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../context/ThemeContext";
 import heroSketch from "../assets/site/hero-sketch.png";
 import stageLogo from "../assets/site/stage-icon.png";
 import stageLogoWhite from "../assets/site/stage-icon-white.svg";
 import adaniLogo from "../assets/site/adani-wordmark.svg";
 import HeroDotWave from "./HeroDotWave";
+import SplitText from "./SplitText";
 
 const container = {
   hidden: {},
@@ -41,7 +42,7 @@ export default function Hero() {
 
   return (
     <section id="top" ref={heroRef} className="section hero">
-      <HeroDotWave className="hero__dotwave" />
+      <HeroDotWave className="hero__dotwave" dotOpacity={0.32} ambientAmplitude={0.5} />
 
       <div className="container hero__inner">
         <motion.div
@@ -51,27 +52,28 @@ export default function Hero() {
           animate="show"
         >
           <motion.span variants={item} className="hero__pill">
+            <span className="hero__pill-live" aria-hidden="true">
+              <span className="hero__pill-live-dot" />
+            </span>
             {profile.pillGreeting}
           </motion.span>
 
-          <motion.h1 variants={item} className="hero__title">
-            {profile.title}
-          </motion.h1>
+          <SplitText as="h1" className="hero__title" text={profile.title} delay={0.15} />
 
-          <motion.p variants={item} className="hero__subhead">
-            {profile.subhead}
-          </motion.p>
+          <SplitText as="p" className="hero__subhead" text={profile.subhead} delay={0.35} />
 
           <motion.p variants={item} className="hero__meta">
             {profile.currentCompany.note}{" "}
             <img src={stageLogoSrc} alt={profile.currentCompany.label} className="hero__meta-logo" />
-            {" | "}
-            {profile.previousCompany.note}{" "}
-            <img
-              src={adaniLogo}
-              alt={profile.previousCompany.label}
-              className="hero__meta-logo hero__meta-logo--adani"
-            />
+            <span className="hero__meta-previous">
+              {" | "}
+              {profile.previousCompany.note}{" "}
+              <img
+                src={adaniLogo}
+                alt={profile.previousCompany.label}
+                className="hero__meta-logo hero__meta-logo--adani"
+              />
+            </span>
           </motion.p>
         </motion.div>
 

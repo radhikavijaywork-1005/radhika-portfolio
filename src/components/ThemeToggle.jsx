@@ -1,20 +1,70 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useTheme } from "../hooks/useTheme";
+import { flushSync } from "react-dom";
+import { useTheme } from "../context/ThemeContext";
 import { useSoundContext } from "../context/SoundContext";
+
+// Adapted from Skiper UI's skiper26 theme-toggle pattern (view-transition
+// circle reveal), simplified to a single click-origin variant and wired to
+// this project's own useTheme hook instead of next-themes.
+const STYLE_ID = "theme-view-transition-styles";
+
+function injectCircleRevealStyles(x, y) {
+  const endRadius = Math.hypot(
+    Math.max(x, window.innerWidth - x),
+    Math.max(y, window.innerHeight - y)
+  );
+  let styleEl = document.getElementById(STYLE_ID);
+  if (!styleEl) {
+    styleEl = document.createElement("style");
+    styleEl.id = STYLE_ID;
+    document.head.appendChild(styleEl);
+  }
+  styleEl.textContent = `
+    /* Without this override, the browser's own default 0.25s group
+       crossfade/resize animation runs underneath our custom reveal at the
+       same time, fighting it — the wipe looked "not smooth" because two
+       different-duration, different-eased animations were layered. */
+    ::view-transition-group(root) {
+      animation-duration: 0.7s;
+      animation-timing-function: var(--ease-flow, cubic-bezier(0.22, 1, 0.36, 1));
+    }
+    ::view-transition-old(root) {
+      animation: none;
+      z-index: -1;
+    }
+    ::view-transition-new(root) {
+      animation: theme-toggle-reveal 0.7s var(--ease-flow, cubic-bezier(0.22, 1, 0.36, 1));
+    }
+    @keyframes theme-toggle-reveal {
+      from { clip-path: circle(0px at ${x}px ${y}px); }
+      to { clip-path: circle(${endRadius}px at ${x}px ${y}px); }
+    }
+  `;
+}
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
   const { playHover, playClick } = useSoundContext();
   const isDark = theme === "dark";
 
+  const handleClick = (e) => {
+    playClick();
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    if (!document.startViewTransition || reduceMotion) {
+      toggleTheme();
+      return;
+    }
+
+    injectCircleRevealStyles(e.clientX, e.clientY);
+    document.startViewTransition(() => flushSync(() => toggleTheme()));
+  };
+
   return (
     <button
       type="button"
       className="theme-toggle"
-      onClick={() => {
-        toggleTheme();
-        playClick();
-      }}
+      onClick={handleClick}
       onMouseEnter={playHover}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       aria-pressed={isDark}

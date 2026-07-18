@@ -50,15 +50,15 @@ export default function CustomCursor() {
     const onClickRipple = (e) => {
       const id = rippleId.current++;
       const point = e.touches?.[0] ?? e;
-      const droplets = Array.from({ length: 7 }, (_, i) => {
-        const angle = (i / 7) * Math.PI * 2 + Math.random() * 0.5;
-        const dist = 18 + Math.random() * 14;
+      const droplets = Array.from({ length: 10 }, (_, i) => {
+        const angle = (i / 10) * Math.PI * 2 + Math.random() * 0.5;
+        const dist = 28 + Math.random() * 22;
         return { dx: Math.cos(angle) * dist, dy: Math.sin(angle) * dist };
       });
       setRipples((r) => [...r, { id, x: point.clientX, y: point.clientY, droplets }]);
       setTimeout(() => {
         setRipples((r) => r.filter((ripple) => ripple.id !== id));
-      }, 500);
+      }, 650);
     };
     document.addEventListener("click", onClickRipple, true);
     return () => document.removeEventListener("click", onClickRipple, true);
@@ -132,9 +132,9 @@ export default function CustomCursor() {
           <span key={`pop-${r.id}`} className="click-pop" style={{ left: r.x, top: r.y }} aria-hidden="true">
             <motion.span
               className="click-pop__bubble"
-              initial={{ opacity: 0.9, scale: 0 }}
-              animate={{ opacity: 0, scale: 1.6 }}
-              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              initial={{ opacity: 1, scale: 0 }}
+              animate={{ opacity: 0, scale: 2.3 }}
+              transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
             />
             {r.droplets.map((d, i) => (
               <motion.span
@@ -142,7 +142,7 @@ export default function CustomCursor() {
                 className="click-pop__droplet"
                 initial={{ opacity: 1, x: 0, y: 0, scale: 1 }}
                 animate={{ opacity: 0, x: d.dx, y: d.dy, scale: 0.2 }}
-                transition={{ duration: 0.42, ease: [0.16, 1, 0.3, 1], delay: 0.03 }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: 0.03 }}
               />
             ))}
           </span>

@@ -26,3 +26,5 @@ dist-ssr
 # Claude Code tooling config (not project source)
 .agents
 .claude
+.vercel
+.env*

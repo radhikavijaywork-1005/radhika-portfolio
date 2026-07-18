@@ -13,7 +13,7 @@ const BUMP_RADIUS = 1.1;
 const BUMP_HEIGHT = 0.55;
 const MOUSE_LERP = 0.18;
 
-export default function HeroDotWave({ className }) {
+export default function HeroDotWave({ className, dotOpacity = 0.55, ambientAmplitude = 1 }) {
   const mountRef = useRef(null);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export default function HeroDotWave({ className }) {
       size: 0.017,
       sizeAttenuation: true,
       transparent: true,
-      opacity: 0.55,
+      opacity: dotOpacity,
       depthWrite: false,
     });
 
@@ -103,12 +103,20 @@ export default function HeroDotWave({ className }) {
     const resize = () => {
       const w = container.clientWidth;
       const h = container.clientHeight;
+      if (w === 0 || h === 0) return;
       renderer.setSize(w, h);
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
     };
     resize();
     window.addEventListener("resize", resize);
+    // The hero's own height can change after mount (staggered text reveal,
+    // async image load) without a window resize event ever firing — a
+    // ResizeObserver on the container itself keeps the canvas in sync with
+    // it directly, instead of the render surface freezing at its initial
+    // size and leaving a gap once the section grows taller.
+    const resizeObserver = new ResizeObserver(resize);
+    resizeObserver.observe(container);
 
     const themeObserver = new MutationObserver(() => {
       material.color.set(getColor());
@@ -133,7 +141,7 @@ export default function HeroDotWave({ className }) {
         const z = basePositions[i * 2 + 1];
         const n1 = noise(x * 0.6 + time * 6, z * 0.6 - time * 3);
         const n2 = noise(x * 1.4 - time * 4, z * 1.4 + time * 5) * 0.5;
-        let y = (n1 + n2 - 0.75) * 0.55;
+        let y = (n1 + n2 - 0.75) * 0.55 * ambientAmplitude;
 
         const dx = x - mouseWorld.x;
         const dz = z - mouseWorld.z;
@@ -154,6 +162,7 @@ export default function HeroDotWave({ className }) {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
       window.removeEventListener("pointermove", onPointerMove);
+      resizeObserver.disconnect();
       themeObserver.disconnect();
       geometry.dispose();
       material.dispose();

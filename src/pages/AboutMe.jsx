@@ -3,11 +3,12 @@ import { useEffect, useRef, useState } from "react";
 import Marquee from "../components/Marquee";
 import PhotoCarousel from "../components/PhotoCarousel";
 import { traits, bio, experience, achievements, galleryCaption, galleryCaptions, aboutQuote } from "../data/aboutContent";
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../context/ThemeContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import { useGradientSpotlight } from "../hooks/useGradientSpotlight";
+import SplitText from "../components/SplitText";
 import aboutPortrait from "../assets/site/about-portrait.png";
 import stageLogo from "../assets/site/experience/stage.svg";
-import stageLogoWhite from "../assets/site/stage-icon-white.svg";
 import adaniLogo from "../assets/site/experience/adani.svg";
 import partLogo from "../assets/site/experience/part.svg";
 import tdbLogo from "../assets/site/experience/tdb.svg";
@@ -59,10 +60,18 @@ const hoverImages = { stage: stageHoverPhoto, adani: adaniHoverPhoto, part: part
 // Auto-advances every 0.9s while hovered (paused during a manual drag) —
 // the strip is also a real scroll container, draggable with the mouse,
 // swipeable on touch, and scrollable with arrow keys once focused.
-function AchievementPhotoCycle({ images }) {
-  const [hovered, setHovered] = useState(false);
+// `hovered` is controlled by the parent card (not this component) so
+// hovering anywhere on the card — not just the photo strip itself — starts
+// the cycle.
+function AchievementPhotoCycle({ images, hovered }) {
   const [dragging, setDragging] = useState(false);
   const ref = useRef(null);
+  // Touch devices can't hover, so the cycle used to just sit still until
+  // the user thought to drag it — auto-cycling by default on touch means
+  // they see all the photos without needing to discover the drag gesture.
+  const [isTouch] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(hover: none)").matches
+  );
   // A ref mirrors `dragging` so onMouseMove reads it synchronously — the
   // state version can still be one render behind on the very next event
   // right after mousedown, which would silently drop the first move(s).
@@ -82,8 +91,10 @@ function AchievementPhotoCycle({ images }) {
     setDragging(false);
   };
 
+  const active = hovered || isTouch;
+
   useEffect(() => {
-    if (!hovered) {
+    if (!active) {
       ref.current?.scrollTo({ left: 0, behavior: "smooth" });
       return;
     }
@@ -96,7 +107,7 @@ function AchievementPhotoCycle({ images }) {
       el.scrollTo({ left: next * width, behavior: "smooth" });
     }, 900);
     return () => clearInterval(id);
-  }, [hovered, dragging, images.length]);
+  }, [active, dragging, images.length]);
 
   return (
     <div
@@ -105,19 +116,46 @@ function AchievementPhotoCycle({ images }) {
       tabIndex={0}
       role="group"
       aria-label="Photo gallery, scroll or drag to browse"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => {
-        setHovered(false);
-        stopDrag();
-      }}
+      onMouseLeave={stopDrag}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
       onMouseUp={stopDrag}
+      onTouchStart={() => setDragging(true)}
+      onTouchEnd={() => setDragging(false)}
     >
       {images.map((src, i) => (
         <img key={i} src={src} alt="" className="about-achievements__photo-frame" draggable={false} />
       ))}
     </div>
+  );
+}
+
+function AchievementCard({ item, i }) {
+  const spotlight = useGradientSpotlight();
+  const [hovered, setHovered] = useState(false);
+  return (
+    <Reveal
+      as="div"
+      className="about-achievements__card gradient-spotlight"
+      delay={i * 0.06}
+      innerRef={spotlight.ref}
+      onMouseEnter={() => setHovered(true)}
+      onMouseMove={spotlight.onMouseMove}
+      onMouseLeave={() => {
+        setHovered(false);
+        spotlight.onMouseLeave();
+      }}
+    >
+      <img className="about-achievements__pin" src={pinCorners} alt="" aria-hidden="true" />
+      <div className="about-achievements__photo">
+        <AchievementPhotoCycle images={achievementImages[item.title]} hovered={hovered} />
+      </div>
+      <div className="about-achievements__body">
+        <SplitText as="h3" className="about-achievements__title" text={item.title} amount={0.6} />
+        <p className="about-achievements__desc">{item.description}</p>
+        <span className="about-achievements__pill">{item.year}</span>
+      </div>
+    </Reveal>
   );
 }
 
@@ -140,16 +178,18 @@ const fadeUp = {
   },
 };
 
-function Reveal({ as = "div", className, children, delay = 0 }) {
+function Reveal({ as = "div", className, children, delay = 0, innerRef, ...rest }) {
   const Tag = motion[as];
   return (
     <Tag
+      ref={innerRef}
       className={className}
       variants={fadeUp}
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.25 }}
       transition={{ delay }}
+      {...rest}
     >
       {children}
     </Tag>
@@ -159,9 +199,13 @@ function Reveal({ as = "div", className, children, delay = 0 }) {
 function SectionHeading({ children }) {
   return (
     <div className="section-heading-group">
-      <Reveal as="h2" className="section-heading">
-        {children}
-      </Reveal>
+      {typeof children === "string" ? (
+        <SplitText as="h2" className="section-heading" text={children} />
+      ) : (
+        <Reveal as="h2" className="section-heading">
+          {children}
+        </Reveal>
+      )}
       <span className="section-heading-group__rule" aria-hidden="true" />
     </div>
   );
@@ -171,7 +215,11 @@ export default function AboutMe() {
   useDocumentTitle("About — Radhika Vijay");
   const [hoveredRole, setHoveredRole] = useState(null);
   const { theme } = useTheme();
-  const logos = { stage: theme === "dark" ? stageLogoWhite : stageLogo, adani: adaniLogo, part: partLogo, tdb: tdbLogo };
+  // Always the icon mark (experience/stage.svg), never the wordmark
+  // (stage-icon-white.svg) — that file was only ever meant for the dark
+  // hero, not this badge; swapping to it here showed "STAGE" text
+  // crammed into the circle instead of just the mark.
+  const logos = { stage: stageLogo, adani: adaniLogo, part: partLogo, tdb: tdbLogo };
 
   return (
     <main className="about">
@@ -221,7 +269,11 @@ export default function AboutMe() {
                 <div className="about-experience__marker">
                   <div className="about-experience__badge">
                     {role.logoKey ? (
-                      <img className="about-experience__logo" src={logos[role.logoKey]} alt="" />
+                      <img
+                        className={`about-experience__logo${role.logoKey === "part" ? " about-experience__logo--part" : ""}`}
+                        src={logos[role.logoKey]}
+                        alt=""
+                      />
                     ) : (
                       <span className="about-experience__initial">{role.company[0]}</span>
                     )}
@@ -267,17 +319,7 @@ export default function AboutMe() {
           <div className="about-achievements__frame">
             <div className="about-achievements">
               {achievements.map((item, i) => (
-                <Reveal as="div" className="about-achievements__card" key={item.title} delay={i * 0.06}>
-                  <img className="about-achievements__pin" src={pinCorners} alt="" aria-hidden="true" />
-                  <div className="about-achievements__photo">
-                    <AchievementPhotoCycle images={achievementImages[item.title]} />
-                  </div>
-                  <div className="about-achievements__body">
-                    <h3 className="about-achievements__title">{item.title}</h3>
-                    <p className="about-achievements__desc">{item.description}</p>
-                    <span className="about-achievements__pill">{item.year}</span>
-                  </div>
-                </Reveal>
+                <AchievementCard key={item.title} item={item} i={i} />
               ))}
             </div>
           </div>

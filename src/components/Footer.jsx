@@ -17,7 +17,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="container">
         <div className="footer__bottom">
-          <span>
+          <span className="footer__copyright">
             © {year} {profile.name}. Designed with intent &amp; vibe coded with Claude
           </span>
           <div className="footer__social">

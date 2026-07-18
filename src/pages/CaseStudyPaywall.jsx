@@ -5,7 +5,7 @@ import { paywallCaseStudy as cs } from "../data/caseStudyPaywall";
 import { work } from "../data/content";
 import CaseStudyNav from "./CaseStudyNav";
 import { useSoundContext } from "../context/SoundContext";
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "../context/ThemeContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import stageLogo from "../assets/site/stage-icon.png";
 import stageLogoWhite from "../assets/site/stage-icon-white.svg";
@@ -102,6 +102,13 @@ export default function CaseStudyPaywall() {
   useDocumentTitle("STAGE Paywall Experiments — Radhika Vijay");
   const nextCaseStudy = getNextCaseStudy();
   const [nextHovered, setNextHovered] = useState(false);
+  // Touch devices never fire hover, so the preview card (previously gated
+  // entirely behind onMouseEnter) just never appeared — showing it by
+  // default here matches how the rest of the site treats hover-only
+  // enhancements as optional polish, not the only way to see the content.
+  const [isTouch] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(hover: none)").matches
+  );
   const { playHover, playClick } = useSoundContext();
   const variantDrag = useDragScroll();
   const { theme } = useTheme();
@@ -526,7 +533,7 @@ export default function CaseStudyPaywall() {
                 </svg>
               </a>
               <AnimatePresence>
-                {nextHovered && (
+                {(nextHovered || isTouch) && (
                   <motion.div
                     className="cs-next__preview"
                     aria-hidden="true"

@@ -97,6 +97,14 @@
   max-width: 56ch;
 }
 
+@media (max-width: 640px) {
+  .about-chapter__lead,
+  .about-chapter__body {
+    font-size: 16px;
+    line-height: 28px;
+  }
+}
+
 .dark .about-chapter__body {
   color: var(--ink);
 }
@@ -233,6 +241,14 @@
   object-fit: contain;
 }
 
+/* P'ART's mark is solid near-black artwork (#2b2b2b) with no light
+   variant — invisible against the dark badge background in dark mode.
+   invert(1) flips it to a light gray, brightness pulls it back from pure
+   white so it reads as a mark, not a glow. */
+.dark .about-experience__logo--part {
+  filter: invert(1) brightness(0.85);
+}
+
 .about-experience__initial {
   font-family: var(--font-display);
   font-size: 18px;
@@ -331,6 +347,30 @@
   .about-experience__preview {
     display: none;
   }
+
+  /* Company + role used to sit in one flex row with wrap:wrap — whether
+     the role text fell onto its own second line depended entirely on how
+     long that particular row's company name was, so some rows wrapped and
+     some didn't. Stacking unconditionally on mobile makes every row look
+     the same regardless of content length. */
+  .about-experience__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .about-experience__company {
+    font-size: 17px;
+  }
+
+  .about-experience__role {
+    font-size: 15px;
+    white-space: normal;
+  }
+
+  .about-experience__row {
+    gap: 14px;
+  }
 }
 
 /* ---------- Achievements ---------- */
@@ -379,11 +419,21 @@
   border: 0.5px solid #8a8a8a;
   border-radius: 24px;
   background: #fffffb;
+  transition: transform 0.3s var(--ease-flow), box-shadow 0.3s var(--ease-flow);
+}
+
+.about-achievements__card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 36px -18px rgba(26, 53, 45, 0.28);
 }
 
 .dark .about-achievements__card {
   background: var(--card);
   border-color: var(--line-strong);
+}
+
+.dark .about-achievements__card:hover {
+  box-shadow: 0 20px 36px -18px rgba(0, 0, 0, 0.5);
 }
 
 .about-achievements__pin {
@@ -614,7 +664,7 @@
   top: 50%;
   width: clamp(150px, 16vw, 200px);
   aspect-ratio: 10 / 13;
-  border-radius: 16px;
+  border-radius: 12px;
   overflow: hidden;
   border: none;
   padding: 0;
@@ -701,5 +751,14 @@
 @media (prefers-reduced-motion: reduce) {
   .about-quote__doodle {
     animation: none;
+  }
+}
+
+/* Matches the homepage quote doodle's mobile treatment (App.css
+   .quote-doodle-gif) — hidden below 640px so both pages behave the same
+   on mobile instead of About being the only one still floating/animating. */
+@media (max-width: 640px) {
+  .about-quote__doodle {
+    display: none;
   }
 }
