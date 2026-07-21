@@ -29,6 +29,19 @@
   --cursor-border: rgba(28, 58, 31, 0.3);
   --cursor-blend: multiply;
 
+  /* A separate neutral (non-warm) grayscale for dense content text — About
+     page body copy, Selected Work stat pills, and the paywall case study
+     all independently landed on this same true-gray family rather than
+     --ink/--ink-soft (which are warm-tinted and tuned for chrome: nav,
+     headings, hero copy). The case study had already formalized it as its
+     own local --cs-* tokens; these are the same values promoted to global
+     so About and Work don't have to keep re-hardcoding the same hex. */
+  --gray-ink: #1a1a1a;
+  --gray-body: #323232;
+  --gray-soft: #464646;
+  --gray-muted: #8a8a8a;
+  --gray-line: #d8d8d8;
+
   --font-display: "Fraunces", "Noto Sans Devanagari", serif;
   --font-body: "DM Sans", "Noto Sans Devanagari", sans-serif;
   --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
@@ -148,6 +161,12 @@
   --cursor-fill: rgba(220, 232, 214, 0.18);
   --cursor-border: rgba(220, 232, 214, 0.35);
   --cursor-blend: screen;
+
+  --gray-ink: #eef2e9;
+  --gray-body: #cfcabe;
+  --gray-soft: #b0ab9e;
+  --gray-muted: #93938d;
+  --gray-line: rgba(220, 232, 214, 0.32);
   color-scheme: dark;
 }
 

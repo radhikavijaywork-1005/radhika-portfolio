@@ -23,10 +23,14 @@ const FRAGMENT_SHADER = `
   void main() {
     vec2 uv = vUv;
     float dist = distance(uv, uMouse);
-    float radius = 0.3;
-    float strength = smoothstep(radius, 0.0, dist) * uHover * 0.05;
+    // Bigger radius + roughly double the old strength (0.05 -> 0.11) —
+    // the shine highlight is gone, so the ripple is the only cursor
+    // feedback left and needs to carry more of the effect on its own.
+    float radius = 0.38;
+    float strength = smoothstep(radius, 0.0, dist) * uHover * 0.11;
     vec2 dir = uv - uMouse;
     uv += dir * strength;
+
     gl_FragColor = texture2D(uTexture, uv);
   }
 `;

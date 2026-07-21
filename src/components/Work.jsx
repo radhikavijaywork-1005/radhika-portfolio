@@ -4,12 +4,18 @@ import { work } from "../data/content";
 import { useSoundContext } from "../context/SoundContext";
 import { useTiltEffect } from "../hooks/useTiltEffect";
 
+// Was 0.55s duration + 0.07s/card stagger, triggered at 25% visible — on
+// a grid with several cards that's a wide enough window (worst case
+// ~0.9s+ for the last card) that scrolling into the section shows some
+// cards settled and others still mid-slide, reading as "half loaded"
+// rather than a deliberate reveal. Faster + starts sooner (10% visible)
+// so the grid resolves before it's actually being looked at.
 const card = {
   hidden: { opacity: 0, transform: "translateY(20px)" },
   show: {
     opacity: 1,
     transform: "translateY(0px)",
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
@@ -37,8 +43,8 @@ function WorkCard({ item, i }) {
       variants={card}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ delay: i * 0.07 }}
+      viewport={{ once: true, amount: 0.1 }}
+      transition={{ delay: i * 0.04 }}
     >
       <Wrapper
         className="work-card__link tilt-card"

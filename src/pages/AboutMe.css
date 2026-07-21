@@ -156,7 +156,7 @@
   font-weight: 300;
   font-size: 18px;
   line-height: 32px;
-  color: #1a1a1a;
+  color: var(--gray-ink);
   max-width: 56ch;
 }
 
@@ -169,7 +169,7 @@
 }
 
 .dark .about-chapter__body {
-  color: var(--ink);
+  color: var(--gray-ink);
 }
 
 .about-chapter__body strong {
@@ -449,8 +449,12 @@
 .about-achievements__frame {
   margin-top: clamp(28px, 4vw, 44px);
   padding: 40px;
-  border: 0.5px solid #d8d8d8;
+  border: 0.5px solid var(--line-strong);
   border-radius: 24px;
+  /* Not var(--cream-deep) — that's what .about-achievements__card sits at
+     (via var(--card), effectively the same near-white tier), so the frame
+     needs to stay a visibly deeper tan than the card floating on top of
+     it, not the closest-matching token. */
   background-color: #efe6d2;
   background-image: url("../assets/site/achievements/pattern-final.png");
   background-repeat: no-repeat;
@@ -488,22 +492,22 @@
   flex-direction: column;
   gap: 24px;
   padding: 40px;
-  border: 0.5px solid #8a8a8a;
+  border: 0.5px solid var(--line-strong);
   border-radius: 24px;
-  background: #fffffb;
+  background: var(--card);
   transform: translateY(var(--card-lift, 0px)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
   transform-style: preserve-3d;
-  transition: transform 0.15s ease-out, box-shadow 0.3s var(--ease-flow);
+  transition: transform 0.15s ease-out, box-shadow 0.3s var(--ease-flow),
+    background-color 0.3s var(--ease-flow);
 }
 
+/* Same lift + shadow + background shift as .work-card__link:hover — was
+   missing the background-color change, so hover read as "lifting" but
+   never actually changed tone the way Selected Work cards do. */
 .about-achievements__card:hover {
   --card-lift: -8px;
   box-shadow: 0 32px 48px -20px rgba(26, 53, 45, 0.35);
-}
-
-.dark .about-achievements__card {
-  background: var(--card);
-  border-color: var(--line-strong);
+  background: var(--card-hover);
 }
 
 .dark .about-achievements__card:hover {
@@ -526,12 +530,21 @@
   overflow: hidden;
 }
 
+/* overscroll-behavior-x: contain — without it, a vertical mouse-wheel
+   gesture with the cursor over this carousel gets captured by the
+   scroll-snap container and never chains up to the page scroll, even
+   though overflow-y: hidden means this element itself can't move
+   vertically at all. A known Chromium/Safari quirk with snap containers;
+   this is the documented fix. Page scroll froze right at this element on
+   fresh loads before this was added — keyboard scroll worked because it
+   doesn't route through wheel handling the same way. */
 .about-achievements__photo-cycle {
   display: flex;
   width: 100%;
   height: 100%;
   overflow-x: auto;
   overflow-y: hidden;
+  overscroll-behavior-x: contain;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
   -ms-overflow-style: none;
@@ -572,11 +585,11 @@
   font-weight: 600;
   letter-spacing: -0.24px;
   line-height: 40.712px;
-  color: #1a1a1a;
+  color: var(--gray-ink);
 }
 
 .dark .about-achievements__title {
-  color: var(--ink);
+  color: var(--gray-ink);
 }
 
 .about-achievements__desc {
@@ -586,32 +599,36 @@
   font-size: 18px;
   line-height: 32px;
   letter-spacing: -0.18px;
-  color: #323232;
+  color: var(--gray-body);
 }
 
 .dark .about-achievements__desc {
-  color: var(--ink-soft);
+  color: var(--gray-body);
 }
 
+/* Same values as .work-card__metric — a translucent forest wash rather
+   than a flat near-white, so the pill stays visually distinct from
+   .about-achievements__card's own var(--card) background sitting right
+   behind it instead of blending into it. */
 .about-achievements__pill {
   display: inline-block;
   align-self: flex-start;
   margin-top: 16px;
-  background: #f8f8f8;
-  border: 1px solid #d8d8d8;
+  background: rgba(28, 58, 31, 0.045);
+  border: 1px solid var(--line-strong);
   border-radius: 10px;
   padding: 8px 16px;
   font-size: 14px;
   line-height: 20px;
   letter-spacing: -0.28px;
   font-weight: 600;
-  color: #323232;
+  color: var(--gray-body);
 }
 
 .dark .about-achievements__pill {
   background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(255, 255, 255, 0.16);
-  color: rgba(255, 255, 255, 0.82);
+  border-color: var(--line-strong);
+  color: var(--gray-ink);
 }
 
 @media (max-width: 640px) {
@@ -652,14 +669,14 @@
   font-weight: 300;
   font-size: 18px;
   line-height: 32px;
-  color: #1a1a1a;
+  color: var(--gray-ink);
   max-width: 62ch;
   margin-top: 16px;
   margin-bottom: 36px;
 }
 
 .dark .about-gallery__caption {
-  color: var(--ink);
+  color: var(--gray-ink);
 }
 
 .about-gallery__caption strong {
@@ -813,10 +830,14 @@
   min-width: 0;
 }
 
+/* Matches App.css's .quote-doodle-gif sizing/offset fix exactly — same
+   issue here (was oversized relative to the settled text block, reading
+   as floating below-center rather than paired with the quote). */
 .about-quote__doodle {
-  width: clamp(160px, 16vw, 252px);
+  width: clamp(110px, 10vw, 176px);
   height: auto;
   flex-shrink: 0;
+  margin-top: -10px;
   pointer-events: none;
   mix-blend-mode: multiply;
   animation: doodle-float 4.5s ease-in-out infinite;

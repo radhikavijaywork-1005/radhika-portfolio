@@ -23,6 +23,8 @@ import PreviewHeroOrganic from "./pages/PreviewHeroOrganic";
 import PreviewPortraitMotion from "./pages/PreviewPortraitMotion";
 import PreviewHeroPortraitMotion from "./pages/PreviewHeroPortraitMotion";
 import PreviewDotPortrait from "./pages/PreviewDotPortrait";
+import NotFound from "./pages/NotFound";
+import WorkPage from "./pages/WorkPage";
 import { skills } from "./data/content";
 
 function Home() {
@@ -67,6 +69,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<AboutMe />} />
+        <Route path="/work" element={<WorkPage />} />
         <Route path="/work/paywall-experiments" element={<CaseStudyPaywall />} />
         <Route path="/preview/motion" element={<PreviewMotion />} />
         <Route path="/preview/futuristic" element={<PreviewFuturistic />} />
@@ -81,6 +84,10 @@ function App() {
         <Route path="/preview/portrait-motion" element={<PreviewPortraitMotion />} />
         <Route path="/preview/hero-portrait-motion" element={<PreviewHeroPortraitMotion />} />
         <Route path="/preview/dot-portrait" element={<PreviewDotPortrait />} />
+        {/* Any other unmatched URL — without this, <Routes> matched
+            nothing and rendered blank between the nav and footer instead
+            of an actual 404. */}
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {!isPreview && <Footer />}
     </>

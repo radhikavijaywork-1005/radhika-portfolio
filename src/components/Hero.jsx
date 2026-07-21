@@ -15,28 +15,34 @@ import { useTiltEffect } from "../hooks/useTiltEffect";
 // Same mouse-tracked tilt + liquid ripple as the About portrait — a plain
 // sibling of the entrance-fade motion.div (not the animated element
 // itself), so its own CSS transform isn't fought by Framer's inline style.
-// Light and dark illustrations are two stacked layers cross-fading on
-// theme toggle, rather than swapping the <img> src outright — a src swap
-// would pop instantly; opacity-transitioning both layers together reads
-// as a smooth dissolve between them.
+//
+// One PortraitLiquid instance, not two crossfading layers. It used to be
+// light/dark stacked as separate WebGL contexts, permanently rendering,
+// crossfaded via CSS opacity for a smooth theme-toggle dissolve. But that
+// meant landing on the homepage created THREE WebGL contexts at once
+// (this component's two, plus HeroDotWave's) in a single tick — expensive
+// enough to jank the main thread and show as a whole-screen white flash
+// during navigation. Trading the smooth dissolve for a harder cut on
+// theme toggle (now just an image-source swap) in exchange for the page
+// itself not flashing white on arrival.
 function HeroPortraitTilt({ lightSrc, darkSrc, alt }) {
-  const tilt = useTiltEffect(16);
+  const tilt = useTiltEffect(20);
   const { theme } = useTheme();
-  const isDark = theme === "dark";
+  const src = theme === "dark" ? darkSrc : lightSrc;
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}>
+    <motion.div
+      className="hero-portrait-tilt-wrap"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div
         className="hero-portrait-tilt"
         ref={tilt.ref}
         onMouseMove={tilt.onMouseMove}
         onMouseLeave={tilt.onMouseLeave}
       >
-        <div className={`hero-portrait-tilt__layer ${isDark ? "" : "is-active"}`}>
-          <PortraitLiquid src={lightSrc} alt={alt} ariaHidden={isDark} className="hero-portrait-tilt__canvas" />
-        </div>
-        <div className={`hero-portrait-tilt__layer ${isDark ? "is-active" : ""}`}>
-          <PortraitLiquid src={darkSrc} alt={alt} ariaHidden={!isDark} className="hero-portrait-tilt__canvas" />
-        </div>
+        <PortraitLiquid src={src} alt={alt} className="hero-portrait-tilt__canvas" />
       </div>
     </motion.div>
   );

@@ -8,13 +8,18 @@ import { useEffect, useRef } from "react";
 // data instead of a random radial distribution. Once settled, dots idle
 // with a faint sway and nudge gently away from the cursor. Respects
 // prefers-reduced-motion by rendering the assembled portrait immediately.
-const STEP = 3;
-const DARK_THRESHOLD = 150;
-const MAX_POINTS = 1400;
-const SAMPLE_WIDTH = 480;
+const STEP = 1;
+const DARK_THRESHOLD = 130;
+const MAX_POINTS = 5000;
+const SAMPLE_WIDTH = 800;
 
+// --forest-soft (not --sage-deep) — it's the token that's deliberately
+// kept visible against the page background in both themes (same one
+// HeroPortraitDots/HeroDotWave use). --sage-deep is dark in both light
+// AND dark mode, so the assembled portrait would nearly disappear
+// against the dark background once the theme toggles.
 function getColor() {
-  return getComputedStyle(document.documentElement).getPropertyValue("--sage-deep").trim() || "#92a693";
+  return getComputedStyle(document.documentElement).getPropertyValue("--forest-soft").trim() || "#3d5850";
 }
 
 function hexToRgb(hex) {
@@ -77,12 +82,18 @@ function samplePoints(img) {
       ty: p.y,
       sx: 0.5 + Math.cos(angle) * scatterR,
       sy: 0.5 + Math.sin(angle) * scatterR,
-      r: 0.6 + p.weight * 0.7,
-      baseOpacity: 0.38 + p.weight * 0.4,
+      // Small dots at high density read as fine linework once assembled;
+      // large dots at lower density read as a coarse blob no matter how
+      // sharp the sampling is — the size has to come down for the shape
+      // to resolve as a specific portrait rather than a dot pattern.
+      // Weight is still raised to a power (not linear) so real strokes —
+      // eyes, jaw, hairline — come through denser/heavier than fill areas.
+      r: 0.22 + Math.pow(p.weight, 1.3) * 0.55,
+      baseOpacity: 0.35 + Math.pow(p.weight, 1.2) * 0.55,
       delay: Math.random() * 500,
       duration: 700 + Math.random() * 500,
       phase: Math.random() * Math.PI * 2,
-      swayAmp: 0.0015 + Math.random() * 0.002,
+      swayAmp: 0.0035 + Math.random() * 0.004,
     };
   });
 }
@@ -177,12 +188,20 @@ export default function DotPortrait({ src, alt, className }) {
           let py = p.sy + (p.ty - p.sy) * eased;
           const opacity = p.baseOpacity * eased;
 
-          if (t >= 1) {
-            p.phase += 0.0008 * 16;
+          if (t >= 1 && !reducedMotion) {
+            p.phase += 0.0016 * 16;
             px += Math.sin(p.phase) * p.swayAmp;
             py += Math.cos(p.phase * 0.8) * p.swayAmp;
 
-            if (pointer.has && !reducedMotion) {
+            // Whole-portrait breathing: every settled point drifts in and
+            // out from center together on a slow shared cycle, so the
+            // piece keeps reading as one continuously-alive illustration
+            // rather than relying on each dot's own tiny independent sway.
+            const breathe = 1 + Math.sin(ts * 0.00055) * 0.012;
+            px = 0.5 + (px - 0.5) * breathe;
+            py = 0.5 + (py - 0.5) * breathe;
+
+            if (pointer.has) {
               const dx = px - pointer.x;
               const dy = py - pointer.y;
               const d2 = dx * dx + dy * dy;
