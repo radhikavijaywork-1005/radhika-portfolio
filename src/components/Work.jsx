@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { work } from "../data/content";
 import { useSoundContext } from "../context/SoundContext";
 import { useTiltEffect } from "../hooks/useTiltEffect";
+import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 
 // Was 0.55s duration + 0.07s/card stagger, triggered at 25% visible — on
 // a grid with several cards that's a wide enough window (worst case
@@ -19,9 +20,20 @@ const card = {
   },
 };
 
+// Splits "+250% increase" into { value: "+250%", label: "increase" } so the
+// number can get its own stat-callout treatment instead of sitting inside a
+// tag pill — metrics are the actual evidence of impact, not metadata, so
+// they get sized/weighted like a real statistic (large serif number, small
+// caps label) rather than reading as just another pill on the card.
+function splitMetric(str) {
+  const match = str.match(/^([+~]?\d[\d.]*[%A-Za-z/]*)\s+(.*)$/);
+  return match ? { value: match[1], label: match[2] } : { value: str, label: "" };
+}
+
 function WorkCard({ item, i }) {
   const { playHover, playClick } = useSoundContext();
   const tilt = useTiltEffect();
+  const { ref: revealRef, revealed } = useRevealOnScroll(0.1);
   const disabled = !item.href;
   const isInternal = !disabled && item.href.startsWith("/");
   const Wrapper = disabled ? "div" : isInternal ? Link : "a";
@@ -39,11 +51,11 @@ function WorkCard({ item, i }) {
 
   return (
     <motion.div
+      ref={revealRef}
       className="work-card"
       variants={card}
       initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.1 }}
+      animate={revealed ? "show" : "hidden"}
       transition={{ delay: i * 0.04 }}
     >
       <Wrapper
@@ -73,12 +85,17 @@ function WorkCard({ item, i }) {
           </div>
         </div>
 
-        <div className="tag-list work-card__stats">
-          {item.metrics.map((metric) => (
-            <span className="work-card__metric" key={metric}>
-              {metric}
-            </span>
-          ))}
+        <div className="work-card__stats work-card__stats--callout">
+          {item.metrics.map((metric, idx) => {
+            const { value, label } = splitMetric(metric);
+            return (
+              <div className="work-card__stat" key={metric}>
+                {idx > 0 && <span className="work-card__stat-divider" aria-hidden="true" />}
+                <span className="work-card__stat-value">{value}</span>
+                <span className="work-card__stat-label">{label}</span>
+              </div>
+            );
+          })}
         </div>
       </Wrapper>
     </motion.div>

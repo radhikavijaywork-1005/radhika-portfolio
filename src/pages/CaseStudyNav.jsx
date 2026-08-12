@@ -1,7 +1,7 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useSoundContext } from "../context/SoundContext";
 
-const sections = [
+const defaultSections = [
   { id: "summary", label: "Summary" },
   { id: "problem", label: "Problem" },
   { id: "design-work", label: "Design work" },
@@ -11,31 +11,59 @@ const sections = [
   { id: "reflection", label: "Reflection" },
 ];
 
-export default function CaseStudyNav() {
-  const [active, setActive] = useState("summary");
-  const ratios = useRef({});
+// How far from the top of the viewport a section's top edge has to cross
+// before it counts as "reached" — matches the sticky nav's own `top: 120px`
+// offset (see .cs-page-nav in CaseStudyPaywall.css) plus a little slack.
+const ACTIVATION_LINE = 130;
+
+export default function CaseStudyNav({ sections = defaultSections }) {
+  const [active, setActive] = useState(sections[0]?.id);
   const { playHover, playClick } = useSoundContext();
 
+  // Previously used an IntersectionObserver comparing intersection ratios,
+  // which had two real failure modes: ties between simultaneously-visible
+  // short sections resolved arbitrarily, and fast scrolls could leave a
+  // section's stored ratio stale instead of correctly zeroed once it exited
+  // view — both left the highlight stuck on a section long since scrolled
+  // past. This is the standard, more robust scrollspy approach instead:
+  // on every scroll, walk the sections in document order and take the last
+  // one whose top edge has crossed the activation line — i.e. "the section
+  // I've most recently scrolled to." No ratios, no thresholds, no ties.
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          ratios.current[entry.target.id] = entry.isIntersecting
-            ? entry.intersectionRatio
-            : 0;
-        });
-        const top = Object.entries(ratios.current).sort((a, b) => b[1] - a[1])[0];
-        if (top && top[1] > 0) setActive(top[0]);
-      },
-      { threshold: [0, 0.15, 0.3, 0.5, 0.75, 1], rootMargin: "-120px 0px -50% 0px" }
-    );
+    const updateActive = () => {
+      // At the very bottom of the page, the last section's top edge may
+      // never reach the activation line if there isn't enough remaining
+      // page (e.g. a short footer) to scroll it that far — a known gap in
+      // this style of scrollspy. Force the last section active once the
+      // viewport has hit the bottom of the document, rather than leaving
+      // the second-to-last one stuck highlighted.
+      const atBottom =
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 2;
+      if (atBottom && sections.length > 0) {
+        setActive(sections[sections.length - 1].id);
+        return;
+      }
 
-    sections.forEach((s) => {
-      const el = document.getElementById(s.id);
-      if (el) observer.observe(el);
-    });
+      let current = sections[0]?.id;
+      for (const s of sections) {
+        const el = document.getElementById(s.id);
+        if (!el) continue;
+        if (el.getBoundingClientRect().top <= ACTIVATION_LINE) {
+          current = s.id;
+        } else {
+          break;
+        }
+      }
+      setActive(current);
+    };
 
-    return () => observer.disconnect();
+    updateActive();
+    window.addEventListener("scroll", updateActive, { passive: true });
+    window.addEventListener("resize", updateActive);
+    return () => {
+      window.removeEventListener("scroll", updateActive);
+      window.removeEventListener("resize", updateActive);
+    };
   }, []);
 
   const onClick = (e, id) => {

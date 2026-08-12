@@ -1,6 +1,60 @@
-# Session progress notes (updated 2026-07-19)
+# Session progress notes (updated 2026-08-07)
 
 For picking up in a fresh conversation. Read this first, then check the specific files mentioned.
+
+## Backlog — 2026-08-07 (from user's own list, not yet started unless noted)
+
+Compiled from a single brain-dump message — organized here, nothing built yet except where marked. Deploy status of everything referenced elsewhere in this file (theme fix, mobile pass, SEO, etc.) is unaffected — this section is purely additive.
+
+### Bug to fix first — regression from the scroll-reveal fix (this session, 2026-08-07)
+- On the About page's Experience section, company names now load in **staggered/late**, one at a time, instead of the whole line appearing together at once. User's words: "dont compromise on experience." This is almost certainly the new `useRevealOnScroll` hook (`src/hooks/useRevealOnScroll.js`) replacing `whileInView` — likely the per-item `Reveal` wrapping in the Experience row is now individually staggering each child (company name, role, logo) via separate hook instances where the old `whileInView`/`variants` stagger config animated them as one group. Needs investigation of `AboutMe.jsx`'s Experience section markup before touching anything — check whether each field has its own `Reveal`/hook call vs. one wrapping the whole row.
+
+### Character & identity — the big theme of this list
+User's framing: the site is missing "character and depth," and the live/interactive touches that make Santa's and Zainab's portfolios (see chat for full breakdown) feel like *them* specifically, not just well-designed.
+- Live interactive elements generally (see Santa/Zainab references discussed earlier this session — wave section dividers, playable widgets, illustrated living scenes)
+- Background texture (paper-grain, discussed earlier — not yet implemented)
+- Natural/organic interactive elements (fits existing nature-adjacent brand direction)
+- Someday: a short video of herself introducing herself
+- Audio description (accessibility narration, or possibly an audio-guided intro — ambiguous, clarify with user before building)
+- Music (ambient/background audio — clarify scope: always-on, opt-in, tied to a specific section?)
+- Footer game (small interactive easter egg in the footer)
+- "Ask me" chatbot (an AI chat interface for visitors to ask about her work/experience)
+
+### Missing sections
+- **Stack section** — the tools/tech she works with, not currently on the site
+- **Writings section** — not currently on the site (separate from AI Playground)
+- **AI Playground section** — already in progress (Aves built, gated behind a 3-experiment minimum before shipping) — user will send a separate list of ideas researched from other portfolios next
+
+### Work/experience cards
+- Better card design overall (Selected Work grid on Home)
+- Phone mockups need improvement
+- Better background graphic treatment for case study cards
+- Better heading treatment
+- Missing: a 1-line description under each item in the About page's Experience section
+
+### About page
+- Shorten the About section's description copy (currently too long)
+
+### Case studies
+- **Trip Assurance** — page is built but not live-linked from Work grid yet (Adani One card currently points to an external Figma prototype instead) — needs sign-off before going live
+- **"Reducing Booking Failures: Post Payment Flow"** (Trainman) — no real case study page exists yet at all, currently just links to an external Figma prototype
+- Both of the above should get: an in-site presentation mode, **and** a CTA inside the case study that deep-links to the matching Figma presentation-mode file
+- **TVOD case study** — not written yet, needs to be authored from scratch
+- Structural ask: all case studies should be broken into consistent sections the way the "website character" and "Selected work" sections are organized — i.e., apply one consistent sectioning pattern across every case study rather than ad hoc structure per page
+
+### AI Playground — reference research (2026-08-07)
+
+User's own references, checked directly:
+- **Gesture Dueling** ([ashukaur.netlify.app/playground/gesture-dueling](https://ashukaur.netlify.app/playground/gesture-dueling/)) — rock-paper-scissors-plus-heal played via real-time webcam hand-gesture tracking against an AI "wizard" opponent (HP/duel framing, retro pixel-arcade UI). Hold a gesture 0.5s to lock in.
+- **Air Draw** (seen twice, independently built — [air-draw-steel.vercel.app](https://air-draw-steel.vercel.app/) and [swetadevnani.com/playground/air-draw](https://www.swetadevnani.com/playground/air-draw)) — point index finger to draw in space, open-palm sweep to erase, pinch to grab/reposition, closed fist = idle. Both are the same core pattern (real-time hand-landmark tracking, e.g. MediaPipe Hands), fully client-side, no backend.
+- Ben Shih (`benshih.design/fun`) and Sara Khalil (`wallofportfolios.in/portfolios/sara-khalil`) — already explored earlier this session, see chat history for the card-grid + lightweight-modal pattern notes.
+
+**Why these two specifically are strong candidates**: both are genuinely buildable in a weekend (one hand-tracking library + game/canvas logic, no server), both are visually memorable/shareable (the kind of thing that gets screenshotted), and both demonstrate real technical execution with AI/ML in the browser — not just a wrapper around a chat API. This fits the stated goal ("meaningful, easy to execute, shows product thinking and working capacity with AI") better than a pure data-viz toy would.
+
+**Already in progress, don't duplicate**: user is separately building a "research companion" browser extension and the pixel-character desktop reminder app (see this session's build brief in `/Users/radhikavijay/Downloads/MY_CHARACTER/BUILD_BRIEF.md`) — neither of these is a portfolio Playground entry, both are their own standalone projects.
+
+### Explicitly not started — waiting on user
+- Final decision on which 2 Playground experiments to actually build (Aves is #1 of 3 needed) — gesture-dueling-style game and/or an air-draw-style canvas are the strongest candidates from research so far, pending user's choice
 
 ## Live site & deployment
 

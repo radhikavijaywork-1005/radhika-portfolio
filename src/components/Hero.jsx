@@ -1,7 +1,9 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { useRef, useState } from "react";
 import { profile } from "../data/content";
 import { useTheme } from "../context/ThemeContext";
+import { useSoundContext } from "../context/SoundContext";
+import { useSmoothNavigate } from "../hooks/useSmoothNavigate";
 import heroLineColorLight from "../assets/site/hero-line-color.png";
 import heroLineColorDark from "../assets/site/hero-line-color-dark.png";
 import stageLogo from "../assets/site/stage-icon.png";
@@ -29,21 +31,76 @@ function HeroPortraitTilt({ lightSrc, darkSrc, alt }) {
   const tilt = useTiltEffect(20);
   const { theme } = useTheme();
   const src = theme === "dark" ? darkSrc : lightSrc;
+  const [isHovered, setIsHovered] = useState(false);
+  const { playHover, playClick } = useSoundContext();
+  const smoothNavigate = useSmoothNavigate();
+
+  const onLeave = () => {
+    tilt.onMouseLeave();
+    setIsHovered(false);
+  };
+
   return (
     <motion.div
       className="hero-portrait-tilt-wrap"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      // Hover tracking lives on the wrap, not the inner tilt element — the
+      // CTA pill below is a sibling positioned at the wrap's bottom edge,
+      // so moving the cursor from the portrait onto the pill was exiting
+      // .hero-portrait-tilt's bounds first and hiding the pill before it
+      // could be clicked. The wrap's box contains both, so it doesn't.
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={onLeave}
     >
       <div
         className="hero-portrait-tilt"
         ref={tilt.ref}
         onMouseMove={tilt.onMouseMove}
-        onMouseLeave={tilt.onMouseLeave}
       >
         <PortraitLiquid src={src} alt={alt} className="hero-portrait-tilt__canvas" />
       </div>
+
+      {/* Sibling of the tilting element, not a child of it — stays flat and
+          readable instead of rotating in the same 3D space as the portrait.
+          The centering (left:50%/translateX(-50%)) lives on this static
+          wrapper, not the motion.button itself — Framer Motion writes its
+          own animated properties (y, scale) as a single inline `transform`
+          that fully replaces any CSS transform on the same element, so a
+          plain CSS translateX for centering and Framer's own transform
+          can't coexist on one node without one silently winning. */}
+      <AnimatePresence>
+        {isHovered && (
+          <div className="hero-portrait-cta-anchor">
+            <motion.button
+              type="button"
+              className="hero-portrait-cta"
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              whileTap={{ scale: 0.92 }}
+              transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              onMouseEnter={playHover}
+              onClick={() => {
+                playClick();
+                smoothNavigate("/about");
+              }}
+            >
+              Know Me Better
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                <path
+                  d="M3 9L9 3M9 3H4M9 3V8"
+                  stroke="currentColor"
+                  strokeWidth="1.4"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </motion.button>
+          </div>
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -101,7 +158,15 @@ export default function Hero() {
 
           <SplitText as="p" className="hero__subhead" text={profile.subhead} delay={0.35} />
 
-          <motion.p variants={item} className="hero__meta">
+          {/* Explicit delay, not the parent stagger's index-based one — the
+              subhead above is a SplitText with its own independent
+              per-word stagger (9 words, finishing well after 1s), which
+              the container's staggerChildren knows nothing about. Left on
+              the shared stagger, this line (2nd item child) was
+              finishing around 0.6s — well before the subhead did — so
+              the company/logo line visibly appeared before the sentence
+              above it. */}
+          <motion.p variants={item} transition={{ delay: 0.85 }} className="hero__meta">
             {profile.currentCompany.note}{" "}
             <img src={stageLogoSrc} alt={profile.currentCompany.label} className="hero__meta-logo" />
             <span className="hero__meta-previous">

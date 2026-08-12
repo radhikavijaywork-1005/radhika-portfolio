@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 
 // Word-by-word reveal on scroll-in — each word sits inside its own
 // overflow:hidden mask so it wipes up into view rather than just fading,
@@ -77,20 +78,20 @@ export default function SplitText({
   as = "span",
   className,
   delay = 0,
-  once = true,
   amount = 0.4,
 }) {
   const Tag = motion[as];
   const source = parts ?? [text];
   const ariaLabel = source.map((p) => (typeof p === "string" ? p : p.b ?? p.em ?? "")).join("");
+  const { ref, revealed } = useRevealOnScroll(amount);
 
   return (
     <Tag
+      ref={ref}
       className={className}
       variants={container}
       initial="hidden"
-      whileInView="show"
-      viewport={{ once, amount }}
+      animate={revealed ? "show" : "hidden"}
       transition={{ delayChildren: delay }}
       aria-label={ariaLabel}
     >

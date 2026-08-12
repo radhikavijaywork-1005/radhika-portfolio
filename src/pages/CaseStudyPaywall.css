@@ -9,6 +9,11 @@
      Brightened in dark mode below since dark maroon on a dark page bg
      loses almost all contrast. */
   --maroon: #6b0000;
+  /* rgb triplet of --maroon, kept in sync by hand — lets rgba() tints below
+     (icon-circle backgrounds etc.) track the accent instead of hardcoding
+     the STAGE red, so other case studies can override just --maroon and
+     --maroon-rgb together and get a fully recolored page. */
+  --maroon-rgb: 107, 0, 0;
   --ink-on-dark: #f4ede1;
   --ink-on-dark-soft: rgba(244, 237, 225, 0.68);
   /* nav 200 + gap 60 + content 940 = 1200, matching the homepage's
@@ -35,6 +40,7 @@
 
 .dark .cs {
   --maroon: #e0625f;
+  --maroon-rgb: 224, 98, 95;
   --cs-card-bg: #1c2921;
   --cs-ink: #eef2e9;
   --cs-body: #cfcabe;
@@ -407,63 +413,65 @@
 }
 
 /* ---------- Summary ---------- */
-.cs-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+/* Back to card-style rows (bg + icon circle), same visual language as
+   .cs-overview-fact below — just laid out as a stacked list of horizontal
+   rows instead of a 3-column grid, so it's still legible as its own
+   section rather than a literal duplicate of Overview's layout. */
+.cs-summary-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   margin-bottom: 40px;
 }
 
-.cs-summary-card {
-  padding: 24px 32px 24px 24px;
+.cs-summary-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+  padding: 22px 28px;
   border: 0.5px solid var(--cs-muted);
   border-radius: 12px;
   background: var(--cs-card-bg);
 }
 
 @media (max-width: 640px) {
-  .cs-summary-card {
-    padding: 20px;
+  .cs-summary-item {
+    padding: 18px 20px;
   }
 }
 
-.cs-summary-card__icon {
+.cs-summary-item__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 40px;
   height: 40px;
+  flex-shrink: 0;
   border-radius: 50%;
-  background: rgba(107, 0, 0, 0.1);
+  background: rgba(var(--maroon-rgb), 0.1);
   border: 0.5px solid var(--cs-muted);
   font-size: 20px;
-  margin-bottom: 24px;
 }
 
-.cs-summary-card__label {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 16px;
-  letter-spacing: -0.01em;
-  margin-bottom: 8px;
-  color: var(--cs-ink);
-}
-
-.cs-summary-card__text {
-  font-size: 14px;
+.cs-summary-item__text {
+  font-size: 14.5px;
   font-weight: 300;
-  line-height: 1.34;
+  line-height: 1.6;
   color: var(--cs-body);
 }
 
-.cs-summary-card__text strong {
+.cs-summary-item__label {
+  font-family: var(--font-body);
   font-weight: 600;
+  /* Was 16px on the old card version — +4px per feedback. */
+  font-size: 20px;
+  margin-bottom: 6px;
+  color: var(--cs-ink);
 }
 
-@media (max-width: 640px) {
-  .cs-summary-grid {
-    grid-template-columns: 1fr;
-  }
+.cs-summary-item__text strong {
+  font-weight: 600;
+  color: var(--cs-ink);
 }
 
 /* ---------- STAGE overview ---------- */
@@ -514,7 +522,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: rgba(107, 0, 0, 0.1);
+  background: rgba(var(--maroon-rgb), 0.1);
   border: 0.5px solid var(--cs-muted);
   font-size: 20px;
   margin-bottom: 24px;
@@ -1015,7 +1023,7 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: rgba(107, 0, 0, 0.1);
+  background: rgba(var(--maroon-rgb), 0.1);
   border: 0.5px solid var(--cs-muted);
   font-family: var(--font-display);
   color: var(--maroon);
@@ -1085,7 +1093,7 @@
   height: 32px;
   flex-shrink: 0;
   border-radius: 50%;
-  background: rgba(107, 0, 0, 0.08);
+  background: rgba(var(--maroon-rgb), 0.08);
   border: 1px solid var(--maroon);
   color: var(--maroon);
   font-family: var(--font-display);

@@ -5,9 +5,9 @@ import PhotoCarousel from "../components/PhotoCarousel";
 import { traits, bio, experience, achievements, galleryCaption, galleryCaptions, aboutQuote } from "../data/aboutContent";
 import { useTheme } from "../context/ThemeContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
-import SplitText from "../components/SplitText";
 import TypewriterText from "../components/TypewriterText";
 import { useTiltEffect } from "../hooks/useTiltEffect";
+import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 import PortraitLiquid from "../components/PortraitLiquid";
 import aboutPortraitLight from "../assets/site/about-portrait.png";
 import aboutPortraitDark from "../assets/site/about-portrait-dark.png";
@@ -180,7 +180,7 @@ function AchievementCard({ item, i }) {
           <AchievementPhotoCycle images={achievementImages[item.title]} hovered={hovered} />
         </div>
         <div className="about-achievements__body">
-          <SplitText as="h3" className="about-achievements__title" text={item.title} amount={0.6} />
+          <Reveal as="h3" className="about-achievements__title">{item.title}</Reveal>
           <p className="about-achievements__desc">{item.description}</p>
           <span className="about-achievements__pill">{item.year}</span>
         </div>
@@ -198,16 +198,16 @@ const fadeUp = {
   },
 };
 
-function Reveal({ as = "div", className, children, delay = 0, innerRef, ...rest }) {
+function Reveal({ as = "div", className, children, delay = 0, ...rest }) {
   const Tag = motion[as];
+  const { ref, revealed } = useRevealOnScroll(0.25);
   return (
     <Tag
-      ref={innerRef}
+      ref={ref}
       className={className}
       variants={fadeUp}
       initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.25 }}
+      animate={revealed ? "show" : "hidden"}
       transition={{ delay }}
       {...rest}
     >
@@ -216,11 +216,25 @@ function Reveal({ as = "div", className, children, delay = 0, innerRef, ...rest 
   );
 }
 
+// Renders the same `text` | `parts` (string | {b} | {em}) shape SplitText
+// takes, but as plain inline content — no per-word split. Pairs with
+// Reveal so a block of text arrives as one clean fade-up instead of a
+// word-by-word wave.
+function RichText({ text, parts }) {
+  const source = parts ?? [text];
+  return source.map((part, i) => {
+    if (typeof part === "string") return part;
+    if (part.b !== undefined) return <strong key={i}>{part.b}</strong>;
+    if (part.em !== undefined) return <em key={i}>{part.em}</em>;
+    return null;
+  });
+}
+
 function SectionHeading({ children }) {
   return (
     <div className="section-heading-group">
       {typeof children === "string" ? (
-        <SplitText as="h2" className="section-heading" text={children} />
+        <Reveal as="h2" className="section-heading">{children}</Reveal>
       ) : (
         <Reveal as="h2" className="section-heading">
           {children}
@@ -246,19 +260,25 @@ export default function AboutMe() {
       <section className="section about-story">
         <div className="container about-story__inner">
           <div className="about-story__main">
-            <SplitText
-              as="h1"
-              className="about-hero__title"
-              parts={["From ", { em: "Spaces" }, " to Screens! ~"]}
-            />
+            <Reveal as="h1" className="about-hero__title">
+              <RichText parts={["From ", { em: "Spaces" }, " to Screens! ~"]} />
+            </Reveal>
 
             {bio.map((block, i) => (
               <div className={`about-chapter${i === bio.length - 1 ? " about-chapter--last" : ""}`} key={i}>
                 {block.lead && (
-                  <SplitText as="p" className="about-chapter__lead" text={block.lead} amount={0.4} delay={0.2} />
+                  <Reveal as="p" className="about-chapter__lead" delay={0.05}>{block.lead}</Reveal>
                 )}
+                {/* Small incremental stagger (60ms/paragraph) after the
+                    lead, so a multi-paragraph chapter reads as one
+                    cascade rather than every line popping in at the same
+                    instant — each Reveal still triggers off its own
+                    scroll visibility, this only staggers ones that cross
+                    that threshold close together. */}
                 {block.body.map((parts, j) => (
-                  <SplitText as="p" className="about-chapter__body" key={j} delay={0.05} parts={parts} />
+                  <Reveal as="p" className="about-chapter__body" key={j} delay={0.2 + j * 0.06}>
+                    <RichText parts={parts} />
+                  </Reveal>
                 ))}
               </div>
             ))}
@@ -305,13 +325,14 @@ export default function AboutMe() {
                 </div>
                 <div className="about-experience__main">
                   <div className="about-experience__head">
-                    <SplitText as="h3" className="about-experience__company" text={role.company} amount={0.8} />
+                    <Reveal as="h3" className="about-experience__company">{role.company}</Reveal>
                     <span className="about-experience__role">{role.role}</span>
                   </div>
                   <div className="about-experience__meta">
                     <span className="about-experience__dates">{role.dates}</span>
                     {role.category && <span className="about-experience__tag">{role.category}</span>}
                   </div>
+                  {role.description && <p className="about-experience__description">{role.description}</p>}
                 </div>
 
                 {role.hoverImageKey && (
@@ -353,7 +374,9 @@ export default function AboutMe() {
       <section className="section about-gallery-section">
         <div className="container">
           <SectionHeading>Curious Soul! ~</SectionHeading>
-          <SplitText as="p" className="about-gallery__caption" delay={0.05} parts={galleryCaption} />
+          <Reveal as="p" className="about-gallery__caption" delay={0.05}>
+            <RichText parts={galleryCaption} />
+          </Reveal>
 
           <Reveal as="div" delay={0.1}>
             <PhotoCarousel items={gallery} captions={galleryCaptions} />

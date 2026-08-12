@@ -1,12 +1,13 @@
 import { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { paywallCaseStudy as cs } from "../data/caseStudyPaywall";
 import { work } from "../data/content";
 import CaseStudyNav from "./CaseStudyNav";
 import { useSoundContext } from "../context/SoundContext";
 import { useTheme } from "../context/ThemeContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 import stageLogo from "../assets/site/stage-icon.png";
 import stageLogoWhite from "../assets/site/stage-icon-white.svg";
 import dashboardImg from "../assets/case-study/paywall/Dashboard.png";
@@ -44,13 +45,14 @@ const fadeUp = {
 
 function Reveal({ as = "div", className, children, delay = 0 }) {
   const Tag = motion[as];
+  const { ref, revealed } = useRevealOnScroll(0.2);
   return (
     <Tag
+      ref={ref}
       className={className}
       variants={fadeUp}
       initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
+      animate={revealed ? "show" : "hidden"}
       transition={{ delay }}
     >
       {children}
@@ -114,13 +116,26 @@ export default function CaseStudyPaywall() {
   const { theme } = useTheme();
   const stageLogoSrc = theme === "dark" ? stageLogoWhite : stageLogo;
   const highlight05Src = theme === "dark" ? highlight05Dark : highlight05;
+  const navigate = useNavigate();
+  // location.key is "default" only for a page landed on directly — a real
+  // key means there's in-app history to actually go back into, so a real
+  // history POP (not a fresh push to "/#work") fires and ScrollToTop in
+  // App.jsx restores the exact scroll position on Home.
+  const { key: locationKey } = useLocation();
+  const canGoBack = locationKey !== "default";
+  const goBack = (e) => {
+    e.preventDefault();
+    playClick();
+    if (canGoBack) navigate(-1);
+    else navigate("/#work");
+  };
 
   return (
     <main className="cs">
       <div className="cs-grid">
         {/* ---------- Header ---------- */}
         <section className="cs-header">
-          <Link to="/#work" className="cs-back" onMouseEnter={playHover} onClick={playClick}>
+          <Link to="/#work" className="cs-back" onMouseEnter={playHover} onClick={goBack}>
             ← Back to work
           </Link>
 
@@ -172,14 +187,16 @@ export default function CaseStudyPaywall() {
               Summary
             </Reveal>
 
-            <div className="cs-summary-grid">
+            <div className="cs-summary-list">
               {cs.summary.map((s, i) => (
-                <Reveal as="div" className="cs-summary-card" key={s.label} delay={i * 0.06}>
-                  <span className="cs-summary-card__icon">{s.icon}</span>
-                  <h3 className="cs-summary-card__label">{s.label}</h3>
-                  <p className="cs-summary-card__text">
-                    <Bold text={s.text} />
-                  </p>
+                <Reveal as="div" className="cs-summary-item" key={s.label} delay={i * 0.06}>
+                  <span className="cs-summary-item__icon">{s.icon}</span>
+                  <div>
+                    <h3 className="cs-summary-item__label">{s.label}</h3>
+                    <p className="cs-summary-item__text">
+                      <Bold text={s.text} />
+                    </p>
+                  </div>
                 </Reveal>
               ))}
             </div>
@@ -512,8 +529,8 @@ export default function CaseStudyPaywall() {
               <a
                 className="cs-next__link"
                 href={nextCaseStudy.href}
-                target="_blank"
-                rel="noreferrer"
+                target={nextCaseStudy.href.startsWith("/") ? undefined : "_blank"}
+                rel={nextCaseStudy.href.startsWith("/") ? undefined : "noreferrer"}
                 onMouseEnter={() => {
                   setNextHovered(true);
                   playHover();

@@ -2,15 +2,18 @@ import { motion } from "framer-motion";
 import { quote } from "../data/content";
 import quoteDoodle from "../assets/site/quote-doodle-new.svg";
 import TypewriterText from "./TypewriterText";
+import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 
 export default function Quote() {
+  const { ref, revealed } = useRevealOnScroll(0.4);
+
   return (
     <section className="section quote-section">
       <motion.div
+        ref={ref}
         className="container quote-inner"
         initial={{ opacity: 0, transform: "translateY(16px)" }}
-        whileInView={{ opacity: 1, transform: "translateY(0px)" }}
-        viewport={{ once: true, amount: 0.4 }}
+        animate={revealed ? { opacity: 1, transform: "translateY(0px)" } : { opacity: 0, transform: "translateY(16px)" }}
         transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       >
         <div className="quote-copy">

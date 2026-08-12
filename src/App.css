@@ -683,7 +683,70 @@
    was rendering with no working perspective at all regardless of the
    pixel value used — this is the fix, not a bigger number. */
 .hero-portrait-tilt-wrap {
+  position: relative;
   perspective: 700px;
+}
+
+/* Anchored to the wrap, not `.hero-portrait-tilt` itself — that element has
+   transform-style: preserve-3d and is actively rotating with the cursor, so
+   a child pill would tilt and skew right along with it instead of staying
+   flat and legible. Positioning lives on this static wrapper; the button
+   inside is free to let Framer Motion own `transform` for its own
+   animation (enter/exit/tap) without the two fighting over that property. */
+.hero-portrait-cta-anchor {
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+
+.hero-portrait-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  /* Fully rounded, not the asymmetric single-cut corner the "Hi, I'm
+     Radhika" pill uses — that shape reads as a deliberate accent on a
+     short 3-word greeting, but stretched across "Know Me Better" plus an
+     icon it looked lopsided instead of stylistic. */
+  border: 0.5px solid var(--pill-live, #5a9c68);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--forest-soft);
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(26, 53, 45, 0.16);
+  transition: color 0.2s ease;
+}
+
+.hero-portrait-cta:hover {
+  color: var(--forest);
+}
+
+.hero-portrait-cta svg {
+  transition: transform 0.25s var(--ease-snap);
+}
+
+.hero-portrait-cta:hover svg {
+  transform: rotate(45deg);
+}
+
+/* --pill-live only exists inside .hero__pill's own scope (and its dark
+   override), not globally — this CTA lives in a sibling subtree, so it
+   can't inherit that custom property and needs its own dark-mode value
+   to match rather than falling back to the light-mode default. */
+.dark .hero-portrait-cta {
+  border-color: #7fd192;
+}
+
+@media (hover: none) {
+  .hero-portrait-cta {
+    display: none;
+  }
 }
 
 /* Same tilt + liquid-ripple + shadow treatment as the About portrait
@@ -950,7 +1013,7 @@
 
 .work-card__title {
   font-family: var(--font-display);
-  font-size: clamp(19px, 1.8vw, 23px);
+  font-size: clamp(21px, 1.8vw, 25px);
   font-weight: 600;
   line-height: 1.28;
   max-width: 26ch;
@@ -961,62 +1024,54 @@
   align-items: center;
 }
 
-/* Standard site-wide pill (same values as .about-achievements__pill) —
-   the metric's own weight/hierarchy now comes from position (last, below
-   the headline) rather than a one-off heavier style. Shimmer sweep on
-   hover reuses the exact .hero__pill mechanism/keyframe for consistency. */
-.work-card__metric {
+/* Metrics read as a real statistic, not a tag — large serif number (same
+   family as the card title) + small caps label, separated by a thin
+   divider. Superseded the old bordered-pill treatment, which put the
+   metric at the same visual weight as a category tag even though it's
+   meant to be the card's actual evidence of impact. */
+.work-card__stats--callout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0;
+}
+
+.work-card__stat {
   position: relative;
-  overflow: hidden;
-  /* Not var(--card)/var(--card-hover) — the pill sits ON TOP of a card
-     that already uses those exact tokens, so matching them would make the
-     pill's own background disappear into its parent. A translucent forest
-     wash (same family as --line/--line-strong) gives it real separation
-     from any card state instead of another near-white flat tone. */
-  background: rgba(28, 58, 31, 0.045);
-  border: 1px solid var(--line-strong);
-  border-radius: 10px;
-  padding: 8px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  font-variant-numeric: tabular-nums;
-  color: var(--gray-body);
-  letter-spacing: -0.28px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-right: 24px;
+  margin-right: 24px;
 }
 
-.work-card__metric::after {
-  content: "";
+.work-card__stat-divider {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    115deg,
-    transparent 44%,
-    rgba(255, 255, 255, 0.55) 49%,
-    rgba(255, 255, 255, 0.55) 51%,
-    transparent 56%
-  );
-  transform: translateX(-130%);
-  pointer-events: none;
+  left: -24px;
+  top: 2px;
+  bottom: 2px;
+  width: 1px;
+  background: var(--line-strong);
 }
 
-.work-card__metric:hover::after {
-  animation: pill-shimmer 1.7s var(--ease-flow);
+.work-card__stat-value {
+  font-family: var(--font-display);
+  font-size: clamp(22px, 2.4vw, 28px);
+  font-weight: 600;
+  /* Lighter than --ink on purpose — big enough to read as a real stat, but
+     the title above it should still win as the card's darkest, primary
+     element. Size carries the emphasis here, not contrast. */
+  color: var(--gray-muted);
+  letter-spacing: -0.5px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
 }
 
-.dark .work-card__metric {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: var(--line-strong);
-  color: var(--gray-ink);
-}
-
-.dark .work-card__metric::after {
-  background: linear-gradient(
-    115deg,
-    transparent 44%,
-    rgba(220, 232, 214, 0.3) 49%,
-    rgba(220, 232, 214, 0.3) 51%,
-    transparent 56%
-  );
+.work-card__stat-label {
+  font-size: 12px;
+  color: var(--gray-body);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 /* Category leads the card (above the title) as quiet context — plain
@@ -1055,10 +1110,351 @@
   .work-card__stats::-webkit-scrollbar {
     display: none;
   }
-  .work-card__metric {
+  .work-card__stat {
     flex-shrink: 0;
-    padding: 6px 12px;
-    font-size: 13px;
+  }
+  .work-card__stat-value {
+    font-size: 22px;
+  }
+}
+
+/* ---------- AI Playground (homepage) ---------- */
+/* Same tilt-card-in-a-textured-frame language as .about-achievements on
+   the About page ("Highlights ~") — reused here rather than the Work
+   section's edge-to-edge photo cards, since these are quick experiments,
+   not case studies with real screenshots yet. */
+/* No bottom padding of its own — same reasoning as .work-section just
+   above: without this override, .section's default padding-block stacks
+   with .quote-inner's own 72px top padding, doubling the gap into Quote
+   instead of the single 72px rhythm used elsewhere.
+   Explicit top padding, though — the global `.section + .section` rule
+   zeroes it automatically since this immediately follows Work (both
+   .section siblings), which left literally 0px between Work's last card
+   row and the "Playground" heading. Unlike the Work→Playground and
+   Playground→Quote transitions, there's no other element supplying that
+   gap here, so it has to come from this section itself.
+   `.section.playground-section`, not just `.playground-section` — a
+   plain single-class selector here LOST to `.section + .section`'s
+   padding-top:0 despite coming later in the file, because that sibling
+   selector matches two classes (specificity 0,0,2,0) against this
+   rule's one (0,0,1,0). CSS specificity beats source order regardless
+   of which rule is written last — this is why the first attempt at this
+   fix silently did nothing. */
+.section.playground-section {
+  padding-top: var(--space-section);
+  padding-bottom: 0;
+}
+
+.playground-heading {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 40px;
+}
+
+.playground-heading__rule {
+  height: 5px;
+  background: var(--line-strong);
+  -webkit-mask-image: var(--wave-x);
+  mask-image: var(--wave-x);
+  -webkit-mask-repeat: repeat-x;
+  mask-repeat: repeat-x;
+  -webkit-mask-size: 1161px 5px;
+  mask-size: 1161px 5px;
+}
+
+/* pattern-rasterized.png, not pattern.svg directly — the SVG has a
+   feTurbulence filter that renders correctly as a standalone page (and
+   in Quick Look, which is WebKit-based) but doesn't render at all when
+   referenced as a CSS background-image: tried it at both cover and
+   native/tiled size and got a flat, textureless result both times, a
+   known category of browsers not fully supporting SVG filter regions in
+   that context. Rasterized it once with qlmanage (WebKit's own renderer,
+   confirmed correct) into a plain PNG, which sidesteps the limitation
+   entirely — same source pattern the user provided, just pre-rendered
+   so the browser doesn't need to evaluate the filter live. */
+.playground-frame {
+  padding: 40px;
+  border: 0.5px solid var(--line-strong);
+  border-radius: 24px;
+  background-color: #efe6d2;
+  background-image: url("./assets/site/achievements/pattern-final.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.dark .playground-frame {
+  background-color: var(--cream-deep);
+  background-image: url("./assets/site/achievements/pattern-final-dark.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+/* Horizontally scrollable row, not a fixed 3-column grid — same
+   drag-to-scroll pattern as .cs-variant-row--scroll (CaseStudyPaywall.css)
+   so the row just grows sideways as more experiments ship, instead of
+   needing a layout change (or squeezing narrower) every time. */
+.playground-grid {
+  display: flex;
+  gap: 40px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  cursor: grab;
+  user-select: none;
+  /* overflow-x: auto forces overflow-y to auto too (a CSS Overflow spec
+     quirk — the two can't be "visible + scrolling" mixed on one axis
+     each), which clips shadow/lift at whichever edge doesn't have room.
+     Uniform padding on all four sides, not just top/bottom — the resting
+     shadow bleeds sideways too, and a first pass that only padded
+     vertically hard-clipped the shadow's left/right edges into visible
+     lines. Negative margin cancels the padding back out so the row's own
+     footprint doesn't grow. */
+  padding: 28px;
+  margin: -28px;
+  /* Without this, scroll-snap-align: start on the first card snaps past
+     the leading padding on load, eating the frame's 40px inset entirely
+     (scrollLeft lands on 28 instead of 0). Telling snap to respect the
+     padding as its boundary keeps the rest position flush. */
+  scroll-padding: 28px;
+}
+
+.playground-grid:active {
+  cursor: grabbing;
+}
+
+.playground-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* 320px — sized to fill the frame's own width exactly (3 cards + 2×40px
+   gaps, inside the frame's own 40px padding on each side, matching
+   .about-achievements' identical padding/gap rhythm), not left-packed
+   with a gap on the right. Widening the cards themselves rather than
+   adding space-between: the space-between attempt fixed the leftover
+   gap by stretching the gaps between cards instead, which just moved
+   the same problem — bigger cards is the actual fix once there really
+   are only 3 of them. */
+.playground-tile-slot {
+  flex: 0 0 320px;
+  width: 320px;
+  perspective: 1200px;
+  scroll-snap-align: start;
+}
+
+/* Fixed-ratio frame, image filling the whole card, with the panel as a
+   bottom-anchored absolute overlay — its content growing on hover pushes
+   the panel's own top edge UP over the image, not the card's bottom edge
+   down into the page below it. Matches the reference's reveal direction. */
+/* Portrait, not landscape — matches the reference's own card proportions
+   (340x370 measured on its live site: image fills most of the height,
+   panel is a compact strip at the bottom, not half-and-half). */
+.playground-tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 10 / 11;
+  overflow: hidden;
+  border: 0.5px solid var(--line-strong);
+  border-radius: 20px;
+  background: var(--card);
+  /* A resting shadow, not just on hover — reads as "sitting on" the
+     textured frame the way a real photo would, matching the reference. */
+  box-shadow: 0 10px 24px -14px rgba(26, 53, 45, 0.22);
+  transform: translateY(var(--card-lift, 0px)) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, box-shadow 0.3s var(--ease-flow);
+}
+
+.playground-tile:hover {
+  --card-lift: -8px;
+  box-shadow: 0 32px 48px -20px rgba(26, 53, 45, 0.35);
+}
+
+.dark .playground-tile:hover {
+  box-shadow: 0 32px 48px -20px rgba(0, 0, 0, 0.55);
+}
+
+.playground-tile--soon {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.playground-tile--soon:hover {
+  --card-lift: 0px;
+  box-shadow: none;
+}
+
+/* Gradient placeholder, not a fake screenshot — a real screenshot can
+   replace this later per-entry without touching the layout. Explicit
+   14px inset, not padding on the parent — an absolutely positioned
+   child's containing block is its ancestor's padding *edge* (the
+   boundary where padding starts, i.e. right at the border), not the
+   content edge past the padding, so parent padding alone doesn't move
+   an inset:0 child at all. Needs its own radius now that it's inset
+   rather than edge-to-edge, where the card's own overflow:hidden used
+   to do the rounding for free. */
+/* 24px inset, not 14px — checked the live .about-achievements__card
+   directly (the real reference, not a guess): its photo sits inset by a
+   full 40px against a ~500px-wide card, an 8% ratio. This card is only
+   300px wide, so a literal 40px would eat a third of it; 24px keeps that
+   same proportional generosity without crushing the image.
+   bottom: 130px keeps the same real gap above the panel (see below) at
+   this larger inset, so the image's bottom corners still show at rest. */
+.playground-tile__visual {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  right: 24px;
+  bottom: 130px;
+  border-radius: 12px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(155deg, color-mix(in srgb, var(--playground-accent) 32%, transparent), color-mix(in srgb, var(--playground-accent) 8%, transparent));
+}
+
+.playground-tile__icon {
+  font-size: 56px;
+  line-height: 1;
+}
+
+.playground-tile__cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  /* Slight scale-up on hover, same lift language as the card itself. */
+  transition: transform 0.4s var(--ease-flow);
+}
+
+.playground-tile:hover .playground-tile__cover {
+  transform: scale(1.04);
+}
+
+/* Bottom-anchored overlay — height is auto/content-driven, so revealing
+   the description on hover grows this panel's top edge upward over the
+   image instead of pushing the card (or the page below it) taller.
+   Tighter than a first pass: rest-state panel was measuring ~43% of the
+   card's height (vs. ~29% on the reference) purely from padding, leaving
+   a slab of dead white space below the title before the card's own
+   bottom edge. */
+/* Equal padding on all sides, not the 16/4/4 mix this had before — that
+   asymmetry (generous top, cramped sides/bottom) was reading as
+   unbalanced against the image's own even inset above it. */
+.playground-tile__panel {
+  position: absolute;
+  left: 24px;
+  right: 24px;
+  bottom: 24px;
+  border-radius: 0 0 12px 12px;
+  padding: 14px 0;
+  background: var(--card);
+  transition: background-color 0.3s var(--ease-flow);
+}
+
+/* A bordered pill here competed with the title sitting right below it —
+   two bold, boxed elements stacked tightly reads loud. Dropped the
+   background/border entirely in favor of the same plain-text kicker
+   treatment as .work-card__category (right above this section) and the
+   case-study eyebrows: quiet, small, uppercase, out of the title's way. */
+.playground-tile__pill {
+  display: block;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-muted);
+}
+
+.dark .playground-tile__pill {
+  color: var(--gray-muted);
+}
+
+.playground-tile__pill--soon {
+  color: var(--ink-soft);
+}
+
+/* Title/desc/pill sizing here is a deliberate 1:1 match to
+   .about-achievements__title/__desc/__pill (the "Highlights" section on
+   About) per explicit instruction, not independently chosen. */
+.playground-tile__title {
+  margin-top: 10px;
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.24px;
+  line-height: 1.3;
+  color: var(--gray-ink);
+}
+
+/* Collapsed by default, expands in on hover — pill/title stay put, this
+   whole wrapper is the "reveal," growing the panel upward. One collapsed
+   box, not two independently-collapsed ones (see the JSX comment). */
+.playground-tile__reveal {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  transition: max-height 0.3s var(--ease-flow), opacity 0.25s ease, margin-top 0.3s var(--ease-flow);
+}
+
+/* Family + weight match .about-achievements__desc (light 300, same
+   font-body) — but not its literal 18px/32px. That's sized for the much
+   wider Highlights cards; at this card's ~270px text column it read as
+   oversized and dominated the face. Scaled down to fit while keeping the
+   same light, quiet character. */
+.playground-tile__desc {
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--gray-body);
+}
+
+.playground-tile__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  color: var(--maroon, var(--forest-soft));
+}
+
+.playground-tile:hover .playground-tile__reveal,
+.playground-tile:focus-visible .playground-tile__reveal {
+  /* 130px — desc got scaled down to 13.5px (see .playground-tile__desc),
+     which needs far less room than the literal 18px match did. */
+  max-height: 130px;
+  opacity: 1;
+  margin-top: 10px;
+}
+
+@media (hover: none) {
+  .playground-tile__reveal {
+    max-height: none;
+    opacity: 1;
+    margin-top: 10px;
+  }
+}
+
+@media (max-width: 640px) {
+  .playground-frame {
+    padding: 20px;
+  }
+  .playground-grid {
+    gap: 16px;
+  }
+  .playground-tile-slot {
+    flex-basis: 240px;
+    width: 240px;
   }
 }
 

@@ -4,6 +4,7 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import { profile } from "../data/content";
 import { useScrolled } from "../hooks/useScrolled";
+import { useSmoothNavigate } from "../hooks/useSmoothNavigate";
 import { useSoundContext } from "../context/SoundContext";
 import { useTheme } from "../context/ThemeContext";
 import monogram from "../assets/site/monogram.png";
@@ -21,8 +22,18 @@ export default function Nav() {
   const { playHover, playClick } = useSoundContext();
   const { theme } = useTheme();
   const [menuOpen, setMenuOpen] = useState(false);
+  const smoothNavigate = useSmoothNavigate();
 
   const closeMenu = () => setMenuOpen(false);
+
+  // Plain left-click only — modifier/middle clicks (open in new tab, etc.)
+  // fall through to the Link's own default navigation.
+  const onNavLinkClick = (path, extra) => (e) => {
+    extra?.();
+    if (e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    e.preventDefault();
+    smoothNavigate(path);
+  };
 
   // Drawer sits over the page (fixed), so the page itself needs its scroll
   // locked while open — otherwise content behind the drawer keeps scrolling.
@@ -38,7 +49,7 @@ export default function Nav() {
   return (
     <header className={`nav${scrolled ? " nav--scrolled" : ""}${menuOpen ? " nav--menu-open" : ""}`}>
       <div className="container nav__inner">
-        <Link to="/" className="nav__mark" aria-label="Back to home" onClick={closeMenu}>
+        <Link to="/" className="nav__mark" aria-label="Back to home" onClick={onNavLinkClick("/", closeMenu)}>
           <img
             src={theme === "dark" ? monogramDark : monogram}
             alt="Radhika Vijay"
@@ -54,7 +65,7 @@ export default function Nav() {
           </span>
           <span className="nav__dash">~</span>
           <span className="nav__item nav__item--underline">
-            <Link to="/about" onMouseEnter={playHover} onClick={playClick}>
+            <Link to="/about" onMouseEnter={playHover} onClick={onNavLinkClick("/about", playClick)}>
               About
             </Link>
           </span>
@@ -130,7 +141,7 @@ export default function Nav() {
                 <Link
                   to="/about"
                   className={`nav__mobile-link${!onHome ? " is-active" : ""}`}
-                  onClick={() => { playClick(); closeMenu(); }}
+                  onClick={onNavLinkClick("/about", () => { playClick(); closeMenu(); })}
                 >
                   About
                 </Link>

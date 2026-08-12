@@ -210,9 +210,9 @@
 .about-experience::before {
   content: "";
   position: absolute;
-  left: 23px;
-  top: 24px;
-  bottom: 24px;
+  left: 27px;
+  top: 28px;
+  bottom: 28px;
   width: 2px;
   background-image: radial-gradient(circle, var(--forest) 1px, transparent 1.2px);
   background-repeat: repeat-y;
@@ -225,8 +225,8 @@
 .about-experience__row {
   position: relative;
   display: flex;
-  gap: 20px;
-  padding-bottom: clamp(48px, 6vw, 72px);
+  gap: 24px;
+  padding-bottom: clamp(64px, 8vw, 104px);
   transition: transform 0.3s var(--ease-snap);
 }
 
@@ -254,7 +254,7 @@
   top: -8px;
   left: -16px;
   right: -16px;
-  height: 68px;
+  height: 76px;
   border-radius: 16px;
   background: var(--card-hover);
   opacity: 0;
@@ -271,12 +271,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 48px;
+  width: 56px;
 }
 
 .about-experience__badge {
-  width: 48px;
-  height: 48px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
   background: var(--card);
   border: 1px solid var(--line);
@@ -336,7 +336,7 @@
 .about-experience__company {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: clamp(18px, 2vw, 21px);
+  font-size: clamp(21px, 2.4vw, 25px);
   transition: color 0.25s var(--ease-snap);
 }
 
@@ -386,6 +386,14 @@
   border-radius: 50%;
   background: currentColor;
   opacity: 0.6;
+}
+
+.about-experience__description {
+  margin: 18px 0 0;
+  font-size: 16.5px;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--gray-body);
 }
 
 /* Centered via margin offsets rather than a CSS transform, since

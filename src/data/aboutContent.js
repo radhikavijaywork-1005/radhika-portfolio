@@ -18,7 +18,7 @@ export const bio = [
         { b: "logic and creativity" },
         ", which led me to study ",
         { b: "Architecture" },
-        ". I loved conducting case studies, analyzing spaces, and crafting forms that shape meaningful user experiences.",
+        ". I loved case studies, analyzing spaces, and crafting forms that shape meaningful experiences.",
       ],
     ],
   },
@@ -28,13 +28,13 @@ export const bio = [
       [
         "My passion for ",
         { b: "research" },
-        " opened the door to an opportunity at ",
+        " led me to ",
         { b: "The Design Bridge" },
-        ", where I conducted user research and discovered the ",
+        ", where I discovered the ",
         { b: "world of UX" },
-        " and digital problem-solving. Long story short, I was drawn to UX—designing ",
+        " and digital problem-solving. I was drawn to it, designing ",
         { b: "impactful experiences" },
-        " for a larger audience through digital mediums.",
+        " for a much larger audience.",
       ],
     ],
   },
@@ -44,9 +44,9 @@ export const bio = [
       [
         "I joined ",
         { b: "Trainman as the founding designer," },
-        " built and led the design team to create impactful experiences for users and the business. Later, I became part of the acquisition journey with ",
+        " built and led the design team, and created impactful experiences for users and the business. Later, ",
         { b: "Adani Digital Labs" },
-        ", contributing to the pitch, and then learning stakeholder management and product scaling within a 100x larger ecosystem.",
+        " acquired us, and I learned stakeholder management and product scaling within a 100x larger ecosystem.",
       ],
     ],
   },
@@ -54,11 +54,11 @@ export const bio = [
     lead: "now...",
     body: [
       [
-        "Sole designer across 4 verticals, and leading end-to-end Re-activation vertical at ",
+        "Sole designer across 4 verticals, leading Monetisation and Re-activation end-to-end at ",
         { b: "STAGE," },
-        " India's regional streaming OTT 🎬 Currently working as a ",
+        " India's regional streaming OTT 🎬 Working as an individual contributor (IC) and ",
         { b: "full-stack builder" },
-        " from problem identification, strategising to AI-enabled execution.",
+", from problem identification to strategy to AI-enabled execution.",
       ],
     ],
   },
@@ -72,14 +72,18 @@ export const experience = [
     category: "B2C OTT",
     logoKey: "stage",
     hoverImageKey: "stage",
+    description:
+      "Spearheading growth design across acquisition, monetisation, and reactivation for 4 verticals. Launched TVOD end-to-end, driving ~₹23L in projected revenue.",
   },
   {
     company: "Adani Digital Labs (Trainman)",
-    role: "Product Design Lead",
+    role: "Lead Product Designer",
     dates: "Jul 2021 – Feb 2025",
     category: "B2C Travel",
     logoKey: "adani",
     hoverImageKey: "adani",
+    description:
+      "Founded and led the design team through Trainman's acquisition by Adani. Redesigned the booking flow and cut payment failures 57%, driving 4x growth in daily bookings.",
   },
   {
     company: "P'ART",
@@ -88,6 +92,8 @@ export const experience = [
     category: "Freelance",
     logoKey: "part",
     hoverImageKey: "part",
+    description:
+      "Founded an independent design studio, delivering UX, branding, and product design across 5 client projects in India and internationally.",
   },
   {
     company: "The Design Bridge",
@@ -96,6 +102,8 @@ export const experience = [
     category: "B2B2C Marketplace",
     logoKey: "tdb",
     hoverImageKey: "tdb",
+    description:
+      "Led UX research and design for a building-materials marketplace, shipping the MVP in under 3 months and onboarding 7,900+ users.",
   },
 ];
 

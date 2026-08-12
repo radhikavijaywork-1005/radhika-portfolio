@@ -1,0 +1,1023 @@
+/* AI Playground entry page — reuses the .cs token system (case-study
+   nav rail + content grid) for the same sticky side-nav wayfinding as the
+   real case studies. --cs-measure is NOT overridden here: a smaller cap
+   (640px was tried) stops the content column short of the space actually
+   available once nav-col + gap are subtracted from --container, leaving
+   unused space stranded on the right only (asymmetric margins). Leaving
+   --cs-measure at the base .cs value of 940px — bigger than that
+   available space — means the cap never actually binds, so the column
+   just fills the row exactly like the real case studies do. .pg-entry__body
+   has no max-width, matching .cs-body in the real case studies — both
+   fill the column's full structural width rather than capping the reading
+   line. --maroon is overridden to the site's own
+   forest green rather than STAGE's red, which has no reason to show up
+   on a page that isn't about STAGE. */
+.pg-entry.cs {
+  --maroon: var(--forest-soft);
+}
+
+.dark .pg-entry.cs {
+  --maroon: var(--forest);
+}
+
+.pg-entry__grid {
+  display: grid;
+  grid-template-columns: var(--cs-nav-col) minmax(0, var(--cs-measure));
+  gap: var(--cs-gap);
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: 40px;
+  /* Matches .cs-header's own padding-top exactly (case studies put this on
+     the header, not the grid, but the visible top offset must be the same
+     either way). */
+  padding-top: clamp(24px, 4vw, 40px);
+  padding-bottom: 96px;
+}
+
+.pg-entry__grid--notfound {
+  display: block;
+}
+
+@media (max-width: 1080px) {
+  .pg-entry.cs {
+    --cs-nav-col: 0px;
+    --cs-gap: 0px;
+  }
+  .pg-entry__grid {
+    grid-template-columns: minmax(0, var(--cs-measure));
+  }
+  .pg-entry__grid > .pg-entry__header,
+  .pg-entry__grid > .cs-page-nav,
+  .pg-entry__grid > .pg-entry__content {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 640px) {
+  .pg-entry__grid {
+    padding-inline: 20px;
+  }
+}
+
+.pg-entry__grid > .pg-entry__header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.pg-entry__grid > .cs-page-nav {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.pg-entry__grid > .pg-entry__content {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+.pg-entry__header {
+  /* Matches .cs-header's own padding-bottom exactly. */
+  padding-bottom: clamp(28px, 4vw, 40px);
+}
+
+.pg-entry__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--cs-soft);
+  /* Tag now sits below this (like .cs-company below .cs-back), so the gap
+     down to it is tighter than the old single-row 28px. */
+  margin-bottom: 16px;
+  transition: color 0.2s ease;
+}
+
+.pg-entry__back:hover {
+  color: var(--maroon);
+}
+
+/* 1:1 match to .playground-tile__pill's UI (the pill on the Playground
+   homepage cards) rather than the case-study bordered-badge look — block
+   so it stacks below .pg-entry__back instead of sharing its row. */
+.pg-entry__tag {
+  display: block;
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-muted);
+  margin-bottom: 24px;
+}
+
+.pg-entry__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 4.2vw, 40px);
+  color: var(--cs-ink);
+  /* Matches .cs-title's margin-bottom exactly. */
+  margin-bottom: 24px;
+}
+
+/* The header's subhead/brief — same slot and same italic-Fraunces voice
+   as the real case studies' .cs-subhead, sitting right under the title
+   instead of buried as the first content section. */
+.pg-entry__brief {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(16px, 1.8vw, 18px);
+  line-height: 1.5;
+  color: var(--cs-ink);
+  /* No max-width — was capped at 640px, which left it narrower than
+     .pg-entry__title and .pg-entry__hero above/below it (175px margins
+     on the left but a much bigger gap on the right). Runs the full
+     header width now, matching them. */
+}
+
+/* The same laptop-mockup cover used on the Playground card — a real
+   screenshot with its own baked-in background/whitespace, so it just
+   needs a rounded frame and shadow, not another padded card around it
+   (that would double the framing already in the image). */
+.pg-entry__hero {
+  /* Matches .cs-hero-img-wrap's margin-top exactly. */
+  margin-top: 32px;
+}
+
+.pg-entry__hero-img {
+  display: block;
+  width: 100%;
+  border-radius: 20px;
+  box-shadow: 0 24px 48px -24px rgba(26, 26, 26, 0.28);
+}
+
+.dark .pg-entry__hero-img {
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.5);
+}
+
+.pg-entry__hero-link {
+  display: block;
+  position: relative;
+  border-radius: 20px;
+}
+
+/* Dark scrim + centered pill, both fade in together — same "Try it out"
+   CTA as the header button, just surfaced on the hero itself so the image
+   doubles as a second entry point into the live tool. */
+.pg-entry__hero-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 20px;
+  background: rgba(20, 26, 20, 0);
+  opacity: 0;
+  transition: opacity 0.25s ease, background 0.25s ease;
+}
+
+.pg-entry__hero-link:hover .pg-entry__hero-overlay,
+.pg-entry__hero-link:focus-visible .pg-entry__hero-overlay {
+  opacity: 1;
+  background: rgba(20, 26, 20, 0.32);
+}
+
+.pg-entry__hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 11px 22px;
+  border-radius: 999px;
+  background: #fefefe;
+  color: #1a1a1a;
+  font-size: 13.5px;
+  font-weight: 500;
+  transform: translateY(6px);
+  transition: transform 0.25s var(--ease-snap);
+}
+
+.pg-entry__hero-link:hover .pg-entry__hero-cta,
+.pg-entry__hero-link:focus-visible .pg-entry__hero-cta {
+  transform: translateY(0);
+}
+
+@media (hover: none) {
+  .pg-entry__hero-overlay {
+    display: none;
+  }
+}
+
+.pg-entry__try-wrap {
+  /* Was 4px — with no meta row to give the header room to breathe, the
+     button needs its own gap off the paragraph above, closer to the
+     rhythm case studies get between .cs-subhead and .cs-meta-row. */
+  margin-top: 20px;
+}
+
+.pg-entry__try {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  border: 0.5px solid var(--maroon);
+  background: var(--cs-card-bg);
+  color: var(--maroon);
+  font-size: 13px;
+  font-weight: 500;
+  transition: opacity 0.2s ease, transform 0.2s var(--ease-snap);
+}
+
+.pg-entry__try:hover {
+  opacity: 0.8;
+}
+
+.pg-entry__try svg {
+  transition: transform 0.25s var(--ease-snap);
+}
+
+.pg-entry__try:hover svg {
+  transform: rotate(45deg);
+}
+
+/* ---------- Content ---------- */
+/* Tighter rhythm than the full case-study template — 40px between
+   sections instead of 72px, and body copy stays short-measure/high
+   line-height so it reads as scannable blocks, not a wall of text. */
+.pg-entry__section {
+  padding-block: 28px;
+  border-top: 1px solid var(--cs-line);
+}
+
+.pg-entry__section:first-child {
+  padding-top: 0;
+  border-top: none;
+}
+
+/* Aves "What I built" collage — see entry.whatIBuilt.collage in
+   playground.js for sourcing (6 real species photos). An asymmetric
+   masonry-style grid, not a uniform 3-up: a flat grid of the same 6
+   photos read as a stock mosaic in an earlier pass. Row-span sizes
+   (lg/md/sm) create the varied heights; dense packing fills the gaps. */
+.pg-entry__collage {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  grid-auto-rows: 54px;
+  grid-auto-flow: dense;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.pg-entry__collage-item {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(28, 58, 31, 0.14);
+  grid-column: span 3;
+}
+
+.pg-entry__collage-item--lg {
+  grid-column: span 4;
+  grid-row: span 6;
+}
+
+.pg-entry__collage-item--md {
+  grid-column: span 2;
+  grid-row: span 5;
+}
+
+.pg-entry__collage-item--sm {
+  grid-column: span 2;
+  grid-row: span 4;
+}
+
+/* object-position defaults to center — every one of these portrait bird
+   photos has its head/neck sitting in the top third of the frame, not the
+   middle, so a plain center-crop into these short/wide tiles was cutting
+   through necks. Each item sets its own vertical focus (see collage.focalY
+   in playground.js) instead of one shared guess. */
+.pg-entry__collage-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.pg-entry__collage-item figcaption {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 18px 12px 10px;
+  background: linear-gradient(180deg, transparent, rgba(20, 26, 20, 0.72));
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.pg-entry__collage-name {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: #fefefe;
+}
+
+.pg-entry__collage-sci {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 11px;
+  color: rgba(254, 254, 254, 0.75);
+}
+
+@media (max-width: 640px) {
+  .pg-entry__collage {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pg-entry__collage-item,
+  .pg-entry__collage-item--lg,
+  .pg-entry__collage-item--md,
+  .pg-entry__collage-item--sm {
+    grid-column: span 1;
+    grid-row: span 4;
+  }
+}
+
+.pg-entry__label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 12.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--maroon);
+  margin-bottom: 10px;
+}
+
+/* The bold one-line hook under each eyebrow label — read this alone and
+   you get the gist of the section; the paragraphs below just back it up. */
+.pg-entry__hook {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(18px, 2vw, 21px);
+  line-height: 1.35;
+  color: var(--cs-ink);
+  margin-bottom: 12px;
+}
+
+.pg-entry__body {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--cs-body);
+}
+
+.pg-entry__body + .pg-entry__body {
+  margin-top: 10px;
+}
+
+/* A single-line "→" flow summary, styled as a small highlighted callout
+   rather than another paragraph — the section's takeaway at a glance. */
+.pg-entry__flow {
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--cs-ink);
+  letter-spacing: 0.01em;
+}
+
+/* Gesture legend — real emoji lifted from the live app's own UI, not
+   invented icons. Sits right under the context line so the page opens
+   with something to look at. */
+.pg-entry__legend-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 24px;
+}
+
+.pg-entry__legend-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 4px;
+  padding: 16px 8px;
+  border-radius: 12px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+}
+
+.pg-entry__legend-icon {
+  font-size: 22px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.pg-entry__legend-does {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--cs-ink);
+}
+
+.pg-entry__legend-label {
+  font-size: 10.5px;
+  color: var(--cs-muted);
+}
+
+@media (max-width: 640px) {
+  .pg-entry__legend-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.pg-entry__tag-row--tools {
+  margin-top: 20px;
+}
+
+/* A connected pipeline diagram (e.g. Sahay's capture → extract →
+   remember), not a numbered changelog list like "what I iterated" — cards
+   sit side by side with a visible arrow between them so the flow itself
+   is the point, not just a sequence of steps. */
+.pg-entry__flow-diagram {
+  display: flex;
+  align-items: stretch;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.pg-entry__flow-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 18px 18px 20px;
+  border-radius: 14px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+}
+
+/* Holds either the step's icon or, absent one, its number (i + 1) — one
+   badge, not an icon stacked on top of a separate numbered circle.
+   --diagram-accent (set inline from entry.accent) ties the tint to each
+   project's own real accent instead of the page-wide --maroon override
+   (forest green, shared across every Playground entry). */
+.pg-entry__flow-step-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--diagram-accent, var(--maroon)) 14%, transparent);
+  color: var(--diagram-accent, var(--maroon));
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.pg-entry__flow-step-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--cs-ink);
+}
+
+.pg-entry__flow-step-body {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--cs-soft);
+}
+
+.pg-entry__flow-arrow {
+  flex-shrink: 0;
+  align-self: center;
+  font-size: 16px;
+  color: var(--cs-muted);
+}
+
+@media (max-width: 640px) {
+  .pg-entry__flow-diagram {
+    flex-direction: column;
+  }
+  .pg-entry__flow-arrow {
+    align-self: flex-start;
+    margin-left: 20px;
+    transform: rotate(90deg);
+  }
+}
+
+/* Two callout cards for hard product principles (e.g. "never blocks on
+   AI") — bolder and more compact than a body paragraph, so a rule reads
+   as a rule instead of getting lost in prose. */
+.pg-entry__principle-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-top: 20px;
+}
+
+.pg-entry__principle-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+}
+
+.pg-entry__principle-label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--maroon);
+}
+
+.pg-entry__principle-body {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--cs-soft);
+}
+
+@media (max-width: 640px) {
+  .pg-entry__principle-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pg-entry__body--closing {
+  margin-top: 20px;
+}
+
+/* whatsNext roadmap — each item as a "today vs next" card instead of a
+   bare tag, so the gap between what's already built underneath (however
+   crude) and what shipping it would take is visible at a glance. */
+.pg-entry__roadmap-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.pg-entry__roadmap-item {
+  border: 1px solid var(--cs-line);
+  border-radius: 12px;
+  background: var(--cs-card-bg);
+  padding: 16px 18px;
+}
+
+.pg-entry__roadmap-head {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.pg-entry__roadmap-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.pg-entry__roadmap-label {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13.5px;
+  color: var(--maroon);
+  flex: 1;
+}
+
+.pg-entry__roadmap-status {
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  background: color-mix(in srgb, var(--maroon) 12%, transparent);
+  padding: 4px 9px;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.pg-entry__roadmap-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  padding-top: 12px;
+  border-top: 1px solid var(--cs-line);
+}
+
+.pg-entry__roadmap-col-label {
+  display: block;
+  font-size: 10.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--cs-soft);
+  opacity: 0.7;
+  margin-bottom: 4px;
+}
+
+.pg-entry__roadmap-col-body {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--cs-soft);
+}
+
+@media (max-width: 640px) {
+  .pg-entry__roadmap-split {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+/* Wordmark + gradient side by side, not stacked — both are short, wide
+   assets (a logo lockup and a thin bar), so pairing them reads as one
+   brand-spec row instead of two separate beats. Wraps on narrow widths,
+   where the gradient's min-width stops fitting next to the wordmark. */
+.pg-entry__brand-visuals {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin-top: 20px;
+}
+
+/* The real exported wordmark (see brandMark.wordmark in playground.js) —
+   a plain image on the page background, no card frame, since the mark
+   already carries its own white background as part of the export. */
+.pg-entry__wordmark-wrap {
+  flex-shrink: 0;
+}
+
+.pg-entry__wordmark-img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  max-height: 96px;
+}
+
+/* Real gradient stops from the brand spec (see gradient field in
+   playground.js), annotating the wordmark image alongside it with which
+   color means what — the image alone doesn't carry the Curiosity /
+   Understanding / Insight labels. */
+.pg-entry__gradient {
+  flex: 1;
+  min-width: 220px;
+}
+
+.pg-entry__gradient-bar {
+  height: 10px;
+  border-radius: 999px;
+  border: 1px solid var(--cs-line);
+}
+
+.pg-entry__gradient-stops {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+
+.pg-entry__gradient-stop {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  color: var(--cs-soft);
+}
+
+.pg-entry__gradient-swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+/* Before/after icon-contrast pair (brandMark.before/.after) — literal
+   swatches of the real exported icon, not a described comparison. */
+.pg-entry__before-after {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.pg-entry__before-after-item {
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+}
+
+.pg-entry__before-after-swatch {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 10px;
+}
+
+/* These are the real exported icon marks, transparent outside their own
+   already-rounded shape — object-fit: cover plus our own border-radius
+   used to double up on rounding and crop into the artwork's real corners.
+   contain (no clip) lets the icon's actual shape show as-is. */
+.pg-entry__before-after-swatch img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
+}
+
+.pg-entry__before-after-label {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 12.5px;
+  color: var(--maroon);
+  margin-bottom: 4px;
+}
+
+.pg-entry__before-after-caption {
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--cs-soft);
+}
+
+@media (max-width: 640px) {
+  .pg-entry__before-after {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Numbered iteration cards — same visual language as the case studies'
+   breakdown items, so "what I iterated" reads as scannable steps instead
+   of one long paragraph. */
+.pg-entry__iteration-list {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.pg-entry__iteration-item {
+  display: flex;
+  gap: 16px;
+}
+
+.pg-entry__iteration-n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--cs-card-bg);
+  border: 0.5px solid var(--cs-line);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 11px;
+  color: var(--cs-ink);
+}
+
+.pg-entry__iteration-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  margin-bottom: 4px;
+  color: var(--cs-ink);
+}
+
+.pg-entry__iteration-body {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--cs-soft);
+}
+
+/* A connecting line through the numbered badges — reads as a timeline,
+   not just a list that happens to be numbered. Sits behind the badges
+   (z-index 0 vs 1) so it visibly runs between them, not through them. */
+.pg-entry__iteration-list--timeline {
+  position: relative;
+}
+
+.pg-entry__iteration-list--timeline::before {
+  content: "";
+  position: absolute;
+  left: 13px;
+  top: 13px;
+  bottom: 13px;
+  width: 1px;
+  background: var(--cs-line);
+  z-index: 0;
+}
+
+.pg-entry__iteration-list--timeline .pg-entry__iteration-n {
+  position: relative;
+  z-index: 1;
+}
+
+/* ---------- Extracted-fields + evidence-type diagrams ---------- */
+/* The two hub-and-spoke diagrams side by side, not stacked — they're both
+   short reads about the same pipeline, so pairing them reads as one
+   comparison instead of two separate scroll stops. Fixed 2-column grid,
+   not auto-fit: auto-fit's own minmax() sizing decides when to collapse,
+   which meant the pair could silently fall back to stacked on ordinary
+   desktop widths (nav rail zeroes out below 1080px, and the content
+   column doesn't reliably clear 2×320px + gap until closer to 860px).
+   Forcing 2 columns and swapping to the chip-row fallback below 860px
+   (see media query) makes that call explicit instead of accidental.
+   --diagram-accent is set inline per entry (entry.accent) so the tint
+   below traces back to each project's own real accent, not a hardcoded
+   one. */
+.pg-entry__node-diagrams-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+  margin-top: 24px;
+}
+
+.pg-entry__node-diagrams-col {
+  min-width: 0;
+}
+
+@media (max-width: 860px) {
+  .pg-entry__node-diagrams-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* "One call pulls every signal at once" as a shape, not a flat list — a
+   central hub with each extracted field spoking off it. CSS-only radial
+   layout (rotate → translate → counter-rotate keeps labels upright), no
+   JS measurement needed. Desktop only: see the mobile-fallback chip row
+   this sits alongside for the < 860px swap (raised from the more usual
+   640px breakpoint — at half the page width, a 320px+ diagram needs the
+   room a full-width one would, so it hands off to chips sooner).
+
+   Radius is per-node (--radius custom property, set inline) rather than
+   one fixed value: the arc distance between neighboring nodes is equal
+   all the way around a circle, but wide pill labels only actually
+   collide where the tangent runs near-horizontal — i.e. near the top or
+   bottom of the circle. An alternating near/far radius adds the extra
+   separation exactly there without needing a uniformly huge circle. */
+.pg-entry__node-diagram {
+  position: relative;
+  height: 340px;
+}
+
+.pg-entry__node-hub {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--diagram-accent, var(--maroon));
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--diagram-accent, var(--maroon));
+}
+
+.pg-entry__node-line {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--radius, 118px);
+  height: 1px;
+  /* A light wash of the entry's own accent into the neutral line color —
+     subtle on purpose, the line style (solid/dashed/dotted/double) still
+     does the actual work of distinguishing spokes. */
+  background: color-mix(in srgb, var(--diagram-accent, var(--cs-line)) 30%, var(--cs-line));
+  transform-origin: left center;
+  transform: rotate(var(--angle));
+  z-index: 0;
+}
+
+.pg-entry__node-line--solid,
+.pg-entry__node-line--dashed,
+.pg-entry__node-line--dotted,
+.pg-entry__node-line--double {
+  background: none;
+  border-top: 1.5px solid color-mix(in srgb, var(--diagram-accent, var(--cs-soft)) 40%, var(--cs-soft));
+}
+
+.pg-entry__node-line--dashed {
+  border-top-style: dashed;
+}
+
+.pg-entry__node-line--dotted {
+  border-top-style: dotted;
+}
+
+.pg-entry__node-line--double {
+  border-top-style: double;
+  border-top-width: 3px;
+}
+
+.pg-entry__node {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: rotate(var(--angle)) translate(var(--radius, 118px)) rotate(calc(-1 * var(--angle)));
+  z-index: 1;
+}
+
+.pg-entry__node-label {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  padding: 6px 11px;
+  border-radius: 999px;
+  background: var(--cs-card-bg);
+  border: 1px solid color-mix(in srgb, var(--diagram-accent, var(--cs-line)) 22%, var(--cs-line));
+  font-size: 11.5px;
+  color: var(--cs-ink);
+  white-space: nowrap;
+}
+
+/* Compound selector (not just .pg-entry__tag-row--mobile-fallback alone)
+   so this reliably beats the base .pg-entry__tag-row { display: flex }
+   rule regardless of source order — same specificity, single-class
+   selectors resolve by whichever is later in the file, which isn't a
+   safe thing to depend on here. */
+.pg-entry__tag-row.pg-entry__tag-row--mobile-fallback {
+  display: none;
+}
+
+@media (max-width: 860px) {
+  .pg-entry__node-diagram {
+    display: none;
+  }
+  .pg-entry__tag-row.pg-entry__tag-row--mobile-fallback {
+    display: flex;
+    margin-top: 20px;
+  }
+}
+
+/* ---------- Evidence-type link diagram ---------- */
+/* Reuses the extracted-fields hub-and-spoke, scaled down to 4 items and
+   angled diagonally (45/135/225/315, not 0/90/180/270) so no spoke sits
+   on the near-horizontal top/bottom where wide labels crowd. Line style,
+   not color, still carries the distinction — matches the site's
+   restrained one-accent-per-project palette — but now the styles are
+   shown actually linking "New save" into the diagram they describe,
+   instead of floating as a disconnected sample list. */
+.pg-entry__node-diagram--evidence {
+  height: 240px;
+}
+
+.pg-entry__node-diagram--evidence .pg-entry__node-hub {
+  width: 86px;
+  height: 86px;
+  font-size: 11.5px;
+}
+
+.pg-entry__node-diagram--evidence .pg-entry__node-line,
+.pg-entry__node-diagram--evidence .pg-entry__node {
+  --radius: 104px;
+}
+
+.pg-entry__built-with {
+  margin-top: 12px;
+  padding-top: 24px;
+  border-top: 1px solid var(--cs-line);
+}
+
+.pg-entry__built-with-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--cs-muted);
+  margin-bottom: 10px;
+}
+
+.pg-entry__tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pg-entry__stack-tag {
+  font-size: 12px;
+  color: var(--cs-ink);
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  border-radius: 8px;
+  padding: 5px 11px;
+}
