@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation, useNavigationType } from "react-router-dom";
-import { useEffect, lazy, Suspense } from "react";
+import { useEffect, useRef, lazy, Suspense } from "react";
 import "./App.css";
 import CustomCursor from "./components/CustomCursor";
 import Nav from "./components/Nav";
@@ -21,6 +21,7 @@ const CaseStudyPaywall = lazy(() => import("./pages/CaseStudyPaywall"));
 const CaseStudyTripAssurance = lazy(() => import("./pages/CaseStudyTripAssurance"));
 const AboutMe = lazy(() => import("./pages/AboutMe"));
 const WorkPage = lazy(() => import("./pages/WorkPage"));
+const PlaygroundPage = lazy(() => import("./pages/PlaygroundPage"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const PreviewMotion = lazy(() => import("./pages/PreviewMotion"));
 const PreviewFuturistic = lazy(() => import("./pages/PreviewFuturistic"));
@@ -59,8 +60,15 @@ function Home() {
 const scrollPositions = new Map();
 
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   const navigationType = useNavigationType();
+  // Tracks whether this render is a genuine route change vs. a hash-only
+  // update on the page you're already on — the hash branch below only
+  // wants to force an instant top-reset before the smooth scroll in the
+  // former case (landing on a fresh page at a defined 0 before animating
+  // down reads right); on the latter, jumping to 0 first would just cause
+  // an unwanted extra hop before scrolling to the target.
+  const prevPathname = useRef(pathname);
 
   // Runs on cleanup, right before the *next* pathname's effect fires — so
   // this captures the scroll position of the page being left, keyed to
@@ -72,6 +80,30 @@ function ScrollToTop() {
   }, [pathname]);
 
   useEffect(() => {
+    const pathChanged = prevPathname.current !== pathname;
+    prevPathname.current = pathname;
+
+    // A hash target (nav's Work/Playground links, e.g. "/#work" from a
+    // different page) always wins over the top-reset below — it's a more
+    // specific instruction than "go to the top of this page." The plain
+    // <a href="#work"> version of this used to rely on the browser's own
+    // native hash-scroll, which does nothing when the target element isn't
+    // in the DOM yet (a cross-page nav to "/" hasn't rendered Home's
+    // sections at the moment the browser processes the initial hash) — so
+    // this is now handled explicitly instead. No rAF needed here (unlike
+    // the nudge below): useEffect already runs after the DOM commit, so
+    // Home's sections are already present by this point. Scrolled smoothly
+    // rather than snapped — the point of a nav link to a section is to
+    // watch the page travel there, not teleport.
+    if (hash) {
+      const el = document.getElementById(hash.slice(1));
+      if (el) {
+        if (pathChanged) window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+      return;
+    }
+
     if (navigationType === "POP" && scrollPositions.has(pathname)) {
       const y = scrollPositions.get(pathname);
       const raf = requestAnimationFrame(() => {
@@ -99,7 +131,7 @@ function ScrollToTop() {
       window.scrollBy({ top: -1, behavior: "instant" });
     });
     return () => cancelAnimationFrame(raf);
-  }, [pathname, navigationType]);
+  }, [pathname, hash, navigationType]);
   return null;
 }
 
@@ -117,6 +149,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<AboutMe />} />
           <Route path="/work" element={<WorkPage />} />
+          <Route path="/playground" element={<PlaygroundPage />} />
           <Route path="/work/paywall-experiments" element={<CaseStudyPaywall />} />
           <Route path="/work/trip-assurance" element={<CaseStudyTripAssurance />} />
           <Route path="/preview/motion" element={<PreviewMotion />} />

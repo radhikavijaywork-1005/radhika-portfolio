@@ -59,9 +59,23 @@ export default function Nav() {
 
         <nav className="nav__links" aria-label="Primary">
           <span className="nav__item nav__item--underline">
-            <a href={onHome ? "#work" : "/#work"} onMouseEnter={playHover} onClick={playClick}>
+            <Link
+              to={onHome ? "#work" : "/#work"}
+              onMouseEnter={playHover}
+              onClick={onNavLinkClick(onHome ? "#work" : "/#work", playClick)}
+            >
               Work
-            </a>
+            </Link>
+          </span>
+          <span className="nav__dash">~</span>
+          <span className="nav__item nav__item--underline">
+            <Link
+              to={onHome ? "#playground" : "/#playground"}
+              onMouseEnter={playHover}
+              onClick={onNavLinkClick(onHome ? "#playground" : "/#playground", playClick)}
+            >
+              Playground
+            </Link>
           </span>
           <span className="nav__dash">~</span>
           <span className="nav__item nav__item--underline">
@@ -131,16 +145,23 @@ export default function Nav() {
                 exit={{ opacity: 0, y: -8 }}
                 transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
               >
-                <a
+                <Link
+                  to={onHome ? "#work" : "/#work"}
                   className={`nav__mobile-link${onHome ? " is-active" : ""}`}
-                  href={onHome ? "#work" : "/#work"}
-                  onClick={() => { playClick(); closeMenu(); }}
+                  onClick={onNavLinkClick(onHome ? "#work" : "/#work", () => { playClick(); closeMenu(); })}
                 >
                   Work
-                </a>
+                </Link>
+                <Link
+                  to={onHome ? "#playground" : "/#playground"}
+                  className={`nav__mobile-link${onHome ? " is-active" : ""}`}
+                  onClick={onNavLinkClick(onHome ? "#playground" : "/#playground", () => { playClick(); closeMenu(); })}
+                >
+                  Playground
+                </Link>
                 <Link
                   to="/about"
-                  className={`nav__mobile-link${!onHome ? " is-active" : ""}`}
+                  className={`nav__mobile-link${pathname === "/about" ? " is-active" : ""}`}
                   onClick={onNavLinkClick("/about", () => { playClick(); closeMenu(); })}
                 >
                   About

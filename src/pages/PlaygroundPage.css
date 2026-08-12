@@ -1,0 +1,130 @@
+/* /playground — standalone index page. Deliberately not the homepage's
+   horizontal-scroll card row: a plain vertical stack instead, one full-
+   width image-left/content-right band per project. */
+
+.pgpage-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.pgpage-row {
+  display: flex;
+  align-items: center;
+  gap: clamp(28px, 4.5vw, 56px);
+  padding-block: clamp(32px, 5vw, 56px);
+  border-top: 1px solid var(--line);
+  color: inherit;
+  text-decoration: none;
+}
+
+.pgpage-row:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.pgpage-row:last-child {
+  padding-bottom: 0;
+}
+
+.pgpage-visual {
+  position: relative;
+  flex: 0 0 44%;
+  max-width: 480px;
+  aspect-ratio: 3 / 2;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--card);
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 40px -24px rgba(26, 53, 45, 0.22);
+}
+
+.dark .pgpage-visual {
+  box-shadow: 0 20px 40px -24px rgba(0, 0, 0, 0.45);
+}
+
+.pgpage-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s var(--ease-flow);
+}
+
+.pgpage-row:hover .pgpage-visual img {
+  transform: scale(1.03);
+}
+
+.pgpage-visual__icon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40px;
+  background: color-mix(in srgb, var(--playground-accent) 14%, var(--card));
+}
+
+.pgpage-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pgpage-tag {
+  font-size: 12px;
+  font-weight: 300;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--gray-muted);
+}
+
+.pgpage-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(24px, 3vw, 34px);
+  color: var(--ink);
+  margin: 0;
+}
+
+.pgpage-brief {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  max-width: 52ch;
+  margin: 0;
+}
+
+.pgpage-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--forest-soft);
+  width: fit-content;
+}
+
+.pgpage-cta svg {
+  transition: transform 0.25s var(--ease-snap);
+}
+
+.pgpage-row:hover .pgpage-cta svg {
+  transform: rotate(45deg);
+}
+
+@media (max-width: 720px) {
+  .pgpage-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 20px;
+  }
+
+  .pgpage-visual {
+    flex: none;
+    max-width: none;
+    width: 100%;
+  }
+}
