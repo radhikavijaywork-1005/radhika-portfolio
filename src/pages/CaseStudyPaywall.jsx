@@ -15,7 +15,7 @@ import existingImg from "../assets/case-study/paywall/existing.svg";
 import flowImg from "../assets/case-study/paywall/flow.png";
 import indianmanImg from "../assets/case-study/paywall/indianman.png";
 import flowGif from "../assets/case-study/paywall/flow.gif";
-import sheetImg from "../assets/case-study/paywall/sheet.svg";
+import sheetImg from "../assets/case-study/paywall/calling-sheet-composite.jpg";
 import futureImg from "../assets/case-study/paywall/future.png";
 import quoteImg from "../assets/case-study/paywall/Quote.png";
 import var1Img from "../assets/case-study/paywall/paywall_var_1.png";
@@ -325,6 +325,10 @@ export default function CaseStudyPaywall() {
             </Reveal>
 
             <Reveal as="div" className="cs-research-card" delay={0.08}>
+              <div className="cs-sheet-img-wrap">
+                <img className="cs-sheet-img" src={sheetImg} alt="Calling sheet coding user-call responses against research parameters, alongside a recorded user call" />
+                <span className="cs-caption">Calling sheet</span>
+              </div>
               <div className="cs-quote-grid">
                 {cs.research.quotes.map((q) => (
                   <div className="cs-quote-card" key={q.name}>
@@ -334,10 +338,6 @@ export default function CaseStudyPaywall() {
                     </span>
                   </div>
                 ))}
-              </div>
-              <div className="cs-sheet-img-wrap">
-                <img className="cs-sheet-img" src={sheetImg} alt="Calling sheet coding user-call responses against research parameters" />
-                <span className="cs-caption">Calling sheet</span>
               </div>
             </Reveal>
 

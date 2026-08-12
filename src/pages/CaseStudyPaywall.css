@@ -923,32 +923,58 @@
   color: var(--maroon);
 }
 
-/* Unified white card holding the stacked quotes (left) and the calling
-   sheet image (right), matching Figma's single bordered panel. */
+/* Unified white card: the calling-sheet + call-recording composite on top,
+   the 3 verbatim quotes as a row underneath — matches the reference
+   composition (one evidence image, quotes as supporting captions below it)
+   rather than the old side-by-side table/quotes-column layout. */
 .cs-research-card {
   display: flex;
-  gap: 32px;
-  align-items: stretch;
+  flex-direction: column;
+  gap: 28px;
   padding: 48px;
   margin: 0 0 8px;
   background: var(--cs-card-bg);
-  border: 1px solid var(--cs-line);
   border-radius: 24px;
-  overflow: hidden;
 }
 
-.cs-research-card .cs-quote-grid {
-  flex-shrink: 0;
-  width: 315px;
+.cs-sheet-img-wrap {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+}
+
+.cs-sheet-img-wrap .cs-sheet-img {
+  width: 100%;
+  display: block;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px -24px rgba(26, 26, 26, 0.28);
+}
+
+.dark .cs-sheet-img-wrap .cs-sheet-img {
+  box-shadow: 0 20px 40px -24px rgba(0, 0, 0, 0.5);
+}
+
+.cs-sheet-img-wrap .cs-caption {
+  display: block;
+  margin-top: 10px;
 }
 
 .cs-quote-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
 }
 
+/* Grid items stretch to equal height by default, but without its own flex
+   layout the card's content just sat at the top, so a shorter quote left
+   the attribution line floating higher than a longer quote's — "upar
+   neeche" instead of a consistent baseline. space-between pins the name
+   to the same bottom edge on every card regardless of quote length. */
 .cs-quote-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 16px;
   background: var(--cs-card-bg);
   border: 1px solid var(--cs-line);
@@ -969,31 +995,6 @@
   font-size: 12px;
   font-weight: 300;
   color: var(--cs-soft);
-}
-
-.cs-sheet-img-wrap {
-  flex: 1;
-  margin: 0;
-  padding: 0;
-  background: none;
-  border: none;
-  align-self: stretch;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
-.cs-sheet-img-wrap .cs-sheet-img {
-  width: 100%;
-  flex: 1;
-  min-height: 0;
-  object-fit: cover;
-  object-position: left top;
-}
-
-.cs-sheet-img-wrap .cs-caption {
-  flex-shrink: 0;
-  margin-top: 8px;
 }
 
 /* ---------- Insights ---------- */
@@ -1050,12 +1051,10 @@
 
 @media (max-width: 640px) {
   .cs-research-card {
-    flex-direction: column;
     padding: 32px;
   }
-  .cs-research-card .cs-quote-grid {
-    width: 100%;
-    padding-left: 0;
+  .cs-quote-grid {
+    grid-template-columns: 1fr;
   }
   .cs-insight-grid {
     grid-template-columns: 1fr;

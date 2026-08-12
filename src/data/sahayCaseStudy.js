@@ -4,7 +4,7 @@
 // hierarchy, the flow demo video — none of that applies to Airmarc or
 // Aves), so it has its own dedicated page (PlaygroundSahay.jsx) instead.
 // playground.js still carries the lightweight card-only fields (hoverLine,
-// ctaLabel, etc.) that the homepage grid needs.
+// etc.) that the homepage grid needs.
 export const sahayCaseStudy = {
   slug: "sahay",
   title: "Sahay",
@@ -12,11 +12,10 @@ export const sahayCaseStudy = {
   date: "2026",
   accent: "#de8e69", // sidebar-primary from the app's own globals.css, not invented
   icon: "🧭",
-  // Used on the homepage Playground card (hover description + CTA label) —
-  // the card component reads these directly, so they're required even
-  // though nothing on this detail page itself renders them.
+  // Used on the homepage Playground card (hover description) — the card
+  // component reads this directly, so it's required even though nothing
+  // on this detail page itself renders it.
   hoverLine: "Click save, and it remembers not just what you found, but why it mattered.",
-  ctaLabel: "Read the write-up",
   context: "Your research companion: a Chrome extension and dashboard for saving your research, building context around it, and answering questions from it.",
 
   problem: {

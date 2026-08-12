@@ -151,10 +151,11 @@ export const playground = [
     tag: "Research Companion",
     date: "2026",
     // No href — deliberately: it runs locally only, not deployed or
-    // published anywhere yet. entry.href gates the "Try it out" link on
-    // both the card and the detail page, so leaving it unset keeps both
-    // honest rather than pointing at a URL that doesn't exist.
-    ctaLabel: "Read the write-up",
+    // published anywhere yet. entry.href gates the "Try it out" button on
+    // the detail page, so leaving it unset keeps that honest rather than
+    // pointing at a URL that doesn't exist. The homepage card itself
+    // doesn't use href/ctaLabel at all — every card reads "Read more"
+    // and goes to the write-up, never straight to a live tool.
     accent: "#de8e69", // sidebar-primary from the app's own globals.css, not invented
     icon: "🧭",
     hoverLine: "Click save, and it remembers not just what you found, but why it mattered.",

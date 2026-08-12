@@ -180,9 +180,9 @@ function AchievementCard({ item, i }) {
           <AchievementPhotoCycle images={achievementImages[item.title]} hovered={hovered} />
         </div>
         <div className="about-achievements__body">
+          <span className="about-achievements__pill">{item.year}</span>
           <Reveal as="h3" className="about-achievements__title">{item.title}</Reveal>
           <p className="about-achievements__desc">{item.description}</p>
-          <span className="about-achievements__pill">{item.year}</span>
         </div>
       </div>
     </Reveal>

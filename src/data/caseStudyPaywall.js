@@ -114,7 +114,7 @@ export const paywallCaseStudy = {
     body2: "Each call was coded against 5 parameters.",
     params: ["1. Barriers", "2. Decision factor", "3. Value Perception", "4. Trust Elements", "5. User Expectation"],
     quotes: [
-      { text: "₹1 mein kitne din dekh sakte hai? ₹199 kya khudse kat lega?", name: "Sanjay", loc: "Hisar" },
+      { text: "₹1 mein kitne din dekh sakte hai? ₹199 kya khudse kat lega?", name: "Manoj", loc: "Hisar" },
       { text: "Mehnga laga, pata nahi chala kaisa content hai, jiske liye ₹199 dun", name: "Neha", loc: "Bhilwara" },
       {
         text: "Bina paise diye aage badhne hi de rahe the, bina dekhe kaise paise de dun. Uninstall kar diya",

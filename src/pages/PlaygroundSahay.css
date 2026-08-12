@@ -234,13 +234,14 @@
   width: 100%;
 }
 
-/* Rotated to point down between the two rows — at ≤640px each row also
-   collapses to a column (see .pg-entry__flow-arrow's own mobile rule in
-   PlaygroundEntry.css), so this ends up matching every other arrow's
-   rotation there too: one consistent vertical list of 6 steps, not a
-   gap where the row connector used to be. */
+/* Already a "↓" glyph, so it needs no rotation at any width — the base
+   .pg-entry__flow-arrow's mobile rule (PlaygroundEntry.css) rotates the
+   plain "→" arrows 90° to point down when rows collapse to a column, but
+   applying that same rotation here turned an already-downward arrow into
+   a sideways one. Equal specificity to that rule and declared later, so
+   `none` here correctly wins at every width, including mobile. */
 .pg-entry__flow-arrow--down {
-  transform: rotate(90deg);
+  transform: none;
 }
 
 /* "Sahay," wherever it gets the glow treatment — the h1 title and the

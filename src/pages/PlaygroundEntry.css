@@ -38,6 +38,27 @@
   display: block;
 }
 
+.pg-entry__grid > .pg-entry__header {
+  grid-column: 1 / -1;
+  grid-row: 1;
+}
+
+.pg-entry__grid > .cs-page-nav {
+  grid-column: 1;
+  grid-row: 2;
+}
+
+.pg-entry__grid > .pg-entry__content {
+  grid-column: 2;
+  grid-row: 2;
+}
+
+/* These two media queries must come after the unconditional grid-column
+   rules above (same selectors, same specificity) — a mobile viewport was
+   still getting the two-column desktop layout because the unconditional
+   rules sat later in the file and won the cascade regardless of which
+   one actually matched, leaving .pg-entry__content pinned to a 240px
+   second column and squeezing .pg-entry__brief into a ~110px sliver. */
 @media (max-width: 1080px) {
   .pg-entry.cs {
     --cs-nav-col: 0px;
@@ -57,21 +78,6 @@
   .pg-entry__grid {
     padding-inline: 20px;
   }
-}
-
-.pg-entry__grid > .pg-entry__header {
-  grid-column: 1 / -1;
-  grid-row: 1;
-}
-
-.pg-entry__grid > .cs-page-nav {
-  grid-column: 1;
-  grid-row: 2;
-}
-
-.pg-entry__grid > .pg-entry__content {
-  grid-column: 2;
-  grid-row: 2;
 }
 
 .pg-entry__header {

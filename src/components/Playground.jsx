@@ -99,8 +99,12 @@ function PlaygroundTile({ item, i, wasDrag }) {
               taller than Research Companion's single-line one. */}
           <div className="playground-tile__reveal">
             <p className="playground-tile__desc">{item.hoverLine}</p>
+            {/* Every card's own click target is the write-up (/playground/:slug),
+                never the live tool directly — "Try it out"/"Read the write-up"
+                varied per entry but described the wrong destination either way.
+                One honest label for what actually happens on click. */}
             <span className="playground-tile__cta">
-              {item.ctaLabel || "Try it out"}
+              Read more
               <svg width="10" height="10" viewBox="0 0 12 12" fill="none" aria-hidden="true">
                 <path d="M3 9L9 3M9 3H4M9 3V8" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>

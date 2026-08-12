@@ -1445,16 +1445,31 @@
   }
 }
 
+/* Below 640px this drops the horizontal-scroll row entirely and stacks
+   cards vertically, one full-width per row — same treatment as
+   .about-achievements at this breakpoint (see AboutMe.css), so Highlights
+   and Playground read as one consistent mobile pattern instead of one
+   section stacking and the other still scrolling sideways. The base
+   padding/negative-margin pair exists only to keep the desktop scroll
+   row's shadow from clipping — zeroed here since nothing scrolls anymore,
+   otherwise it'd bleed past the frame's own 20px mobile padding. */
 @media (max-width: 640px) {
   .playground-frame {
     padding: 20px;
   }
   .playground-grid {
-    gap: 16px;
+    flex-direction: column;
+    overflow: visible;
+    scroll-snap-type: none;
+    cursor: auto;
+    user-select: auto;
+    padding: 0;
+    margin: 0;
+    gap: 24px;
   }
   .playground-tile-slot {
-    flex-basis: 240px;
-    width: 240px;
+    flex: none;
+    width: 100%;
   }
 }
 
