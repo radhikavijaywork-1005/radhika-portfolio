@@ -1,0 +1,431 @@
+/* Sahay-only additions on top of PlaygroundEntry.css — visual patterns
+   this case study needed that no other Playground entry uses: a
+   standalone pull-quote beat, a two-card "insight" list (bigger than the
+   short principle-grid chips), an italic quote line inside a forward-
+   looking roadmap stage, the flow demo video, and the "product
+   underneath" card grid. Everything else on this page reuses
+   PlaygroundEntry.css classes directly so the visual identity matches
+   the other entries exactly. */
+
+/* ---------- See it in action (flow demo) ---------- */
+/* Restrained CSS laptop bezel: thin border, quiet base bar, not a
+   photoreal render — matches the rest of the page's hairline-border,
+   no-heavy-chrome look. */
+.pg-entry__demo {
+  position: relative;
+  margin-top: 28px;
+  padding: 40px 0;
+}
+
+/* A soft, blurred wash of the real brand gradient behind the frame — not
+   a generic "AI" background (particles, circuit lines, neural nets),
+   which is exactly what the Branding section below says this brand
+   deliberately avoided. Same three colors, just diffused and out of
+   focus, so the frame is clearly still "hers." */
+.pg-entry__demo-glow {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  width: min(560px, 80%);
+  height: 70%;
+  background: var(--sahay-gradient);
+  filter: blur(64px);
+  opacity: 0.28;
+  z-index: 0;
+}
+
+.dark .pg-entry__demo-glow {
+  opacity: 0.16;
+}
+
+.pg-entry__demo-frame {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+.pg-entry__demo-screen {
+  position: relative;
+  overflow: hidden;
+  border-radius: 14px 14px 3px 3px;
+  border: 8px solid #1a1a1a;
+  border-bottom-width: 3px;
+  background: #000;
+  box-shadow: 0 24px 48px -24px rgba(26, 26, 26, 0.32);
+}
+
+.dark .pg-entry__demo-screen {
+  border-color: #0a0a0a;
+  box-shadow: 0 24px 48px -24px rgba(0, 0, 0, 0.55);
+}
+
+/* The recording itself has a ~44px black letterbox strip along the top
+   (empty space above the captured browser window) — cropped out here via
+   aspect-ratio + object-position instead of re-encoding the source file.
+   "bottom" alignment keeps the browser content's own bottom edge in
+   frame and lets the crop eat into the black strip above it. */
+.pg-entry__demo-video {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1784 / 1116;
+  object-fit: cover;
+  object-position: center bottom;
+  background: #000;
+}
+
+/* A branded cover in place of the native <video poster> — a poster image
+   here would've meant either the mockup-framed hero screenshot (the
+   laptop-inside-laptop problem) or a raw, half-loaded-looking frame of
+   the recording. A dark panel with the real mark reads as an intentional
+   title card instead, matching the icon's own dark-tile export used in
+   Branding below. */
+.pg-entry__demo-cover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+  background: #141414;
+}
+
+/* Logomark and "SAHAY" in one horizontal line, like the real wordmark's
+   own layout — see the JSX comment for why this is the icon + CSS text,
+   not the wordmark image itself. */
+.pg-entry__demo-cover-mark {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.pg-entry__demo-cover-icon {
+  width: 34px;
+  height: auto;
+  border-radius: 9px;
+}
+
+.pg-entry__demo-cover-word {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  letter-spacing: 0.14em;
+  color: #f5f2ee;
+}
+
+.pg-entry__demo-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  margin-top: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #fefefe;
+  transition: transform 0.2s var(--ease-snap), background 0.2s ease;
+}
+
+.pg-entry__demo-play:hover {
+  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.pg-entry__demo-play svg {
+  margin-left: 2px;
+}
+
+/* A thin base bar under the screen, wider than it with a small centered
+   notch — enough to read as "laptop," not a full skeuomorphic render. */
+.pg-entry__demo-base {
+  position: relative;
+  height: 10px;
+  margin: 0 -16px;
+  background: linear-gradient(180deg, #2c2c2c, #161616);
+  border-radius: 0 0 8px 8px;
+}
+
+.pg-entry__demo-base-notch {
+  position: absolute;
+  top: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 64px;
+  height: 3px;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 640px) {
+  .pg-entry__demo {
+    padding: 24px 0;
+  }
+}
+
+/* "Product underneath" card grid — a flat, quiet layout on purpose,
+   replacing what was a second hub-and-spoke diagram. --diagram-accent
+   (set inline from entry.accent) ties the caption and dots to the real
+   project accent, matching how the actual radial diagram above it does
+   the same thing. */
+.pg-entry__underneath-grid {
+  margin-top: 28px;
+}
+
+.pg-entry__underneath-grid-caption {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--diagram-accent, var(--maroon));
+  margin-bottom: 12px;
+}
+
+.pg-entry__underneath-grid-items {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.pg-entry__underneath-grid-item {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 14px 16px;
+  border-radius: 12px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--cs-ink);
+}
+
+.pg-entry__underneath-grid-dot {
+  flex-shrink: 0;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--diagram-accent, var(--maroon));
+}
+
+@media (max-width: 640px) {
+  .pg-entry__underneath-grid-items {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Two-row flow diagram (How it works' 6-step journey) — the same single-
+   row .pg-entry__flow-diagram rendered twice and stacked, rather than
+   squeezing 6 cards into one row that just gets narrower per step. The
+   nested rows' own margin-top collapses out; spacing between the two rows
+   comes from this wrapper's gap instead. */
+.pg-entry__flow-diagram-rows {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.pg-entry__flow-diagram-rows .pg-entry__flow-diagram {
+  margin-top: 0;
+  width: 100%;
+}
+
+/* Rotated to point down between the two rows — at ≤640px each row also
+   collapses to a column (see .pg-entry__flow-arrow's own mobile rule in
+   PlaygroundEntry.css), so this ends up matching every other arrow's
+   rotation there too: one consistent vertical list of 6 steps, not a
+   gap where the row connector used to be. */
+.pg-entry__flow-arrow--down {
+  transform: rotate(90deg);
+}
+
+/* "Sahay," wherever it gets the glow treatment — the h1 title and the
+   "What I built" hook, deliberately not every heading on the page (a
+   shimmer on every mention would compete with the content instead of
+   accenting it). On hover, a moving gradient fill (the same real
+   Curiosity/Understanding/Insight stops as Branding, threaded in via
+   --sahay-gradient) sweeps across the letters — a small nod to "AI"
+   without resorting to a sparkle icon or a robot glyph, consistent with
+   the brand's own fluid-not-literal mark described in Branding below
+   (which explicitly avoided things like chat bubbles, so no bubble
+   motion here either). --light is the hook-only modifier: there, "Sahay"
+   needs to read as lighter than the bold text around it; the title
+   already carries its own weight and doesn't need that override. */
+.pg-entry__brand-glow {
+  display: inline-block;
+}
+
+.pg-entry__brand-glow--light {
+  font-weight: 400;
+}
+
+.pg-entry__brand-glow:hover {
+  background-image: var(--sahay-gradient);
+  background-size: 200% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: pg-brand-glow-shimmer 1.6s linear infinite;
+}
+
+@keyframes pg-brand-glow-shimmer {
+  from {
+    background-position: 0% 50%;
+  }
+  to {
+    background-position: -200% 50%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pg-entry__brand-glow:hover {
+    animation: none;
+    background-position: 50% 50%;
+  }
+}
+
+/* Save/Understand/Remember as pointers instead of paragraphs — same size
+   and color as .pg-entry__flow-step-body so a step with points reads as
+   the same weight of content as one that's still a plain sentence. */
+.pg-entry__flow-step-points {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-left: 16px;
+  font-size: 13px;
+  line-height: 1.45;
+  color: var(--cs-soft);
+}
+
+.pg-entry__flow-step-points li {
+  list-style: disc;
+}
+
+.pg-entry__flow-step-points li::marker {
+  color: var(--diagram-accent, var(--maroon));
+}
+
+.pg-entry__pullquote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(18px, 3vw, 26px);
+  line-height: 1.3;
+  color: var(--maroon);
+  margin: 28px 0;
+}
+
+.pg-entry__pullquote span {
+  display: block;
+}
+
+.pg-entry__pullquote--closing {
+  text-align: center;
+  margin: 48px auto 12px;
+  max-width: 560px;
+}
+
+.pg-entry__insight-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.pg-entry__insight-item {
+  border: 1px solid var(--cs-line);
+  border-radius: 12px;
+  background: var(--cs-card-bg);
+  padding: 18px 20px;
+}
+
+.pg-entry__insight-label {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--maroon);
+  margin-bottom: 8px;
+}
+
+.pg-entry__insight-body {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: var(--cs-soft);
+}
+
+.pg-entry__stage-quote {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--maroon);
+  margin-top: 8px;
+  padding-left: 12px;
+  border-left: 2px solid var(--cs-line);
+}
+
+/* Illustrative mock of an Ask answer — deliberately styled as its own
+   small card rather than a fake browser/app chrome, so it never reads as
+   an actual screenshot. Question sits above like a label; the answer
+   below mirrors the real product's own answer shape (bold lead term per
+   bullet, general-knowledge separated under its own divider line). */
+.pg-entry__chat-mock {
+  margin-top: 20px;
+  max-width: 460px;
+  border: 1px solid var(--cs-line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--cs-card-bg);
+}
+
+.pg-entry__chat-mock-q {
+  padding: 12px 18px;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--cs-ink);
+  border-bottom: 1px solid var(--cs-line);
+}
+
+.pg-entry__chat-mock-a {
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pg-entry__chat-mock-bullet {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--cs-soft);
+}
+
+.pg-entry__chat-mock-lead {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+.pg-entry__chat-mock-divider {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--maroon);
+  opacity: 0.75;
+  margin-top: 4px;
+}
+
+.pg-entry__chat-mock-caption {
+  display: block;
+  padding: 8px 18px 14px;
+  font-size: 10.5px;
+  color: var(--cs-soft);
+  opacity: 0.65;
+}

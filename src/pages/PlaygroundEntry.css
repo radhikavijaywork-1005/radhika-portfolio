@@ -458,22 +458,19 @@
 }
 
 /* Holds either the step's icon or, absent one, its number (i + 1) — one
-   badge, not an icon stacked on top of a separate numbered circle.
-   --diagram-accent (set inline from entry.accent) ties the tint to each
-   project's own real accent instead of the page-wide --maroon override
-   (forest green, shared across every Playground entry). */
+   badge, not an icon stacked on top of a separate numbered circle. No
+   background circle: a tinted disc behind a full-color emoji just muddies
+   it, the icon's own color already does the work a badge would. */
 .pg-entry__flow-step-n {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 30px;
   height: 30px;
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--diagram-accent, var(--maroon)) 14%, transparent);
   color: var(--diagram-accent, var(--maroon));
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 1;
   margin-bottom: 4px;
 }
@@ -785,6 +782,17 @@
   color: var(--cs-ink);
 }
 
+/* whatsNext's icon-per-stage badges reuse this class's layout/spacing but
+   drop the numbered-badge circle — same reasoning as .pg-entry__flow-step-n,
+   a tinted disc behind a full-color emoji reads muddy, not clean. Scoped to
+   a modifier rather than changing the base class, which stays a plain
+   bordered circle for the numbered "What I iterated" list right above it. */
+.pg-entry__iteration-n--icon {
+  border: none;
+  background: none;
+  font-size: 13px;
+}
+
 .pg-entry__iteration-title {
   font-family: var(--font-body);
   font-weight: 600;
@@ -822,22 +830,24 @@
   z-index: 1;
 }
 
-/* ---------- Extracted-fields + evidence-type diagrams ---------- */
-/* The two hub-and-spoke diagrams side by side, not stacked — they're both
-   short reads about the same pipeline, so pairing them reads as one
-   comparison instead of two separate scroll stops. Fixed 2-column grid,
-   not auto-fit: auto-fit's own minmax() sizing decides when to collapse,
-   which meant the pair could silently fall back to stacked on ordinary
-   desktop widths (nav rail zeroes out below 1080px, and the content
-   column doesn't reliably clear 2×320px + gap until closer to 860px).
-   Forcing 2 columns and swapping to the chip-row fallback below 860px
-   (see media query) makes that call explicit instead of accidental.
+/* ---------- Hub-and-spoke diagram row(s) ---------- */
+/* Used both for a pair of diagrams (side by side, reading as one
+   comparison instead of two separate scroll stops) and for a single
+   diagram on its own (the draft's "product underneath" section) — so
+   this can't be a fixed 2-column grid, that leaves a blank second column
+   when there's only one child. auto-fit solves both: it collapses empty
+   tracks, so one child fills the full row and two children split it
+   evenly. The minmax() floor (320px) is sized against the 860px
+   mobile-fallback breakpoint below — above 860px, the content column is
+   always wide enough to clear 2×320px + gap, so auto-fit never collapses
+   a real pair back to stacked; below it, diagrams hand off to the chip
+   row instead, so there's nothing left to lay out anyway.
    --diagram-accent is set inline per entry (entry.accent) so the tint
    below traces back to each project's own real accent, not a hardcoded
    one. */
 .pg-entry__node-diagrams-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 32px;
   align-items: start;
   margin-top: 24px;

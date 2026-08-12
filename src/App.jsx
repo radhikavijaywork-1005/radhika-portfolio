@@ -37,7 +37,7 @@ const PreviewHeroPortraitMotion = lazy(() => import("./pages/PreviewHeroPortrait
 const PreviewDotPortrait = lazy(() => import("./pages/PreviewDotPortrait"));
 const PreviewPlayground = lazy(() => import("./pages/PreviewPlayground"));
 const PlaygroundEntry = lazy(() => import("./pages/PlaygroundEntry"));
-const PreviewSahay = lazy(() => import("./pages/PreviewSahay"));
+const PlaygroundSahay = lazy(() => import("./pages/PlaygroundSahay"));
 
 function Home() {
   return (
@@ -133,7 +133,12 @@ function App() {
           <Route path="/preview/hero-portrait-motion" element={<PreviewHeroPortraitMotion />} />
           <Route path="/preview/dot-portrait" element={<PreviewDotPortrait />} />
           <Route path="/preview/playground" element={<PreviewPlayground />} />
-          <Route path="/preview/sahay" element={<PreviewSahay />} />
+          {/* Sahay outgrew the generic PlaygroundEntry template (Ask,
+              Search, the hierarchy section, the flow demo video), so it
+              gets its own dedicated route/component. A static path
+              matches ahead of the dynamic :slug one below regardless of
+              declaration order, but it's listed first here for clarity. */}
+          <Route path="/playground/sahay" element={<PlaygroundSahay />} />
           <Route path="/playground/:slug" element={<PlaygroundEntry />} />
           {/* Any other unmatched URL — without this, <Routes> matched
               nothing and rendered blank between the nav and footer instead
