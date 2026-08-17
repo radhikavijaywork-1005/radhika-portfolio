@@ -17,6 +17,7 @@ export const profile = {
   previousCompany: { label: "Adani", note: "Previously worked at" },
   links: {
     linkedin: "https://www.linkedin.com/in/radhikavijay5895/",
+    github: "https://github.com/radhikavijaywork-1005",
     medium: "https://medium.com/@radhikavijaywork",
     behance: "https://www.behance.net/radhikavijay5895",
     dribbble: "https://dribbble.com/radhikavijay5895",

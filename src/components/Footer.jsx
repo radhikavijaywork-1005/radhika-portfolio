@@ -4,6 +4,7 @@ import { useSoundContext } from "../context/SoundContext";
 
 const social = [
   { label: "LinkedIn", href: profile.links.linkedin },
+  { label: "GitHub", href: profile.links.github },
   { label: "Medium", href: profile.links.medium },
   { label: "Behance", href: profile.links.behance },
   { label: "Dribbble", href: profile.links.dribbble },
