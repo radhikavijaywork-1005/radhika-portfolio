@@ -40,18 +40,6 @@ export const work = [
     color: "#6b0000",
   },
   {
-    company: "STAGE",
-    title: "Building a new revenue stream end-to-end with AI",
-    metrics: ["+26% opt in", "23L/yr revenue"],
-    category: "Monetisation",
-    cta: "In Writing",
-    href: null,
-    bg: bgStage2,
-    phones: phonesStage2,
-    phonesWidthPct: 70.8,
-    color: "#6b0000",
-  },
-  {
     company: "Adani One",
     title: "Reducing Waitlist Uncertainty with Trip Assurance",
     metrics: ["28% opt in rate", "+30% ATV"],
@@ -74,6 +62,18 @@ export const work = [
     phones: phonesTrainman,
     phonesWidthPct: 68,
     color: "#c2621f",
+  },
+  {
+    company: "STAGE",
+    title: "Building a new revenue stream end-to-end with AI",
+    metrics: ["+26% opt in", "23L/yr revenue"],
+    category: "Monetisation",
+    cta: "In Writing",
+    href: null,
+    bg: bgStage2,
+    phones: phonesStage2,
+    phonesWidthPct: 70.8,
+    color: "#6b0000",
   },
 ];
 
