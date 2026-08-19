@@ -18,7 +18,6 @@ import { skills } from "./data/content";
 // Home splits each route into its own chunk, fetched only when actually
 // visited.
 const CaseStudyPaywall = lazy(() => import("./pages/CaseStudyPaywall"));
-const CaseStudyTripAssurance = lazy(() => import("./pages/CaseStudyTripAssurance"));
 const AboutMe = lazy(() => import("./pages/AboutMe"));
 const WorkPage = lazy(() => import("./pages/WorkPage"));
 const PlaygroundPage = lazy(() => import("./pages/PlaygroundPage"));
@@ -151,7 +150,6 @@ function App() {
           <Route path="/work" element={<WorkPage />} />
           <Route path="/playground" element={<PlaygroundPage />} />
           <Route path="/work/paywall-experiments" element={<CaseStudyPaywall />} />
-          <Route path="/work/trip-assurance" element={<CaseStudyTripAssurance />} />
           <Route path="/preview/motion" element={<PreviewMotion />} />
           <Route path="/preview/futuristic" element={<PreviewFuturistic />} />
           <Route path="/preview/sand" element={<PreviewSand />} />
