@@ -23,7 +23,7 @@ export const tripAssuranceCaseStudy = {
   ],
 
   overview:
-    "Trainman (wholly owned subsidiary of Adani Digital Labs) is an IRCTC-authorised online train ticket booking platform in India. It offers helpful technology like waitlist predictions, live train tracking, and quick refunds.",
+    "Trainman (wholly owned subsidiary of Adani Digital Labs) is an IRCTC-authorised online train ticket booking platform in India. It offers helpful technology like waitlist predictions, live tracking, and instant refunds to enhance the train booking experience.",
 
   overviewFacts: [
     {
@@ -275,7 +275,7 @@ export const tripAssuranceCaseStudy = {
           role: "",
           steps: [
             "**Confirmed ticket → 👨🏻‍💻 Tech:** automate refund of Trip Assurance fee into TM wallet.",
-            "**Waitlisted ticket → 👩🏻‍💼 Customer Support:** connect with user & share flight ticket on shared contact details. Upload to portal so the user can download from the app too.",
+            "**Waitlisted ticket → 👩🏻‍💼 Customer Support:** connect with user & share flight ticket on shared contact details. Upload to portal so the user can download from the app as well.",
           ],
         },
       ],
@@ -285,38 +285,44 @@ export const tripAssuranceCaseStudy = {
   overallImpact: [
     { value: "~80%", trend: "up", label: "Opt-in rate", body: "Trip Assurance was live on only 1,000 limited trains, and we still achieved higher conversion, meeting the user need." },
     { value: "~96%", trend: "up", label: "Confirmed Journey Rate", body: "Our prediction model achieved 98% accuracy, alongside seamless tracking and flight booking, increasing confirmed journeys significantly." },
-    { value: "~30%", trend: "up", label: "Average transactional value", body: "Our strategic pricing and the added value of Trip Assurance encouraged higher adoption, reflecting user willingness for assured travel." },
+    { value: "~30%", trend: "up", label: "Average transactional value", body: "Our strategic pricing and the added value of Trip Assurance encouraged higher adoption, reflecting user willingness to pay for certainty." },
   ],
   overallImpactNote: "Rolled out for 1,000 trains, covering GNWL clusters and 3AC, 2AC, and 1AC classes, within 3 months.",
 
   testimonials: [
     { name: "Shubham Bhanu", route: "Mumbai – Chennai", quote: "Trainman upgraded my flight in no time. I highly appreciate the Trainman team for providing crisp revert." },
     { name: "Riyde Saini", route: "Delhi – Mumbai", quote: "Will they really give you a flight ticket? #Yes I got flight tickets in 10min. Thank you Trainman, I reached on time." },
-    { name: "Sneha Tiwari", route: "Lucknow – Delhi", quote: "मैंने वेटलिस्टेड टिकट बुक किया था और कंफर्म नहीं हुआ। Trainman ने मेरे लिए फ्लाइट का इंतजाम कर दिया, जिससे मेरी यात्रा बिना रुके पूरी हो गई।" },
+    { name: "Sneha Tiwari", route: "Lucknow – Delhi", quote: "मैंने वेटलिस्टेड टिकट बुक किया था और कंफर्म नहीं हुआ! Trainman ने मेरे लिए फ्लाइट का इंतजाम कर दिया, जिससे मेरी यात्रा बिना रुके पूरी हो गई! 🙏" },
+  ],
+
+  userPortraits: [
+    { name: "Nilava Biswas", route: "Sealdah – Delhi" },
+    { name: "Shyam Deepak", route: "Delhi – Vizag" },
+    { name: "Pranav Jain", route: "Mumbai – Delhi" },
   ],
 
   feedbackInsights: [
-    "Users valued clear communication about how and when they would receive flight tickets.",
-    "CX team calls improved trust in users about the reliability of Trip Assurance.",
-    "Users faced challenges with visibility of Trip Assurance status within the app & refund of the TA fee in the TM wallet.",
-    "Insights led to continuous refinement of user flow and communication strategies.",
+    "Users valued **clear communication** about how and when they would receive **flight tickets**.",
+    "CX team calls **improves trust** in users about the reliability of Trip Assurance.",
+    "Users faces **challenges** with **visibility of Trip Assurance status** within the app & **refund of TA fee in TM wallet**.",
+    "Insights led to **continuous refinement** of user flow and communication strategies.",
   ],
 
   challenges: [
     {
       n: "01",
       title: "Firsthand user insights from field research",
-      body: "Taking surveys and interviewing users on trains was my first-hand experience, and it provided valuable insights into their pain points and expectations. This directly influenced the design process, allowing me to convert those insights into practical, user-friendly solutions. It also helped me empathize with users' real-world challenges, ensuring the design addressed both their needs and frustrations.",
+      body: "Taking surveys and interviewing users on trains was my first-hand experience, and it provided valuable insights into their pain points and expectations. This directly influenced the product strategy.",
     },
     {
       n: "02",
       title: "Lack of PRD & time constraints",
-      body: "We managed to deliver the MVP without a formal PRD, which meant making quick decisions, sometimes based on assumptions. This led to several iterations. It was a great learning experience on how to work under tight deadlines, balancing quick decisions with UX logic — how to prioritize key user needs, keep stakeholders in the loop, and still deliver a product that met business goals.",
+      body: "We managed to deliver the MVP without a formal PRD, which meant making quick decisions, sometimes based on assumptions. This led to several iterations. It was a great learning experience in agile product development.",
     },
     {
       n: "03",
       title: "Manual processes",
-      body: "We faced significant tech constraints and had to rely on manual processes to manage waitlisted tickets, since automation wasn't feasible for MVP delivery. This added complexity, making it harder to scale and streamline operations — and taught us the importance of early-stage technical feasibility assessments as we move forward with future versions.",
+      body: "We faced significant tech constraints and had to rely on manual processes to manage waitlisted tickets, since automation wasn't feasible for MVP delivery. This added complexity, making the CX team's role crucial.",
     },
   ],
 
@@ -325,6 +331,6 @@ export const tripAssuranceCaseStudy = {
     "Trip Assurance with other rewards like 3X refund",
     "Trip Assurance with other alternate modes of booking like cabs and buses for shorter routes",
     "Trip Assurance on different WL clusters like RLWL, PQWL etc.",
-    "Trip Assurance on all trains and classes **(Live)**",
+    "Trip Assurance on all **trains and classes** **(Live)**",
   ],
 };
