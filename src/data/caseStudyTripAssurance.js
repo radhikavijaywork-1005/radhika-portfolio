@@ -195,89 +195,61 @@ export const tripAssuranceCaseStudy = {
     },
   ],
 
-  decisions: [
+  platformMetrics: [
+    { value: "3,200", label: "Trains available to book tickets" },
+    { value: "10 Lakh+", label: "Unique users on the platform (App & Web)" },
+    { value: "39,000+", label: "Tickets booked during festive time (Diwali + Chhath Puja 2021)" },
+  ],
+
+  otherMetrics: [
+    { value: "90%", label: "Users use app" },
+    { value: "10%", label: "Users use Web" },
+    { value: "45%", label: "AC tickets booking" },
+    { value: "55%", label: "Non-AC tickets booking" },
+  ],
+
+  waitlistedTrends: [
+    { value: "42%", label: "of overall waitlisted tickets booked happen during festive time" },
+    { value: "51%", label: "of AC vs. Non-AC waitlisted tickets are AC ticket" },
+    { value: "31%", label: "of tickets remain waitlisted post-chart preparation" },
+  ],
+
+  userFlowDesc: "We aligned the user flow with the Habit Loop — using cues to introduce Trip Assurance, cravings for a worry-free journey, responses to opt in, and rewards like flights for waitlisted tickets.",
+
+  designVariants: [
+    { label: "1 · Homepage", title: "Cue — visibility on the homepage banner grabs attention upfront" },
+    { label: "2 · Search Results", title: "Cravings — Trip Assurance tag on WL class cards" },
+    { label: "3 · Booking Form", title: "Response — clear offering & playful copy simplify the decision" },
+  ],
+
+  usabilityTestingBody: "To ensure the Trip Assurance feature met user needs, we conducted usability testing to observe real user interactions and identify any pain points.\n\nWe showed the initial concept to stakeholders as well and captured their feedbacks as well.\n\nOur goal was to refine the experience by addressing any user confusion, accessibility issues, or gaps in feature visibility.",
+
+  keyResults: [
+    { n: "1", title: "Visibility of Trip Assurance", body: "Users found it **challenging to locate** which trains includes Trip Assurance, as only class cards displayed the TA tag." },
+    { n: "2", title: "User dilemma", body: "Users left the app to **compare flight prices** for their journey date on other platforms." },
+    { n: "3", title: "Pricing & Anchoring", body: "Business feedback highlighted **strategic pricing anchors** can drive conversions and ease user decision-making." },
+    { n: "4", title: "Tracking Confusion", body: "Users **struggled to understand the next steps** after the chart will be prepared, including how they would receive a flight ticket, & whom to contact." },
+  ],
+
+  solution2: {
+    title: "Seamless User Journey — Manual Booking",
+    pitch: "To avoid last-minute disruptions, we implemented a manual pre-booking flow managed by the CX team. Automation wasn't feasible for the MVP launch due to time constraints.",
+    userGoal: "Ensure users receive confirmed flight tickets for their desired travel dates.",
+    businessGoal: "Secure low-cost flight tickets in advance to avoid price surges closer to the travel date, and mitigate potential cancellation fees if the user decides not to travel.",
+  },
+
+  flowStates: [
     {
-      phase: "01",
-      phaseLabel: "Solution 1",
-      title: "Travel Certainty",
-      pitch: "To provide users with guaranteed travel certainty when their train ticket is waitlisted.",
-      userGoal: "Ensure travel certainty for users while booking waitlisted train tickets by seamlessly integrating Trip Assurance feature.",
-      businessGoal: "Increase revenue and ATV by offering a minimal-cost Trip Assurance option that enhances operational efficiency.",
-      platformMetrics: [
-        { value: "3,200", label: "Trains available to book tickets" },
-        { value: "10 Lakh+", label: "Unique users on the platform (App & Web)" },
-        { value: "39,000+", label: "Tickets booked during festive time (Diwali + Chhath Puja 2021)" },
-      ],
-      otherMetrics: [
-        { value: "90%", label: "Users use app" },
-        { value: "10%", label: "Users use Web" },
-        { value: "45%", label: "AC tickets booking" },
-        { value: "55%", label: "Non-AC tickets booking" },
-      ],
-      waitlistedTrends: [
-        { value: "42%", label: "of overall waitlisted tickets booked happen during festive time" },
-        { value: "51%", label: "of AC vs. Non-AC waitlisted tickets are AC ticket" },
-        { value: "31%", label: "of tickets remain waitlisted post-chart preparation" },
-      ],
-      userFlow: {
-        body: "We aligned the user flow with the Habit Loop — using cues to introduce Trip Assurance, cravings for a worry-free journey, responses to opt in, and rewards like flights for waitlisted tickets.",
-        steps: [
-          { title: "Search Route", tag: "Introducing Trip Assurance", loop: "Cues" },
-          { title: "Select Train and WL Class", tag: "Assured Journey Details", loop: "Cravings" },
-          { title: "Add Traveller and contact details", loop: "Response" },
-          { title: "Make payment" },
-          { title: "Enter IRCTC credentials" },
-          { title: "Booking Complete" },
-        ],
-        branch: {
-          decision: "Opt Trip Assurance",
-          outcomes: [
-            { title: "Chart Prepared" },
-          ],
-          confirmed: ["Booking Confirm", "Journey Confirmed"],
-          waitlisted: ["Booking Waitlisted", "Flight Ticket booked"],
-          reward: "Reward",
-        },
-      },
-      variants: [
-        { label: "1 · Homepage", title: "Cue — visibility on the homepage banner grabs attention upfront", img: "homepage" },
-        { label: "2 · Search Results", title: "Cravings — Trip Assurance tag on WL class cards", img: "srp" },
-        { label: "3 · Booking Form", title: "Response — clear offering & playful copy simplify the decision", img: "bookingForm" },
-      ],
-      usability: [
-        { n: "01", title: "Visibility of Trip Assurance", body: "Users found it challenging to locate which trains include Trip Assurance, as only class cards displayed the TA tag." },
-        { n: "02", title: "User dilemma", body: "Users left the app to compare flight prices for their journey date on other platforms." },
-        { n: "03", title: "Pricing & anchoring", body: "Business feedback highlighted strategic pricing anchors can drive conversions and ease user decision-making." },
-        { n: "04", title: "Tracking confusion", body: "Users struggled to understand the next steps after the chart is prepared, including how and whom to contact for their flight ticket." },
-      ],
-      iterations: [
-        "Icon added to the train card to highlight Trip Assurance availability",
-        "Displayed realistic flight costs to help users make informed decisions",
-        "Anchor pricing added",
-        "Added a **Track Status** link to guide users through the next steps",
-      ],
+      title: "Chart Not Prepared",
+      role: "👩🏻‍💼 Customer Support",
+      steps: ["Connect with user and collect details like travel date, full name, etc.", "Pre-book cheapest flight available for the travel date."],
     },
     {
-      phase: "02",
-      phaseLabel: "Solution 2",
-      title: "Seamless User Journey — Manual Booking",
-      pitch: "To avoid last-minute disruptions, we implemented a manual pre-booking flow managed by the CX team. Automation wasn't feasible for the MVP launch due to time constraints.",
-      userGoal: "Ensure users receive confirmed flight tickets for their desired travel dates.",
-      businessGoal: "Secure low-cost flight tickets in advance to avoid price surges closer to the travel date, and mitigate potential cancellation fees if the user decides not to travel.",
-      branches: [
-        {
-          title: "Chart Not Prepared",
-          role: "👩🏻‍💼 Customer Support",
-          steps: ["Connect with user and collect details like travel date, full name, etc.", "Pre-book cheapest flight available for the travel date."],
-        },
-        {
-          title: "Chart Prepared",
-          role: "",
-          steps: [
-            "**Confirmed ticket → 👨🏻‍💻 Tech:** automate refund of Trip Assurance fee into TM wallet.",
-            "**Waitlisted ticket → 👩🏻‍💼 Customer Support:** connect with user & share flight ticket on shared contact details. Upload to portal so the user can download from the app as well.",
-          ],
-        },
+      title: "Chart Prepared",
+      role: "",
+      steps: [
+        "**Confirmed ticket → 👨🏻‍💻 Tech:** automate refund of Trip Assurance fee into TM wallet.",
+        "**Waitlisted ticket → 👩🏻‍💼 Customer Support:** connect with user & share flight ticket on shared contact details. Upload to portal so the user can download from the app as well.",
       ],
     },
   ],
@@ -300,6 +272,8 @@ export const tripAssuranceCaseStudy = {
     { name: "Shyam Deepak", route: "Delhi – Vizag" },
     { name: "Pranav Jain", route: "Mumbai – Delhi" },
   ],
+
+  feedbackCallsIntro: "I collaborated with the CX team to gain first-hand insights post-launch. Also to address user queries and gather feedback.",
 
   feedbackInsights: [
     "Users valued **clear communication** about how and when they would receive **flight tickets**.",
@@ -327,10 +301,10 @@ export const tripAssuranceCaseStudy = {
   ],
 
   futureScope: [
-    "Trip Assurance on PNR status, ticket not booked with us",
-    "Trip Assurance with other rewards like 3X refund",
-    "Trip Assurance with other alternate modes of booking like cabs and buses for shorter routes",
-    "Trip Assurance on different WL clusters like RLWL, PQWL etc.",
-    "Trip Assurance on all **trains and classes** **(Live)**",
+    { icon: "💡", text: "Trip Assurance on **PNR status**, ticket not booked with us" },
+    { icon: "💰", text: "Trip Assurance with other rewards like **3X refund**", isLive: true },
+    { icon: "🚕", text: "Trip Assurance with other alternate mode of booking like **Cabs and buses** for shorter routes" },
+    { icon: "🏔️", text: "Trip Assurance on different **WL clusters** like RLWL, PQWL etc" },
+    { icon: "🚂", text: "Trip Assurance on all **trains and classes**", isLive: true },
   ],
 };
