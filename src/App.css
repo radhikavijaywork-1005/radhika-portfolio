@@ -773,11 +773,15 @@
   aspect-ratio: 1008 / 1200;
   -webkit-user-drag: none;
   user-drag: none;
-  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateZ(0px);
   transform-style: preserve-3d;
   transition: transform 0.15s ease-out, filter 0.25s ease-out;
   will-change: transform;
-  filter: drop-shadow(0 14px 20px rgba(26, 53, 45, 0.14));
+  /* Offset now tracks --shadow-x/--shadow-y (set alongside the tilt in
+     useTiltEffect) instead of a fixed 0/14px — a shadow that drifts
+     opposite the tilt direction is what makes this read as a card lifted
+     off the surface in 3D space, not a flat image skewing in place. */
+  filter: drop-shadow(var(--shadow-x, 0px) var(--shadow-y, 14px) 20px rgba(26, 53, 45, 0.14));
 }
 
 .hero-portrait-tilt__canvas {
@@ -790,19 +794,50 @@
   /* Re-declares the same rotateX/rotateY (still driven by the JS-set
      vars) and adds a slight lift — scale alone on top of the base
      transform would otherwise be overwritten since both rules target
-     the same property. */
-  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(1.025);
-  filter: drop-shadow(0 22px 30px rgba(26, 53, 45, 0.22));
+     the same property. translateZ pulls the card toward the viewer along
+     the perspective axis set on the wrap, on top of the rotation, for an
+     actual "lifting off the page" pop rather than just a bigger tilt. */
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) translateZ(28px) scale(1.025);
+  filter: drop-shadow(var(--shadow-x, 0px) calc(var(--shadow-y, 14px) + 8px) 30px rgba(26, 53, 45, 0.22));
 }
 
 .dark .hero-portrait-tilt:hover {
-  filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.36));
+  filter: drop-shadow(var(--shadow-x, 0px) calc(var(--shadow-y, 14px) + 8px) 30px rgba(0, 0, 0, 0.36));
+}
+
+/* Soft radial glow sitting behind the portrait, sized larger than it so it
+   peeks out at the edges. Reacts to --glow-x/--glow-y (a fraction of the
+   portrait's own tilt-driven movement, set in useTiltEffect) — moving less
+   than the foreground under the same cursor shift is the actual parallax
+   depth cue; the portrait tilting on top of that is what turns "a layer
+   behind a layer" into "an object floating above a background" rather than
+   two flat images. */
+.hero-portrait-depth-glow {
+  position: absolute;
+  inset: -14%;
+  z-index: 0;
+  border-radius: 44% 56% 58% 42% / 48% 44% 56% 52%;
+  background: radial-gradient(
+    circle at 50% 42%,
+    rgba(var(--sage-rgb), 0.55) 0%,
+    rgba(var(--sage-rgb), 0.22) 45%,
+    rgba(var(--sage-rgb), 0) 72%
+  );
+  filter: blur(18px);
+  transform: translate(var(--glow-x, 0px), var(--glow-y, 0px));
+  transition: transform 0.2s ease-out;
+  pointer-events: none;
+  will-change: transform;
 }
 
 @media (hover: none) {
   .hero-portrait-tilt {
     transform: none !important;
     filter: drop-shadow(0 14px 20px rgba(26, 53, 45, 0.14)) !important;
+  }
+
+  .hero-portrait-depth-glow {
+    transform: none !important;
   }
 }
 

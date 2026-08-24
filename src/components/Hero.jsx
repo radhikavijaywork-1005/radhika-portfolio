@@ -43,22 +43,29 @@ function HeroPortraitTilt({ lightSrc, darkSrc, alt }) {
   return (
     <motion.div
       className="hero-portrait-tilt-wrap"
+      ref={tilt.ref}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-      // Hover tracking lives on the wrap, not the inner tilt element — the
-      // CTA pill below is a sibling positioned at the wrap's bottom edge,
-      // so moving the cursor from the portrait onto the pill was exiting
-      // .hero-portrait-tilt's bounds first and hiding the pill before it
-      // could be clicked. The wrap's box contains both, so it doesn't.
+      // Hover/move tracking lives on the wrap, not the inner tilt element —
+      // the CTA pill below is a sibling positioned at the wrap's bottom
+      // edge, so tracking only on .hero-portrait-tilt's bounds was exiting
+      // early and hiding the pill before it could be clicked. Tracking here
+      // also lets the depth-glow layer (a sibling of the portrait, not a
+      // descendant) read the same --tilt-x/--glow-x custom properties,
+      // since they're set on this shared ancestor.
       onMouseEnter={() => setIsHovered(true)}
+      onMouseMove={tilt.onMouseMove}
       onMouseLeave={onLeave}
     >
-      <div
-        className="hero-portrait-tilt"
-        ref={tilt.ref}
-        onMouseMove={tilt.onMouseMove}
-      >
+      {/* Sits behind the portrait at a different parallax rate — the actual
+          depth cue. A single flat plane tilting still reads as "a picture
+          tilting"; a background layer drifting less than the foreground
+          under the same cursor movement is what makes it read as layers in
+          space instead. */}
+      <div className="hero-portrait-depth-glow" aria-hidden="true" />
+
+      <div className="hero-portrait-tilt">
         <PortraitLiquid src={src} alt={alt} className="hero-portrait-tilt__canvas" />
       </div>
 
