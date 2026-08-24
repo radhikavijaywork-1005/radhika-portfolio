@@ -7,9 +7,21 @@ export const bookingFailuresCaseStudy = {
   subheadPost: ".",
 
   meta: [
-    { label: "Project", primary: "Post Payment Flow Revamp", detail: "" },
-    { label: "Release", primary: "Year 2022", detail: "" },
-    { label: "Role", primary: "Lead Product Designer", detail: "" },
+    {
+      label: "My Role",
+      primary: "Lead Product Designer",
+      detail: "owned end-to-end UX, research & delivery",
+    },
+    {
+      label: "Team",
+      primary: "Me · 2 Designers · 1 PM · 3 Eng",
+      detail: "cross-functional with Product, Design & Engineering",
+    },
+    {
+      label: "Timeline",
+      primary: "Year 2022",
+      detail: "2 weeks",
+    },
   ],
 
   summary: [
