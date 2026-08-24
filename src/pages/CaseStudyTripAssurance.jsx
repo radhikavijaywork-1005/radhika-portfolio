@@ -76,7 +76,6 @@ import postBookingScreen3 from "../assets/case-study/trip-assurance/post-booking
 import postBookingScreen4 from "../assets/case-study/trip-assurance/post-booking/4.png";
 import postBookingScreen5 from "../assets/case-study/trip-assurance/post-booking/5.png";
 import happyFlowGif from "../assets/case-study/trip-assurance/happy-flow-gif.gif";
-import highlight05 from "../assets/case-study/trip-assurance/highlight-05.svg";
 import "./CaseStudyPaywall.css";
 import "./CaseStudyTripAssurance.css";
 
@@ -849,7 +848,6 @@ export default function CaseStudyTripAssurance() {
                       <h2 className="cs-happy-flow__title">Happy flow</h2>
                     </div>
                     <div className="cs-happy-flow__content">
-                      <img src={highlight05} alt="" className="cs-happy-flow__highlight" />
                       <div className="cs-happy-flow__gif-wrap">
                         <img src={happyFlowGif} alt="Animated walkthrough of Trip Assurance happy flow" className="cs-happy-flow__gif" />
                         <span className="cs-happy-flow__label">GIF showing happy flow</span>
