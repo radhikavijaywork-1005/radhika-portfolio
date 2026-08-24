@@ -64,6 +64,8 @@ function Placeholder({ label, className = "" }) {
   return <div className={`cs-media-placeholder ${className}`}>{label}</div>;
 }
 
+const feedbackAvatars = ["🙍🏻‍♂️", "🙍🏻‍♀️", "🙎🏻‍♂️", "🙎🏻‍♀️", "🧑🏻", "👩🏻", "👨🏻"];
+
 function getNextCaseStudy() {
   const currentIndex = work.findIndex((w) => w.href === "/work/booking-failures");
   for (let offset = 1; offset <= work.length; offset++) {
@@ -303,7 +305,18 @@ export default function CaseStudyBookingFailures() {
             </div>
 
             <h3 className="cs-h2 cs-h2--sub">User Feedback</h3>
-            <p className="cs-body">These feedbacks were collected from App/Play Store reviews & 1:1 user calling, and segregated into two key segments:</p>
+            <p className="cs-body">These feedbacks were collected from App/Play Store reviews & 1:1 user calling</p>
+            <div className="cs-bf-feedback-panel">
+              {cs.userFeedback.map((quote, i) => (
+                <Reveal as="div" className="cs-bf-feedback-bubble" key={quote} delay={i * 0.04}>
+                  <span className="cs-bf-feedback-bubble__avatar" aria-hidden="true">{feedbackAvatars[i % feedbackAvatars.length]}</span>
+                  <p className="cs-bf-feedback-bubble__text">{quote}</p>
+                </Reveal>
+              ))}
+            </div>
+
+            <h3 className="cs-h2 cs-h2--sub">Pain Points to work upon</h3>
+            <p className="cs-body">We have categorized these issues into two key segments:</p>
             <div className="cs-bf-paingroup-row">
               {cs.painPointGroups.map((g) => (
                 <div className="cs-bf-paingroup" key={g.title}>

@@ -180,6 +180,58 @@
   margin-top: 48px;
 }
 
+/* ---------- User Feedback speech-bubble collage (Figma node 846:33773) —
+   raw App/Play Store quotes scattered across a soft pink panel, each with
+   a small avatar. Distinct from the "Pain Points" section below it, which
+   is the same quotes re-organized into two categories — this one is the
+   unsorted collection they came from. Alternating column offsets stand in
+   for Figma's freeform scatter without needing per-quote coordinates. */
+.cs-bf-feedback-panel {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin: 24px 0 40px;
+  padding: 32px;
+  border-radius: 24px;
+  background: #fff6f5;
+}
+
+.cs-bf-feedback-panel > *:nth-child(2n) {
+  margin-top: 32px;
+}
+
+.cs-bf-feedback-bubble {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 16px 20px;
+  border-radius: 16px;
+  background: var(--cs-card-bg);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.cs-bf-feedback-bubble__avatar {
+  flex-shrink: 0;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.cs-bf-feedback-bubble__text {
+  font-size: 14.5px;
+  line-height: 1.5;
+  color: var(--cs-ink);
+}
+
+@media (max-width: 720px) {
+  .cs-bf-feedback-panel {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  .cs-bf-feedback-panel > *:nth-child(2n) {
+    margin-top: 0;
+  }
+}
+
 /* ---------- Problem card (single spotlight card, not a two-up grid) ---------- */
 .cs-bf-problem-card {
   margin: 28px 0 8px;
