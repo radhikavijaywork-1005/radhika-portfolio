@@ -226,6 +226,21 @@
   }
 }
 
+/* ---------- Solution 2 team photos ---------- */
+.cs-solution2-photos {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 32px;
+}
+
+.cs-solution2-photos img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
 /* ---------- WL booking flow stepper ---------- */
 .cs-flow-stepper {
   margin: 20px 0 32px;
@@ -278,7 +293,7 @@
    sub-headings, not a separate smaller label style. */
 .cs-phase__how-label--metric {
   font-family: var(--font-display);
-  font-size: clamp(24px, 3.2vw, 32px);
+  font-size: 20px;
   font-weight: 600;
   text-transform: none;
   letter-spacing: normal;
@@ -860,6 +875,10 @@
 
 /* ---------- Overall Impact — light lavender band (Figma), not the
    dark #323232 card the shared .cs-overall-card class defaults to */
+#impact > .cs-h2 {
+  margin-bottom: 20px;
+}
+
 .cs-overall-grid--light {
   gap: 0;
   padding: 32px;
@@ -912,6 +931,7 @@
   width: 100%;
   height: 220px;
   object-fit: cover;
+  object-position: center 30%;
   border-radius: 16px;
   margin-bottom: 12px;
 }
@@ -939,113 +959,31 @@
    fits within content area with proper margins, all content readable. */
 .cs-donut-grid {
   display: grid;
-  grid-template-columns: repeat(3, 350px);
-  gap: 40px;
-  margin: 32px 0 64px;
-  padding: 0;
-  justify-content: center;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin: 64px 0;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* 350px fixed-width cards maintaining 596px height (scaled to 350×417px).
-   Absolute positioning for internal elements, chart + connector + percentage/label
-   in single horizontal row (top 10.7%), bottom caption centered and separate. */
 .cs-donut-card {
-  position: relative;
-  width: 350px;
-  aspect-ratio: 500 / 596;
-  padding: 0;
-  border-radius: 24px;
-  background: #eef1fc;
-  flex-shrink: 0;
-}
-
-/* Top section: donut + connector + percentage/label in one horizontal row,
-   positioned 10.7% from top (64/596), scales proportionally. */
-.cs-donut-card__chart {
-  position: absolute;
-  top: 10.7%;
-  left: 7%;
-  display: flex;
-  align-items: center;
-  gap: 2%;
-  height: auto;
-}
-
-.cs-donut {
-  flex-shrink: 0;
-  width: 92px;
-  aspect-ratio: 1;
-}
-
-/* Dotted connector line between chart and percentage */
-.cs-donut-card__connector {
-  display: flex;
-  align-items: center;
-  height: 1px;
-  flex: 0 0 80px;
-  gap: 8px;
-}
-
-.cs-donut-card__connector-line {
-  flex: 1;
-  height: 1px;
-  border-top: 1.5px dotted var(--cs-muted);
-}
-
-.cs-donut-card__connector-dot {
-  width: 5px;
-  aspect-ratio: 1;
-  flex-shrink: 0;
-  border-radius: 50%;
-  background: var(--cs-muted);
-}
-
-/* Percentage and label: right-aligned, fixed sizing */
-.cs-donut-card__figures {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  flex-shrink: 0;
-  width: 70px;
-}
-
-.cs-donut-card__value {
-  font-family: var(--font-display);
-  font-size: 42px;
-  font-weight: 700;
-  color: var(--cs-ink);
-  line-height: 1;
-}
-
-.cs-donut-card__label {
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--cs-body);
-  line-height: 1;
-  text-align: right;
-  margin-top: 2px;
-}
-
-/* Bottom caption: absolutely positioned, centered */
-.cs-donut-card__desc {
-  position: absolute;
-  bottom: 10.7%;
-  left: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: auto;
   text-align: center;
-  font-size: 16px;
-  font-weight: 400;
-  color: var(--cs-ink);
-  padding: 0 16px;
+}
+
+.cs-donut-card__image {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 @media (max-width: 720px) {
   .cs-donut-grid {
-    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .cs-donut-card {
+    max-width: 100%;
   }
 }
 
@@ -1290,6 +1228,11 @@
 }
 
 /* ---------- Feedback Calls: Key Insights list (left) + one photo (right) ---------- */
+/* Feedback Calls section heading spacing */
+#reflection > .cs-h2 {
+  margin-bottom: 16px;
+}
+
 .cs-feedback-calls {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -1323,6 +1266,7 @@
   aspect-ratio: 813 / 580;
   object-fit: cover;
   border-radius: 16px;
+  border: 1px solid var(--cs-muted);
 }
 
 @media (max-width: 720px) {
@@ -1512,5 +1456,46 @@
     width: 64px;
     height: 64px;
   }
+}
+
+/* ---------- User Flow Diagram ---------- */
+.cs-userflow-diagram-wrap {
+  margin: 64px 16px;
+  width: auto;
+}
+
+.cs-userflow-diagram {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
+}
+
+/* ---------- Variants Heading ---------- */
+.cs-variants-heading__subtitle {
+  font-weight: 400;
+}
+
+.cs-variants-heading__tertiary {
+  font-weight: 300;
+}
+
+/* ---------- Variants Container ---------- */
+.cs-variants-container {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 64px;
+  margin: 64px 16px;
+}
+
+.cs-variant-item {
+  width: 100%;
+}
+
+.cs-variant-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 16px;
 }
 

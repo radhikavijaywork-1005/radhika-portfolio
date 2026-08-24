@@ -293,9 +293,10 @@
 /* Sub-heading variant (e.g. "Phase 2: Impacts" inside a phase) — smaller
    and no divider, since it isn't a top-level page section. */
 .cs-h2--sub {
-  font-size: clamp(22px, 2.8vw, 28px);
-  margin-top: 32px;
-  margin-bottom: 32px;
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 48px;
+  margin-bottom: 16px;
 }
 
 .cs-h2::after {
@@ -1109,7 +1110,7 @@
 
 .cs-phase__tag-label {
   font-family: var(--font-body);
-  font-weight: 500;
+  font-weight: 400;
   font-size: 20px;
   letter-spacing: 0.015em;
   color: var(--cs-ink);

@@ -3,7 +3,7 @@ export const tripAssuranceCaseStudy = {
   companyTag: "(Acquired by Adani Digital Labs)",
   title: "Reducing Waitlist Uncertainty with Trip Assurance",
   subheadPre: "A guaranteed-travel safety net for waitlisted train tickets that reached ",
-  subheadStrong: "~80% opt-in",
+  subheadStrong: "~28% opt-in",
   subheadPost: " within its first rollout.",
 
   meta: [
@@ -317,7 +317,7 @@ export const tripAssuranceCaseStudy = {
       phaseLabel: "Solution 2",
       title: "Seamless User Journey",
       solutionName: "Manual Booking",
-      pitch: "To avoid last-minute disruptions, we implemented a manual pre-booking flow managed by the CX team. Automation wasn't feasible for the MVP launch due to time constraints.",
+      pitch: "To avoid **last–minute disruptions**, we implemented a **manual pre–booking flow** managed by the CX team. Automation was not feasible for the MVP launch due to time constraints.",
       userGoal: "Ensure users receive **confirmed flight tickets** for their desired travel dates.",
       businessGoal: "Secure **low-cost flight tickets** in advance to avoid price surges closer to the travel date, and mitigate potential cancellation fees if the user decides not to travel.",
       branches: [
@@ -339,11 +339,11 @@ export const tripAssuranceCaseStudy = {
   ],
 
   overallImpact: [
-    { value: "~80%", trend: "up", label: "Opt-in rate", body: "Trip Assurance was live on only 1,000 limited trains, and we still achieved higher conversion, meeting the user need." },
+    { value: "~28%", trend: "up", label: "Opt-in rate", body: "Trip Assurance was live on only 1,000 limited trains, and we still achieved higher conversion, meeting the user need." },
     { value: "~96%", trend: "up", label: "Confirmed Journey Rate", body: "Our prediction model achieved 98% accuracy, alongside seamless tracking and flight booking, increasing confirmed journeys significantly." },
     { value: "~30%", trend: "up", label: "Average transactional value", body: "Our strategic pricing and the added value of Trip Assurance encouraged higher adoption, reflecting user willingness to pay for certainty." },
   ],
-  overallImpactNote: "Rolled out for 1,000 trains, covering GNWL clusters and 3AC, 2AC, and 1AC classes, within 3 months.",
+  overallImpactNote: "We rolled out these MVP solutions initially for **1,000 trains**, covering **GNWL clusters and 3AC, 2AC, and 1AC classes**, within 3 months and here are the impactful results we achieved.",
 
   videoTestimonials: [
     { name: "Nilava Biswas", route: "Sealdah – Delhi" },
@@ -376,22 +376,22 @@ export const tripAssuranceCaseStudy = {
     {
       n: "01",
       title: "Firsthand user insights from field research",
-      body: "Taking surveys and interviewing users on trains was my first-hand experience, and it provided valuable insights into their pain points and expectations. This directly influenced the product strategy.",
+      body: "Conducting **surveys** and **interviews** with users provided firsthand insights into their pain points. These shaped the **design process**, helping me create user-friendly solutions while empathizing with **users' real-world challenges**.",
     },
     {
       n: "02",
       title: "Lack of PRD & time constraints",
-      body: "We managed to deliver the MVP without a formal PRD, which meant making quick decisions, sometimes based on assumptions. This led to several iterations. It was a great learning experience in agile product development.",
+      body: "Delivering the MVP **without a formal PRD** required quick decisions and **several iterations** under **tight deadlines**. This taught me to balance speed with UX logic, prioritize user needs, and still **meet business goals** with limited resources.",
     },
     {
       n: "03",
       title: "Manual processes",
-      body: "We faced significant tech constraints and had to rely on manual processes to manage waitlisted tickets, since automation wasn't feasible for MVP delivery. This added complexity, making the CX team's role crucial.",
+      body: "We faced **significant tech constraints** and had to **rely on manual processes** to manage bookings. These limitations taught us the **importance of early-stage technical feasibility assessments** and the need for automated solutions in future versions.",
     },
   ],
 
   futureScope: [
-    { icon: "💡", text: "Trip Assurance on PNR status, ticket not booked with us" },
+    { icon: "💡", text: "Trip Assurance on **PNR status**, ticket not booked with us" },
     { icon: "💰", text: "Trip Assurance with other rewards like **3X refund** **(Live)**" },
     { icon: "🚕", text: "Trip Assurance with other alternate mode of booking like **Cabs and buses** for shorter routes" },
     { icon: "🛤️", text: "Trip Assurance on different WL clusters like **RLWL, PQWL** etc." },

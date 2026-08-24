@@ -51,19 +51,32 @@ import avatarBusiness from "../assets/case-study/trip-assurance/avatar-business.
 import avatarTech from "../assets/case-study/trip-assurance/avatar-tech.svg";
 import avatarMarketing from "../assets/case-study/trip-assurance/avatar-marketing.svg";
 import feedbackCall1 from "../assets/case-study/trip-assurance/feedback-call-1.jpg";
+import feedbackTable from "../assets/case-study/trip-assurance/feedback-table.png";
 import solution1Sketches from "../assets/case-study/trip-assurance/solution1-sketches.jpg";
 import solution1Whiteboard from "../assets/case-study/trip-assurance/solution1-whiteboard.jpg";
 import solution1Team from "../assets/case-study/trip-assurance/solution1-team.jpg";
+import solution2TeamPhoto1 from "../assets/case-study/trip-assurance/solution2-team-photo-1.jpg";
+import solution2TeamPhoto2 from "../assets/case-study/trip-assurance/solution2-team-photo-2.jpg";
 import usabilityTeamPhoto from "../assets/case-study/trip-assurance/usability-team-photo.png";
 import usabilityParticipantPhoto from "../assets/case-study/trip-assurance/usability-participant-photo.png";
 import keyResult01 from "../assets/case-study/trip-assurance/key-result-01-srp-tag.png";
 import keyResult0203 from "../assets/case-study/trip-assurance/key-result-02-03-optin-sheet.png";
 import keyResult04 from "../assets/case-study/trip-assurance/key-result-04-track-status.png";
 import futureScopeMockup from "../assets/case-study/trip-assurance/future-scope-mockup.jpg";
+import donutChartGroup1 from "../assets/case-study/trip-assurance/Group 1171276399.png";
+import donutChartGroup2 from "../assets/case-study/trip-assurance/Group 1171276397.png";
+import donutChartGroup3 from "../assets/case-study/trip-assurance/Group 1171276398.png";
+import userFlowDiagram from "../assets/case-study/trip-assurance/user-flow.png";
+import variantCue from "../assets/case-study/trip-assurance/cue.png";
+import variantSrp from "../assets/case-study/trip-assurance/SRP.png";
+import variantBooking from "../assets/case-study/trip-assurance/Booking.png";
 import "./CaseStudyPaywall.css";
 import "./CaseStudyTripAssurance.css";
 
-const variantImages = { homepage: heroHomepage, srp: heroSrp, bookingForm: heroBookingForm };
+const donutChartImages = [donutChartGroup1, donutChartGroup2, donutChartGroup3];
+const donutChartOrder = [1, 2, 0];
+
+const variantImages = { homepage: variantCue, srp: variantSrp, bookingForm: variantBooking };
 
 const stakeholderAvatars = [avatarProduct, avatarBusiness, avatarTech, avatarMarketing];
 
@@ -132,7 +145,11 @@ function Reveal({ as = "div", className, children, delay = 0 }) {
 }
 
 function Bold({ text }) {
-  return text.split("**").map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part));
+  return (
+    <span>
+      {text.split("**").map((part, i) => (i % 2 === 1 ? <strong key={i}>{part}</strong> : part))}
+    </span>
+  );
 }
 
 // One real SVG arrow, rotated per direction, instead of Unicode glyphs
@@ -683,7 +700,7 @@ export default function CaseStudyTripAssurance() {
                   {d.solutionName}
                 </Reveal>
                 <Reveal as="p" className="cs-phase__hypothesis" delay={0.04}>
-                  {d.pitch}
+                  <Bold text={d.pitch} />
                 </Reveal>
 
                 <div className="cs-goal-row">
@@ -708,6 +725,13 @@ export default function CaseStudyTripAssurance() {
                     <img src={solution1Sketches} alt="Marker pens and paper wireframe sketches of the Trip Assurance flow" />
                     <img src={solution1Whiteboard} alt="Sketching the Trip Assurance user flow on a whiteboard" />
                     <img src={solution1Team} alt="Team reviewing the Trip Assurance flow together" />
+                  </Reveal>
+                )}
+
+                {d.phase === "02" && (
+                  <Reveal as="div" className="cs-solution2-photos" delay={0.06}>
+                    <img src={solution2TeamPhoto1} alt="CX team on manual pre-booking calls" />
+                    <img src={solution2TeamPhoto2} alt="CX team collaboration on pre-booking process" />
                   </Reveal>
                 )}
 
@@ -745,20 +769,9 @@ export default function CaseStudyTripAssurance() {
                   <div className="cs-metrics-block cs-metrics-block--waitlisted">
                     <span className="cs-phase__how-label cs-phase__how-label--metric">Waitlisted Ticket Trends</span>
                     <div className="cs-donut-grid">
-                      {d.waitlistedTrends.map((m) => (
+                      {d.waitlistedTrends.map((m, idx) => (
                         <Reveal as="div" className="cs-donut-card" key={m.label} delay={0.04}>
-                          <div className="cs-donut-card__chart">
-                            <DonutChart percent={parseFloat(m.value)} />
-                            <span className="cs-donut-card__connector" aria-hidden="true">
-                              <span className="cs-donut-card__connector-line" />
-                              <span className="cs-donut-card__connector-dot" />
-                            </span>
-                            <div className="cs-donut-card__figures">
-                              <span className="cs-donut-card__value">{m.value}</span>
-                              <span className="cs-donut-card__label">{m.label}</span>
-                            </div>
-                          </div>
-                          <p className="cs-donut-card__desc">{m.desc}</p>
+                          <img src={donutChartImages[donutChartOrder[idx]]} alt={m.desc} className="cs-donut-card__image" />
                         </Reveal>
                       ))}
                     </div>
@@ -773,52 +786,31 @@ export default function CaseStudyTripAssurance() {
                     <Reveal as="p" className="cs-body cs-userflow-body" delay={0.06}>
                       <Bold text={d.userFlow.body} />
                     </Reveal>
-                    <div className="cs-habit-loop">
-                      <div className="cs-habit-loop__row">
-                        {d.userFlow.steps.map((step, i) => (
-                          <div className="cs-habit-loop__item" key={step.title}>
-                            <div className="cs-habit-loop__box-wrap">
-                              {step.loop && <span className="cs-habit-loop__label">{step.loop}</span>}
-                              <span className="cs-habit-loop__box">{step.title}</span>
-                              {step.tag && <span className="cs-habit-loop__tag">{step.tag}</span>}
-                            </div>
-                            {i < d.userFlow.steps.length - 1 && <span className="cs-habit-loop__arrow" aria-hidden="true">→</span>}
-                          </div>
-                        ))}
-                      </div>
-                      <div className="cs-habit-loop__branch">
-                        <span className="cs-habit-loop__box cs-habit-loop__box--diamond">{d.userFlow.branch.decision}</span>
-                        <span className="cs-habit-loop__box cs-habit-loop__box--diamond">{d.userFlow.branch.outcomes[0].title}</span>
-                        <div className="cs-habit-loop__outcome">
-                          {d.userFlow.branch.confirmed.map((s) => (
-                            <span className="cs-habit-loop__box" key={s}>{s}</span>
-                          ))}
-                        </div>
-                        <div className="cs-habit-loop__outcome">
-                          {d.userFlow.branch.waitlisted.map((s) => (
-                            <span className="cs-habit-loop__box" key={s}>{s}</span>
-                          ))}
-                        </div>
-                        <span className="cs-habit-loop__label cs-habit-loop__label--reward">{d.userFlow.branch.reward}</span>
-                      </div>
-                    </div>
+                    <Reveal as="div" className="cs-userflow-diagram-wrap" delay={0.08}>
+                      <img className="cs-userflow-diagram" src={userFlowDiagram} alt="Trip Assurance user flow diagram showing the booking journey from Search Route through Booking Complete" />
+                    </Reveal>
                   </>
                 )}
 
                 {d.variants && (
                   <>
-                    <span className="cs-phase__how-label">Trip Assurance: Pre-booking flow · Initial concept</span>
-                    <Reveal as="div" className="cs-phase1-card" delay={0.1}>
-                      <div className="cs-variant-row cs-variant-row--scroll">
-                        {d.variants.map((v) => (
-                          <div className="cs-variant cs-variant--tall" key={v.label}>
-                            <img src={variantImages[v.img]} alt={v.title} />
-                            <span className="cs-variant__label">{v.label}</span>
-                            <span className="cs-variant__title">{v.title}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </Reveal>
+                    <h3 className="cs-h2 cs-h2--sub">Trip Assurance: <span className="cs-variants-heading__subtitle">Pre booking flow</span> · <span className="cs-variants-heading__tertiary">Initial concept</span></h3>
+                    <div className="cs-variants-container">
+                      {/* Homepage Variant */}
+                      <Reveal as="div" className="cs-variant-item" delay={0.1}>
+                        <img src={variantCue} alt="Homepage - Trip Assurance Pre-booking flow" className="cs-variant-img" />
+                      </Reveal>
+
+                      {/* Search Result Page Variant */}
+                      <Reveal as="div" className="cs-variant-item" delay={0.15}>
+                        <img src={variantSrp} alt="Search Result Page - Trip Assurance visibility" className="cs-variant-img" />
+                      </Reveal>
+
+                      {/* Booking Form Variant */}
+                      <Reveal as="div" className="cs-variant-item" delay={0.2}>
+                        <img src={variantBooking} alt="Booking Form - Trip Assurance opt-in" className="cs-variant-img" />
+                      </Reveal>
+                    </div>
                   </>
                 )}
 
@@ -934,7 +926,7 @@ export default function CaseStudyTripAssurance() {
               Overall Impact
             </Reveal>
             <Reveal as="p" className="cs-body" delay={0.04}>
-              {cs.overallImpactNote}
+              <Bold text={cs.overallImpactNote} />
             </Reveal>
             <div className="cs-overall-grid cs-overall-grid--light">
               {cs.overallImpact.map((s, i) => (
@@ -994,13 +986,13 @@ export default function CaseStudyTripAssurance() {
                   {cs.feedbackInsights.map((item, i) => (
                     <Reveal as="li" key={i} delay={i * 0.04}>
                       <span className="cs-pointer-list__mark" aria-hidden="true">👉🏻</span>
-                      {item}
+                      <Bold text={item} />
                     </Reveal>
                   ))}
                 </ul>
               </div>
               <Reveal as="div" className="cs-feedback-calls__media" delay={0.06}>
-                <img src={feedbackCall1} alt="CX team members on calls with travellers, laptops open" />
+                <img src={feedbackTable} alt="Feedback table with user data" />
               </Reveal>
             </div>
 
