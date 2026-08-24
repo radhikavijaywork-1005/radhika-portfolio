@@ -228,11 +228,15 @@
 
 /* ---------- Phase 2 side-by-side layout (flow diagram + photos) ---------- */
 .cs-phase2-layout {
+  margin-top: 24px;
+}
+
+.cs-mbf-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 48px;
-  align-items: center;
-  margin-top: 24px;
+  align-items: start;
+  width: 100%;
 }
 
 .cs-phase2-branches {

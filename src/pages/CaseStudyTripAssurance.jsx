@@ -4,6 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { tripAssuranceCaseStudy as cs } from "../data/caseStudyTripAssurance";
 import { work } from "../data/content";
 import CaseStudyNav from "./CaseStudyNav";
+import ManualBookingFlowDiagram from "../components/ManualBookingFlowDiagram";
 import { useSoundContext } from "../context/SoundContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
@@ -133,6 +134,7 @@ const navSections = [
   { id: "problem", label: "Problem" },
   { id: "research", label: "Research" },
   { id: "decisions", label: "Decisions" },
+  { id: "design-iteration", label: "Design & Iteration" },
   { id: "impact", label: "Impact" },
   { id: "reflection", label: "Reflection" },
 ];
@@ -754,12 +756,6 @@ export default function CaseStudyTripAssurance() {
                   </Reveal>
                 )}
 
-                {d.phase === "02" && (
-                  <Reveal as="div" className="cs-solution2-photos" delay={0.06}>
-                    <img src={solution2TeamPhoto1} alt="CX team on manual pre-booking calls" />
-                    <img src={solution2TeamPhoto2} alt="CX team collaboration on pre-booking process" />
-                  </Reveal>
-                )}
 
                 {d.platformMetrics && (
                   <div className="cs-metrics-block cs-metrics-block--platform">
@@ -807,7 +803,7 @@ export default function CaseStudyTripAssurance() {
 
                 {d.userFlow && (
                   <>
-                    <h3 className="cs-h2 cs-h2--sub cs-h2--designs-iterations">Designs &amp; Iterations</h3>
+                    <h3 id="design-iteration" className="cs-h2 cs-h2--sub cs-h2--designs-iterations">Designs &amp; Iterations</h3>
                     <span className="cs-phase__how-label cs-phase__how-label--metric cs-userflow-label">User Flow</span>
                     <Reveal as="p" className="cs-body cs-userflow-body" delay={0.06}>
                       <Bold text={d.userFlow.body} />
@@ -985,7 +981,19 @@ export default function CaseStudyTripAssurance() {
                   </Reveal>
                 )}
 
-                {d.branches && (
+                {d.branches && d.phase === "02" && (
+                  <Reveal as="div" className="cs-phase2-layout" delay={0.06}>
+                    <div className="cs-mbf-container">
+                      <ManualBookingFlowDiagram />
+                      <div className="cs-solution2-photos">
+                        <img src={solution2TeamPhoto1} alt="CX team on manual pre-booking calls" />
+                        <img src={solution2TeamPhoto2} alt="CX team collaboration on pre-booking process" />
+                      </div>
+                    </div>
+                  </Reveal>
+                )}
+
+                {d.branches && d.phase === "01" && (
                   <div className="cs-overview-facts cs-overview-facts--two">
                     {d.branches.map((b) => (
                       <div className="cs-overview-fact" key={b.title}>
