@@ -824,17 +824,19 @@ export default function CaseStudyTripAssurance() {
                 {d.postBookingFlow && (
                   <>
                     <h3 className="cs-h2 cs-h2--sub">Trip Assurance: <span className="cs-variants-heading__subtitle">Post booking flow</span> · <span className="cs-variants-heading__tertiary">Initial concept</span></h3>
-                    <div className="cs-post-booking-scroll">
-                      {d.postBookingFlow.map((flow, i) => (
-                        <Reveal as="div" className="cs-post-booking-item" key={flow.screen} delay={i * 0.05}>
-                          <img src={postBookingScreens[i]} alt={flow.title} className="cs-post-booking-screen" />
-                          <div className="cs-post-booking-caption">
-                            <p className="cs-post-booking-caption__title">{flow.title}</p>
-                            <p className="cs-post-booking-caption__desc">{flow.description}</p>
+                    <Reveal as="div" className="cs-phase1-card" delay={0.08}>
+                      <div className="cs-post-booking-scroll">
+                        {d.postBookingFlow.map((flow, i) => (
+                          <div className="cs-post-booking-item" key={flow.screen}>
+                            <img src={postBookingScreens[i]} alt={flow.title} className="cs-post-booking-screen" />
+                            <div className="cs-post-booking-caption">
+                              <p className="cs-post-booking-caption__title">{flow.title}</p>
+                              <p className="cs-post-booking-caption__desc">{flow.description}</p>
+                            </div>
                           </div>
-                        </Reveal>
-                      ))}
-                    </div>
+                        ))}
+                      </div>
+                    </Reveal>
                   </>
                 )}
 
