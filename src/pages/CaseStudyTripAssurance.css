@@ -1579,8 +1579,8 @@
 /* ---------- Happy flow section ---------- */
 .cs-happy-flow {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 80px;
   align-items: center;
 }
 
@@ -1609,6 +1609,21 @@
   line-height: 1.2;
 }
 
+.cs-happy-flow__content {
+  display: flex;
+  justify-content: flex-end;
+  position: relative;
+}
+
+.cs-happy-flow__highlight {
+  position: absolute;
+  top: -40px;
+  right: 20px;
+  width: 68px;
+  height: 74px;
+  z-index: 2;
+}
+
 .cs-happy-flow__gif-wrap {
   display: flex;
   flex-direction: column;
@@ -1617,15 +1632,16 @@
 }
 
 .cs-happy-flow__gif {
-  width: 100%;
-  max-width: 280px;
-  height: auto;
+  width: 210px;
+  aspect-ratio: 230 / 498;
+  object-fit: cover;
   display: block;
   border-radius: 12px;
   background: var(--bg);
   position: relative;
   isolation: isolate;
   border: 1px solid rgba(var(--maroon-rgb), 0.2);
+  -webkit-user-drag: none;
 }
 
 .cs-happy-flow__label {
@@ -1641,6 +1657,12 @@
   }
   .cs-happy-flow__title {
     font-size: 24px;
+  }
+  .cs-happy-flow__content {
+    justify-content: center;
+  }
+  .cs-happy-flow__highlight {
+    right: auto;
   }
 }
 
