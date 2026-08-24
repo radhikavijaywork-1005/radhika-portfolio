@@ -1513,8 +1513,12 @@
   scroll-snap-type: x proximity;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
-  padding: 16px;
-  margin: 0 -16px;
+  cursor: grab;
+  user-select: none;
+}
+
+.cs-post-booking-scroll:active {
+  cursor: grabbing;
 }
 
 .cs-post-booking-scroll::-webkit-scrollbar {
@@ -1524,36 +1528,51 @@
 .cs-post-booking-item {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  flex-shrink: 0;
+  flex: 0 0 210px;
+  width: 210px;
   scroll-snap-align: start;
 }
 
 .cs-post-booking-screen {
-  width: 240px;
-  height: auto;
+  width: 100%;
+  aspect-ratio: 230 / 498;
+  object-fit: cover;
   display: block;
+  border: 4px solid #969696;
   border-radius: 12px;
   background: var(--bg);
   position: relative;
   isolation: isolate;
+  -webkit-user-drag: none;
+  margin-bottom: 12px;
 }
 
 .cs-post-booking-caption {
-  width: 240px;
+  width: 100%;
 }
 
 .cs-post-booking-caption__title {
-  font-family: var(--font-display);
+  font-family: var(--font-body);
   font-weight: 600;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--cs-ink);
   margin-bottom: 4px;
+  line-height: 1.3;
 }
 
 .cs-post-booking-caption__desc {
-  font-size: 13px;
-  line-height: 1.5;
+  font-size: 12px;
+  line-height: 1.4;
   color: var(--cs-soft);
+}
+
+@media (max-width: 640px) {
+  .cs-post-booking-item {
+    flex: 0 0 130px;
+    width: 130px;
+  }
+  .cs-post-booking-scroll {
+    gap: 12px;
+  }
 }
 
