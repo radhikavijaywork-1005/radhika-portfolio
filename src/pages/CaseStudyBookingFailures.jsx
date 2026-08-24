@@ -65,6 +65,8 @@ function Placeholder({ label, className = "" }) {
 }
 
 const feedbackAvatars = ["🙍🏻‍♂️", "🙍🏻‍♀️", "🙎🏻‍♂️", "🙎🏻‍♀️", "🧑🏻", "👩🏻", "👨🏻"];
+const feedbackJumbleAngles = [-2, 1.5, -1, 2, -1.5, 1, -2.5];
+const feedbackJitterY = [0, 22, -8, 14, 4, -14, 8];
 
 function getNextCaseStudy() {
   const currentIndex = work.findIndex((w) => w.href === "/work/booking-failures");
@@ -337,14 +339,27 @@ export default function CaseStudyBookingFailures() {
             <div className="cs-bf-feedback-panel">
               {cs.userFeedback.map((fb, i) => {
                 const dimmed = activeFeedbackFilter !== "all" && fb.category !== activeFeedbackFilter;
+                const jumble = feedbackJumbleAngles[i % feedbackJumbleAngles.length];
+                const jitterY = feedbackJitterY[i % feedbackJitterY.length];
                 return (
-                  <div
-                    className={`cs-bf-feedback-bubble cs-bf-feedback-bubble--${fb.category}${dimmed ? " is-dimmed" : ""}`}
+                  <motion.div
+                    className="cs-bf-feedback-bubble-wrap"
                     key={fb.text}
+                    layout
+                    style={{ marginTop: jitterY }}
+                    initial={{ opacity: 0, scale: 0.7, rotate: jumble * 2.5 }}
+                    animate={{
+                      opacity: dimmed ? 0.25 : 1,
+                      scale: dimmed ? 0.92 : 1,
+                      rotate: dimmed ? 0 : jumble,
+                    }}
+                    transition={{ duration: 0.45, delay: i * 0.05, ease: [0.22, 1, 0.36, 1] }}
                   >
                     <span className="cs-bf-feedback-bubble__avatar" aria-hidden="true">{feedbackAvatars[i % feedbackAvatars.length]}</span>
-                    <p className="cs-bf-feedback-bubble__text">{fb.text}</p>
-                  </div>
+                    <div className={`cs-bf-feedback-bubble cs-bf-feedback-bubble--${fb.category}`}>
+                      <p className="cs-bf-feedback-bubble__text">{fb.text}</p>
+                    </div>
+                  </motion.div>
                 );
               })}
             </div>

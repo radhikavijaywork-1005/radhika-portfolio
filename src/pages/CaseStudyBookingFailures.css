@@ -73,7 +73,7 @@
   align-items: start;
   margin: 20px 0 32px;
   padding: 32px 28px;
-  background: #f3ead0;
+  background: #f8f1de;
   border-radius: 24px;
 }
 
@@ -184,55 +184,98 @@
    raw App/Play Store quotes scattered across a soft pink panel, each with
    a small avatar. Distinct from the "Pain Points" section below it, which
    is the same quotes re-organized into two categories — this one is the
-   unsorted collection they came from. Alternating column offsets stand in
-   for Figma's freeform scatter without needing per-quote coordinates. */
+   unsorted collection they came from. A flex-wrap row (not a 2-column
+   grid) plus per-bubble inline jitter/rotation from the JSX breaks any
+   left/right column pattern, since a strict grid made categories read as
+   sorted into columns even once the data order was interleaved. */
 .cs-bf-feedback-panel {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 24px;
   margin: 24px 0 40px;
   padding: 32px;
   border-radius: 24px;
   background: #fff6f5;
 }
 
-.cs-bf-feedback-panel > *:nth-child(2n) {
-  margin-top: 32px;
+.cs-bf-feedback-bubble-wrap {
+  flex: 1 1 340px;
+  max-width: calc(50% - 12px);
 }
 
-.cs-bf-feedback-bubble {
+@media (max-width: 720px) {
+  .cs-bf-feedback-bubble-wrap {
+    max-width: 100%;
+  }
+}
+
+/* Chat-callout shape: a circular avatar overlapping the bubble's left
+   edge, with a small rotated-square "tail" pointing back at it — the
+   reference look (avatar + speech bubble with a pointed tail), not a
+   plain card. */
+.cs-bf-feedback-bubble-wrap {
+  position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 16px 20px;
-  border-radius: 16px;
-  background: var(--cs-card-bg);
-  border: 1.5px solid transparent;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-  transition: opacity 0.3s var(--ease-flow, ease), border-color 0.3s var(--ease-flow, ease), transform 0.3s var(--ease-flow, ease);
-}
-
-.cs-bf-feedback-bubble--credential {
-  border-color: rgba(var(--maroon-rgb), 0.35);
-}
-
-.cs-bf-feedback-bubble--pending {
-  border-color: rgba(230, 58, 56, 0.3);
-}
-
-.cs-bf-feedback-bubble.is-dimmed {
-  opacity: 0.3;
-  border-color: transparent;
-  transform: scale(0.98);
+  align-items: center;
+  padding-left: 22px;
 }
 
 .cs-bf-feedback-bubble__avatar {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--cs-card-bg);
   font-size: 22px;
   line-height: 1;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.cs-bf-feedback-bubble {
+  position: relative;
+  flex: 1;
+  margin-left: 28px;
+  padding: 16px 20px;
+  border-radius: 20px;
+  background: var(--cs-card-bg);
+  border: 1px solid transparent;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.cs-bf-feedback-bubble::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  width: 14px;
+  height: 14px;
+  background: inherit;
+  border: inherit;
+  border-radius: 3px;
+  transform: translateY(-50%) rotate(45deg);
+  z-index: 0;
+}
+
+.cs-bf-feedback-bubble--credential {
+  border-color: rgba(var(--maroon-rgb), 0.2);
+}
+
+.cs-bf-feedback-bubble--pending {
+  border-color: rgba(230, 58, 56, 0.18);
 }
 
 .cs-bf-feedback-bubble__text {
+  position: relative;
+  z-index: 1;
   font-size: 14.5px;
   line-height: 1.5;
   color: var(--cs-ink);
@@ -456,7 +499,7 @@
 .cs-flow-stepper {
   margin: 20px 0 32px;
   padding: 24px 28px;
-  background: #f3ead0;
+  background: #f8f1de;
   border-radius: 24px;
 }
 
@@ -680,7 +723,7 @@
 .cs-metrics-band {
   padding: 32px 0;
   border-radius: 16px;
-  background: #f3ead0;
+  background: #f8f1de;
 }
 
 .cs-metrics-band .cs-stat-row {

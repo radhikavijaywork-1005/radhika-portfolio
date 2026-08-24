@@ -110,12 +110,12 @@ export const bookingFailuresCaseStudy = {
 
   userFeedback: [
     { text: "I don’t remember my IRCTC Password. There was no option to reset it or change ID", category: "credential" },
-    { text: "It’s so complicated; there’s no clear visibility of what I’ve entered in the password field.", category: "credential" },
-    { text: "Fraud app. Took my money and then asking me to fill IRCTC Password.", category: "credential" },
-    { text: "CAPTCHA reload button does not work sometimes", category: "credential" },
-    { text: "Refund process is confusing. I don’t know if my payment is safe.", category: "pending" },
-    { text: "There’s no clear information on whether my booking is confirmed or if I’ll get a refund.", category: "pending" },
     { text: "The session timeout forced me to restart the process. It’s frustrating when you’ve already paid.", category: "pending" },
+    { text: "Refund process is confusing. I don’t know if my payment is safe.", category: "pending" },
+    { text: "Fraud app. Took my money and then asking me to fill IRCTC Password.", category: "credential" },
+    { text: "It’s so complicated; there’s no clear visibility of what I’ve entered in the password field.", category: "credential" },
+    { text: "There’s no clear information on whether my booking is confirmed or if I’ll get a refund.", category: "pending" },
+    { text: "CAPTCHA reload button does not work sometimes", category: "credential" },
   ],
 
   technicalChallenges: [
