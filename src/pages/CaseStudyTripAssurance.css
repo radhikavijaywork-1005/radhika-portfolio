@@ -110,7 +110,7 @@
   color: var(--maroon);
   margin-bottom: 16px;
   z-index: 2;
-  box-shadow: 0 0 0 6px var(--paper);
+  box-shadow: 0 0 0 10px var(--paper);
 }
 
 /* Running track: one continuous line behind every circle, connecting step
