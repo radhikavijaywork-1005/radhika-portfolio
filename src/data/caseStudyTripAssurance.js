@@ -6,6 +6,24 @@ export const tripAssuranceCaseStudy = {
   subheadStrong: "~28% opt-in",
   subheadPost: " within its first rollout.",
 
+  summary: [
+    {
+      icon: "❗",
+      label: "Problem",
+      text: "**~30%** of train tickets booked daily go waitlisted, leaving users stuck in uncertainty about whether they'll actually travel, with no guaranteed way to reach their destination.",
+    },
+    {
+      icon: "🔍",
+      label: "Approach",
+      text: "Researched user pain points around waitlisted bookings, then designed **Trip Assurance** — a low-cost opt-in that guarantees a flight ticket if the train doesn't confirm.",
+    },
+    {
+      icon: "📊",
+      label: "Outcome",
+      text: "Reached **~28% opt-in** within the first rollout across 1,000 trains, with a **~96% confirmed journey rate** and **~30% higher average transactional value.**",
+    },
+  ],
+
   meta: [
     {
       label: "My Role",

@@ -58,7 +58,7 @@ function ParticleScene() {
 
   return (
     <group ref={groupRef}>
-      <PerspectiveCamera makeDefault position={[0, 0, 18]} fov={50} near={0.1} far={1000} />
+      <PerspectiveCamera makeDefault position={[0, 0, 13]} fov={45} near={0.1} far={1000} />
 
       {/* Subtle lighting for depth perception */}
       <ambientLight intensity={0.6} />

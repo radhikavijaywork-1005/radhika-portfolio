@@ -130,6 +130,7 @@ const competitorRailofyShots = [
 ];
 
 const navSections = [
+  { id: "summary", label: "Summary" },
   { id: "overview", label: "Overview" },
   { id: "problem", label: "Problem" },
   { id: "research", label: "Research" },
@@ -148,7 +149,7 @@ const fadeUp = {
   },
 };
 
-function Reveal({ as = "div", className, children, delay = 0 }) {
+function Reveal({ as = "div", className, children, delay = 0, ...rest }) {
   const Tag = motion[as];
   const { ref, revealed } = useRevealOnScroll(0.2);
   return (
@@ -159,6 +160,7 @@ function Reveal({ as = "div", className, children, delay = 0 }) {
       initial="hidden"
       animate={revealed ? "show" : "hidden"}
       transition={{ delay }}
+      {...rest}
     >
       {children}
     </Tag>
@@ -335,8 +337,26 @@ export default function CaseStudyTripAssurance() {
 
         <div className="cs-content">
           {/* ---------- Overview ---------- */}
-          <section id="overview" className="cs-section">
-            <Reveal as="h2" className="cs-h2">
+          <section className="cs-section">
+            <Reveal as="h2" id="summary" className="cs-h2">
+              Summary
+            </Reveal>
+
+            <div className="cs-summary-list">
+              {cs.summary.map((s, i) => (
+                <Reveal as="div" className="cs-summary-item" key={s.label} delay={i * 0.06}>
+                  <span className="cs-summary-item__icon">{s.icon}</span>
+                  <div>
+                    <h3 className="cs-summary-item__label">{s.label}</h3>
+                    <p className="cs-summary-item__text">
+                      <Bold text={s.text} />
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+
+            <Reveal as="h2" className="cs-h2" delay={0.06}>
               Project Approach
             </Reveal>
             <div className="cs-approach-stepper">
@@ -349,7 +369,7 @@ export default function CaseStudyTripAssurance() {
               ))}
             </div>
 
-            <Reveal as="h2" className="cs-h2" delay={0.05}>
+            <Reveal as="h2" id="overview" className="cs-h2" delay={0.05}>
               Overview of Trainman
             </Reveal>
             <Reveal as="div" className="cs-overview-brand" delay={0.04}>

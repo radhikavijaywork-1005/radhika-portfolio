@@ -7,50 +7,33 @@ import { useEffect, useRef, useState } from 'react';
  * Mobile (optimized): 50k-120k particles
  */
 export function useResponsive() {
-  const [particleCount, setParticleCount] = useState(400000);
-  const [particleSize, setParticleSize] = useState(1.5);
+  const [particleCount, setParticleCount] = useState(140000);
+  const [particleSize, setParticleSize] = useState(1.2);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const calculateSettings = () => {
-      const width = window.innerWidth;
-      const height = window.innerHeight;
       const pixelRatio = window.devicePixelRatio || 1;
-
-      // Detect mobile
-      const mobile = width < 768;
+      const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
 
       if (mobile) {
-        // Mobile: reduced particle count
-        let count = 60000; // Base count for mobile
-
-        // Adjust based on device capability
-        if (pixelRatio >= 3) {
-          // High-DPI mobile (flagship phones)
-          count = 100000;
-        } else if (pixelRatio <= 1.5) {
-          // Low-DPI or older phones
-          count = 40000;
-        }
+        // Mobile: reduced particle count, sized for our ~1024px source maps
+        let count = 35000;
+        if (pixelRatio >= 3) count = 55000;
+        else if (pixelRatio <= 1.5) count = 25000;
 
         setParticleCount(count);
-        setParticleSize(1.2); // Slightly larger on mobile for visibility
+        setParticleSize(1.4);
       } else {
-        // Desktop: high particle count
-        let count = 400000; // Base desktop count
-
-        // Adjust based on performance
-        if (pixelRatio >= 2) {
-          // High-DPI desktop (4K, retina)
-          count = 550000;
-        } else {
-          // Standard desktop
-          count = 350000;
-        }
+        // Desktop: tuned to what our source portrait maps can meaningfully
+        // resolve (~1024x1024) — higher counts here just resample the same
+        // pixels more densely without adding real detail.
+        let count = 110000;
+        if (pixelRatio >= 2) count = 160000;
 
         setParticleCount(count);
-        setParticleSize(1.5);
+        setParticleSize(1.2);
       }
     };
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import * as THREE from 'three';
 
 export function useParticleGeometry(portraitImageUrl, depthImageUrl, densityImageUrl, particleCount) {
@@ -6,224 +6,182 @@ export function useParticleGeometry(portraitImageUrl, depthImageUrl, densityImag
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    let cancelled = false;
     setIsLoading(true);
 
     if (!portraitImageUrl) {
       const geom = generateSimulatedGeometry(particleCount);
-      setGeometry(geom);
-      setIsLoading(false);
-      return;
+      if (!cancelled) {
+        setGeometry(geom);
+        setIsLoading(false);
+      }
+      return () => { cancelled = true; };
     }
 
     loadTexturesAndGenerateGeometry(portraitImageUrl, depthImageUrl, densityImageUrl, particleCount)
       .then(geom => {
-        setGeometry(geom);
-        setIsLoading(false);
+        if (!cancelled) {
+          setGeometry(geom);
+          setIsLoading(false);
+        }
       })
       .catch(err => {
         console.error('Failed to generate geometry:', err);
-        const geom = generateSimulatedGeometry(particleCount);
-        setGeometry(geom);
-        setIsLoading(false);
+        if (!cancelled) {
+          setGeometry(generateSimulatedGeometry(particleCount));
+          setIsLoading(false);
+        }
       });
+
+    return () => { cancelled = true; };
   }, [portraitImageUrl, depthImageUrl, densityImageUrl, particleCount]);
 
   return { geometry, isLoading };
 }
 
 async function loadTexturesAndGenerateGeometry(portraitUrl, depthUrl, densityUrl, particleCount) {
-  const textureLoader = new THREE.TextureLoader();
-
-  try {
-    const portraitTex = await textureLoader.loadAsync(portraitUrl);
-    const depthTex = depthUrl ? await textureLoader.loadAsync(depthUrl) : null;
-    const densityTex = densityUrl ? await textureLoader.loadAsync(densityUrl) : null;
-
-    return generateGeometryFromTextures(portraitTex, depthTex, densityTex, particleCount);
-  } catch (err) {
-    console.error('Texture loading failed:', err);
-    return generateSimulatedGeometry(particleCount);
-  }
+  const loader = new THREE.TextureLoader();
+  const portraitTex = await loader.loadAsync(portraitUrl);
+  const depthTex = depthUrl ? await loader.loadAsync(depthUrl) : null;
+  const densityTex = densityUrl ? await loader.loadAsync(densityUrl) : null;
+  return generateGeometryFromTextures(portraitTex, depthTex, densityTex, particleCount);
 }
 
-function generateGeometryFromTextures(portraitTex, depthTex, densityTex, targetCount) {
+function toImageData(tex) {
   const canvas = document.createElement('canvas');
-  canvas.width = portraitTex.image.width;
-  canvas.height = portraitTex.image.height;
-
+  canvas.width = tex.image.width;
+  canvas.height = tex.image.height;
   const ctx = canvas.getContext('2d');
-  ctx.drawImage(portraitTex.image, 0, 0);
-  const portraitData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(tex.image, 0, 0);
+  return ctx.getImageData(0, 0, canvas.width, canvas.height);
+}
 
-  let depthData = null;
-  if (depthTex) {
-    const depthCanvas = document.createElement('canvas');
-    depthCanvas.width = depthTex.image.width;
-    depthCanvas.height = depthTex.image.height;
-    const depthCtx = depthCanvas.getContext('2d');
-    depthCtx.drawImage(depthTex.image, 0, 0);
-    depthData = depthCtx.getImageData(0, 0, depthCanvas.width, depthCanvas.height);
+/**
+ * Generates particles strictly from real image data — no random padding.
+ * Particles are white/light-gray (per spec), modulated by source luminance,
+ * NOT literal photo color, so it reads as a clean point-cloud, not a photo.
+ */
+function generateGeometryFromTextures(portraitTex, depthTex, densityTex, maxCount) {
+  const portrait = toImageData(portraitTex);
+  const depthData = depthTex ? toImageData(depthTex) : null;
+  const densityData = densityTex ? toImageData(densityTex) : null;
+
+  const w = portrait.width;
+  const h = portrait.height;
+  const px = portrait.data;
+
+  // Pass 1: collect candidate pixels above a background-luminance floor.
+  const candidates = [];
+  for (let y = 0; y < h; y++) {
+    for (let x = 0; x < w; x++) {
+      const i = (y * w + x) * 4;
+      const r = px[i], g = px[i + 1], b = px[i + 2], a = px[i + 3];
+      if (a < 50) continue;
+
+      const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+      if (luminance < 0.12) continue; // skip near-black background
+
+      let densityProb = luminance; // fallback: brighter = more likely
+      if (densityData) {
+        densityProb = densityData.data[i] / 255;
+      }
+
+      candidates.push({ x, y, i, luminance, densityProb });
+    }
   }
 
-  let densityData = null;
-  if (densityTex) {
-    const densityCanvas = document.createElement('canvas');
-    densityCanvas.width = densityTex.image.width;
-    densityCanvas.height = densityTex.image.height;
-    const densityCtx = densityCanvas.getContext('2d');
-    densityCtx.drawImage(densityTex.image, 0, 0);
-    densityData = densityCtx.getImageData(0, 0, densityCanvas.width, densityCanvas.height);
+  // Pass 2: probabilistic thinning down toward maxCount, weighted by density.
+  // Sort by density descending so highest-priority (face) pixels are kept first
+  // when we need to cap the count.
+  candidates.sort((a, b) => b.densityProb - a.densityProb);
+
+  const kept = [];
+  for (const c of candidates) {
+    if (kept.length >= maxCount) break;
+    if (Math.random() < Math.max(0.15, c.densityProb)) {
+      kept.push(c);
+    }
   }
 
-  const positions = new Float32Array(targetCount * 3);
-  const colors = new Float32Array(targetCount * 3);
-  const sizes = new Float32Array(targetCount);
+  const count = kept.length;
+  const positions = new Float32Array(count * 3);
+  const colors = new Float32Array(count * 3);
+  const sizes = new Float32Array(count);
 
-  let particleIndex = 0;
-  const portraitPixels = portraitData.data;
-  const depthPixels = depthData?.data;
-  const densityPixels = densityData?.data;
+  const aspect = w / h;
+  const worldWidth = 8 * aspect;
+  const worldHeight = 8;
 
-  // Sample pixels strategically based on portrait data
-  for (let i = 0; i < portraitPixels.length && particleIndex < targetCount; i += 4) {
-    const r = portraitPixels[i];
-    const g = portraitPixels[i + 1];
-    const b = portraitPixels[i + 2];
-    const a = portraitPixels[i + 3];
+  for (let idx = 0; idx < count; idx++) {
+    const { x, y, i, luminance } = kept[idx];
 
-    // Skip fully transparent pixels
-    if (a < 50) continue;
+    const nx = (x / w - 0.5) * worldWidth;
+    const ny = -(y / h - 0.5) * worldHeight;
 
-    // Skip dark background
-    const brightness = (r + g + b) / 3;
-    if (brightness < 40 && a < 200) continue;
-
-    // Use density map to probabilistically create particles
-    if (densityPixels) {
-      const densityVal = densityPixels[i] / 255;
-      // Higher density = more likely to create particle
-      if (Math.random() > densityVal * 1.2) continue;
-    } else {
-      // Without density map, sample uniformly but skip dark areas
-      if (Math.random() > 0.3) continue;
+    let z = (luminance - 0.5) * 0.3; // fallback depth from brightness
+    if (depthData) {
+      z = (depthData.data[i] / 255 - 0.5) * 0.8;
     }
 
-    // Convert pixel position to 3D world space
-    const pixelIndex = i / 4;
-    const pixelX = pixelIndex % canvas.width;
-    const pixelY = Math.floor(pixelIndex / canvas.width);
+    positions[idx * 3] = nx;
+    positions[idx * 3 + 1] = ny;
+    positions[idx * 3 + 2] = z;
 
-    // Normalize to [-1, 1] then scale
-    const x = ((pixelX / canvas.width) - 0.5) * 10;
-    const y = -((pixelY / canvas.height) - 0.5) * 12;
+    // White/light-gray particles, brightness driven by source luminance —
+    // not literal photo RGB — per the "elegant point-cloud" spec.
+    const gray = 0.55 + luminance * 0.45;
+    colors[idx * 3] = gray;
+    colors[idx * 3 + 1] = gray;
+    colors[idx * 3 + 2] = gray;
 
-    // Get depth from depth map
-    let z = 0;
-    if (depthPixels) {
-      const depthVal = depthPixels[i] / 255;
-      z = (depthVal - 0.5) * 0.6; // Scale depth appropriately
-    } else {
-      z = (Math.random() - 0.5) * 0.2;
-    }
-
-    // Set position
-    positions[particleIndex * 3] = x;
-    positions[particleIndex * 3 + 1] = y;
-    positions[particleIndex * 3 + 2] = z;
-
-    // Set color - enhance to be lighter/whiter
-    const colorScale = 1.1; // Boost brightness
-    colors[particleIndex * 3] = Math.min(1, (r / 255) * colorScale);
-    colors[particleIndex * 3 + 1] = Math.min(1, (g / 255) * colorScale);
-    colors[particleIndex * 3 + 2] = Math.min(1, (b / 255) * colorScale);
-
-    // Random size variation for organic look
-    sizes[particleIndex] = 0.6 + Math.random() * 0.4;
-
-    particleIndex++;
-  }
-
-  // Fill remaining with fallback if needed
-  while (particleIndex < targetCount) {
-    const angle = Math.random() * Math.PI * 2;
-    const dist = Math.random();
-
-    positions[particleIndex * 3] = Math.cos(angle) * dist * 5;
-    positions[particleIndex * 3 + 1] = Math.sin(angle) * dist * 6;
-    positions[particleIndex * 3 + 2] = (Math.random() - 0.5) * 0.3;
-
-    const gray = 0.6 + Math.random() * 0.4;
-    colors[particleIndex * 3] = gray;
-    colors[particleIndex * 3 + 1] = gray;
-    colors[particleIndex * 3 + 2] = gray;
-
-    sizes[particleIndex] = 0.6 + Math.random() * 0.4;
-
-    particleIndex++;
+    sizes[idx] = 0.7 + Math.random() * 0.5;
   }
 
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
   geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
   geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+  geometry.computeBoundingSphere();
 
   return geometry;
 }
 
 function generateSimulatedGeometry(particleCount) {
-  const positions = new Float32Array(particleCount * 3);
-  const colors = new Float32Array(particleCount * 3);
-  const sizes = new Float32Array(particleCount);
-
-  let particleIndex = 0;
+  const positions = [];
+  const colors = [];
+  const sizes = [];
 
   for (let i = 0; i < particleCount; i++) {
     const angle = Math.random() * Math.PI * 2;
     const distance = Math.random();
-
-    let x = Math.cos(angle) * distance * 5;
-    let y = Math.sin(angle) * distance * 6;
-    let z = (Math.random() - 0.5) * 0.5;
+    const x = Math.cos(angle) * distance * 5;
+    const y = Math.sin(angle) * distance * 6;
 
     const density = getProceduralDensity(x, y);
     if (Math.random() > density) continue;
 
-    if (Math.abs(y) < 2 && Math.abs(x) < 3) {
-      z += (Math.random() - 0.5) * 0.3;
-    }
+    const z = (Math.random() - 0.5) * 0.5;
 
-    positions[particleIndex * 3] = x;
-    positions[particleIndex * 3 + 1] = y;
-    positions[particleIndex * 3 + 2] = z;
-
-    const lightness = 0.7 + Math.random() * 0.3;
-    colors[particleIndex * 3] = lightness;
-    colors[particleIndex * 3 + 1] = lightness;
-    colors[particleIndex * 3 + 2] = lightness;
-
-    sizes[particleIndex] = 0.6 + Math.random() * 0.4;
-
-    particleIndex++;
+    positions.push(x, y, z);
+    const gray = 0.6 + Math.random() * 0.35;
+    colors.push(gray, gray, gray);
+    sizes.push(0.7 + Math.random() * 0.5);
   }
 
   const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
-  geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
+  geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(positions), 3));
+  geometry.setAttribute('color', new THREE.BufferAttribute(new Float32Array(colors), 3));
+  geometry.setAttribute('size', new THREE.BufferAttribute(new Float32Array(sizes), 1));
   return geometry;
 }
 
 function getProceduralDensity(x, y) {
   const leftEyeDist = Math.hypot(x + 1.5, y - 1.5);
   const rightEyeDist = Math.hypot(x - 1.5, y - 1.5);
-
   if (leftEyeDist < 0.8 || rightEyeDist < 0.8) return 0.9;
   if (Math.abs(x) < 0.6 && Math.abs(y - 0.5) < 1.2) return 0.8;
   if (Math.abs(y + 1.5) < 0.6 && Math.abs(x) < 1.2) return 0.7;
-
   const faceDist = Math.hypot(x / 3, y / 3.5);
   if (faceDist < 1) return 0.6;
-
   return 0.1;
 }
