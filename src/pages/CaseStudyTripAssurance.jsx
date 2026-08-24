@@ -841,14 +841,16 @@ export default function CaseStudyTripAssurance() {
                   </>
                 )}
 
-                <Reveal as="div" className="cs-happy-flow" delay={0.08}>
-                  <div className="cs-happy-flow__text">
-                    <h3 className="cs-happy-flow__subtitle">Trip Assurance - Initial concept</h3>
-                    <h2 className="cs-happy-flow__title">Happy flow</h2>
-                  </div>
-                  <div className="cs-happy-flow__gif-wrap">
-                    <img src={happyFlowGif} alt="Animated walkthrough of Trip Assurance happy flow" className="cs-happy-flow__gif" />
-                    <span className="cs-happy-flow__label">GIF showing happy flow</span>
+                <Reveal as="div" className="cs-phase1-card" delay={0.08}>
+                  <div className="cs-happy-flow">
+                    <div className="cs-happy-flow__text">
+                      <h3 className="cs-happy-flow__subtitle">Trip Assurance - Initial concept</h3>
+                      <h2 className="cs-happy-flow__title">Happy flow</h2>
+                    </div>
+                    <div className="cs-happy-flow__gif-wrap">
+                      <img src={happyFlowGif} alt="Animated walkthrough of Trip Assurance happy flow" className="cs-happy-flow__gif" />
+                      <span className="cs-happy-flow__label">GIF showing happy flow</span>
+                    </div>
                   </div>
                 </Reveal>
 
