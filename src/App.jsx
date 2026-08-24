@@ -37,6 +37,7 @@ const PreviewPortraitMotion = lazy(() => import("./pages/PreviewPortraitMotion")
 const PreviewHeroPortraitMotion = lazy(() => import("./pages/PreviewHeroPortraitMotion"));
 const PreviewDotPortrait = lazy(() => import("./pages/PreviewDotPortrait"));
 const PreviewPlayground = lazy(() => import("./pages/PreviewPlayground"));
+const PreviewParticlePortrait = lazy(() => import("./pages/PreviewParticlePortrait"));
 const PlaygroundEntry = lazy(() => import("./pages/PlaygroundEntry"));
 const PlaygroundSahay = lazy(() => import("./pages/PlaygroundSahay"));
 
@@ -166,6 +167,7 @@ function App() {
           <Route path="/preview/hero-portrait-motion" element={<PreviewHeroPortraitMotion />} />
           <Route path="/preview/dot-portrait" element={<PreviewDotPortrait />} />
           <Route path="/preview/playground" element={<PreviewPlayground />} />
+          <Route path="/preview/particle-portrait" element={<PreviewParticlePortrait />} />
           {/* Sahay outgrew the generic PlaygroundEntry template (Ask,
               Search, the hierarchy section, the flow demo video), so it
               gets its own dedicated route/component. A static path
