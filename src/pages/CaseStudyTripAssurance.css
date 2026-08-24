@@ -385,7 +385,7 @@
 .cs-flow-stepper {
   margin: 20px 0 32px;
   padding: 24px 28px;
-  background: #f0f3ff;
+  background: #eef1fc;
   border-radius: 24px;
 }
 
@@ -408,6 +408,11 @@
 
 .cs-stat-row--other {
   flex-wrap: nowrap;
+}
+
+.cs-stat-row--platform .cs-stat__value,
+.cs-stat-row--other .cs-stat__value {
+  color: var(--cs-ink);
 }
 
 .cs-stat--divided {
@@ -933,8 +938,8 @@
   gap: 10px;
   margin-top: 14px;
   padding-left: 18px;
-  font-size: 14px;
-  line-height: 1.55;
+  font-size: 15.5px;
+  line-height: 1.7;
   color: var(--cs-body);
 }
 
@@ -1019,7 +1024,7 @@
 /* ---------- Overall Impact — light lavender band (Figma), not the
    dark #323232 card the shared .cs-overall-card class defaults to */
 #impact > .cs-h2 {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
 }
 
 .cs-overall-grid--light {
@@ -1075,7 +1080,7 @@
   height: 220px;
   object-fit: cover;
   object-position: center 30%;
-  border-radius: 16px;
+  border-radius: 12px;
   margin-bottom: 12px;
 }
 
@@ -1441,7 +1446,7 @@
 /* ---------- Feedback Calls: Key Insights list (left) + one photo (right) ---------- */
 /* Feedback Calls section heading spacing */
 #reflection > .cs-h2 {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 
 .cs-feedback-calls {
@@ -1476,7 +1481,7 @@
   width: 100%;
   aspect-ratio: 813 / 580;
   object-fit: cover;
-  border-radius: 16px;
+  border-radius: 12px;
   border: 1px solid var(--cs-muted);
 }
 
@@ -1514,7 +1519,7 @@
   display: flex;
   flex-direction: column;
   gap: 32px;
-  margin: 16px 0;
+  margin: 48px 0;
 }
 
 .cs-key-results__list {
@@ -1780,9 +1785,9 @@
 }
 
 .cs-stakeholder-card__body {
-  font-size: 14px;
+  font-size: 15.5px;
   font-weight: 300;
-  line-height: 1.4;
+  line-height: 1.6;
   color: var(--cs-body);
 }
 
@@ -1872,7 +1877,7 @@
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 16px;
+  border-radius: 12px;
 }
 
 /* ---------- Variants Heading ---------- */
@@ -1900,7 +1905,7 @@
   width: 100%;
   height: auto;
   display: block;
-  border-radius: 16px;
+  border-radius: 12px;
   background: var(--bg);
   position: relative;
   isolation: isolate;
@@ -1979,7 +1984,7 @@
 
 /* ---------- Happy flow section ---------- */
 .cs-phase1-card:has(.cs-happy-flow) {
-  background: #f0f3ff;
+  background: #eef1fc;
 }
 
 .cs-happy-flow {
