@@ -164,9 +164,17 @@ export const sahayCaseStudy = {
   branding: {
     eyebrow: "Branding",
     hook: "I named it after what I want the product to feel like.",
+    tagline: "Intelligence in motion.",
     body: [
       "Sahay (सहाय) comes from Hindi/Sanskrit and means help, support or assistance: the root of \"sahayak,\" someone who assists. Sahay isn't meant to make decisions for me. It's there while I'm figuring something out.",
-      "Rather than the usual visual language of AI (robots, brains, chat bubbles, neural networks), I wanted something more fluid. The mark is a flowing S, suggesting movement and transition: information coming in, being understood, becoming something more useful. A small point of light sits within the form rather than acting as a literal research icon.",
+      "Rather than the usual visual language of AI (robots, brains, chat bubbles, neural networks), I wanted something more fluid: a fluid identity that captures the journey of research, from curiosity to understanding to insight.",
+    ],
+    // What the mark itself is built from — straight from the brand sheet,
+    // not a description I wrote after the fact.
+    markMeaning: [
+      { label: "Fluid \"S\"", body: "Represents continuity, flow, and support." },
+      { label: "AI transition", body: "Dots that transform information into understanding." },
+      { label: "Insight", body: "The outcome of research: clarity, direction, confidence." },
     ],
     brandMark: {
       wordmark: "wordmark",
@@ -177,6 +185,15 @@ export const sahayCaseStudy = {
       { label: "Curiosity", hex: "#FEBAB4" },
       { label: "Understanding", hex: "#F0D3A3" },
       { label: "Insight", hex: "#CEB0E5" },
+    ],
+    // The real functional palette pulled from the live app's own CSS
+    // tokens, not the 3 decorative gradient stops above — this is what
+    // actually renders as UI, verified against the app's globals.css.
+    palette: [
+      { label: "Background", hex: "#FCFAF7" },
+      { label: "Primary", hex: "#211914" },
+      { label: "Accent", hex: "#F9E3D5" },
+      { label: "Sidebar", hex: "#1A120E" },
     ],
   },
 

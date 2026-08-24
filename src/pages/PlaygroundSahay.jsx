@@ -10,7 +10,7 @@ import "./CaseStudyPaywall.css";
 import "./PlaygroundEntry.css";
 import "./PlaygroundSahay.css";
 
-// Same real exported mark used elsewhere — see entry.branding in
+// Same real exported mark used on the live page — see entry.branding in
 // sahayCaseStudy.js.
 import sahayIconLight from "../assets/playground/sahay-brand/icon-light.png";
 import sahayIconDark from "../assets/playground/sahay-brand/icon-dark.png";

@@ -3,6 +3,6 @@
     { "source": "/(.*)", "destination": "/index.html" }
   ],
   "redirects": [
-    { "source": "/work/trip-assurance", "destination": "https://www.figma.com/design/tfJYACuH7VXBy3axHIC0ic/Radhika_Portfolio_Playground?node-id=155-13804&m=dev", "permanent": false }
+    { "source": "/work/trip-assurance", "destination": "https://www.figma.com/proto/9jxcUHpEVLdB8Av1qfpEXc/Radhika_Portfolio?node-id=850-11893&viewport=52%2C236%2C0.07&t=M6CTFvPQ7rtpbUMs-1&scaling=scale-down&content-scaling=fixed&page-id=161%3A1537", "permanent": false }
   ]
 }
