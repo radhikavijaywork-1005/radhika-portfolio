@@ -1577,6 +1577,10 @@
 }
 
 /* ---------- Happy flow section ---------- */
+.cs-phase1-card:has(.cs-happy-flow) {
+  background: #f0f3ff;
+}
+
 .cs-happy-flow {
   display: grid;
   grid-template-columns: 0.8fr 1.2fr;

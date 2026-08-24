@@ -873,10 +873,6 @@ export default function CaseStudyTripAssurance() {
                         <img src={spotlightPhase2} alt="Trainman app screen showing a waitlisted ticket with a Contact Us prompt" />
                       </div>
                     </Reveal>
-                    <Reveal as="div" className="cs-dashboard-img-wrap cs-dashboard-img-wrap--phone" delay={0.06}>
-                      <img className="cs-dashboard-img cs-dashboard-img--phone" src={happyFlowInitial} alt="Animated walkthrough of the Trip Assurance happy flow, from booking to confirmed track status" />
-                      <span className="cs-caption">Initial concept — happy flow</span>
-                    </Reveal>
                   </>
                 )}
 
