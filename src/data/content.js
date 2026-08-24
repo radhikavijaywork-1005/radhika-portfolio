@@ -57,7 +57,7 @@ export const work = [
     metrics: ["57% reduction"],
     category: "Flow Improvement",
     cta: "Read Case Study",
-    href: "https://www.figma.com/proto/9jxcUHpEVLdB8Av1qfpEXc/Radhika_Portfolio?page-id=161%3A2531&node-id=846-30517&viewport=151%2C383%2C0.02&t=O2AgLqr3f1L0vrnm-1&scaling=scale-down&content-scaling=scale-down",
+    href: "/work/booking-failures",
     bg: bgTrainman,
     phones: phonesTrainman,
     phonesWidthPct: 68,
