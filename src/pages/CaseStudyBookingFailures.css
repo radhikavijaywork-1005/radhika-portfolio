@@ -62,15 +62,44 @@
   object-fit: contain;
 }
 
-/* ---------- Basic booking / user-flow row (simple left-to-right chain,
-   no serpentine bracket layout needed here since it's a single linear
-   flow with one branch at the end) ---------- */
+/* ---------- Basic booking flow (Figma node 228:22690): two-column layout,
+   diagram on the left (steps → credential decision → Yes/No outcomes),
+   a GIF/screen-recording panel on the right, matching the source exactly
+   instead of a single flat row. ---------- */
+.cs-bf-flow-section {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 40px;
+  align-items: start;
+  margin: 20px 0 32px;
+  padding: 32px 28px;
+  background: #eef1fc;
+  border-radius: 24px;
+}
+
+.cs-bf-flow-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cs-bf-flow-bracket-label {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--maroon);
+  font-size: 15px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--cs-line);
+  width: 100%;
+}
+
 .cs-bf-flow-row {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  overflow-x: auto;
 }
 
 .cs-bf-flow-row--wrap {
@@ -85,18 +114,23 @@
   margin: 0 2px;
 }
 
-.cs-bf-flow-branch {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 16px;
-  flex-wrap: wrap;
+.cs-bf-flow-down-arrow {
+  color: var(--maroon);
+  font-size: 22px;
+  align-self: center;
+  line-height: 1;
 }
 
-.cs-bf-flow-branch__outcomes {
+.cs-bf-flow-cred-box {
+  align-self: center;
+}
+
+.cs-bf-flow-outcomes {
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 16px;
   flex-wrap: wrap;
+  align-self: center;
 }
 
 .cs-bf-flow-box--yes {
@@ -109,9 +143,34 @@
   border: 1px solid #e63a38;
 }
 
+.cs-bf-flow-media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.cs-bf-flow-media .cs-media-placeholder {
+  width: 100%;
+  margin: 0;
+}
+
+.cs-bf-flow-media__caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 13px;
+  color: var(--cs-soft);
+}
+
+@media (max-width: 900px) {
+  .cs-bf-flow-section {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 640px) {
   .cs-bf-flow-row,
-  .cs-bf-flow-branch {
+  .cs-bf-flow-outcomes {
     flex-wrap: wrap;
   }
 }

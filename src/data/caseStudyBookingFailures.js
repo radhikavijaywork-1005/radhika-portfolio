@@ -73,14 +73,14 @@ export const bookingFailuresCaseStudy = {
   ],
 
   problemStats: [
-    { value: "11%", label: "funnel drop off after successful payment" },
-    { value: "~14%", label: "failure rate consistently increasing" },
+    { value: "~11%", label: "Funnel drop off after successful payment" },
+    { value: "~14%", label: "Failed booking rate-consistently increasing" },
   ],
   problemBody:
-    "Users are mandated to fill in their **IRCTC password and CAPTCHA** after successful payment. This step has emerged as a critical challenge, resulting in booking failures and funnel drop-offs.",
+    "Users are mandated to fill in their **IRCTC password and CAPTCHA** after successful payment. This step has emerged as a critical challenge, resulting in:",
 
   problemCard: {
-    title: "The Problem 😕",
+    title: "Problem Statement",
     body: "After successful payment, there has been a consistent increase in **booking failures** and **funnel drop-offs,** resulting in a surge in **customer support queries** and **negatively impacting** booking conversions, user satisfaction, and app ratings.",
   },
 

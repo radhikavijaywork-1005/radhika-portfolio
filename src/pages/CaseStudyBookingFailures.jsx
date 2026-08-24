@@ -222,6 +222,10 @@ export default function CaseStudyBookingFailures() {
               Problems Identified
             </Reveal>
 
+            <Reveal as="p" className="cs-body" delay={0.05}>
+              <Bold text={cs.problemBody} />
+            </Reveal>
+
             <div className="cs-stat-row">
               {cs.problemStats.map((s, i) => (
                 <Reveal as="div" className="cs-stat" key={s.label} delay={i * 0.06}>
@@ -230,10 +234,6 @@ export default function CaseStudyBookingFailures() {
                 </Reveal>
               ))}
             </div>
-
-            <Reveal as="p" className="cs-body" delay={0.08}>
-              <Bold text={cs.problemBody} />
-            </Reveal>
 
             <Reveal as="div" className="cs-bf-problem-card" delay={0.1}>
               <h4 className="cs-bf-problem-card__title">{cs.problemCard.title}</h4>
@@ -252,25 +252,31 @@ export default function CaseStudyBookingFailures() {
             <Reveal as="h3" className="cs-h2 cs-h2--sub" delay={0.03}>
               Understanding Basic Booking Flow
             </Reveal>
-            <Reveal as="div" className="cs-flow-stepper" delay={0.05}>
-              <div className="cs-bf-flow-row">
-                {cs.basicBookingFlow.steps.map((step, i) => (
-                  <span className="cs-flow-stepper__box" key={step}>
-                    {step}
-                    {i < cs.basicBookingFlow.steps.length - 1 && <span className="cs-bf-flow-row__arrow">→</span>}
-                  </span>
-                ))}
-              </div>
-              <div className="cs-bf-flow-branch">
-                <span className="cs-flow-stepper__box">{cs.basicBookingFlow.postPayment[0]}</span>
-                <span className="cs-bf-flow-branch__outcomes">
+            <Reveal as="div" className="cs-bf-flow-section" delay={0.05}>
+              <div className="cs-bf-flow-diagram">
+                <span className="cs-bf-flow-bracket-label">Pre payment Flow</span>
+                <div className="cs-bf-flow-row">
+                  {cs.basicBookingFlow.steps.map((step, i) => (
+                    <span className="cs-flow-stepper__box" key={step}>
+                      {step}
+                      {i < cs.basicBookingFlow.steps.length - 1 && <span className="cs-bf-flow-row__arrow">→</span>}
+                    </span>
+                  ))}
+                </div>
+                <span className="cs-bf-flow-down-arrow" aria-hidden="true">↓</span>
+                <span className="cs-flow-stepper__box cs-bf-flow-cred-box">{cs.basicBookingFlow.postPayment[0]}</span>
+                <div className="cs-bf-flow-outcomes">
                   <span className="cs-flow-stepper__box cs-bf-flow-box--yes">
-                    Yes → {cs.basicBookingFlow.branch.yes}
+                    ← Yes · {cs.basicBookingFlow.branch.yes}
                   </span>
                   <span className="cs-flow-stepper__box cs-bf-flow-box--no">
                     No → {cs.basicBookingFlow.branch.no}
                   </span>
-                </span>
+                </div>
+              </div>
+              <div className="cs-bf-flow-media">
+                <Placeholder label="Existing booking flow screen recording — GIF pending" />
+                <span className="cs-bf-flow-media__caption">GIF showing existing flow</span>
               </div>
             </Reveal>
 
@@ -297,11 +303,7 @@ export default function CaseStudyBookingFailures() {
             </div>
 
             <h3 className="cs-h2 cs-h2--sub">User Feedback</h3>
-            <p className="cs-body">These feedbacks were collected from App/Play Store reviews & 1:1 user calling</p>
-            <Placeholder label="User feedback speech-bubble collage (6 quotes) — pending screenshots" />
-
-            <h3 className="cs-h2 cs-h2--sub">Pain Points to work upon</h3>
-            <p className="cs-body">We have categorized these issues into two key segments:</p>
+            <p className="cs-body">These feedbacks were collected from App/Play Store reviews & 1:1 user calling, and segregated into two key segments:</p>
             <div className="cs-bf-paingroup-row">
               {cs.painPointGroups.map((g) => (
                 <div className="cs-bf-paingroup" key={g.title}>
@@ -309,7 +311,7 @@ export default function CaseStudyBookingFailures() {
                   <h4 className="cs-bf-paingroup__title">{g.title}</h4>
                   <ul className="cs-branch-list">
                     {g.items.map((item) => (
-                      <li key={item}>👉 {item}</li>
+                      <li key={item}>{item}</li>
                     ))}
                   </ul>
                 </div>
