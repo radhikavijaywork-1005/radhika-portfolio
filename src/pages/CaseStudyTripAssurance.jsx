@@ -70,6 +70,11 @@ import userFlowDiagram from "../assets/case-study/trip-assurance/user-flow.png";
 import variantCue from "../assets/case-study/trip-assurance/cue.png";
 import variantSrp from "../assets/case-study/trip-assurance/SRP.png";
 import variantBooking from "../assets/case-study/trip-assurance/Booking.png";
+import postBookingScreen1 from "../assets/case-study/trip-assurance/post-booking/1.png";
+import postBookingScreen2 from "../assets/case-study/trip-assurance/post-booking/2.png";
+import postBookingScreen3 from "../assets/case-study/trip-assurance/post-booking/3.png";
+import postBookingScreen4 from "../assets/case-study/trip-assurance/post-booking/4.png";
+import postBookingScreen5 from "../assets/case-study/trip-assurance/post-booking/5.png";
 import "./CaseStudyPaywall.css";
 import "./CaseStudyTripAssurance.css";
 
@@ -77,6 +82,8 @@ const donutChartImages = [donutChartGroup1, donutChartGroup2, donutChartGroup3];
 const donutChartOrder = [1, 2, 0];
 
 const variantImages = { homepage: variantCue, srp: variantSrp, bookingForm: variantBooking };
+
+const postBookingScreens = [postBookingScreen1, postBookingScreen2, postBookingScreen3, postBookingScreen4, postBookingScreen5];
 
 const stakeholderAvatars = [avatarProduct, avatarBusiness, avatarTech, avatarMarketing];
 
@@ -810,6 +817,23 @@ export default function CaseStudyTripAssurance() {
                       <Reveal as="div" className="cs-variant-item" delay={0.2}>
                         <img src={variantBooking} alt="Booking Form - Trip Assurance opt-in" className="cs-variant-img" />
                       </Reveal>
+                    </div>
+                  </>
+                )}
+
+                {d.postBookingFlow && (
+                  <>
+                    <h3 className="cs-h2 cs-h2--sub">Trip Assurance: <span className="cs-variants-heading__subtitle">Post booking flow</span> · <span className="cs-variants-heading__tertiary">Initial concept</span></h3>
+                    <div className="cs-post-booking-scroll">
+                      {d.postBookingFlow.map((flow, i) => (
+                        <Reveal as="div" className="cs-post-booking-item" key={flow.screen} delay={i * 0.05}>
+                          <img src={postBookingScreens[i]} alt={flow.title} className="cs-post-booking-screen" />
+                          <div className="cs-post-booking-caption">
+                            <p className="cs-post-booking-caption__title">{flow.title}</p>
+                            <p className="cs-post-booking-caption__desc">{flow.description}</p>
+                          </div>
+                        </Reveal>
+                      ))}
                     </div>
                   </>
                 )}

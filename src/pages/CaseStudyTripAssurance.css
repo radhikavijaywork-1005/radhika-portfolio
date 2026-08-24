@@ -1505,3 +1505,55 @@
   isolation: isolate;
 }
 
+/* ---------- Post-booking flow scroll ---------- */
+.cs-post-booking-scroll {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 16px;
+  margin: 0 -16px;
+}
+
+.cs-post-booking-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.cs-post-booking-item {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+}
+
+.cs-post-booking-screen {
+  width: 240px;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  background: var(--bg);
+  position: relative;
+  isolation: isolate;
+}
+
+.cs-post-booking-caption {
+  width: 240px;
+}
+
+.cs-post-booking-caption__title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  color: var(--cs-ink);
+  margin-bottom: 4px;
+}
+
+.cs-post-booking-caption__desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--cs-soft);
+}
+

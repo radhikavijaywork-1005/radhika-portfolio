@@ -357,6 +357,14 @@ export const tripAssuranceCaseStudy = {
     { name: "Sneha Tiwari", route: "Lucknow – Delhi", quote: "मैंने वेटलिस्टेड टिकट बुक किया था और कंफर्म नहीं हुआ! Trainman ने मेरे लिए फ्लाइट का इंतजाम कर दिया, जिससे मेरी यात्रा बिना रुके पूरी हो गई! 🙏" },
   ],
 
+  postBookingFlow: [
+    { screen: "1", title: "On PNR Page", description: "User can track their ticket status through here" },
+    { screen: "2", title: "Reward", description: "After chart preparation ticket got confirmed" },
+    { screen: "3", title: "Contact Support", description: "When ticket remains waitlisted, Contact Us link ensures users can easily reach support & not be in dilemma" },
+    { screen: "4", title: "Flight Tickets", description: "User got flight tickets when train ticket remains waitlisted" },
+    { screen: "5", title: "Cancellation", description: "Case when user denies to travel and requests ticket cancellation" },
+  ],
+
   userPortraits: [
     { name: "Nilava Biswas", route: "Sealdah – Delhi" },
     { name: "Shyam Deepak", route: "Delhi – Vizag" },
