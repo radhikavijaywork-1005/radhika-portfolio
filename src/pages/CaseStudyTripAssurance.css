@@ -1622,8 +1622,8 @@
 
 .cs-happy-flow__highlight {
   position: absolute;
-  top: 0px;
-  right: 80px;
+  top: -50px;
+  right: 0px;
   width: 48px;
   height: 54px;
   z-index: 2;
