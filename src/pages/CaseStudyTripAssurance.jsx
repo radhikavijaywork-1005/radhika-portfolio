@@ -21,9 +21,9 @@ import problemPortrait from "../assets/case-study/trip-assurance/problem-portrai
 import problemVideo from "../assets/case-study/trip-assurance/problem-video.jpg";
 import problemArticle from "../assets/case-study/trip-assurance/problem-article.jpg";
 import problemCrowd from "../assets/case-study/trip-assurance/problem-crowd.jpg";
-import heroTripAssuranceOptin from "../assets/case-study/trip-assurance/hero-trip-assurance-optin.jpg";
-import heroPnrDetails from "../assets/case-study/trip-assurance/hero-pnr-details.jpg";
-import heroTrackStatus from "../assets/case-study/trip-assurance/hero-track-status.jpg";
+import heroTripAssuranceOptin from "../assets/case-study/trip-assurance/hero-trip-assurance-optin.png";
+import heroPnrDetails from "../assets/case-study/trip-assurance/hero-pnr-details.png";
+import heroTrackStatus from "../assets/case-study/trip-assurance/hero-track-status.png";
 import surveyFormTilted from "../assets/case-study/trip-assurance/survey-form-tilted.jpg";
 import surveyPassengerGrid from "../assets/case-study/trip-assurance/survey-passenger-grid.png";
 import surveyClipboard from "../assets/case-study/trip-assurance/survey-clipboard.jpg";

@@ -199,6 +199,23 @@
   display: block;
 }
 
+/* Paywall's hero screenshots already have a full device mockup (bezel,
+   buttons, dynamic island) baked into the image itself, so the shared
+   border/radius/aspect-ratio/object-fit:cover above (meant for bare,
+   unframed screenshots) would double-frame and crop it — drop the border
+   and let the image's own frame show through untouched. */
+.cs-paywall .cs-hero-phone {
+  border: none;
+  border-radius: 0;
+  aspect-ratio: auto;
+  background: transparent;
+}
+
+.cs-paywall .cs-hero-phone img {
+  height: auto;
+  object-fit: contain;
+}
+
 @media (max-width: 640px) {
   /* All 3 phones stay in one row, equally spaced — the old flex-wrap +
      40%-basis combo only fit 2 per row before, shoving the 3rd phone down

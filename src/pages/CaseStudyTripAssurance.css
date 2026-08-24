@@ -968,10 +968,21 @@
 }
 
 /* Scoped to .cs-trip only — .cs-hero-phone is shared with Paywall's hero
-   (CaseStudyPaywall.css), and Paywall's 12px radius wasn't asked to
-   change. */
+   (CaseStudyPaywall.css). Trip Assurance's hero screenshots already have a
+   full device mockup (bezel, buttons, dynamic island) baked into the image
+   itself, so the shared border/radius/aspect-ratio/object-fit:cover (meant
+   for bare, unframed screenshots) would double-frame and crop it — drop the
+   border and let the image's own frame show through untouched. */
 .cs-trip .cs-hero-phone {
-  border-radius: 20px;
+  border: none;
+  border-radius: 0;
+  aspect-ratio: auto;
+  background: transparent;
+}
+
+.cs-trip .cs-hero-phone img {
+  height: auto;
+  object-fit: contain;
 }
 
 .cs-inline-link {

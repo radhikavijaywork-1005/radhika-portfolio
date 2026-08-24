@@ -22,13 +22,14 @@ export default function ParticlePoints({ particleCount = 400000, particleSize = 
   // Create material with size attenuation for depth effect
   const material = useMemo(() => {
     return new THREE.PointsMaterial({
-      size: particleSize * 0.8,
+      size: particleSize * 0.5, // Smaller for fine detail
       sizeAttenuation: true,
       vertexColors: true,
       transparent: true,
-      opacity: 0.85,
+      opacity: 0.9,
       depthWrite: false,
       toneMapped: false,
+      fog: false,
     });
   }, [particleSize]);
 
