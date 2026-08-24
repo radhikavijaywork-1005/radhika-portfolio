@@ -109,20 +109,19 @@
   font-size: 15px;
   color: var(--maroon);
   margin-bottom: 16px;
-  z-index: 2;
-  box-shadow: 0 0 0 10px var(--paper);
 }
 
-/* Running track: one continuous line behind every circle, connecting step
-   to step. Drawn on the stepper itself (not per-card) so it doesn't break
-   at card edges. The box-shadow "collar" on each circle above (6px solid
-   paper) covers the line where it passes under the circle. */
-.cs-approach-stepper::before {
+/* Running track: drawn as a separate dash segment per gap (this circle's
+   right edge to the next circle's left edge), not one line running under
+   every circle — so it structurally can't overlap a circle, no z-index or
+   box-shadow-collar trick needed. 16px = step's own left padding, 36px =
+   circle diameter, so 52px is the circle's right edge inside the step. */
+.cs-approach-step:not(:last-child)::after {
   content: "";
   position: absolute;
-  top: 18px;
-  left: calc(100% / 12);
-  right: calc(100% / 12);
+  top: 17px;
+  left: 52px;
+  width: calc(100% - 16px);
   height: 2px;
   background: repeating-linear-gradient(
     to right,
@@ -131,7 +130,6 @@
     transparent 6px,
     transparent 12px
   );
-  z-index: 1;
 }
 
 .cs-approach-step__title {
@@ -153,7 +151,7 @@
   .cs-approach-stepper {
     grid-template-columns: repeat(3, 1fr);
   }
-  .cs-approach-stepper::before {
+  .cs-approach-step:not(:last-child)::after {
     display: none;
   }
 }
