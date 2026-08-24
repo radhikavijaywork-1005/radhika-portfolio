@@ -9,11 +9,10 @@ import { useParticleGeometry } from './useParticleGeometry';
  * - BufferGeometry with typed arrays (no individual React components)
  * - PointsMaterial for efficient rendering
  * - sizeAttenuation for depth perception
- * - No shadow rendering (too expensive for 30k-600k particles)
  */
 export default function ParticlePoints({ particleCount = 400000, particleSize = 1.5 }) {
   // Generate or update geometry based on particle count
-  const geometry = useParticleGeometry(
+  const { geometry, isLoading } = useParticleGeometry(
     '/assets/particle-portrait-mask.png',  // Your portrait mask
     '/assets/particle-depth-map.png',      // Volumetric depth
     '/assets/particle-density-map.png',    // Feature concentration
@@ -23,18 +22,18 @@ export default function ParticlePoints({ particleCount = 400000, particleSize = 
   // Create material with size attenuation for depth effect
   const material = useMemo(() => {
     return new THREE.PointsMaterial({
-      size: particleSize * 0.8, // Slightly smaller for finer detail
-      sizeAttenuation: true, // Critical for 3D depth effect
-      vertexColors: true, // Use color attribute from geometry
+      size: particleSize * 0.8,
+      sizeAttenuation: true,
+      vertexColors: true,
       transparent: true,
-      opacity: 0.85, // Slightly transparent for elegance
-      depthWrite: false, // Prevent z-fighting with many particles
-      toneMapped: false, // Prevent tonemapping interference
+      opacity: 0.85,
+      depthWrite: false,
+      toneMapped: false,
     });
   }, [particleSize]);
 
-  if (!geometry) {
-    return null;
+  if (!geometry || isLoading) {
+    return null; // Don't render until geometry is ready
   }
 
   return (
