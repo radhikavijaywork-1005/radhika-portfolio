@@ -103,9 +103,13 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: color-mix(in srgb, var(--maroon) 14%, var(--paper));
+  /* Same outlined-ring treatment as .cs-mbf-step-num (Manual Booking Flow
+     diagram) — faint maroon-tinted fill + a solid maroon ring, not a solid
+     lavender fill like the other panel accents on this page. */
+  background: rgba(var(--maroon-rgb), 0.1);
+  border: 1px solid var(--maroon);
   font-family: var(--font-display);
-  font-weight: 700;
+  font-weight: 500;
   font-size: 15px;
   color: var(--maroon);
   margin-bottom: 16px;
@@ -301,10 +305,10 @@
   height: 32px;
   border-radius: 50%;
   background: rgba(var(--maroon-rgb), 0.1);
-  border: 1.5px solid var(--maroon);
+  border: 1px solid var(--maroon);
   font-family: var(--font-display);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--maroon);
   flex-shrink: 0;
   margin-top: 2px;
@@ -832,8 +836,11 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: rgba(var(--maroon-rgb), 0.1);
-  border: 0.5px solid var(--cs-muted);
+  /* Same lavender used by .cs-flow-stepper, .cs-solution1-photos, and the
+     approach-stepper circles — was a gray-tinted rgba(maroon,0.1) + a
+     neutral gray border that didn't match the page's blue-family accents. */
+  background: #eef1fc;
+  border: none;
   font-size: 20px;
   flex-shrink: 0;
 }
