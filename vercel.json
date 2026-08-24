@@ -1,8 +1,5 @@
 {
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
-  ],
-  "redirects": [
-    { "source": "/work/trip-assurance", "destination": "https://www.figma.com/proto/9jxcUHpEVLdB8Av1qfpEXc/Radhika_Portfolio?node-id=850-11893&viewport=435%2C403%2C0.02&scaling=scale-down&content-scaling=fixed", "permanent": false }
   ]
 }
