@@ -599,6 +599,8 @@
   width: 100%;
   border-radius: 12px;
   background: var(--bg);
+  position: relative;
+  isolation: isolate;
 }
 
 /* The existing.svg asset already has the maroon outer frame + dark phone
@@ -655,6 +657,8 @@
   border-radius: 12px;
   display: block;
   background: var(--bg);
+  position: relative;
+  isolation: isolate;
 }
 
 .cs-sheet-img {
@@ -670,6 +674,8 @@
   display: block;
   border-radius: 12px;
   background: var(--bg);
+  position: relative;
+  isolation: isolate;
 }
 
 .cs-future-img-wrap {
