@@ -103,36 +103,19 @@ export const bookingFailuresCaseStudy = {
     { value: "8%", label: "Track Refund" },
   ],
 
-  userFeedback: [
-    "I don’t remember my IRCTC Password. There was no option to reset it or change ID",
-    "It’s so complicated; there’s no clear visibility of what I’ve entered in the password field.",
-    "Fraud app. Took my money and then asking me to fill IRCTC Password.",
-    "Refund process is confusing. I don’t know if my payment is safe.",
-    "CAPTCHA reload button does not work sometimes",
-    "There’s no clear information on whether my booking is confirmed or if I’ll get a refund.",
-    "The session timeout forced me to restart the process. It’s frustrating when you’ve already paid.",
+  feedbackCategories: [
+    { key: "credential", icon: "🫤", title: "IRCTC Credential Challenges" },
+    { key: "pending", icon: "👩🏻‍🚀", title: "Pending Page Confusion" },
   ],
 
-  painPointGroups: [
-    {
-      icon: "🫤",
-      title: "IRCTC Credential Challenges",
-      items: [
-        "I don’t remember my IRCTC Password. There was no option to reset it or change ID",
-        "CAPTCHA reload button does not work sometimes",
-        "Fraud app. Took my money and then asking me to fill IRCTC Password.",
-        "It’s so complicated; there’s no clear visibility of what I’ve entered in the password field.",
-      ],
-    },
-    {
-      icon: "👩🏻‍🚀",
-      title: "Pending Page Confusion",
-      items: [
-        "The session timeout forced me to restart the process. It’s frustrating when you’ve already paid.",
-        "There’s no clear information on whether my booking is confirmed or if I’ll get a refund.",
-        "Refund process is confusing. I don’t know if my payment is safe.",
-      ],
-    },
+  userFeedback: [
+    { text: "I don’t remember my IRCTC Password. There was no option to reset it or change ID", category: "credential" },
+    { text: "It’s so complicated; there’s no clear visibility of what I’ve entered in the password field.", category: "credential" },
+    { text: "Fraud app. Took my money and then asking me to fill IRCTC Password.", category: "credential" },
+    { text: "CAPTCHA reload button does not work sometimes", category: "credential" },
+    { text: "Refund process is confusing. I don’t know if my payment is safe.", category: "pending" },
+    { text: "There’s no clear information on whether my booking is confirmed or if I’ll get a refund.", category: "pending" },
+    { text: "The session timeout forced me to restart the process. It’s frustrating when you’ve already paid.", category: "pending" },
   ],
 
   technicalChallenges: [

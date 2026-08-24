@@ -79,6 +79,7 @@ export default function CaseStudyBookingFailures() {
   useDocumentTitle("Reducing Booking Failures — Radhika Vijay");
   const nextCaseStudy = getNextCaseStudy();
   const [nextHovered, setNextHovered] = useState(false);
+  const [activeFeedbackFilter, setActiveFeedbackFilter] = useState("all");
   const [isTouch] = useState(
     () => typeof window !== "undefined" && window.matchMedia("(hover: none)").matches
   );
@@ -305,30 +306,47 @@ export default function CaseStudyBookingFailures() {
             </div>
 
             <h3 className="cs-h2 cs-h2--sub">User Feedback</h3>
-            <p className="cs-body">These feedbacks were collected from App/Play Store reviews & 1:1 user calling</p>
-            <div className="cs-bf-feedback-panel">
-              {cs.userFeedback.map((quote, i) => (
-                <Reveal as="div" className="cs-bf-feedback-bubble" key={quote} delay={i * 0.04}>
-                  <span className="cs-bf-feedback-bubble__avatar" aria-hidden="true">{feedbackAvatars[i % feedbackAvatars.length]}</span>
-                  <p className="cs-bf-feedback-bubble__text">{quote}</p>
-                </Reveal>
+            <p className="cs-body">These feedbacks were collected from App/Play Store reviews & 1:1 user calling. Click a segment below to see how they were categorized:</p>
+
+            <div className="cs-bf-feedback-filters" role="tablist" aria-label="Filter feedback by category">
+              <button
+                type="button"
+                role="tab"
+                aria-selected={activeFeedbackFilter === "all"}
+                className={`cs-bf-filter-chip${activeFeedbackFilter === "all" ? " is-active" : ""}`}
+                onClick={() => setActiveFeedbackFilter("all")}
+                onMouseEnter={playHover}
+              >
+                All Feedback
+              </button>
+              {cs.feedbackCategories.map((c) => (
+                <button
+                  key={c.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeFeedbackFilter === c.key}
+                  className={`cs-bf-filter-chip${activeFeedbackFilter === c.key ? " is-active" : ""}`}
+                  onClick={() => setActiveFeedbackFilter(c.key)}
+                  onMouseEnter={playHover}
+                >
+                  <span aria-hidden="true">{c.icon}</span> {c.title}
+                </button>
               ))}
             </div>
 
-            <h3 className="cs-h2 cs-h2--sub">Pain Points to work upon</h3>
-            <p className="cs-body">We have categorized these issues into two key segments:</p>
-            <div className="cs-bf-paingroup-row">
-              {cs.painPointGroups.map((g) => (
-                <div className="cs-bf-paingroup" key={g.title}>
-                  <span className="cs-bf-paingroup__icon">{g.icon}</span>
-                  <h4 className="cs-bf-paingroup__title">{g.title}</h4>
-                  <ul className="cs-branch-list">
-                    {g.items.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+            <div className="cs-bf-feedback-panel">
+              {cs.userFeedback.map((fb, i) => {
+                const dimmed = activeFeedbackFilter !== "all" && fb.category !== activeFeedbackFilter;
+                return (
+                  <div
+                    className={`cs-bf-feedback-bubble cs-bf-feedback-bubble--${fb.category}${dimmed ? " is-dimmed" : ""}`}
+                    key={fb.text}
+                  >
+                    <span className="cs-bf-feedback-bubble__avatar" aria-hidden="true">{feedbackAvatars[i % feedbackAvatars.length]}</span>
+                    <p className="cs-bf-feedback-bubble__text">{fb.text}</p>
+                  </div>
+                );
+              })}
             </div>
 
             <h3 className="cs-h2 cs-h2--sub">Technical Challenges with IRCTC</h3>
