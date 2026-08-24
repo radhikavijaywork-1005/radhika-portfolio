@@ -1622,10 +1622,10 @@
 
 .cs-happy-flow__highlight {
   position: absolute;
-  top: -20px;
-  right: 10px;
-  width: 60px;
-  height: 68px;
+  top: 0px;
+  right: 80px;
+  width: 48px;
+  height: 54px;
   z-index: 2;
 }
 
