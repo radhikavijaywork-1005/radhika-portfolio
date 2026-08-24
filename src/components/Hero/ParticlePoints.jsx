@@ -14,21 +14,22 @@ import { useParticleGeometry } from './useParticleGeometry';
 export default function ParticlePoints({ particleCount = 400000, particleSize = 1.5 }) {
   // Generate or update geometry based on particle count
   const geometry = useParticleGeometry(
-    null, // portraitImageUrl - set to your portrait path when ready
-    null, // depthImageUrl
-    null, // densityImageUrl
+    '/assets/particle-portrait-mask.png',  // Your portrait mask
+    '/assets/particle-depth-map.png',      // Volumetric depth
+    '/assets/particle-density-map.png',    // Feature concentration
     particleCount
   );
 
   // Create material with size attenuation for depth effect
   const material = useMemo(() => {
     return new THREE.PointsMaterial({
-      size: particleSize,
+      size: particleSize * 0.8, // Slightly smaller for finer detail
       sizeAttenuation: true, // Critical for 3D depth effect
       vertexColors: true, // Use color attribute from geometry
       transparent: true,
-      opacity: 0.9,
+      opacity: 0.85, // Slightly transparent for elegance
       depthWrite: false, // Prevent z-fighting with many particles
+      toneMapped: false, // Prevent tonemapping interference
     });
   }, [particleSize]);
 
