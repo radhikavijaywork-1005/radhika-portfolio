@@ -1579,15 +1579,18 @@
 /* ---------- Happy flow section ---------- */
 .cs-happy-flow {
   display: grid;
-  grid-template-columns: 1fr 1.2fr;
-  gap: 80px;
-  align-items: center;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 60px;
+  align-items: flex-start;
+  padding-right: 60px;
 }
 
 .cs-happy-flow__text {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding-left: 20px;
+  padding-top: 20px;
 }
 
 .cs-happy-flow__subtitle {
@@ -1611,16 +1614,17 @@
 
 .cs-happy-flow__content {
   display: flex;
-  justify-content: flex-end;
+  flex-direction: column;
+  align-items: center;
   position: relative;
 }
 
 .cs-happy-flow__highlight {
   position: absolute;
-  top: -40px;
-  right: 20px;
-  width: 68px;
-  height: 74px;
+  top: -60px;
+  right: -40px;
+  width: 100px;
+  height: 110px;
   z-index: 2;
 }
 
@@ -1629,6 +1633,7 @@
   flex-direction: column;
   gap: 12px;
   align-items: center;
+  width: 100%;
 }
 
 .cs-happy-flow__gif {
@@ -1654,15 +1659,18 @@
   .cs-happy-flow {
     grid-template-columns: 1fr;
     gap: 32px;
+    padding-right: 0;
   }
   .cs-happy-flow__title {
     font-size: 24px;
   }
-  .cs-happy-flow__content {
-    justify-content: center;
+  .cs-happy-flow__text {
+    padding-left: 0;
   }
   .cs-happy-flow__highlight {
     right: auto;
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 
