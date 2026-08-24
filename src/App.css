@@ -675,8 +675,16 @@
   padding: 20px;
 }
 
+/* perspective has to live on .hero-portrait-tilt's actual DIRECT parent
+   to take effect — it was previously on .hero__art (the grandparent),
+   with Framer's fade-in wrapper sitting in between with no
+   transform-style: preserve-3d to carry a 3D context through. That
+   wrapper flattened everything below it, so the rotateX/rotateY tilt
+   was rendering with no working perspective at all regardless of the
+   pixel value used — this is the fix, not a bigger number. */
 .hero-portrait-tilt-wrap {
   position: relative;
+  perspective: 700px;
 }
 
 /* Anchored to the wrap, not `.hero-portrait-tilt` itself — that element has
@@ -741,21 +749,35 @@
   }
 }
 
-/* Houses the HeroOrb3D canvas — a genuinely rotating 3D object now,
-   rather than the flat portrait illustration this replaced, so rotation
-   lives inside the R3F scene itself (real mesh.rotation) rather than as a
-   CSS transform on this box. Square-ish aspect ratio suits the orb; the
-   old 1008/1200 ratio was tuned to the portrait's own proportions. */
+/* Same tilt + liquid-ripple + shadow treatment as the About portrait
+   (.about-portrait-tilt in AboutMe.css) — PortraitLiquid's canvas fills
+   width:100%/height:100% of this box, so it needs a resolved aspect-ratio
+   rather than sizing off the old plain <img>'s natural dimensions.
+   hero-line-color.png already has real alpha transparency baked in, so
+   the canvas composites normally — no blend-mode trick needed. */
 .hero-portrait-tilt {
   position: relative;
   z-index: 1;
-  width: 320px;
+  /* min(340px, 100%) collapses to 0px here — this box's only children are
+     absolutely-positioned crossfade layers with no intrinsic content size,
+     and combined with aspect-ratio + flex-item percentage resolution, the
+     100% branch resolves against an indeterminate size instead of the
+     flex container's actual content box. width + max-width sidesteps it.
+     293px (not the old 340px) because this illustration's aspect ratio
+     (1008/1200 ≈ 0.84) is taller/narrower than the old hero-sketch.png
+     (878/900 ≈ 0.976) — 293px reproduces the exact same rendered height
+     the old portrait had at 340px, so the hero's vertical rhythm/spacing
+     matches the live site instead of growing taller with the new art. */
+  width: 293px;
   max-width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 1008 / 1200;
   -webkit-user-drag: none;
   user-drag: none;
-  transition: filter 0.25s ease-out;
-  filter: drop-shadow(0 18px 28px rgba(26, 53, 45, 0.16));
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+  transform-style: preserve-3d;
+  transition: transform 0.15s ease-out, filter 0.25s ease-out;
+  will-change: transform;
+  filter: drop-shadow(0 14px 20px rgba(26, 53, 45, 0.14));
 }
 
 .hero-portrait-tilt__canvas {
@@ -765,16 +787,22 @@
 }
 
 .hero-portrait-tilt:hover {
-  filter: drop-shadow(0 24px 36px rgba(26, 53, 45, 0.24));
+  /* Re-declares the same rotateX/rotateY (still driven by the JS-set
+     vars) and adds a slight lift — scale alone on top of the base
+     transform would otherwise be overwritten since both rules target
+     the same property. */
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(1.025);
+  filter: drop-shadow(0 22px 30px rgba(26, 53, 45, 0.22));
 }
 
 .dark .hero-portrait-tilt:hover {
-  filter: drop-shadow(0 24px 36px rgba(0, 0, 0, 0.4));
+  filter: drop-shadow(0 22px 30px rgba(0, 0, 0, 0.36));
 }
 
 @media (hover: none) {
   .hero-portrait-tilt {
-    filter: drop-shadow(0 18px 28px rgba(26, 53, 45, 0.16)) !important;
+    transform: none !important;
+    filter: drop-shadow(0 14px 20px rgba(26, 53, 45, 0.14)) !important;
   }
 }
 
@@ -1417,31 +1445,16 @@
   }
 }
 
-/* Below 640px this drops the horizontal-scroll row entirely and stacks
-   cards vertically, one full-width per row — same treatment as
-   .about-achievements at this breakpoint (see AboutMe.css), so Highlights
-   and Playground read as one consistent mobile pattern instead of one
-   section stacking and the other still scrolling sideways. The base
-   padding/negative-margin pair exists only to keep the desktop scroll
-   row's shadow from clipping — zeroed here since nothing scrolls anymore,
-   otherwise it'd bleed past the frame's own 20px mobile padding. */
 @media (max-width: 640px) {
   .playground-frame {
     padding: 20px;
   }
   .playground-grid {
-    flex-direction: column;
-    overflow: visible;
-    scroll-snap-type: none;
-    cursor: auto;
-    user-select: auto;
-    padding: 0;
-    margin: 0;
-    gap: 24px;
+    gap: 16px;
   }
   .playground-tile-slot {
-    flex: none;
-    width: 100%;
+    flex-basis: 240px;
+    width: 240px;
   }
 }
 

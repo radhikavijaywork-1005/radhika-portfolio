@@ -1,35 +1,44 @@
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
-import { useRef, useState, lazy, Suspense } from "react";
+import { useRef, useState } from "react";
 import { profile } from "../data/content";
 import { useTheme } from "../context/ThemeContext";
 import { useSoundContext } from "../context/SoundContext";
 import { useSmoothNavigate } from "../hooks/useSmoothNavigate";
+import heroLineColorLight from "../assets/site/hero-line-color.png";
+import heroLineColorDark from "../assets/site/hero-line-color-dark.png";
 import stageLogo from "../assets/site/stage-icon.png";
 import stageLogoWhite from "../assets/site/stage-icon-white.svg";
 import adaniLogo from "../assets/site/adani-wordmark.svg";
 import HeroDotWave from "./HeroDotWave";
 import SplitText from "./SplitText";
+import PortraitLiquid from "./PortraitLiquid";
+import { useTiltEffect } from "../hooks/useTiltEffect";
 
-// Lazy, not a static import — @react-three/fiber + drei + three pull in
-// ~1.3MB (378KB gzip) uncompressed, and Hero renders on every homepage
-// load, unlike the case-study/preview routes that already lazy-load their
-// own three.js usage. Bundling that into the main chunk would make every
-// visitor pay for it before first paint, for a hero decoration below the
-// actual content. Splitting it into its own chunk, fetched only once the
-// rest of the hero has already painted, avoids that.
-const HeroOrb3D = lazy(() => import("./HeroOrb3D"));
-
-// The illustration slot now holds a genuinely rotatable 3D object
-// (HeroOrb3D — real geometry, auto-rotating continuously so every side is
-// visible over time) instead of the flat line-art portrait. A flat
-// drawing only has one viewing angle's worth of information baked in, so
-// no shader/displacement trick on it can produce real other sides — that
-// was tried (vertex-displacing the illustration's alpha channel) and it
-// tore the linework into jagged fringes instead of reading as depth.
-function HeroPortraitTilt() {
+// Same mouse-tracked tilt + liquid ripple as the About portrait — a plain
+// sibling of the entrance-fade motion.div (not the animated element
+// itself), so its own CSS transform isn't fought by Framer's inline style.
+//
+// One PortraitLiquid instance, not two crossfading layers. It used to be
+// light/dark stacked as separate WebGL contexts, permanently rendering,
+// crossfaded via CSS opacity for a smooth theme-toggle dissolve. But that
+// meant landing on the homepage created THREE WebGL contexts at once
+// (this component's two, plus HeroDotWave's) in a single tick — expensive
+// enough to jank the main thread and show as a whole-screen white flash
+// during navigation. Trading the smooth dissolve for a harder cut on
+// theme toggle (now just an image-source swap) in exchange for the page
+// itself not flashing white on arrival.
+function HeroPortraitTilt({ lightSrc, darkSrc, alt }) {
+  const tilt = useTiltEffect(20);
+  const { theme } = useTheme();
+  const src = theme === "dark" ? darkSrc : lightSrc;
   const [isHovered, setIsHovered] = useState(false);
   const { playHover, playClick } = useSoundContext();
   const smoothNavigate = useSmoothNavigate();
+
+  const onLeave = () => {
+    tilt.onMouseLeave();
+    setIsHovered(false);
+  };
 
   return (
     <motion.div
@@ -37,13 +46,20 @@ function HeroPortraitTilt() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      // Hover tracking lives on the wrap, not the inner tilt element — the
+      // CTA pill below is a sibling positioned at the wrap's bottom edge,
+      // so moving the cursor from the portrait onto the pill was exiting
+      // .hero-portrait-tilt's bounds first and hiding the pill before it
+      // could be clicked. The wrap's box contains both, so it doesn't.
       onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      onMouseLeave={onLeave}
     >
-      <div className="hero-portrait-tilt">
-        <Suspense fallback={null}>
-          <HeroOrb3D className="hero-portrait-tilt__canvas" />
-        </Suspense>
+      <div
+        className="hero-portrait-tilt"
+        ref={tilt.ref}
+        onMouseMove={tilt.onMouseMove}
+      >
+        <PortraitLiquid src={src} alt={alt} className="hero-portrait-tilt__canvas" />
       </div>
 
       {/* Sibling of the tilting element, not a child of it — stays flat and
@@ -166,7 +182,11 @@ export default function Hero() {
         </motion.div>
 
         <motion.div className="hero__art" style={{ y: artY }}>
-          <HeroPortraitTilt />
+          <HeroPortraitTilt
+            lightSrc={heroLineColorLight}
+            darkSrc={heroLineColorDark}
+            alt="Illustrated portrait of Radhika"
+          />
         </motion.div>
       </div>
     </section>
