@@ -536,6 +536,7 @@
   border: 1px solid #120d0b;
   border-radius: 12px;
   object-fit: cover;
+  background: var(--bg);
 }
 
 .cs-survey-strip__img--form {
@@ -1497,5 +1498,6 @@
   height: auto;
   display: block;
   border-radius: 16px;
+  background: var(--bg);
 }
 
