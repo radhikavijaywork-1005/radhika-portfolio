@@ -1,6 +1,6 @@
 export const paywallCaseStudy = {
   company: "STAGE",
-  title: "Improving trial conversion through paywall experiments",
+  title: "Improving Trial Conversion Through Paywall Experiments",
   subheadPre: "A 3-phase paywall and freemium strategy that grew trial rate from ",
   subheadStrong: "8% → 28%",
   subheadPost: " through structured experimentation.",

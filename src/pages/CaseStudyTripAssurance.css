@@ -148,7 +148,7 @@
 .cs-problem-strip__track {
   display: flex;
   width: max-content;
-  animation: cs-problem-strip-scroll 140s linear infinite;
+  animation: cs-problem-strip-scroll 70s linear infinite;
 }
 
 .cs-problem-strip__group {
@@ -226,7 +226,142 @@
   }
 }
 
-/* ---------- Solution 2 team photos ---------- */
+/* ---------- Phase 2 side-by-side layout (flow diagram + photos) ---------- */
+.cs-phase2-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  margin-top: 24px;
+}
+
+.cs-phase2-branches {
+  width: 100%;
+}
+
+.cs-mbf-sequence {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.cs-mbf-step {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.cs-mbf-step-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(var(--maroon-rgb), 0.1);
+  border: 1.5px solid var(--maroon);
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--maroon);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.cs-mbf-step-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px 16px;
+  background: var(--cs-card-bg);
+  border: 0.5px solid var(--cs-line);
+  border-radius: 12px;
+}
+
+.cs-mbf-step-title {
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--cs-ink);
+  margin: 0;
+}
+
+.cs-mbf-actor {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cs-mbf-actor-icon {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.cs-mbf-actor-name {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+.cs-mbf-actions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cs-mbf-actions li {
+  font-size: 12px;
+  color: var(--cs-ink);
+  line-height: 1.4;
+  padding-left: 14px;
+  position: relative;
+}
+
+.cs-mbf-actions li:before {
+  content: "•";
+  position: absolute;
+  left: 4px;
+}
+
+@media (max-width: 900px) {
+  .cs-mbf-sequence {
+    gap: 16px;
+  }
+
+  .cs-mbf-step-content {
+    padding: 12px 14px;
+  }
+}
+
+.cs-phase2-photos {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-self: start;
+  margin: 0;
+}
+
+.cs-phase2-photos img {
+  width: 100%;
+  height: 220px;
+  border-radius: 12px;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 900px) {
+  .cs-phase2-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+/* ---------- Solution 2 team photos (legacy, for Phase 01) ---------- */
 .cs-solution2-photos {
   display: flex;
   flex-direction: column;
@@ -1007,12 +1142,34 @@
   border: 1px solid var(--cs-line);
 }
 
+/* ---------- Usability Testing heading + underline ---------- */
+.cs-usability-heading {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 3.6vw, 36px);
+  color: var(--cs-ink);
+  margin-top: clamp(48px, 6vw, 72px);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+}
+
+.cs-usability-heading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 148px;
+  height: 1px;
+  background: var(--cs-muted);
+}
+
 /* ---------- Usability Testing text + stacked photos ---------- */
 .cs-usability-row {
   display: flex;
-  align-items: flex-start;
-  gap: 40px;
-  margin-bottom: 24px;
+  flex-direction: column;
+  gap: 32px;
+  margin-bottom: 48px;
 }
 
 .cs-usability-row__text {
@@ -1020,33 +1177,79 @@
   min-width: 0;
 }
 
-.cs-usability-row__media {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  width: 280px;
-  flex-shrink: 0;
+.cs-usability-row__text p {
+  font-size: 15.5px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--cs-body);
+  margin-bottom: 16px;
 }
 
-.cs-usability-row__media img {
+.cs-usability-row__text p:last-child {
+  margin-bottom: 0;
+}
+
+.cs-usability-row__text strong {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+.cs-usability-row__media {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
   width: 100%;
-  height: 170px;
-  object-fit: cover;
+  padding: 32px;
+  background: #eef1fc;
+  border-radius: 16px;
+}
+
+.cs-usability-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 520 / 403;
   border-radius: 12px;
+  overflow: hidden;
+}
+
+.cs-usability-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cs-usability-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.15);
+  pointer-events: none;
 }
 
 .cs-media-placeholder--stacked {
-  min-height: 170px;
+  min-height: 430px;
   margin: 0;
+}
+
+@media (max-width: 900px) {
+  .cs-usability-row {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
 }
 
 @media (max-width: 720px) {
   .cs-usability-row {
-    flex-direction: column;
+    gap: 24px;
   }
+
   .cs-usability-row__media {
-    width: 100%;
     flex-direction: row;
+  }
+
+  .cs-usability-img-wrap {
+    height: 180px;
+    border-width: 1px;
   }
 }
 
@@ -1240,7 +1443,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 48px;
-  align-items: start;
+  align-items: center;
   margin: 24px 0;
 }
 
@@ -1279,47 +1482,240 @@
   }
 }
 
-/* ---------- Key Results: findings list (left) + grouped screenshots (right) ---------- */
+/* ---------- Key Results heading + underline ---------- */
+.cs-key-results-heading {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(28px, 3.6vw, 36px);
+  color: var(--cs-ink);
+  margin-top: clamp(48px, 6vw, 72px);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+}
+
+.cs-key-results-heading::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 148px;
+  height: 1px;
+  background: var(--cs-muted);
+}
+
+/* ---------- Key Results: grid items + images below ---------- */
 .cs-key-results {
-  display: grid;
-  grid-template-columns: 1.1fr 1fr;
-  gap: 48px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
   margin: 16px 0;
 }
 
-.cs-key-results__media {
+.cs-key-results__list {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+.cs-key-results__item {
   display: flex;
   flex-direction: column;
-  gap: 24px;
-}
-
-.cs-key-results__group {
-  position: relative;
-  padding-left: 40px;
-}
-
-.cs-key-results__bracket {
-  position: absolute;
-  left: 0;
-  top: 0;
-  font-family: var(--font-display);
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--cs-muted);
-  writing-mode: vertical-rl;
-}
-
-.cs-key-results__group img {
-  width: 100%;
+  gap: 8px;
+  padding: 24px;
+  background: #ffffff;
   border-radius: 12px;
   border: 1px solid var(--cs-line);
 }
 
-@media (max-width: 720px) {
+.cs-key-results__item-number {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cs-muted);
+  margin-bottom: 4px;
+}
+
+.cs-pre-booking__label {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cs-muted);
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.cs-key-results__item-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+.cs-key-results__item-body {
+  font-size: 15.5px;
+  font-weight: 400;
+  line-height: 1.7;
+  color: var(--cs-body);
+}
+
+.cs-key-results__item-body strong {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+.cs-key-results__media {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+  padding: 32px;
+  background: #eef1fc;
+  border-radius: 16px;
+}
+
+.cs-key-results__img-item {
+  position: relative;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 8px;
+}
+
+.cs-key-results__img-bracket {
+  position: relative;
+  width: 60px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-key-results__img-bracket::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 2px;
+  height: 16px;
+  border: 1px solid var(--cs-muted);
+  border-right: none;
+  border-bottom: none;
+}
+
+.cs-key-results__img-bracket::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 2px;
+  height: 16px;
+  border: 1px solid var(--cs-muted);
+  border-left: none;
+  border-bottom: none;
+}
+
+.cs-key-results__img-bracket-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 1px;
+  background: var(--cs-muted);
+  z-index: 1;
+}
+
+.cs-key-results__img-number {
+  font-family: var(--font-display);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--cs-muted);
+  text-align: center;
+  z-index: 3;
+  background: #eef1fc;
+  padding: 4px 8px;
+  position: relative;
+  white-space: nowrap;
+  margin-bottom: 6px;
+}
+
+.cs-key-results__media img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(var(--maroon-rgb), 0.15);
+  background: #ffffff;
+  object-fit: contain;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  display: block;
+  flex: 1;
+  padding: 8px;
+}
+
+@media (max-width: 900px) {
   .cs-key-results {
     grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+@media (max-width: 720px) {
+  .cs-key-results__list {
     gap: 20px;
+  }
+
+  .cs-key-results__item-body {
+    font-size: 14px;
+  }
+}
+
+/* ---------- After Multiple Iterations section ---------- */
+.cs-after-iterations {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  background-image: url("../assets/case-study/trip-assurance/after-iterations-bg.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 64px 0;
+}
+
+.cs-after-iterations::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.15);
+  z-index: 1;
+}
+
+.cs-after-iterations__text {
+  position: relative;
+  z-index: 2;
+  font-family: var(--font-display);
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 600;
+  color: white;
+  text-align: center;
+  padding: 0 40px;
+}
+
+@media (max-width: 720px) {
+  .cs-after-iterations {
+    min-height: 300px;
+    margin: 48px 0;
+  }
+
+  .cs-after-iterations__text {
+    font-size: 28px;
+    padding: 0 20px;
   }
 }
 
@@ -1553,7 +1949,7 @@
 
 .cs-post-booking-caption__title {
   font-family: var(--font-body);
-  font-weight: 600;
+  font-weight: 400;
   font-size: 14px;
   color: var(--cs-ink);
   margin-bottom: 4px;
@@ -1644,6 +2040,69 @@
   font-size: 12px;
   font-style: italic;
   color: var(--cs-soft);
+}
+
+/* ---------- CTA Button Group ---------- */
+.cs-cta-group {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+  margin-bottom: 32px;
+  align-items: center;
+}
+
+.cs-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 14px;
+  text-decoration: none;
+  transition: background-color 0.4s var(--ease-flow), color 0.4s var(--ease-flow), border-color 0.4s var(--ease-flow);
+  white-space: nowrap;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.cs-cta-btn:active {
+  opacity: 0.8;
+}
+
+.cs-cta-btn--primary {
+  background: #1a1a1a;
+  color: white;
+  border: none;
+}
+
+.cs-cta-btn--primary:hover {
+  background: #333;
+  color: white;
+}
+
+.cs-cta-btn--secondary {
+  background: transparent;
+  color: #1a1a1a;
+  border: 1.5px solid #1a1a1a;
+}
+
+.cs-cta-btn--secondary:hover {
+  background: #1a1a1a;
+  color: white;
+  border-color: #1a1a1a;
+}
+
+.cs-cta-btn span {
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* ---------- Overall Impact cards: same layout as CaseStudyPaywall's
+   .cs-overall-grid/.cs-overall-card (plain 3-col grid, no lavender band),
+   recolored to Trip Assurance's dark navy instead of the paywall's #323232 ---------- */
+.cs-trip .cs-overall-card {
+  background: #002941;
 }
 
 @media (max-width: 640px) {

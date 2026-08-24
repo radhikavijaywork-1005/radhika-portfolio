@@ -29,7 +29,7 @@ export const profile = {
 export const work = [
   {
     company: "STAGE",
-    title: "Improving trial conversion through paywall experiments",
+    title: "Improving Trial Conversion Through Paywall Experiments",
     metrics: ["+250% increase", "14L/mo revenue"],
     category: "Acquisition",
     cta: "Read Case Study",
@@ -45,7 +45,7 @@ export const work = [
     metrics: ["28% opt in", "30% ATV"],
     category: "Conversion",
     cta: "Read Case Study",
-    href: "https://www.figma.com/proto/9jxcUHpEVLdB8Av1qfpEXc/Radhika_Portfolio?page-id=161%3A1537&node-id=850-11893&viewport=435%2C403%2C0.02&t=aH7m7jaEBVjnhPb5-1&scaling=scale-down&content-scaling=fixed",
+    href: "/work/trip-assurance",
     bg: bgAdaniOne,
     phones: phonesAdaniOne,
     phonesWidthPct: 68,
@@ -65,7 +65,7 @@ export const work = [
   },
   {
     company: "STAGE",
-    title: "Building a new revenue stream end-to-end with AI",
+    title: "Building a New Revenue Stream End-to-End with AI",
     metrics: ["+26% opt in", "23L/yr revenue"],
     category: "Monetisation",
     cta: "In Writing",

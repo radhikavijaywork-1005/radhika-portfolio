@@ -14,13 +14,13 @@ export const tripAssuranceCaseStudy = {
     },
     {
       label: "Team",
-      primary: "Me · 2 UX/UI · 1 PM · 1 ML Eng",
+      primary: "Me · 1 PM · 1 ML Eng",
       detail: "cross-functional with Product & Engineering",
     },
     {
       label: "Timeline",
       primary: "Year 2022",
-      detail: "Mobile · MVP to launch",
+      detail: "3 months · MVP to launch",
     },
   ],
 
@@ -249,6 +249,12 @@ export const tripAssuranceCaseStudy = {
     businessGoal: "Secure low-cost flight tickets in advance to avoid price surges closer to the travel date, and mitigate potential cancellation fees if the user decides not to travel.",
   },
 
+  preBookingFlow: [
+    { screen: "01", title: "Icon was added to the train card to highlight Trip Assurance availability" },
+    { screen: "02 & 03", title: "Displayed realistic flight costs to help users make informed decisions", subtitle: "Anchor pricing has been added" },
+    { screen: "04", title: "Added \"Track Status\" link to guide users through the next steps" },
+  ],
+
   decisions: [
     {
       phase: "01",
@@ -306,11 +312,18 @@ export const tripAssuranceCaseStudy = {
         { screen: "4", title: "Flight Tickets", description: "User got flight tickets when train ticket remains waitlisted" },
         { screen: "5", title: "Cancellation", description: "Case when user denies to travel and requests ticket cancellation" },
       ],
+      trackStatus: [
+        { screen: "1", title: "Users can check the **next steps** before chart preparation", description: "" },
+        { screen: "2", title: "Case: Ticket is confirmed and TA fee is refunded to user's TM Wallet", description: "" },
+        { screen: "3", title: "Resolves the **user's confusion** about next steps if tickets remain waitlisted", description: "" },
+        { screen: "4", title: "Case: Ticket is waitlisted, CX team contacted and collected details", description: "" },
+        { screen: "5", title: "User can find and **download flight ticket** details", description: "" },
+      ],
       usability: [
-        { n: "01", title: "Visibility of Trip Assurance", body: "Users found it challenging to locate which trains include Trip Assurance, as only class cards displayed the TA tag." },
-        { n: "02", title: "User dilemma", body: "Users left the app to compare flight prices for their journey date on other platforms." },
-        { n: "03", title: "Pricing & anchoring", body: "Business feedback highlighted strategic pricing anchors can drive conversions and ease user decision-making." },
-        { n: "04", title: "Tracking confusion", body: "Users struggled to understand the next steps after the chart is prepared, including how and whom to contact for their flight ticket." },
+        { n: "01", title: "Visibility of Trip Assurance", body: "Users found it **challenging to locate** which trains include Trip Assurance, as only class cards displayed the TA tag." },
+        { n: "02", title: "User dilemma", body: "Users **left the app** to **compare flight prices** for their journey date on other platforms." },
+        { n: "03", title: "Pricing & anchoring", body: "Business feedback highlighted **strategic pricing anchors** can drive conversions and ease user decision-making." },
+        { n: "04", title: "Tracking confusion", body: "Users **struggled to understand the next steps** after the chart is prepared, including how and whom to contact for their flight ticket." },
       ],
       iterations: [
         "Icon added to the train card to highlight Trip Assurance availability",

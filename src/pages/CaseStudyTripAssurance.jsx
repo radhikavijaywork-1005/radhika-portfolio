@@ -13,11 +13,9 @@ import heroSrp from "../assets/case-study/trip-assurance/hero-srp.png";
 import heroBookingForm from "../assets/case-study/trip-assurance/hero-booking-form.png";
 import spotlightPhase2 from "../assets/case-study/trip-assurance/spotlight-phase2.png";
 import happyFlowInitial from "../assets/case-study/trip-assurance/happy-flow-initial.gif";
-import happyFlowFinal from "../assets/case-study/trip-assurance/happy-flow-final.gif";
 import videoTestimonial1 from "../assets/case-study/trip-assurance/video-testimonial-1.gif";
 import videoTestimonial2 from "../assets/case-study/trip-assurance/video-testimonial-2.gif";
 import videoTestimonial3 from "../assets/case-study/trip-assurance/video-testimonial-3.gif";
-import preBookingIterated from "../assets/case-study/trip-assurance/pre-booking-iterated.png";
 import problemPortrait from "../assets/case-study/trip-assurance/problem-portrait.jpg";
 import problemVideo from "../assets/case-study/trip-assurance/problem-video.jpg";
 import problemArticle from "../assets/case-study/trip-assurance/problem-article.jpg";
@@ -76,6 +74,15 @@ import postBookingScreen3 from "../assets/case-study/trip-assurance/post-booking
 import postBookingScreen4 from "../assets/case-study/trip-assurance/post-booking/4.png";
 import postBookingScreen5 from "../assets/case-study/trip-assurance/post-booking/5.png";
 import happyFlowGif from "../assets/case-study/trip-assurance/happy-flow-gif.gif";
+import happyFlow2Gif from "../assets/case-study/trip-assurance/happy-flow-2.gif";
+import preBookingScreen1 from "../assets/case-study/trip-assurance/pre-booking-1.png";
+import preBookingScreen2 from "../assets/case-study/trip-assurance/pre-booking-2.png";
+import preBookingScreen3 from "../assets/case-study/trip-assurance/pre-booking-3.png";
+import trackStatusScreen1 from "../assets/case-study/trip-assurance/track-status-1.png";
+import trackStatusScreen2 from "../assets/case-study/trip-assurance/track-status-2.png";
+import trackStatusScreen3 from "../assets/case-study/trip-assurance/track-status-3.png";
+import trackStatusScreen4 from "../assets/case-study/trip-assurance/track-status-4.png";
+import trackStatusScreen5 from "../assets/case-study/trip-assurance/track-status-5.png";
 import "./CaseStudyPaywall.css";
 import "./CaseStudyTripAssurance.css";
 
@@ -85,6 +92,10 @@ const donutChartOrder = [1, 2, 0];
 const variantImages = { homepage: variantCue, srp: variantSrp, bookingForm: variantBooking };
 
 const postBookingScreens = [postBookingScreen1, postBookingScreen2, postBookingScreen3, postBookingScreen4, postBookingScreen5];
+
+const preBookingScreens = [preBookingScreen1, preBookingScreen2, preBookingScreen3];
+
+const trackStatusScreens = [trackStatusScreen1, trackStatusScreen2, trackStatusScreen3, trackStatusScreen4, trackStatusScreen5];
 
 const stakeholderAvatars = [avatarProduct, avatarBusiness, avatarTech, avatarMarketing];
 
@@ -286,7 +297,14 @@ export default function CaseStudyTripAssurance() {
             {cs.subheadPost}
           </Reveal>
 
-          <Reveal as="div" className="cs-meta-row" delay={0.14}>
+          <Reveal as="div" className="cs-cta-group" delay={0.12}>
+            <a href="https://www.figma.com/proto/9jxcUHpEVLdB8Av1qfpEXc/Radhika_Portfolio?page-id=161%3A1537&node-id=850-11893&viewport=435%2C403%2C0.02&t=aH7m7jaEBVjnhPb5-1&scaling=scale-down&content-scaling=fixed" target="_blank" rel="noopener noreferrer" className="cs-cta-btn cs-cta-btn--secondary">
+              <span>▶</span>
+              View Presentation
+            </a>
+          </Reveal>
+
+          <Reveal as="div" className="cs-meta-row" delay={0.16}>
             {cs.meta.map((m) => (
               <div className="cs-meta" key={m.label}>
                 <span className="cs-meta__label">{m.label}</span>
@@ -841,55 +859,61 @@ export default function CaseStudyTripAssurance() {
                   </>
                 )}
 
-                <Reveal as="div" className="cs-phase1-card" delay={0.08}>
-                  <div className="cs-happy-flow">
-                    <div className="cs-happy-flow__text">
-                      <h3 className="cs-happy-flow__subtitle">Trip Assurance - Initial concept</h3>
-                      <h2 className="cs-happy-flow__title">Happy flow</h2>
-                    </div>
-                    <div className="cs-happy-flow__content">
-                      <div className="cs-happy-flow__gif-wrap">
-                        <img src={happyFlowGif} alt="Animated walkthrough of Trip Assurance happy flow" className="cs-happy-flow__gif" />
-                        <span className="cs-happy-flow__label">GIF showing happy flow</span>
+                {d.phase === "01" && (
+                  <Reveal as="div" className="cs-phase1-card" delay={0.08}>
+                    <div className="cs-happy-flow">
+                      <div className="cs-happy-flow__text">
+                        <h3 className="cs-happy-flow__subtitle">Trip Assurance - Initial concept</h3>
+                        <h2 className="cs-happy-flow__title">Happy flow</h2>
+                      </div>
+                      <div className="cs-happy-flow__content">
+                        <div className="cs-happy-flow__gif-wrap">
+                          <img src={happyFlowGif} alt="Animated walkthrough of Trip Assurance happy flow" className="cs-happy-flow__gif" />
+                          <span className="cs-happy-flow__label">GIF showing happy flow</span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </Reveal>
+                  </Reveal>
+                )}
 
 
                 {d.usability && (
                   <>
-                    <h3 className="cs-h2 cs-h2--sub">Usability Test</h3>
+                    <h3 className="cs-key-results-heading">Usability Test</h3>
                     <div className="cs-usability-row">
-                      <Reveal as="p" className="cs-body cs-usability-row__text" delay={0.04}>
-                        To ensure the Trip Assurance feature met user needs, we conducted usability testing to observe real user interactions and identify any pain points, and captured stakeholder feedback on the initial concept.
+                      <Reveal as="div" className="cs-usability-row__text" delay={0.04}>
+                        <p>To ensure the Trip Assurance feature met <strong>user needs</strong>, we conducted usability testing to observe real <strong>user interactions</strong> and identify any pain points.</p>
+                        <p>We showed the initial concept to <strong>stakeholders</strong> as well and captured their feedback too.</p>
+                        <p>Our goal was to <strong>refine the experience</strong> by addressing any user confusion, accessibility issues, or gaps in feature visibility.</p>
                       </Reveal>
                       <Reveal as="div" className="cs-usability-row__media" delay={0.06}>
-                        <img src={usabilityTeamPhoto} alt="Team reviewing usability testing feedback together" />
-                        <img src={usabilityParticipantPhoto} alt="Usability testing session with a participant" />
+                        <div className="cs-usability-img-wrap">
+                          <img src={usabilityTeamPhoto} alt="Team reviewing usability testing feedback together" />
+                          <div className="cs-usability-img-overlay" aria-hidden="true" />
+                        </div>
+                        <div className="cs-usability-img-wrap">
+                          <img src={usabilityParticipantPhoto} alt="Usability testing session with a participant" />
+                          <div className="cs-usability-img-overlay" aria-hidden="true" />
+                        </div>
                       </Reveal>
                     </div>
 
-                    <h3 className="cs-h2 cs-h2--sub">Key Results</h3>
+                    <h3 className="cs-key-results-heading">Key Results</h3>
                     <div className="cs-key-results">
-                      <div className="cs-breakdown-list cs-breakdown-list--flat">
+                      <div className="cs-key-results__list">
                         {d.usability.map((u) => (
-                          <div className="cs-breakdown-item" key={u.n}>
-                            <span className="cs-breakdown-item__n">{u.n}</span>
-                            <div>
-                              <h3 className="cs-breakdown-item__title">{u.title}</h3>
-                              <p className="cs-breakdown-item__body">{u.body}</p>
-                            </div>
+                          <div className="cs-key-results__item" key={u.n}>
+                            <span className="cs-key-results__item-number">{u.n}</span>
+                            <h4 className="cs-key-results__item-title">{u.title}</h4>
+                            <p className="cs-key-results__item-body"><Bold text={u.body} /></p>
                           </div>
                         ))}
                       </div>
                       <div className="cs-key-results__media">
                         {keyResultGroups.map((g) => (
-                          <Reveal as="div" className="cs-key-results__group" key={g.items.join("")} delay={0.04}>
-                            <span className="cs-key-results__bracket" aria-hidden="true">
-                              {g.items.join(" · ")}
-                            </span>
+                          <Reveal as="div" className="cs-key-results__img-item" key={g.items.join("")} delay={0.04}>
                             <img src={g.img} alt={`Screenshot for key result ${g.items.join(" & ")}`} />
+                            <span className="cs-key-results__img-number">{g.items.join(" · ")}</span>
                           </Reveal>
                         ))}
                       </div>
@@ -898,22 +922,67 @@ export default function CaseStudyTripAssurance() {
                 )}
 
                 {d.iterations && (
+                  <Reveal as="div" className="cs-after-iterations" delay={0.04}>
+                    <span className="cs-after-iterations__text">After Multiple Iterations</span>
+                  </Reveal>
+                )}
+
+                {d.phase === "01" && (
                   <>
-                    <h3 className="cs-h2 cs-h2--sub">After Multiple Iterations</h3>
-                    <ol className="cs-tag-list cs-tag-list--wrap">
-                      {d.iterations.map((item, i) => (
-                        <li key={i}><Bold text={item} /></li>
-                      ))}
-                    </ol>
-                    <Reveal as="div" className="cs-dashboard-img-wrap" delay={0.04}>
-                      <img className="cs-dashboard-img" src={preBookingIterated} alt="Revised pre-booking screens: icon on train card, realistic flight costs, anchor pricing, and a new Track Status link" />
-                      <span className="cs-caption">Trip Assurance: Pre-booking flow, after iteration</span>
-                    </Reveal>
-                    <Reveal as="div" className="cs-dashboard-img-wrap cs-dashboard-img-wrap--phone" delay={0.06}>
-                      <img className="cs-dashboard-img cs-dashboard-img--phone" src={happyFlowFinal} alt="Animated walkthrough of the final Track Status happy flow" />
-                      <span className="cs-caption">Trip Assurance: Track Status, final version</span>
+                    <h3 className="cs-h2 cs-h2--sub">Trip Assurance: <span className="cs-variants-heading__subtitle">Pre booking flow</span></h3>
+                    <Reveal as="div" className="cs-phase1-card" delay={0.08}>
+                      <div className="cs-post-booking-scroll">
+                        {cs.preBookingFlow.map((flow, i) => (
+                          <div className="cs-post-booking-item" key={flow.screen}>
+                            <img src={preBookingScreens[i]} alt={flow.title} className="cs-post-booking-screen" />
+                            <div className="cs-post-booking-caption">
+                              <span className="cs-pre-booking__label">{flow.screen}</span>
+                              <p className="cs-post-booking-caption__title"><Bold text={flow.title} /></p>
+                              {flow.subtitle && (
+                                <p className="cs-post-booking-caption__title"><Bold text={flow.subtitle} /></p>
+                              )}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
                     </Reveal>
                   </>
+                )}
+
+                {d.phase === "01" && d.trackStatus && (
+                  <>
+                    <h3 className="cs-h2 cs-h2--sub">Trip Assurance: <span className="cs-variants-heading__subtitle">Track Status</span></h3>
+                    <Reveal as="div" className="cs-phase1-card" delay={0.08}>
+                      <div className="cs-post-booking-scroll">
+                        {d.trackStatus.map((flow, i) => (
+                          <div className="cs-post-booking-item" key={flow.screen}>
+                            <img src={trackStatusScreens[i]} alt={flow.title} className="cs-post-booking-screen" />
+                            <div className="cs-post-booking-caption">
+                              <p className="cs-post-booking-caption__title"><Bold text={flow.title} /></p>
+                              {flow.description && <p className="cs-post-booking-caption__desc">{flow.description}</p>}
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </Reveal>
+                  </>
+                )}
+
+                {d.phase === "01" && (
+                  <Reveal as="div" className="cs-phase1-card" delay={0.08}>
+                    <div className="cs-happy-flow">
+                      <div className="cs-happy-flow__text">
+                        <h3 className="cs-happy-flow__subtitle">Trip Assurance</h3>
+                        <h2 className="cs-happy-flow__title">Happy flow</h2>
+                      </div>
+                      <div className="cs-happy-flow__content">
+                        <div className="cs-happy-flow__gif-wrap">
+                          <img src={happyFlow2Gif} alt="Animated walkthrough of Trip Assurance happy flow, final version" className="cs-happy-flow__gif" />
+                          <span className="cs-happy-flow__label">GIF showing happy flow</span>
+                        </div>
+                      </div>
+                    </div>
+                  </Reveal>
                 )}
 
                 {d.branches && (
@@ -949,9 +1018,9 @@ export default function CaseStudyTripAssurance() {
             <Reveal as="p" className="cs-body" delay={0.04}>
               <Bold text={cs.overallImpactNote} />
             </Reveal>
-            <div className="cs-overall-grid cs-overall-grid--light">
+            <div className="cs-overall-grid">
               {cs.overallImpact.map((s, i) => (
-                <Reveal as="div" className="cs-overall-card cs-overall-card--light" key={s.label} delay={i * 0.08}>
+                <Reveal as="div" className="cs-overall-card" key={s.label} delay={i * 0.08}>
                   <div className="cs-overall-card__value-row">
                     <span className="cs-overall-card__value">{s.value}</span>
                     <span className={`cs-overall-card__trend cs-overall-card__trend--${s.trend}`}>↗</span>
