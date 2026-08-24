@@ -11,6 +11,21 @@ import trainmanLogo from "../assets/case-study/trip-assurance/trainman-logo.svg"
 import heroPhone1 from "../assets/case-study/booking-failures/hero-1.png";
 import heroPhone2 from "../assets/case-study/booking-failures/hero-2.png";
 import heroPhone3 from "../assets/case-study/booking-failures/hero-3.png";
+import irctcLogo from "../assets/case-study/booking-failures/irctc-logo.svg";
+import breakdownIrctcCris from "../assets/case-study/booking-failures/breakdown-irctc-cris.jpg";
+import breakdownPendingPage from "../assets/case-study/booking-failures/breakdown-pending-page.jpg";
+import breakdownPending10Min from "../assets/case-study/booking-failures/breakdown-pending-10min.jpg";
+import breakdownPending30Min from "../assets/case-study/booking-failures/breakdown-pending-30min.jpg";
+import gapExisting from "../assets/case-study/booking-failures/gap-existing.jpg";
+import gapProposed from "../assets/case-study/booking-failures/gap-proposed.jpg";
+import feedbackScreenshot1 from "../assets/case-study/booking-failures/feedback-screenshot-1.jpg";
+import feedbackScreenshot2 from "../assets/case-study/booking-failures/feedback-screenshot-2.jpg";
+import feedbackScreenshot3 from "../assets/case-study/booking-failures/feedback-screenshot-3.jpg";
+import feedbackScreenshot4 from "../assets/case-study/booking-failures/feedback-screenshot-4.jpg";
+import feedbackScreenshot5 from "../assets/case-study/booking-failures/feedback-screenshot-5.jpg";
+import strategyPhoto1 from "../assets/case-study/booking-failures/strategy-photo-1.jpg";
+import strategyPhoto2 from "../assets/case-study/booking-failures/strategy-photo-2.jpg";
+import strategyPhoto3 from "../assets/case-study/booking-failures/strategy-photo-3.jpg";
 import "./CaseStudyPaywall.css";
 import "./CaseStudyBookingFailures.css";
 
@@ -65,6 +80,7 @@ function Placeholder({ label, className = "" }) {
 }
 
 const feedbackAvatars = ["🙍🏻‍♂️", "🙍🏻‍♀️", "🙎🏻‍♂️", "🙎🏻‍♀️", "🧑🏻", "👩🏻", "👨🏻"];
+const userImpactScreenshots = [feedbackScreenshot1, feedbackScreenshot2, feedbackScreenshot3, feedbackScreenshot4, feedbackScreenshot5];
 const feedbackJumbleAngles = [-2, 1.5, -1, 2, -1.5, 1, -2.5];
 const feedbackJitterY = [0, 22, -8, 14, 4, -14, 8];
 
@@ -364,7 +380,10 @@ export default function CaseStudyBookingFailures() {
               })}
             </div>
 
-            <h3 className="cs-h2 cs-h2--sub">Technical Challenges with IRCTC</h3>
+            <h3 className="cs-h2 cs-h2--sub cs-bf-irctc-heading">
+              <img className="cs-bf-irctc-heading__logo" src={irctcLogo} alt="" aria-hidden="true" />
+              Technical Challenges with IRCTC
+            </h3>
             <div className="cs-overview-facts cs-overview-facts--two">
               {cs.technicalChallenges.map((c, i) => (
                 <Reveal as="div" className="cs-overview-fact" key={c.title} delay={i * 0.05}>
@@ -377,7 +396,7 @@ export default function CaseStudyBookingFailures() {
             <h3 className="cs-h2 cs-h2--sub">Breakdown of Existing Flow</h3>
             <div className="cs-bf-breakdown-row">
               <div className="cs-bf-breakdown-col">
-                <Placeholder label="Existing IRCTC CRIS page — screenshot pending" />
+                <img className="cs-bf-breakdown-img" src={breakdownIrctcCris} alt="Existing IRCTC CRIS login page" />
                 <p className="cs-pre-booking__label">IRCTC CRIS page</p>
                 <ul className="cs-branch-list">
                   {cs.existingFlowAnnotations.ircteCrisPage.map((a, i) => (
@@ -386,7 +405,7 @@ export default function CaseStudyBookingFailures() {
                 </ul>
               </div>
               <div className="cs-bf-breakdown-col">
-                <Placeholder label="Existing pending page — screenshot pending" />
+                <img className="cs-bf-breakdown-img" src={breakdownPendingPage} alt="Existing pending page" />
                 <p className="cs-pre-booking__label">Pending page</p>
                 <ul className="cs-branch-list">
                   {cs.existingFlowAnnotations.pendingPage.map((a, i) => (
@@ -395,7 +414,10 @@ export default function CaseStudyBookingFailures() {
                 </ul>
               </div>
               <div className="cs-bf-breakdown-col">
-                <Placeholder label="Existing pending states (10 / 30min) — screenshots pending" />
+                <div className="cs-bf-breakdown-pair">
+                  <img className="cs-bf-breakdown-img" src={breakdownPending10Min} alt="Existing pending page — 10 minute timer state" />
+                  <img className="cs-bf-breakdown-img" src={breakdownPending30Min} alt="Existing pending page — 30 minute state" />
+                </div>
                 <ul className="cs-branch-list">
                   {cs.existingFlowAnnotations.pendingPageStates.map((a, i) => (
                     <li key={i}><Bold text={a.text} /></li>
@@ -446,6 +468,12 @@ export default function CaseStudyBookingFailures() {
                 </Reveal>
               ))}
             </div>
+
+            <Reveal as="div" className="cs-bf-strategy-photos" delay={0.06}>
+              <img src={strategyPhoto1} alt="Stakeholder meeting on booking flow strategy" />
+              <img src={strategyPhoto2} alt="Team discussing the booking flow strategy" />
+              <img src={strategyPhoto3} alt="Team collaborating on the booking flow strategy" />
+            </Reveal>
 
             {cs.decisions.map((d, dIdx) => (
               <div className="cs-phase" key={d.phase}>
@@ -524,8 +552,14 @@ export default function CaseStudyBookingFailures() {
               <Bold text={cs.usability.gap} />
             </Reveal>
             <div className="cs-bf-gap-row">
-              <Placeholder label="🔨 Existing gap — screenshot pending" />
-              <Placeholder label="💡 Proposed solution — screenshot pending" />
+              <div className="cs-bf-gap-item">
+                <img className="cs-bf-gap-img" src={gapExisting} alt="Existing forgot-password flow, requiring users to manually copy their IRCTC ID" />
+                <span className="cs-bf-gap-label">🔨 Existing Gap</span>
+              </div>
+              <div className="cs-bf-gap-item">
+                <img className="cs-bf-gap-img" src={gapProposed} alt="Proposed forgot-password flow solution" />
+                <span className="cs-bf-gap-label">💡 Proposed Solution</span>
+              </div>
             </div>
           </section>
 
@@ -551,7 +585,11 @@ export default function CaseStudyBookingFailures() {
             </div>
 
             <h3 className="cs-h2 cs-h2--sub">User's Feedback</h3>
-            <Placeholder label="5 real user-feedback screenshots — pending" />
+            <div className="cs-bf-testimonial-strip">
+              {userImpactScreenshots.map((src, i) => (
+                <Reveal as="img" className="cs-bf-testimonial-strip__img" key={src} src={src} alt="Real user feedback screenshot" delay={i * 0.04} />
+              ))}
+            </div>
           </section>
 
           {/* ---------- Reflection ---------- */}

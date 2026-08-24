@@ -859,3 +859,98 @@
     white-space: normal;
   }
 }
+
+/* ---------- Real screenshots: Breakdown of Existing Flow ---------- */
+.cs-bf-breakdown-img {
+  width: 100%;
+  height: auto;
+  max-height: 500px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid var(--cs-line);
+  background: var(--cs-card-bg);
+  margin-bottom: 12px;
+}
+
+.cs-bf-breakdown-pair {
+  display: flex;
+  gap: 12px;
+}
+
+.cs-bf-breakdown-pair .cs-bf-breakdown-img {
+  margin-bottom: 12px;
+}
+
+/* ---------- Gap Identified images ---------- */
+.cs-bf-gap-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cs-bf-gap-img {
+  width: 100%;
+  height: auto;
+  max-height: 420px;
+  object-fit: contain;
+  border-radius: 12px;
+  border: 1px solid var(--cs-line);
+  background: var(--cs-card-bg);
+}
+
+.cs-bf-gap-label {
+  font-size: 15px;
+  color: var(--cs-body);
+}
+
+/* ---------- User's Feedback testimonial strip (Impact section) ---------- */
+.cs-bf-testimonial-strip {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.cs-bf-testimonial-strip__img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--cs-line);
+}
+
+/* ---------- IRCTC heading logo ---------- */
+.cs-bf-irctc-heading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cs-bf-irctc-heading__logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+}
+
+/* ---------- Strategy team photos ---------- */
+.cs-bf-strategy-photos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 24px 0 40px;
+}
+
+.cs-bf-strategy-photos img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+@media (max-width: 720px) {
+  .cs-bf-strategy-photos {
+    grid-template-columns: 1fr;
+  }
+  .cs-bf-breakdown-pair {
+    flex-direction: column;
+  }
+}
