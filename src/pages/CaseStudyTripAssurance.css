@@ -935,23 +935,23 @@
 }
 
 /* ---------- Waitlisted Ticket Trends donut charts ---------- */
-/* Scale cards to fit content width: 3 equal columns with 68px gaps,
-   shrinking proportionally to stay within page margins. */
+/* Fixed 350px cards with 40px gap: 3×350 + 2×40 = 1190px total,
+   fits within content area with proper margins, all content readable. */
 .cs-donut-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 68px;
+  grid-template-columns: repeat(3, 350px);
+  gap: 40px;
   margin: 32px 0 64px;
   padding: 0;
-  max-width: 1636px;
+  justify-content: center;
 }
 
-/* Scales proportionally to fit 3-column grid while maintaining 596px height.
+/* 350px fixed-width cards maintaining 596px height (scaled to 350×417px).
    Absolute positioning for internal elements, chart + connector + percentage/label
-   in single horizontal row (top 64px), bottom caption text centered and separate. */
+   in single horizontal row (top 10.7%), bottom caption centered and separate. */
 .cs-donut-card {
   position: relative;
-  width: 100%;
+  width: 350px;
   aspect-ratio: 500 / 596;
   padding: 0;
   border-radius: 24px;
@@ -973,17 +973,17 @@
 
 .cs-donut {
   flex-shrink: 0;
-  width: 18.5%;
+  width: 92px;
   aspect-ratio: 1;
 }
 
-/* Dotted connector line between chart and percentage, scales with card. */
+/* Dotted connector line between chart and percentage */
 .cs-donut-card__connector {
   display: flex;
   align-items: center;
   height: 1px;
-  flex: 0 0 32%;
-  gap: 1.3%;
+  flex: 0 0 80px;
+  gap: 8px;
 }
 
 .cs-donut-card__connector-line {
@@ -993,40 +993,40 @@
 }
 
 .cs-donut-card__connector-dot {
-  width: 0.8%;
+  width: 5px;
   aspect-ratio: 1;
   flex-shrink: 0;
   border-radius: 50%;
   background: var(--cs-muted);
 }
 
-/* Percentage and label: right-aligned, scales with card width. */
+/* Percentage and label: right-aligned, fixed sizing */
 .cs-donut-card__figures {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
   flex-shrink: 0;
-  width: 20%;
+  width: 70px;
 }
 
 .cs-donut-card__value {
   font-family: var(--font-display);
-  font-size: 8.4%;
+  font-size: 42px;
   font-weight: 700;
   color: var(--cs-ink);
   line-height: 1;
 }
 
 .cs-donut-card__label {
-  font-size: 4%;
+  font-size: 16px;
   font-weight: 400;
   color: var(--cs-body);
   line-height: 1;
   text-align: right;
-  margin-top: 0.3%;
+  margin-top: 2px;
 }
 
-/* Bottom caption: absolutely positioned, centered, scales with card (30px at 500px → 5% here). */
+/* Bottom caption: absolutely positioned, centered */
 .cs-donut-card__desc {
   position: absolute;
   bottom: 10.7%;
@@ -1037,10 +1037,10 @@
   justify-content: center;
   height: auto;
   text-align: center;
-  font-size: 5%;
+  font-size: 16px;
   font-weight: 400;
   color: var(--cs-ink);
-  padding: 0 5%;
+  padding: 0 16px;
 }
 
 @media (max-width: 720px) {

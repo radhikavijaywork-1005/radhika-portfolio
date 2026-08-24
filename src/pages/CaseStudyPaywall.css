@@ -671,7 +671,7 @@
 .cs-future-img-wrap {
   position: relative;
   flex-shrink: 0;
-  width: 220px;
+  width: 280px;
 }
 
 .cs-future-img__highlight {
@@ -1469,7 +1469,7 @@
 
 .cs-future-live-wrap {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: clamp(48px, 8vw, 120px);
   margin-top: 28px;
   padding: 0;

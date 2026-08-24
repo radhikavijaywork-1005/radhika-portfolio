@@ -249,20 +249,8 @@ export const tripAssuranceCaseStudy = {
     businessGoal: "Secure low-cost flight tickets in advance to avoid price surges closer to the travel date, and mitigate potential cancellation fees if the user decides not to travel.",
   },
 
-  flowStates: [
+  decisions: [
     {
-<<<<<<< Updated upstream
-      title: "Chart Not Prepared",
-      role: "👩🏻‍💼 Customer Support",
-      steps: ["Connect with user and collect details like travel date, full name, etc.", "Pre-book cheapest flight available for the travel date."],
-    },
-    {
-      title: "Chart Prepared",
-      role: "",
-      steps: [
-        "**Confirmed ticket → 👨🏻‍💻 Tech:** automate refund of Trip Assurance fee into TM wallet.",
-        "**Waitlisted ticket → 👩🏻‍💼 Customer Support:** connect with user & share flight ticket on shared contact details. Upload to portal so the user can download from the app as well.",
-=======
       phase: "01",
       phaseLabel: "Solution 1",
       title: "Travel Certainty",
@@ -346,7 +334,6 @@ export const tripAssuranceCaseStudy = {
             "**Waitlisted ticket → 👩🏻‍💼 Customer Support:** connect with user & share flight ticket on shared contact details. Upload to portal so the user can download from the app too.",
           ],
         },
->>>>>>> Stashed changes
       ],
     },
   ],
@@ -404,18 +391,10 @@ export const tripAssuranceCaseStudy = {
   ],
 
   futureScope: [
-<<<<<<< Updated upstream
-    { icon: "💡", text: "Trip Assurance on **PNR status**, ticket not booked with us" },
-    { icon: "💰", text: "Trip Assurance with other rewards like **3X refund**", isLive: true },
-    { icon: "🚕", text: "Trip Assurance with other alternate mode of booking like **Cabs and buses** for shorter routes" },
-    { icon: "🏔️", text: "Trip Assurance on different **WL clusters** like RLWL, PQWL etc" },
-    { icon: "🚂", text: "Trip Assurance on all **trains and classes**", isLive: true },
-=======
     { icon: "💡", text: "Trip Assurance on PNR status, ticket not booked with us" },
-    { icon: "💰", text: "Trip Assurance with other rewards like **3X refund**" },
+    { icon: "💰", text: "Trip Assurance with other rewards like **3X refund** **(Live)**" },
     { icon: "🚕", text: "Trip Assurance with other alternate mode of booking like **Cabs and buses** for shorter routes" },
     { icon: "🛤️", text: "Trip Assurance on different WL clusters like **RLWL, PQWL** etc." },
-    { icon: "🚆", text: "Trip Assurance on all **trains and classes** **(Live)**" },
->>>>>>> Stashed changes
+    { icon: "🚆", text: "Trip Assurance on all **trains and classes**" },
   ],
 };
