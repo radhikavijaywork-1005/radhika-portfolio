@@ -1009,11 +1009,6 @@ export default function CaseStudyTripAssurance() {
                   </div>
                 )}
 
-                {d.phase === "02" && (
-                  <div className="cs-media-placeholder">
-                    <span>📷 Photo: CX team on the manual pre-booking calls (asset pending)</span>
-                  </div>
-                )}
               </div>
             ))}
           </section>
