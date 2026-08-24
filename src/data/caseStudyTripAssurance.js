@@ -299,6 +299,13 @@ export const tripAssuranceCaseStudy = {
         { label: "2 · Search Results", title: "Cravings — Trip Assurance tag on WL class cards", img: "srp" },
         { label: "3 · Booking Form", title: "Response — clear offering & playful copy simplify the decision", img: "bookingForm" },
       ],
+      postBookingFlow: [
+        { screen: "1", title: "On PNR Page", description: "User can track their ticket status through here" },
+        { screen: "2", title: "Reward", description: "After chart preparation ticket got confirmed" },
+        { screen: "3", title: "Contact Support", description: "When ticket remains waitlisted, Contact Us link ensures users can easily reach support & not be in dilemma" },
+        { screen: "4", title: "Flight Tickets", description: "User got flight tickets when train ticket remains waitlisted" },
+        { screen: "5", title: "Cancellation", description: "Case when user denies to travel and requests ticket cancellation" },
+      ],
       usability: [
         { n: "01", title: "Visibility of Trip Assurance", body: "Users found it challenging to locate which trains include Trip Assurance, as only class cards displayed the TA tag." },
         { n: "02", title: "User dilemma", body: "Users left the app to compare flight prices for their journey date on other platforms." },
@@ -355,14 +362,6 @@ export const tripAssuranceCaseStudy = {
     { name: "Shubham Bhanu", route: "Mumbai – Chennai", quote: "Trainman upgraded my flight in no time. I highly appreciate the Trainman team for providing crisp revert." },
     { name: "Riyde Saini", route: "Delhi – Mumbai", quote: "Will they really give you a flight ticket? #Yes I got flight tickets in 10min. Thank you Trainman, I reached on time." },
     { name: "Sneha Tiwari", route: "Lucknow – Delhi", quote: "मैंने वेटलिस्टेड टिकट बुक किया था और कंफर्म नहीं हुआ! Trainman ने मेरे लिए फ्लाइट का इंतजाम कर दिया, जिससे मेरी यात्रा बिना रुके पूरी हो गई! 🙏" },
-  ],
-
-  postBookingFlow: [
-    { screen: "1", title: "On PNR Page", description: "User can track their ticket status through here" },
-    { screen: "2", title: "Reward", description: "After chart preparation ticket got confirmed" },
-    { screen: "3", title: "Contact Support", description: "When ticket remains waitlisted, Contact Us link ensures users can easily reach support & not be in dilemma" },
-    { screen: "4", title: "Flight Tickets", description: "User got flight tickets when train ticket remains waitlisted" },
-    { screen: "5", title: "Cancellation", description: "Case when user denies to travel and requests ticket cancellation" },
   ],
 
   userPortraits: [
