@@ -1488,7 +1488,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 64px;
-  margin: 64px 16px;
+  margin: 0 16px 32px 16px;
 }
 
 .cs-variant-item {
@@ -1573,6 +1573,75 @@
   }
   .cs-post-booking-scroll {
     gap: 12px;
+  }
+}
+
+/* ---------- Happy flow section ---------- */
+.cs-happy-flow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+  margin-bottom: 64px;
+}
+
+.cs-happy-flow__text {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cs-happy-flow__subtitle {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--cs-soft);
+  text-transform: none;
+  letter-spacing: normal;
+  margin: 0;
+}
+
+.cs-happy-flow__title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--cs-ink);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.cs-happy-flow__gif-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+}
+
+.cs-happy-flow__gif {
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  display: block;
+  border-radius: 12px;
+  background: var(--bg);
+  position: relative;
+  isolation: isolate;
+  border: 1px solid rgba(var(--maroon-rgb), 0.2);
+}
+
+.cs-happy-flow__label {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--cs-soft);
+}
+
+@media (max-width: 640px) {
+  .cs-happy-flow {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .cs-happy-flow__title {
+    font-size: 24px;
   }
 }
 
