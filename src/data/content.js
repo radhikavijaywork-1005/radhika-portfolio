@@ -42,7 +42,7 @@ export const work = [
   {
     company: "Adani One",
     title: "Reducing Waitlist Uncertainty with Trip Assurance",
-    metrics: ["28% opt in", "80%"],
+    metrics: ["28% opt in", "30% ATV"],
     category: "Conversion",
     cta: "Read Case Study",
     href: "https://www.figma.com/proto/9jxcUHpEVLdB8Av1qfpEXc/Radhika_Portfolio?page-id=161%3A1537&node-id=850-11893&viewport=435%2C403%2C0.02&t=aH7m7jaEBVjnhPb5-1&scaling=scale-down&content-scaling=fixed",
