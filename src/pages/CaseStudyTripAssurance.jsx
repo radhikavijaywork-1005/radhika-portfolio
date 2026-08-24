@@ -858,23 +858,6 @@ export default function CaseStudyTripAssurance() {
                   </div>
                 </Reveal>
 
-                {d.phase === "01" && (
-                  <>
-                    <span className="cs-phase__how-label">Trip Assurance: Post-booking flow · Initial concept</span>
-                    <Reveal as="div" className="cs-spotlight" delay={0.08}>
-                      <div className="cs-spotlight__text">
-                        <span className="cs-spotlight__eyebrow">Post-booking flow</span>
-                        <h3 className="cs-spotlight__title">Track Status</h3>
-                        <p className="cs-spotlight__body">
-                          A <strong>Track Status</strong> link on the PNR page lets users check next steps before chart preparation. If the ticket remains waitlisted, our CX team reaches out and shares the flight ticket directly.
-                        </p>
-                      </div>
-                      <div className="cs-spotlight__img-wrap">
-                        <img src={spotlightPhase2} alt="Trainman app screen showing a waitlisted ticket with a Contact Us prompt" />
-                      </div>
-                    </Reveal>
-                  </>
-                )}
 
                 {d.usability && (
                   <>
