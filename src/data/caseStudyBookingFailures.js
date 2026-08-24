@@ -8,7 +8,6 @@ export const bookingFailuresCaseStudy = {
 
   meta: [
     { label: "Project", primary: "Post Payment Flow Revamp", detail: "" },
-    { label: "Platform", primary: "Mobile", detail: "" },
     { label: "Release", primary: "Year 2022", detail: "" },
     { label: "Role", primary: "Lead Product Designer", detail: "" },
   ],
