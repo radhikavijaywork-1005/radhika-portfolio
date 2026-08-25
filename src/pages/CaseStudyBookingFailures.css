@@ -68,7 +68,7 @@
    instead of a single flat row. ---------- */
 .cs-bf-flow-section {
   display: grid;
-  grid-template-columns: 2.6fr 1fr;
+  grid-template-columns: 2.2fr 1fr;
   gap: 24px;
   align-items: start;
   margin: 20px 0 32px;
@@ -149,9 +149,10 @@
 .cs-bf-flow-grid--2col .cs-flow-stepper__box {
   max-width: none;
   width: auto;
-  padding: 16px 10px;
+  padding: 16px 8px;
   white-space: nowrap;
-  font-size: 13.5px;
+  font-size: 13px;
+  letter-spacing: -0.1px;
 }
 
 .cs-bf-flow-grid__arrow {
@@ -478,15 +479,23 @@
   grid-template-columns: 1fr 1fr;
   gap: 24px;
   margin: 24px 0 48px;
-  padding: 24px;
-  background: #fef9e7;
-  border-radius: 24px;
+  padding: 0;
 }
 
 .cs-bf-gap-card {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  padding: 20px;
+  border-radius: 16px;
+}
+
+.cs-bf-gap-card:nth-child(1) {
+  background: #fff6f5;
+}
+
+.cs-bf-gap-card:nth-child(2) {
+  background: #fef9e7;
 }
 
 @media (max-width: 720px) {
