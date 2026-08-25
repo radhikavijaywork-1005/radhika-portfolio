@@ -489,7 +489,13 @@ export default function CaseStudyBookingFailures() {
             <div className="cs-insight-grid">
               {cs.opportunities.map((o, i) => (
                 <Reveal as="div" className="cs-insight-card" key={o.n} delay={i * 0.06}>
-                  <span className="cs-overview-fact__icon">{o.icon}</span>
+                  <span className="cs-overview-fact__icon">
+                    {o.icon === "irctc" ? (
+                      <img className="cs-overview-fact__icon-img" src={irctcLogo} alt="" aria-hidden="true" />
+                    ) : (
+                      o.icon
+                    )}
+                  </span>
                   <h4 className="cs-insight-card__title cs-insight-card__title--lg">{o.n}. {o.title}</h4>
                   <p className="cs-insight-card__body"><strong>How might we</strong> {o.body}</p>
                 </Reveal>
@@ -583,14 +589,15 @@ export default function CaseStudyBookingFailures() {
             ))}
 
             <Reveal as="div" className="cs-bf-happy-flow-band" delay={0.04}>
-              <div className="cs-bf-happy-flow-content">
-                <h3 className="cs-h2 cs-h2--sub">Happy Flow</h3>
+              <div className="cs-bf-happy-flow__text">
+                <p className="cs-bf-happy-flow__subtitle">Solution 3</p>
+                <h2 className="cs-bf-happy-flow__title">Happy flow</h2>
               </div>
-              <div className="cs-bf-happy-flow-media">
-                <div className="cs-bf-phone-mockup">
+              <div className="cs-bf-happy-flow__gif-wrap">
+                <div className="cs-bf-happy-flow__gif">
                   <img src={happyFlowGif} alt="Happy flow walkthrough" />
                 </div>
-                <p className="cs-bf-happy-flow-caption">GIF showing happy flow</p>
+                <p className="cs-bf-happy-flow__label">GIF showing happy flow</p>
               </div>
             </Reveal>
 

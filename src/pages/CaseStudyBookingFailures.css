@@ -519,50 +519,64 @@
 .cs-bf-happy-flow-band {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 40px;
+  gap: 48px;
   align-items: center;
-  margin: 48px 0;
   padding: 48px;
-  background: #f0ebff;
+  background: #f8f1de;
   border-radius: 24px;
+  margin: 48px 0;
 }
 
-.cs-bf-happy-flow-content {
+.cs-bf-happy-flow__text {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  gap: 12px;
 }
 
-.cs-bf-happy-flow-media {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-}
-
-.cs-bf-phone-mockup {
-  width: 100%;
-  max-width: 280px;
-  aspect-ratio: 264 / 540;
-  border-radius: 32px;
-  overflow: hidden;
-  background: #000;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
-}
-
-.cs-bf-phone-mockup img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover;
-}
-
-.cs-bf-happy-flow-caption {
-  font-family: var(--font-display);
-  font-style: italic;
+.cs-bf-happy-flow__subtitle {
+  font-family: var(--font-body);
   font-size: 14px;
+  font-weight: 400;
   color: var(--cs-soft);
-  text-align: center;
+  text-transform: none;
+  letter-spacing: normal;
+  margin: 0;
+}
+
+.cs-bf-happy-flow__title {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--cs-ink);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.cs-bf-happy-flow__gif-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  width: 100%;
+}
+
+.cs-bf-happy-flow__gif {
+  width: 210px;
+  aspect-ratio: 230 / 498;
+  object-fit: cover;
+  display: block;
+  border-radius: 24px;
+  background: var(--bg);
+  position: relative;
+  isolation: isolate;
+  border: 3px solid var(--cs-ink);
+  -webkit-user-drag: none;
+}
+
+.cs-bf-happy-flow__label {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--cs-soft);
 }
 
 @media (max-width: 900px) {
@@ -1356,6 +1370,13 @@
   .cs-bf-review-strip__track {
     animation: none;
   }
+}
+
+.cs-overview-fact__icon-img {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  object-fit: contain;
 }
 
 @media (max-width: 640px) {

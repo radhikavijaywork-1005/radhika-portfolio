@@ -172,7 +172,7 @@ export const bookingFailuresCaseStudy = {
       body: "better educate users about the booking flow, including mandatory steps and the redirection to IRCTC after payment?",
     },
     {
-      icon: "✈️",
+      icon: "irctc",
       n: "2",
       title: "Simplify IRCTC Credential",
       body: "simplify the IRCTC credential process to reduce errors and improve user experience?",
