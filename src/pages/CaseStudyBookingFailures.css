@@ -1138,6 +1138,15 @@
   margin-bottom: 16px;
 }
 
+/* Same tight heading-to-body gap as the Impact section's .cs-h2 above —
+   a heading directly followed by an intro paragraph (no card grid or
+   other content between them) reads better at 16px than the shared
+   .cs-h2's default 48px, which is sized for headings that need more
+   room before a grid of cards. */
+.cs-h2--tight {
+  margin-bottom: 16px;
+}
+
 #impact.cs-section .cs-body {
   margin-bottom: 24px;
 }

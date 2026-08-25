@@ -502,7 +502,7 @@ export default function CaseStudyBookingFailures() {
               ))}
             </div>
 
-            <Reveal as="h2" className="cs-h2" delay={0.05}>
+            <Reveal as="h2" className="cs-h2 cs-h2--tight" delay={0.05}>
               Strategy
             </Reveal>
             <Reveal as="p" className="cs-body" delay={0.06}>
