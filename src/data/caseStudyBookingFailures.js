@@ -189,8 +189,8 @@ export const bookingFailuresCaseStudy = {
     intro: "After multiple discussions with stakeholders, we have finalised the following strategies for each identified solution:",
     cards: [
       { icon: "📲", title: "Booking Flow Education", body: "Progress bar and transition page" },
-      { icon: "✈️", title: "Simplify IRCTC Credential", body: "Visible password field above the keyboard\nClear guidance for managing the back or cancel button actions." },
-      { icon: "⚠️", title: "Pending Conversion", body: "Reassuring users about payment safety\nClear CTA and guidance for conversion" },
+      { icon: "irctc", title: "Simplify IRCTC Credential", body: "Visible password field above the keyboard\n\nClear guidance for managing the back or cancel button actions." },
+      { icon: "⚠️", title: "Pending Conversion", body: "Reassuring users about payment safety\n\nClear CTA and guidance for conversion" },
     ],
   },
 

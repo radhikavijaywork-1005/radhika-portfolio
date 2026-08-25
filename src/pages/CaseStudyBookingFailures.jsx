@@ -511,7 +511,13 @@ export default function CaseStudyBookingFailures() {
             <div className="cs-overview-facts">
               {cs.strategy.cards.map((c, i) => (
                 <Reveal as="div" className="cs-overview-fact" key={c.title} delay={i * 0.05}>
-                  <span className="cs-overview-fact__icon">{c.icon}</span>
+                  <span className="cs-overview-fact__icon">
+                    {c.icon === "irctc" ? (
+                      <img className="cs-overview-fact__icon-img" src={irctcLogo} alt="" aria-hidden="true" />
+                    ) : (
+                      c.icon
+                    )}
+                  </span>
                   <h4 className="cs-overview-fact__title">{c.title}</h4>
                   <p className="cs-overview-fact__body" style={{ whiteSpace: "pre-line" }}>{c.body}</p>
                 </Reveal>
