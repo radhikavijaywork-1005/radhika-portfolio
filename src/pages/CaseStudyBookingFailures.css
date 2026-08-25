@@ -68,11 +68,11 @@
    instead of a single flat row. ---------- */
 .cs-bf-flow-section {
   display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 40px;
+  grid-template-columns: 2.6fr 1fr;
+  gap: 24px;
   align-items: start;
   margin: 20px 0 32px;
-  padding: 32px 28px;
+  padding: 32px 20px;
   background: #f8f1de;
   border-radius: 24px;
 }
@@ -127,21 +127,31 @@
 
 /* Serpentine grid — same technique as Trip Assurance's WL flow stepper:
    one shared grid, every box/arrow placed by explicit gridRow/gridColumn
-   from the JSX (2i+1 for boxes, 2i+2 for arrows) so a real SVG arrow
-   (FlowArrow) always lands exactly between the two boxes it connects,
-   regardless of box width. Row 1 reads left-to-right through the 4
-   pre-payment steps; the down arrow in row 2 drops into row 3 directly
-   below the last box; row 3 then continues right-to-left with the
-   credentials box, branching further left (Yes) to Booking Complete and
-   down (No, rows 4-5) to Booking Pending. */
+   from the JSX so a real SVG arrow (FlowArrow) always lands exactly
+   between the two boxes it connects. Only 2 columns wide (see
+   --2col below) so every row uses both columns — no leftover blank
+   column like the earlier 3-4-across version had. */
 .cs-bf-flow-grid {
   display: grid;
   row-gap: 20px;
-  column-gap: 4px;
+  column-gap: 8px;
   align-items: center;
   overflow-x: auto;
   width: 100%;
   min-width: 0;
+}
+
+.cs-bf-flow-grid--2col {
+  grid-template-columns: max-content auto max-content;
+  justify-content: center;
+}
+
+.cs-bf-flow-grid--2col .cs-flow-stepper__box {
+  max-width: none;
+  width: auto;
+  padding: 16px 10px;
+  white-space: nowrap;
+  font-size: 13.5px;
 }
 
 .cs-bf-flow-grid__arrow {
@@ -198,7 +208,12 @@
 .cs-bf-flow-media__gif {
   width: 100%;
   max-width: 280px;
-  border-radius: 12px;
+  border: 3px solid #2b2b2b;
+  border-radius: 28px;
+}
+
+.dark .cs-bf-flow-media__gif {
+  border-color: #d4d4d4;
 }
 
 .cs-bf-flow-media__caption {
@@ -457,16 +472,25 @@
   margin-top: 0;
 }
 
-/* ---------- Gap identified (existing vs proposed side by side) ---------- */
-.cs-bf-gap-row {
+/* ---------- Gap identified (existing vs proposed in card band) ---------- */
+.cs-bf-gap-band {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
-  margin: 24px 0 8px;
+  margin: 24px 0 48px;
+  padding: 24px;
+  background: #fef9e7;
+  border-radius: 24px;
+}
+
+.cs-bf-gap-card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 @media (max-width: 720px) {
-  .cs-bf-gap-row {
+  .cs-bf-gap-band {
     grid-template-columns: 1fr;
   }
 }
@@ -1064,21 +1088,9 @@
   }
 }
 
-/* ---------- Usability Test: bullet points + side-by-side photos ---------- */
-.cs-usability-row {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 40px;
-  align-items: start;
-  margin-bottom: 48px;
-  padding: 32px;
-  background: #f8f1de;
-  border-radius: 24px;
-}
-
+/* ---------- Usability Test: text on top, photo band below ---------- */
 .cs-usability-row__text {
-  flex: 1;
-  min-width: 0;
+  margin-bottom: 32px;
 }
 
 .cs-pointer-list {
@@ -1110,11 +1122,14 @@
   color: var(--cs-ink);
 }
 
-.cs-usability-row__media {
+.cs-usability-img-band {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 24px;
-  width: 100%;
+  margin-bottom: 48px;
+  padding: 24px;
+  background: #f8f1de;
+  border-radius: 24px;
 }
 
 .cs-usability-img-wrap {
@@ -1139,17 +1154,8 @@
   pointer-events: none;
 }
 
-@media (max-width: 900px) {
-  .cs-usability-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 640px) {
-  .cs-usability-row {
-    padding: 28px 24px;
-  }
-  .cs-usability-row__media {
+@media (max-width: 720px) {
+  .cs-usability-img-band {
     grid-template-columns: 1fr;
   }
 }
