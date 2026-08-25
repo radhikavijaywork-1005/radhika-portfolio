@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useLayoutEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { bookingFailuresCaseStudy as cs } from "../data/caseStudyBookingFailures";
@@ -24,6 +24,12 @@ import strategyPhoto1 from "../assets/case-study/booking-failures/strategy-photo
 import strategyPhoto2 from "../assets/case-study/booking-failures/strategy-photo-2.jpg";
 import strategyPhoto3 from "../assets/case-study/booking-failures/strategy-photo-3.jpg";
 import happyFlowGif from "../assets/case-study/booking-failures/happy-flow.gif";
+import happyFlowSol2Gif from "../assets/case-study/booking-failures/happy-flow-sol2.gif";
+import happyFlowSol3Gif from "../assets/case-study/booking-failures/happy-flow-sol3.gif";
+import pendingConversionPendingPage from "../assets/case-study/booking-failures/pending-conversion-pending-page.png";
+import pendingConversionNeedHelp from "../assets/case-study/booking-failures/pending-conversion-need-help.png";
+import pendingConversionFaq from "../assets/case-study/booking-failures/pending-conversion-faq.png";
+import pendingConversionTimeout from "../assets/case-study/booking-failures/pending-conversion-timeout.png";
 import "./CaseStudyPaywall.css";
 import "./CaseStudyBookingFailures.css";
 
@@ -95,6 +101,111 @@ function Bold({ text }) {
 
 function Placeholder({ label, className = "" }) {
   return <div className={`cs-media-placeholder ${className}`}>{label}</div>;
+}
+
+// Vertical position (% of the "Pending page" screenshot's height) of each
+// of the first 7 Pending Conversion iteration points, in the order they
+// appear top-to-bottom in the real screen: Booking ID, steps, supporting
+// text, primary CTA, secondary CTA, Need Help, FAQ.
+const pendingConversionAnnotationTops = [9, 26, 42, 53, 58, 67, 77];
+
+// Fixed render height (px) of the annotated phone frame — matches
+// .cs-bf-happy-flow__gif's own sizing (210px wide, 230:498 aspect ratio).
+const ANNOTATED_PHONE_HEIGHT = 455;
+const ANNOTATED_CONNECTOR_WIDTH = 40;
+
+// Annotated-screenshot layout: one real screen on top with callout dots
+// pointing at exact UI elements, connected by elbow lines to labels that
+// flow in a normal vertical stack. Three plain-captioned screens displayed
+// below in a full-width grid row (all visible, no scroll), so the entire
+// flow is clearly readable at once without horizontal scrolling.
+function AnnotatedFlowRow({ annotatedSrc, annotatedAlt, annotations, caption, screens }) {
+  const containerRef = useRef(null);
+  const labelRefs = useRef([]);
+  const [connectors, setConnectors] = useState({ paths: [], height: ANNOTATED_PHONE_HEIGHT });
+
+  useLayoutEffect(() => {
+    function measure() {
+      const container = containerRef.current;
+      if (!container) return;
+      const containerRect = container.getBoundingClientRect();
+      const paths = annotations.map((a, i) => {
+        const labelEl = labelRefs.current[i];
+        if (!labelEl) return null;
+        const labelRect = labelEl.getBoundingClientRect();
+        const dotY = (a.top / 100) * ANNOTATED_PHONE_HEIGHT;
+        const labelY = labelRect.top + labelRect.height / 2 - containerRect.top;
+        return `M 0 ${dotY} L ${ANNOTATED_CONNECTOR_WIDTH / 2} ${dotY} L ${ANNOTATED_CONNECTOR_WIDTH / 2} ${labelY} L ${ANNOTATED_CONNECTOR_WIDTH} ${labelY}`;
+      });
+      setConnectors({ paths, height: Math.max(containerRect.height, ANNOTATED_PHONE_HEIGHT) });
+    }
+    measure();
+    window.addEventListener("resize", measure);
+    return () => window.removeEventListener("resize", measure);
+  }, [annotations]);
+
+  return (
+    <div className="cs-bf-annotated-row">
+      {/* Annotated screen section at top */}
+      <div className="cs-bf-annotated-row__top" ref={containerRef}>
+        <div className="cs-bf-annotated-row__phone-wrap">
+          <span className="cs-bf-annotated-row__corner" aria-hidden="true" />
+          <div className="cs-bf-happy-flow__gif cs-bf-annotated-row__phone">
+            <img src={annotatedSrc} alt={annotatedAlt} />
+            {annotations.map((a, i) => (
+              <span key={i} className="cs-bf-annotated-row__dot" style={{ top: `${a.top}%` }} />
+            ))}
+          </div>
+          <p className="cs-bf-annotated-row__caption">{caption}</p>
+        </div>
+
+        <svg
+          className="cs-bf-annotated-row__connectors"
+          width={ANNOTATED_CONNECTOR_WIDTH}
+          height={connectors.height}
+          viewBox={`0 0 ${ANNOTATED_CONNECTOR_WIDTH} ${connectors.height}`}
+          aria-hidden="true"
+          vectorEffect="non-scaling-stroke"
+          shapeRendering="crispEdges"
+        >
+          {connectors.paths.map((d, i) =>
+            d ? (
+              <path
+                key={i}
+                d={d}
+                fill="none"
+                stroke="var(--cs-muted)"
+                strokeWidth="1"
+                strokeLinecap="butt"
+                strokeLinejoin="bevel"
+                vectorEffect="non-scaling-stroke"
+              />
+            ) : null
+          )}
+        </svg>
+
+        <div className="cs-bf-annotated-row__labels">
+          {annotations.map((a, i) => (
+            <p key={i} ref={(el) => (labelRefs.current[i] = el)} className="cs-bf-annotated-row__label">
+              <Bold text={a.text} />
+            </p>
+          ))}
+        </div>
+      </div>
+
+      {/* Three plain screens in a grid row below */}
+      <div className="cs-bf-annotated-row__bottom">
+        {screens.map((s, i) => (
+          <div className="cs-bf-annotated-row__phone-wrap" key={i}>
+            <div className="cs-bf-happy-flow__gif cs-bf-annotated-row__phone">
+              <img src={s.src} alt={s.alt} />
+            </div>
+            <p className="cs-bf-annotated-row__caption">{s.caption}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 }
 
 const feedbackAvatars = ["🙍🏻‍♂️", "🙍🏻‍♀️", "🙎🏻‍♂️", "🙎🏻‍♀️", "🧑🏻", "👩🏻", "👨🏻"];
@@ -582,30 +693,72 @@ export default function CaseStudyBookingFailures() {
                   </Reveal>
                 )}
 
-                <h4 className="cs-key-results-heading" style={{ fontSize: 24, marginTop: 32 }}>Before / after screens</h4>
-                <Placeholder label={`${d.solutionName} — before/after screens pending`} />
+                {d.phase === "03" ? (
+                  <>
+                    <h4 className="cs-key-results-heading" style={{ fontSize: 24, marginTop: 32 }}>Before / after screens</h4>
+                    <AnnotatedFlowRow
+                      annotatedSrc={pendingConversionPendingPage}
+                      annotatedAlt="Pending page with annotated callouts explaining each design decision"
+                      caption="Pending page"
+                      annotations={d.iterations.slice(0, 7).map((text, i) => ({ text, top: pendingConversionAnnotationTops[i] }))}
+                      screens={[
+                        { src: pendingConversionNeedHelp, alt: "Need Help section expanded", caption: "Need Help section" },
+                        { src: pendingConversionFaq, alt: "Frequently Asked Questions section expanded", caption: "FAQ section" },
+                        { src: pendingConversionTimeout, alt: "Session timed out state after the 10-minute window", caption: "10mins time gets over" },
+                      ]}
+                    />
+                    <h4 className="cs-key-results-heading" style={{ fontSize: 24 }}>Iterations</h4>
+                    <ul className="cs-branch-list cs-branch-list--loose">
+                      {d.iterations.slice(7).map((it, i) => (
+                        <li key={i}><Bold text={it} /></li>
+                      ))}
+                    </ul>
+                  </>
+                ) : (
+                  <>
+                    <h4 className="cs-key-results-heading" style={{ fontSize: 24, marginTop: 32 }}>Before / after screens</h4>
+                    <Placeholder label={`${d.solutionName} — before/after screens pending`} />
 
-                <h4 className="cs-key-results-heading" style={{ fontSize: 24 }}>Iterations</h4>
-                <ul className="cs-branch-list cs-branch-list--loose">
-                  {d.iterations.map((it, i) => (
-                    <li key={i}><Bold text={it} /></li>
-                  ))}
-                </ul>
+                    <h4 className="cs-key-results-heading" style={{ fontSize: 24 }}>Iterations</h4>
+                    <ul className="cs-branch-list cs-branch-list--loose">
+                      {d.iterations.map((it, i) => (
+                        <li key={i}><Bold text={it} /></li>
+                      ))}
+                    </ul>
+                  </>
+                )}
+
+                {d.phase === "02" && (
+                  <Reveal as="div" className="cs-bf-happy-flow-band" delay={0.04}>
+                    <div className="cs-bf-happy-flow__text">
+                      <p className="cs-bf-happy-flow__subtitle">Solution {dIdx + 1}</p>
+                      <h2 className="cs-bf-happy-flow__title">Happy flow</h2>
+                    </div>
+                    <div className="cs-bf-happy-flow__gif-wrap">
+                      <div className="cs-bf-happy-flow__gif">
+                        <img src={happyFlowSol2Gif} alt="Happy flow walkthrough for Simplify IRCTC Credential" />
+                      </div>
+                      <p className="cs-bf-happy-flow__label">GIF showing happy flow</p>
+                    </div>
+                  </Reveal>
+                )}
+
+                {d.phase === "03" && (
+                  <Reveal as="div" className="cs-bf-happy-flow-band" delay={0.04}>
+                    <div className="cs-bf-happy-flow__text">
+                      <p className="cs-bf-happy-flow__subtitle">Solution {dIdx + 1}</p>
+                      <h2 className="cs-bf-happy-flow__title">Happy flow</h2>
+                    </div>
+                    <div className="cs-bf-happy-flow__gif-wrap">
+                      <div className="cs-bf-happy-flow__gif">
+                        <img src={happyFlowSol3Gif} alt="Happy flow walkthrough for Pending Conversion" />
+                      </div>
+                      <p className="cs-bf-happy-flow__label">GIF showing happy flow</p>
+                    </div>
+                  </Reveal>
+                )}
               </div>
             ))}
-
-            <Reveal as="div" className="cs-bf-happy-flow-band" delay={0.04}>
-              <div className="cs-bf-happy-flow__text">
-                <p className="cs-bf-happy-flow__subtitle">Solution 3</p>
-                <h2 className="cs-bf-happy-flow__title">Happy flow</h2>
-              </div>
-              <div className="cs-bf-happy-flow__gif-wrap">
-                <div className="cs-bf-happy-flow__gif">
-                  <img src={happyFlowGif} alt="Happy flow walkthrough" />
-                </div>
-                <p className="cs-bf-happy-flow__label">GIF showing happy flow</p>
-              </div>
-            </Reveal>
 
             <h3 className="cs-h2 cs-h2--sub">Usability Test</h3>
             <Reveal as="div" className="cs-usability-row__text" delay={0.04}>

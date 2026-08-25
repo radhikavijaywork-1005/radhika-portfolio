@@ -586,7 +586,135 @@
   color: var(--cs-soft);
 }
 
+/* ---------- Annotated flow row (Pending Conversion "before/after
+   screens" — real screenshots with callout dots/connector lines,
+   matching the source Figma breakdown). Scrolls horizontally if all
+   screens don't fit, but the annotated screen + its labels are pinned
+   via position: sticky so the callouts stay visible while scrolling
+   through the other states. ---------- */
+.cs-bf-annotated-row {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin: 8px 0 24px;
+}
+
+/* Annotated screen at the top with labels and connectors */
+.cs-bf-annotated-row__top {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  padding: 0;
+}
+
+.cs-bf-annotated-row__phone-wrap {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.cs-bf-annotated-row__corner {
+  position: absolute;
+  top: -20px;
+  left: -4px;
+  width: 18px;
+  height: 14px;
+}
+
+.cs-bf-annotated-row__corner::before,
+.cs-bf-annotated-row__corner::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 1px;
+  background: var(--cs-muted);
+  transform: rotate(-40deg);
+}
+
+.cs-bf-annotated-row__corner::before {
+  top: 0;
+  left: 0;
+}
+
+.cs-bf-annotated-row__corner::after {
+  top: 7px;
+  left: 4px;
+}
+
+.cs-bf-annotated-row__phone {
+  position: relative;
+}
+
+.cs-bf-annotated-row__dot {
+  position: absolute;
+  right: -4px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--cs-muted);
+  transform: translate(50%, -50%);
+}
+
+.cs-bf-annotated-row__caption {
+  font-size: 12px;
+  font-style: italic;
+  color: var(--cs-soft);
+  margin: 0;
+  text-align: center;
+}
+
+/* Connector lines are drawn as a single SVG (see AnnotatedFlowRow) rather
+   than per-label CSS lines, because the elbow path for each annotation
+   has to run from the dot's fixed position on the phone to wherever its
+   label actually landed after the labels stack lays out naturally —
+   that landing point isn't known until render, so a static CSS line
+   can't reach it reliably. */
+.cs-bf-annotated-row__connectors {
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Natural vertical flow (not absolute-positioned by %) — this is what
+   guarantees labels can never overlap regardless of how many lines any
+   one label wraps to. The gap is generous enough that even a 3-line
+   label has clear air above and below it. */
+.cs-bf-annotated-row__labels {
+  width: 250px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 455px;
+  gap: 22px;
+}
+
+.cs-bf-annotated-row__label {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--cs-body);
+}
+
+.cs-bf-annotated-row__label strong {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+/* Three plain screens displayed below in a full-width grid row */
+.cs-bf-annotated-row__bottom {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  width: 100%;
+}
+
 @media (max-width: 900px) {
+  .cs-bf-annotated-row__bottom {
+    grid-template-columns: repeat(2, 1fr);
+  }
   .cs-bf-happy-flow-band {
     grid-template-columns: 1fr;
     gap: 32px;
