@@ -687,17 +687,11 @@
   grid-template-columns: repeat(2, 1fr);
 }
 
-/* Matches the source design's soft highlighter-marker treatment behind
-   key phrases in the Technical Challenges cards — box-decoration-break
-   keeps the highlight as separate per-line rectangles when a bold span
-   wraps across lines, instead of one rectangle spanning the gap. */
-.cs-overview-facts--two .cs-overview-fact__body strong {
-  font-weight: 700;
-  background: rgba(250, 226, 173, 0.45);
-  padding: 1px 3px;
-  border-radius: 3px;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
+/* Same bold weight as the rest of the case study's body copy (.cs-body
+   strong) — no highlighter background, just emphasis. */
+.cs-overview-fact__body strong {
+  font-weight: 600;
+  color: var(--cs-ink);
 }
 
 
