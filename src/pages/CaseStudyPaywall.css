@@ -1621,14 +1621,21 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 24px;
-  height: 24px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: var(--maroon);
-  color: var(--ink-on-dark);
+  background: rgba(var(--maroon-rgb), 0.1);
+  border: 1px solid var(--maroon);
+  color: var(--maroon);
   font-family: var(--font-display);
   font-weight: 600;
   font-size: 14px;
+}
+
+.dark .cs-challenge-card__n {
+  background: rgba(238, 242, 233, 0.1);
+  border: 1px solid var(--cs-ink);
+  color: var(--cs-ink);
 }
 
 .cs-challenge-card__title {

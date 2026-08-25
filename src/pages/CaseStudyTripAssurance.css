@@ -12,11 +12,13 @@
 .cs-trip {
   --maroon: #1c74a8;
   --maroon-rgb: 28, 116, 168;
+  --cs-trip-tint-blue: #eef1fc;
 }
 
 .dark .cs-trip {
   --maroon: #6fc8ee;
   --maroon-rgb: 111, 200, 238;
+  --cs-trip-tint-blue: #182a2c;
 }
 
 /* ---------- Problem statement cards (red, not the case study's blue accent) ---------- */
@@ -32,6 +34,14 @@
 
 .cs-overview-facts--problem .cs-overview-fact__title {
   font-size: 20px;
+}
+
+.dark .cs-overview-facts--problem .cs-overview-fact {
+  background: #1c2921;
+}
+
+.dark .cs-overview-facts--problem .cs-overview-fact__icon {
+  background: #2a3d31;
 }
 
 /* Composited from the source gradient (20%-opacity indigo/sky/cyan) over
@@ -100,8 +110,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   /* Same outlined-ring treatment as .cs-mbf-step-num (Manual Booking Flow
      diagram) — faint maroon-tinted fill + a solid maroon ring, not a solid
@@ -110,9 +120,15 @@
   border: 1px solid var(--maroon);
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: 15px;
+  font-size: 13px;
   color: var(--maroon);
   margin-bottom: 16px;
+}
+
+.dark .cs-approach-step__n {
+  background: rgba(238, 242, 233, 0.1);
+  border-color: var(--cs-ink);
+  color: var(--cs-ink);
 }
 
 /* Running track: drawn as a separate dash segment per gap (this circle's
@@ -184,6 +200,10 @@
   padding: 12px;
   border-radius: 24px;
   background: #1a1210;
+}
+
+.dark .cs-problem-strip {
+  background: #1c2921;
 }
 
 .cs-problem-strip__track {
@@ -314,6 +334,12 @@
   margin-top: 2px;
 }
 
+.dark .cs-mbf-step-num {
+  background: rgba(238, 242, 233, 0.1);
+  border-color: var(--cs-ink);
+  color: var(--cs-ink);
+}
+
 .cs-mbf-step-content {
   display: flex;
   flex-direction: column;
@@ -426,8 +452,18 @@
 .cs-flow-stepper {
   margin: 20px 0 32px;
   padding: 24px 28px;
-  background: #eef1fc;
+  background: var(--cs-trip-tint-blue);
+  border: 1px solid var(--cs-line);
   border-radius: 24px;
+}
+
+/* The shared .cs-flow-stepper__box (Paywall.css) uses var(--cs-card-bg),
+   the site-wide dark-mode green — clashing against this panel's own navy
+   tint. Give the boxes a lighter surface of the SAME blue family instead
+   of an unrelated hue (elevation via lightness, not a different color). */
+.dark .cs-flow-stepper .cs-flow-stepper__box {
+  background: rgba(238, 241, 252, 0.08);
+  box-shadow: none;
 }
 
 /* ---------- Compact stat rows (Other Metrics / Waitlisted Trends) ---------- */
@@ -716,6 +752,10 @@
   background: #1a1210;
 }
 
+.dark .cs-survey-strip {
+  background: #1c2921;
+}
+
 .cs-survey-strip__img {
   width: 100%;
   height: 320px;
@@ -839,7 +879,7 @@
   /* Same lavender used by .cs-flow-stepper, .cs-solution1-photos, and the
      approach-stepper circles — was a gray-tinted rgba(maroon,0.1) + a
      neutral gray border that didn't match the page's blue-family accents. */
-  background: #eef1fc;
+  background: var(--cs-trip-tint-blue);
   border: none;
   font-size: 20px;
   flex-shrink: 0;
@@ -1086,7 +1126,7 @@
   gap: 0;
   padding: 32px;
   border-radius: 16px;
-  background: #eef1fc;
+  background: var(--cs-trip-tint-blue);
 }
 
 .cs-overall-card--light {
@@ -1265,7 +1305,7 @@
   gap: 24px;
   width: 100%;
   padding: 32px;
-  background: #eef1fc;
+  background: var(--cs-trip-tint-blue);
   border-radius: 16px;
 }
 
@@ -1354,7 +1394,7 @@
   padding-bottom: 8px;
   font-family: var(--font-display);
   font-size: clamp(28px, 3.6vw, 36px);
-  font-weight: 700;
+  font-weight: 600;
   color: var(--cs-ink);
 }
 
@@ -1364,7 +1404,7 @@
   left: 0;
   bottom: 0;
   width: 100%;
-  height: 1px;
+  height: 0.5px;
   background: var(--cs-muted);
 }
 
@@ -1373,7 +1413,7 @@
 }
 
 .cs-solution-eyebrow__title {
-  font-size: clamp(28px, 3.6vw, 36px);
+  font-size: clamp(20px, 3.6vw, 28px);
   color: var(--cs-body);
 }
 
@@ -1426,7 +1466,7 @@
   margin: 0 0 64px;
   padding: 24px;
   border-radius: 16px;
-  background: #eef1fc;
+  background: var(--cs-trip-tint-blue);
 }
 
 .cs-solution1-photos img {
@@ -1465,7 +1505,7 @@
 .cs-metrics-band {
   padding: 32px 0;
   border-radius: 16px;
-  background: #eef1fc;
+  background: var(--cs-trip-tint-blue);
 }
 
 .cs-metrics-band .cs-stat-row {
@@ -1565,7 +1605,7 @@
   left: 0;
   bottom: 0;
   width: 148px;
-  height: 1px;
+  height: 0.5px;
   background: var(--cs-muted);
 }
 
@@ -1588,7 +1628,7 @@
   flex-direction: column;
   gap: 8px;
   padding: 24px;
-  background: #ffffff;
+  background: var(--cs-card-bg);
   border-radius: 12px;
   border: 1px solid var(--cs-line);
 }
@@ -1635,7 +1675,7 @@
   gap: 24px;
   width: 100%;
   padding: 32px;
-  background: #eef1fc;
+  background: var(--cs-trip-tint-blue);
   border-radius: 16px;
 }
 
@@ -1698,7 +1738,7 @@
   color: var(--cs-muted);
   text-align: center;
   z-index: 3;
-  background: #eef1fc;
+  background: var(--cs-trip-tint-blue);
   padding: 4px 8px;
   position: relative;
   white-space: nowrap;
@@ -2039,7 +2079,7 @@
 
 /* ---------- Happy flow section ---------- */
 .cs-phase1-card:has(.cs-happy-flow) {
-  background: #eef1fc;
+  background: var(--cs-trip-tint-blue);
 }
 
 .cs-happy-flow {
@@ -2136,26 +2176,25 @@
 }
 
 .cs-cta-btn--primary {
-  background: #1a1a1a;
-  color: white;
+  background: var(--ink);
+  color: var(--paper);
   border: none;
 }
 
 .cs-cta-btn--primary:hover {
-  background: #333;
-  color: white;
+  opacity: 0.85;
 }
 
 .cs-cta-btn--secondary {
   background: transparent;
-  color: #1a1a1a;
-  border: 1.5px solid #1a1a1a;
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
 }
 
 .cs-cta-btn--secondary:hover {
-  background: #1a1a1a;
-  color: white;
-  border-color: #1a1a1a;
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
 }
 
 .cs-cta-btn span {

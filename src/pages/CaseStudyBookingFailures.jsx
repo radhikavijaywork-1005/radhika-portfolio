@@ -5,6 +5,7 @@ import { bookingFailuresCaseStudy as cs } from "../data/caseStudyBookingFailures
 import { work } from "../data/content";
 import CaseStudyNav from "./CaseStudyNav";
 import { useSoundContext } from "../context/SoundContext";
+import { useTheme } from "../context/ThemeContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 import trainmanLogo from "../assets/case-study/trip-assurance/trainman-logo.svg";
@@ -13,13 +14,15 @@ import heroPhone2 from "../assets/case-study/booking-failures/hero-2.png";
 import heroPhone3 from "../assets/case-study/booking-failures/hero-3.png";
 import existingFlowGif from "../assets/case-study/booking-failures/existing-flow.gif";
 import irctcLogo from "../assets/case-study/booking-failures/irctc-logo.svg";
-import breakdownIrctcCrisFull from "../assets/case-study/booking-failures/breakdown-irctc-cris-full.jpg";
-import breakdownPendingFull from "../assets/case-study/booking-failures/breakdown-pending-full.jpg";
-import breakdownPendingStatesFull from "../assets/case-study/booking-failures/breakdown-pending-states-full.jpg";
+import breakdownExistingFlow from "../assets/case-study/booking-failures/breakdown-existing-flow.png";
+import breakdownExistingFlowDark from "../assets/case-study/booking-failures/breakdown-existing-flow-dark.png";
+import solution1BookingForm from "../assets/case-study/booking-failures/solution1-booking-form.png";
+import solution1ResetPassword from "../assets/case-study/booking-failures/solution1-reset-password.png";
+import solution1TransitionPage from "../assets/case-study/booking-failures/solution1-transition-page.png";
 import usabilityPhoto1 from "../assets/case-study/booking-failures/usability-photo-1.jpg";
 import usabilityPhoto2 from "../assets/case-study/booking-failures/usability-photo-2.jpg";
-import gapExisting from "../assets/case-study/booking-failures/gap-existing.svg";
-import gapProposed from "../assets/case-study/booking-failures/gap-proposed.svg";
+import gapExisting from "../assets/case-study/booking-failures/gap-existing.png";
+import gapProposed from "../assets/case-study/booking-failures/gap-proposed.png";
 import strategyPhoto1 from "../assets/case-study/booking-failures/strategy-photo-1.jpg";
 import strategyPhoto2 from "../assets/case-study/booking-failures/strategy-photo-2.jpg";
 import strategyPhoto3 from "../assets/case-study/booking-failures/strategy-photo-3.jpg";
@@ -30,7 +33,26 @@ import pendingConversionPendingPage from "../assets/case-study/booking-failures/
 import pendingConversionNeedHelp from "../assets/case-study/booking-failures/pending-conversion-need-help.png";
 import pendingConversionFaq from "../assets/case-study/booking-failures/pending-conversion-faq.png";
 import pendingConversionTimeout from "../assets/case-study/booking-failures/pending-conversion-timeout.png";
+import simplifyCrisCpage from "../assets/case-study/booking-failures/simplify-irctc-cris-page.png";
+import simplifyPasswordVisible from "../assets/case-study/booking-failures/simplify-irctc-password-visible.png";
+import simplifyPasswordToggle from "../assets/case-study/booking-failures/simplify-irctc-password-toggle.png";
+import simplifyCtaActive from "../assets/case-study/booking-failures/simplify-irctc-cta-active.png";
+import simplifyNeedHelpSheet from "../assets/case-study/booking-failures/simplify-need-help-sheet.png";
+import simplifyResetPassword from "../assets/case-study/booking-failures/simplify-reset-password.png";
+import simplifyChangeIrctcId from "../assets/case-study/booking-failures/simplify-change-irctc-id.png";
+import simplifyCancelBooking from "../assets/case-study/booking-failures/simplify-cancel-booking.png";
+import pendingRetryBookingSheet from "../assets/case-study/booking-failures/pending-retry-booking-sheet.png";
+import pendingNoAvailability from "../assets/case-study/booking-failures/pending-no-availability.png";
+import pendingCancelRefund from "../assets/case-study/booking-failures/pending-cancel-refund.png";
+import pendingRefundInitiated from "../assets/case-study/booking-failures/pending-refund-initiated.png";
+import pendingRefundProcessed from "../assets/case-study/booking-failures/pending-refund-processed.png";
+import pendingNoResponseIrctc from "../assets/case-study/booking-failures/pending-no-response-irctc.png";
+import pending30MinsTimeout from "../assets/case-study/booking-failures/pending-30mins-timeout.png";
+import pendingHomepage10Min from "../assets/case-study/booking-failures/pending-homepage-10min.png";
+import pendingHomepage30Min from "../assets/case-study/booking-failures/pending-homepage-30min.png";
+import pendingHomepage30MinTimeout from "../assets/case-study/booking-failures/pending-homepage-30min-timeout.png";
 import annotationHighlight from "../assets/case-study/booking-failures/annotation-highlight.svg";
+import annotationLine from "../assets/case-study/booking-failures/annotation-line.svg";
 import "./CaseStudyPaywall.css";
 import "./CaseStudyBookingFailures.css";
 
@@ -104,11 +126,58 @@ function Placeholder({ label, className = "" }) {
   return <div className={`cs-media-placeholder ${className}`}>{label}</div>;
 }
 
+// Collapsible wrapper for the "extra screens" scroll rows below each
+// solution's main annotated flow — closed by default so the page doesn't
+// front-load every variant/edge-case screen at once.
+function DesignVariantsToggle({ children }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="cs-bf-variants-toggle">
+      <button
+        type="button"
+        className={`cs-bf-variants-toggle__trigger${open ? " cs-bf-variants-toggle__trigger--open" : ""}`}
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+      >
+        <span>Check design variants and edge cases</span>
+        <svg
+          className="cs-bf-variants-toggle__icon"
+          style={{ transform: open ? "rotate(180deg)" : "rotate(0deg)" }}
+          width="16"
+          height="16"
+          viewBox="0 0 16 16"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M4 6L8 10L12 6" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+      <AnimatePresence initial={false}>
+        {open && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+            style={{ overflow: "hidden" }}
+          >
+            <div className="cs-bf-variants-toggle__content">{children}</div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 // Vertical position (% of the "Pending page" screenshot's height) of each
 // of the first 7 Pending Conversion iteration points, in the order they
 // appear top-to-bottom in the real screen: Booking ID, steps, supporting
 // text, primary CTA, secondary CTA, Need Help, FAQ.
 const pendingConversionAnnotationTops = [9, 26, 42, 53, 58, 67, 77];
+
+// Vertical position (% of the "IRCTC credential" screenshot's height) of each
+// of the 5 Simplify IRCTC Credential iteration points, matching design positions.
+const simplifyCrisisAnnotationTops = [16, 56, 73, 80, 91];
 
 // Fixed render height (px) of the annotated phone frame — matches
 // .cs-bf-happy-flow__gif's own sizing (210px wide, 230:498 aspect ratio).
@@ -137,25 +206,40 @@ function AnnotatedFlowRow({ annotatedSrc, annotatedAlt, annotations, caption, sc
 
         <div className="cs-bf-annotated-row__labels">
           {annotations.map((a, i) => (
-            <div key={i} className="cs-bf-annotated-row__label" style={{ top: `${a.top}%` }}>
-              <span className="cs-bf-annotated-row__label-dot" aria-hidden="true" />
+            <div key={i} className="cs-bf-annotated-row__label" style={{ top: `${a.top}%`, marginTop: a.offsetY ? `${a.offsetY}px` : undefined }}>
+              <img src={annotationLine} alt="" className="cs-bf-annotated-row__annotation-line" aria-hidden="true" />
               <p><Bold text={a.text} /></p>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Three plain screens in a grid row below */}
-      <div className="cs-bf-annotated-row__bottom">
-        {screens.map((s, i) => (
-          <div className="cs-bf-annotated-row__phone-wrap" key={i}>
+      {/* Three plain screens: first aligned with top, remaining two to the right */}
+      {screens.length > 0 && (
+        <div className="cs-bf-annotated-row__bottom">
+          <div className="cs-bf-annotated-row__phone-wrap">
             <div className="cs-bf-happy-flow__gif cs-bf-annotated-row__phone">
-              <img src={s.src} alt={s.alt} />
+              <img src={screens[0].src} alt={screens[0].alt} />
             </div>
-            <p className="cs-bf-annotated-row__caption">{s.caption}</p>
+            <p className="cs-bf-annotated-row__caption">{screens[0].caption}</p>
           </div>
-        ))}
-      </div>
+
+          {/* Spacing element to match top row structure */}
+          <div className="cs-bf-annotated-row__connectors" />
+
+          {/* Remaining two screens in a grid */}
+          <div className="cs-bf-annotated-row__bottom-screens">
+            {screens.slice(1).map((s, i) => (
+              <div className="cs-bf-annotated-row__phone-wrap" key={i}>
+                <div className="cs-bf-happy-flow__gif cs-bf-annotated-row__phone">
+                  <img src={s.src} alt={s.alt} />
+                </div>
+                <p className="cs-bf-annotated-row__caption">{s.caption}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -193,6 +277,7 @@ export default function CaseStudyBookingFailures() {
     () => typeof window !== "undefined" && window.matchMedia("(hover: none)").matches
   );
   const { playHover, playClick } = useSoundContext();
+  const { theme } = useTheme();
   const navigate = useNavigate();
   const { key: locationKey } = useLocation();
   const canGoBack = locationKey !== "default";
@@ -526,11 +611,9 @@ export default function CaseStudyBookingFailures() {
             </div>
 
             <h3 className="cs-h2 cs-h2--sub">Breakdown of Existing Flow</h3>
-            <div className="cs-bf-breakdown-row cs-bf-breakdown-row--full">
-              <img className="cs-bf-breakdown-img-full" src={breakdownIrctcCrisFull} alt="Annotated breakdown of the existing IRCTC CRIS page" />
-              <img className="cs-bf-breakdown-img-full" src={breakdownPendingFull} alt="Annotated breakdown of the existing pending page" />
-              <img className="cs-bf-breakdown-img-full" src={breakdownPendingStatesFull} alt="Annotated breakdown of the existing pending page 10-minute and 30-minute states" />
-            </div>
+            <Reveal as="div" className="cs-bf-breakdown-image-wrap" delay={0.04}>
+              <img src={theme === "dark" ? breakdownExistingFlowDark : breakdownExistingFlow} alt="Annotated breakdown of the existing IRCTC credential and pending page flow, highlighting design and UX issues" className="cs-bf-breakdown-image" />
+            </Reveal>
 
             <h3 className="cs-h2 cs-h2--sub">Overall Insights</h3>
             <div className="cs-insight-grid cs-insight-grid--one-row">
@@ -593,77 +676,16 @@ export default function CaseStudyBookingFailures() {
               <img src={strategyPhoto3} alt="Team collaborating on the booking flow strategy" />
             </Reveal>
 
-            <Reveal as="h2" className="cs-h2">User Flow</Reveal>
-            <Reveal as="div" className="cs-bf-user-flow" delay={0.04}>
-              <div className="cs-bf-user-flow__column">
-                <span className="cs-bf-user-flow__label">Pre payment Flow</span>
-                <div className="cs-bf-flow-row cs-bf-flow-row--wrap">
-                  {["Search Route", "Select Train and WL Class", "Add Traveller and contact details", "Make payment"].map((step, i, arr) => (
-                    <span key={step}>
-                      <span className="cs-flow-stepper__box">{step}</span>
-                      {i < arr.length - 1 && <span className="cs-bf-flow-row__arrow">→</span>}
-                    </span>
-                  ))}
-                </div>
-                <div className="cs-bf-flow-row cs-bf-flow-row--wrap" style={{ marginTop: "12px" }}>
-                  <em style={{ fontSize: "12px", color: "var(--cs-soft)", marginRight: "8px" }}>New Page</em>
-                  <span className="cs-flow-stepper__box">Transition page with next steps</span>
-                  <span className="cs-bf-flow-row__arrow">↓</span>
-                </div>
-                <div className="cs-bf-flow-row cs-bf-flow-row--wrap">
-                  <span className="cs-flow-stepper__box">Enter IRCTC credentials<br/>(password & Captcha)</span>
-                  <div className="cs-bf-timer-badge">10min timer</div>
-                </div>
-              </div>
-
-              <div className="cs-bf-user-flow__column">
-                <span className="cs-bf-user-flow__label">Detailed Flow</span>
-                <div className="cs-bf-flow-row cs-bf-flow-row--wrap" style={{ justifyContent: "center" }}>
-                  <span className="cs-flow-stepper__box">Enter IRCTC credentials<br/>(password & Captcha)</span>
-                  <div className="cs-bf-timer-badge">10min timer</div>
-                </div>
-                <div style={{ display: "flex", justifyContent: "center", gap: "16px", margin: "12px 0" }}>
-                  <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "12px", marginBottom: "4px" }}>Yes</div>
-                    <span className="cs-flow-stepper__box">Submit<br/>Credentials</span>
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <div style={{ fontSize: "12px", marginBottom: "4px" }}>No</div>
-                    <span className="cs-flow-stepper__box">Retry<br/>Booking</span>
-                  </div>
-                </div>
-                <div style={{ display: "flex", justifyContent: "center", gap: "16px", margin: "12px 0" }}>
-                  <div style={{ textAlign: "center" }}>
-                    <span className="cs-flow-stepper__box">Getting response from IRCTC</span>
-                    <div style={{ fontSize: "11px", fontStyle: "italic", color: "var(--cs-soft)", marginTop: "4px" }}>Successful</div>
-                  </div>
-                  <div style={{ textAlign: "center" }}>
-                    <span className="cs-flow-stepper__box cs-bf-flow-box--pending">Booking Pending<br/>(Continued 10min)</span>
-                    <div style={{ fontSize: "11px", fontStyle: "italic", color: "var(--cs-soft)", marginTop: "4px" }}>No response</div>
-                  </div>
-                </div>
-                <div style={{ display: "flex", justifyContent: "center", gap: "16px", margin: "12px 0" }}>
-                  <span className="cs-flow-stepper__box cs-bf-flow-box--yes">Booking Complete</span>
-                  <span className="cs-flow-stepper__box">Complete or cancel</span>
-                </div>
-                <div style={{ textAlign: "center", margin: "12px 0" }}>
-                  <div style={{ fontSize: "11px", fontStyle: "italic", color: "var(--cs-soft)", marginBottom: "8px" }}>No response<br/>automatic cancellation after 12hrs</div>
-                  <span className="cs-flow-stepper__box cs-bf-flow-box--no">Booking Cancelled<br/>(Full refund)</span>
-                </div>
-              </div>
-            </Reveal>
+            <h3 id="design-iteration" className="cs-h2 cs-h2--sub cs-h2--designs-iterations">Designs &amp; Iterations</h3>
 
             {cs.decisions.map((d, dIdx) => (
-              <div className="cs-phase" key={d.phase}>
+              <div className={`cs-phase${dIdx === cs.decisions.length - 1 ? " cs-phase--last" : ""}`} key={d.phase}>
                 <Reveal as="div" className="cs-solution-eyebrow" delay={0.02}>
                   <span className="cs-solution-eyebrow__n">{dIdx + 1}. Solution</span>
                   <span className="cs-solution-eyebrow__dot">·</span>
                   <span className="cs-solution-eyebrow__title">{d.title}</span>
                 </Reveal>
 
-                <Reveal as="h3" className="cs-solution-name" delay={0.03}>
-                  {d.solutionName}
-                </Reveal>
                 {d.pitch && (
                   <Reveal as="p" className="cs-phase__hypothesis" delay={0.04}>
                     {d.pitch}
@@ -672,18 +694,23 @@ export default function CaseStudyBookingFailures() {
 
                 {d.phase === "01" && (
                   <>
-                    <h3 id="design-iteration" className="cs-h2 cs-h2--sub cs-h2--designs-iterations">Designs &amp; Iterations</h3>
-                    <span className="cs-phase__how-label cs-phase__how-label--metric cs-userflow-label">User Flow</span>
                     <Reveal as="p" className="cs-body cs-userflow-body" delay={0.06}>
                       {d.userFlow.body}
                     </Reveal>
-                    <Placeholder label="Post-payment transition-page walkthrough — screenshot pending" />
-                    <div className="cs-bf-flow-row cs-bf-flow-row--wrap">
-                      {d.userFlow.steps.map((step, i) => (
-                        <span className="cs-flow-stepper__box" key={step}>
-                          {step}
-                          {i < d.userFlow.steps.length - 1 && <span className="cs-bf-flow-row__arrow">→</span>}
-                        </span>
+                    <div className="cs-bf-solution1-screens">
+                      {[
+                        { src: solution1BookingForm, alt: "Booking form with Reset IRCTC Password prompt", points: ["Informing users of **mandatory step** post-payment.", "Prompt to reset or get new **passwords** to avoid delays."] },
+                        { src: solution1ResetPassword, alt: "Reset IRCTC Password bottom sheet", points: ["User can easily reset password without leaving the booking flow"] },
+                        { src: solution1TransitionPage, alt: "Transition page connecting to IRCTC with progress steps", points: ["Shown completed and remaining **steps**", "Information users regarding **actions required** on the next step"] },
+                      ].map((item, i) => (
+                        <div className="cs-bf-solution1-screens__item" key={i}>
+                          <img src={item.src} alt={item.alt} className="cs-bf-solution1-screens__img" />
+                          <ul className="cs-bf-solution1-screens__points">
+                            {item.points.map((point, j) => (
+                              <li key={j}><Bold text={point} /></li>
+                            ))}
+                          </ul>
+                        </div>
                       ))}
                     </div>
                   </>
@@ -691,23 +718,44 @@ export default function CaseStudyBookingFailures() {
 
                 {d.phase === "02" && (
                   <>
-                    <span className="cs-phase__how-label cs-phase__how-label--metric">User Flow</span>
-                    <Reveal as="p" className="cs-body" delay={0.06}>
+                    <Reveal as="p" className="cs-body cs-userflow-body cs-bf-sol2-userflow-body" delay={0.06}>
                       {d.userFlow.body}
                     </Reveal>
-                    <Placeholder label="IRCTC credential submit → response decision-tree diagram — pending" />
+                    <AnnotatedFlowRow
+                      annotatedSrc={simplifyCrisCpage}
+                      annotatedAlt="IRCTC credential form with annotated callouts explaining each design decision"
+                      caption="IRCTC CRIS page"
+                      annotations={d.iterations.slice(1, 6).map((text, i) => ({ text, top: simplifyCrisisAnnotationTops[i], offsetY: i === 0 ? -32 : undefined }))}
+                      screens={[
+                        { src: simplifyPasswordVisible, alt: "Visible password field above keyboard", caption: "Visible password field above the keyboard" },
+                        { src: simplifyPasswordToggle, alt: "Option to hide or show password", caption: "Option to hide or show password" },
+                        { src: simplifyCtaActive, alt: "CTA becomes active", caption: "The CTA becomes active once both password and CAPTCHA are entered" },
+                      ]}
+                    />
+                    <DesignVariantsToggle>
+                      <div className="cs-phase1-card cs-bf-sol2-scroll-card">
+                        <div className="cs-post-booking-scroll">
+                          {[
+                            { src: simplifyNeedHelpSheet, alt: "Need Help bottom sheet with list of potential issues", caption: "If users click back, cancel, or need help, a bottom sheet will appear with a list of potential issues they might be facing." },
+                            { src: simplifyResetPassword, alt: "Reset IRCTC Password bottom sheet", caption: "User can easily reset password without leaving the page" },
+                            { src: simplifyChangeIrctcId, alt: "Change IRCTC ID bottom sheet", caption: "User can easily change IRCTC ID without leaving the page" },
+                            { src: simplifyCancelBooking, alt: "Cancel Booking confirmation pop-up", caption: "Confirmation pop-up on clicking cancellation to ensure their willingness." },
+                          ].map((item, i) => (
+                            <div className="cs-post-booking-item" key={i}>
+                              <img src={item.src} alt={item.alt} className="cs-post-booking-screen" />
+                              <div className="cs-post-booking-caption">
+                                <p className="cs-post-booking-caption__desc">{item.caption}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </DesignVariantsToggle>
                   </>
-                )}
-
-                {d.phase === "03" && (
-                  <Reveal as="p" className="cs-body" delay={0.04}>
-                    {d.pitch}
-                  </Reveal>
                 )}
 
                 {d.phase === "03" ? (
                   <>
-                    <h4 className="cs-key-results-heading" style={{ fontSize: 24, marginTop: 32 }}>Before / after screens</h4>
                     <AnnotatedFlowRow
                       annotatedSrc={pendingConversionPendingPage}
                       annotatedAlt="Pending page with annotated callouts explaining each design decision"
@@ -719,26 +767,33 @@ export default function CaseStudyBookingFailures() {
                         { src: pendingConversionTimeout, alt: "Session timed out state after the 10-minute window", caption: "10mins time gets over" },
                       ]}
                     />
-                    <h4 className="cs-key-results-heading" style={{ fontSize: 24 }}>Iterations</h4>
-                    <ul className="cs-branch-list cs-branch-list--loose">
-                      {d.iterations.slice(7).map((it, i) => (
-                        <li key={i}><Bold text={it} /></li>
-                      ))}
-                    </ul>
+                    <DesignVariantsToggle>
+                      <div className="cs-phase1-card cs-bf-sol2-scroll-card">
+                        <div className="cs-post-booking-scroll">
+                          {[
+                            { src: pendingRetryBookingSheet, alt: "Retry booking bottom sheet with updated availability", caption: cs.happyFlowScreens.postSolution2[0] },
+                            { src: pendingNoAvailability, alt: "No availability state", caption: cs.happyFlowScreens.postSolution2[1] },
+                            { src: pendingCancelRefund, alt: "Cancel and get full refund clicked", caption: cs.happyFlowScreens.postSolution2[2] },
+                            { src: pendingRefundInitiated, alt: "Booking cancelled and refund initiated", caption: cs.happyFlowScreens.postSolution2[3] },
+                            { src: pendingRefundProcessed, alt: "Booking cancelled and refund processed with breakup", caption: cs.happyFlowScreens.postSolution2[4] },
+                            { src: pendingNoResponseIrctc, alt: "No response from IRCTC", caption: cs.happyFlowScreens.postSolution2[5] },
+                            { src: pending30MinsTimeout, alt: "30 minutes time gets over", caption: cs.happyFlowScreens.postSolution2[6] },
+                            { src: pendingHomepage10Min, alt: "Homepage prompt at 10 minutes", caption: cs.happyFlowScreens.postSolution2[7] },
+                            { src: pendingHomepage30Min, alt: "Homepage prompt at 30 minutes", caption: cs.happyFlowScreens.postSolution2[8] },
+                            { src: pendingHomepage30MinTimeout, alt: "Homepage prompt at 30 minutes timeout", caption: cs.happyFlowScreens.postSolution2[9] },
+                          ].map((item, i) => (
+                            <div className="cs-post-booking-item" key={i}>
+                              <img src={item.src} alt={item.alt} className="cs-post-booking-screen" />
+                              <div className="cs-post-booking-caption">
+                                <p className="cs-post-booking-caption__desc">{item.caption}</p>
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </DesignVariantsToggle>
                   </>
-                ) : (
-                  <>
-                    <h4 className="cs-key-results-heading" style={{ fontSize: 24, marginTop: 32 }}>Before / after screens</h4>
-                    <Placeholder label={`${d.solutionName} — before/after screens pending`} />
-
-                    <h4 className="cs-key-results-heading" style={{ fontSize: 24 }}>Iterations</h4>
-                    <ul className="cs-branch-list cs-branch-list--loose">
-                      {d.iterations.map((it, i) => (
-                        <li key={i}><Bold text={it} /></li>
-                      ))}
-                    </ul>
-                  </>
-                )}
+                ) : null}
 
                 {d.phase === "02" && (
                   <Reveal as="div" className="cs-bf-happy-flow-band" delay={0.04}>
@@ -772,12 +827,11 @@ export default function CaseStudyBookingFailures() {
               </div>
             ))}
 
-            <h3 className="cs-h2 cs-h2--sub">Usability Test</h3>
+            <h3 className="cs-key-results-heading">Usability Test</h3>
             <Reveal as="div" className="cs-usability-row__text" delay={0.04}>
               <ul className="cs-pointer-list">
                 {cs.usability.findings.map((finding, i) => (
                   <li key={i}>
-                    <span className="cs-pointer-list__mark" aria-hidden="true">👉🏻</span>
                     <Bold text={finding} />
                   </li>
                 ))}
@@ -834,7 +888,7 @@ export default function CaseStudyBookingFailures() {
             </div>
 
             <h3 className="cs-h2 cs-h2--sub">User's Feedback</h3>
-            <p className="cs-caption" style={{ marginTop: "-8px", marginBottom: "16px", textAlign: "left" }}>Real reviews from the Play Store, post-launch</p>
+            <p className="cs-caption" style={{ marginTop: "0", marginBottom: "16px", textAlign: "left" }}>Real reviews from the Play Store, post-launch</p>
             <Reveal as="div" className="cs-bf-review-strip" delay={0.1}>
               <div className="cs-bf-review-strip__track">
                 {[0, 1].map((rep) => (

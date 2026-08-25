@@ -1046,7 +1046,9 @@ export default function CaseStudyTripAssurance() {
                 <Reveal as="div" className="cs-overall-card" key={s.label} delay={i * 0.08}>
                   <div className="cs-overall-card__value-row">
                     <span className="cs-overall-card__value">{s.value}</span>
-                    <span className={`cs-overall-card__trend cs-overall-card__trend--${s.trend}`}>↗</span>
+                    {s.trend && (
+                      <span className={`cs-overall-card__trend cs-overall-card__trend--${s.trend}`}>↗</span>
+                    )}
                   </div>
                   <span className="cs-overall-card__label">{s.label}</span>
                   <p className="cs-overall-card__body">{s.body}</p>

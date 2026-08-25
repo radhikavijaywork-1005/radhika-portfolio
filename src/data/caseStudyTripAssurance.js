@@ -378,7 +378,7 @@ export const tripAssuranceCaseStudy = {
 
   overallImpact: [
     { value: "~28%", trend: "up", label: "Opt-in rate", body: "Trip Assurance was live on only 1,000 limited trains, and we still achieved higher conversion, meeting the user need." },
-    { value: "~96%", trend: "up", label: "Confirmed Journey Rate", body: "Our prediction model achieved 98% accuracy, alongside seamless tracking and flight booking, increasing confirmed journeys significantly." },
+    { value: "~96%", label: "Confirmed Journey Rate", body: "Our prediction model achieved 98% accuracy, alongside seamless tracking and flight booking, increasing confirmed journeys significantly." },
     { value: "~30%", trend: "up", label: "Average transactional value", body: "Our strategic pricing and the added value of Trip Assurance encouraged higher adoption, reflecting user willingness to pay for certainty." },
   ],
   overallImpactNote: "We rolled out these MVP solutions initially for **1,000 trains**, covering **GNWL clusters and 3AC, 2AC, and 1AC classes**, within 3 months and here are the impactful results we achieved.",
@@ -412,17 +412,17 @@ export const tripAssuranceCaseStudy = {
 
   challenges: [
     {
-      n: "01",
+      n: "1",
       title: "Firsthand user insights from field research",
       body: "Conducting **surveys** and **interviews** with users provided firsthand insights into their pain points. These shaped the **design process**, helping me create user-friendly solutions while empathizing with **users' real-world challenges**.",
     },
     {
-      n: "02",
+      n: "2",
       title: "Lack of PRD & time constraints",
       body: "Delivering the MVP **without a formal PRD** required quick decisions and **several iterations** under **tight deadlines**. This taught me to balance speed with UX logic, prioritize user needs, and still **meet business goals** with limited resources.",
     },
     {
-      n: "03",
+      n: "3",
       title: "Manual processes",
       body: "We faced **significant tech constraints** and had to **rely on manual processes** to manage bookings. These limitations taught us the **importance of early-stage technical feasibility assessments** and the need for automated solutions in future versions.",
     },

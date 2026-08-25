@@ -213,7 +213,7 @@ export const bookingFailuresCaseStudy = {
       title: "Simplify IRCTC Credential",
       solutionName: "Simplify IRCTC Credential",
       userFlow: {
-        body: "Submit Credentials feeds into a decision tree that waits for a response from IRCTC — Complete, Retry Booking, or Session timeout — each with its own recovery path back to a confirmed or cancelled booking.",
+        body: "Submit Credentials feeds into a decision tree that waits for a response from IRCTC: Complete, Retry Booking, or Session timeout, each with its own recovery path back to a confirmed or cancelled booking.",
       },
       iterations: [
         "User can easily reset password without leaving the booking flow",
@@ -275,19 +275,19 @@ export const bookingFailuresCaseStudy = {
 
   overallImpact: [
     { value: "~57%", trend: "down", label: "Failure rate", body: "Failure rates dropped from **14% to 6%** by streamlining the IRCTC credential process and providing clear guidance." },
-    { value: "~87%", trend: null, label: "Booking conversion from pending page", body: "**Clear CTAs** and step-by-step **guidance** enabled users to navigate the booking flow seamlessly, ensuring successful ticket bookings." },
+    { value: "~87%", trend: null, label: "Booking conversion", body: "**Clear CTAs** and step-by-step **guidance** enabled users to navigate the booking flow seamlessly, ensuring successful ticket bookings." },
     { value: "~68%", trend: "down", label: "Pending page queries", body: "Strategic placement of **'Contact Us' links** and guided booking flow reduced CX calls significantly." },
   ],
   overallImpactNote: "We went live with these updates on APP (Android & iOS) first, and here are the impactful results we achieved.",
 
   challenges: [
     {
-      n: "01",
+      n: "1",
       title: "Tech Constraints & Collaborative Problem-Solving",
       body: "IRCTC’s platform limitations were a significant challenge. We **collaborated closely with developers** to understand each constraint and explore possible **workarounds**, finding ways to optimise the experience within these limits.",
     },
     {
-      n: "02",
+      n: "2",
       title: "User Handholding Across the Booking Flow",
       body: "Guiding users through each step of the booking flow was crucial, and each step needed its own approach. Using **cognitive load reduction,** progressive disclosure, and nudges, I minimised confusion and anxiety — clear instructions and progress indicators kept users **feeling supported** throughout.",
     },
