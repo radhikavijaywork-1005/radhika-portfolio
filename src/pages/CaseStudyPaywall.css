@@ -701,6 +701,15 @@
   width: 280px;
 }
 
+/* Scoped to .cs-paywall (not the shared rule above, which
+   CaseStudyTripAssurance.jsx also uses) — matches the 240px max-width
+   the Phase 1/2/3 mockups use in .cs-hero-phone up top, so the Future
+   Scope mockup reads as the same "phone" size as the rest of this case
+   study instead of noticeably larger. */
+.cs-paywall .cs-future-img-wrap {
+  width: 240px;
+}
+
 .cs-future-img__highlight {
   position: absolute;
   top: -14px;
@@ -1691,6 +1700,11 @@
   font-weight: 600;
   font-size: 13px;
   color: var(--cs-ink);
+  /* .cs-future-list__item has gap: 0 (shared with the icon variant, which
+     gets its own spacing via margin instead) — without this the number
+     badge sat flush against the text with zero breathing room. Matches
+     the icon variant's margin-right: 14px in CaseStudyTripAssurance.css. */
+  margin-right: 14px;
 }
 
 .cs-future-list__item strong {
