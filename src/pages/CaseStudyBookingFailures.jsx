@@ -18,11 +18,12 @@ import breakdownPendingFull from "../assets/case-study/booking-failures/breakdow
 import breakdownPendingStatesFull from "../assets/case-study/booking-failures/breakdown-pending-states-full.jpg";
 import usabilityPhoto1 from "../assets/case-study/booking-failures/usability-photo-1.jpg";
 import usabilityPhoto2 from "../assets/case-study/booking-failures/usability-photo-2.jpg";
-import gapExisting from "../assets/case-study/booking-failures/gap-existing.jpg";
-import gapProposed from "../assets/case-study/booking-failures/gap-proposed.jpg";
+import gapExisting from "../assets/case-study/booking-failures/gap-existing.svg";
+import gapProposed from "../assets/case-study/booking-failures/gap-proposed.svg";
 import strategyPhoto1 from "../assets/case-study/booking-failures/strategy-photo-1.jpg";
 import strategyPhoto2 from "../assets/case-study/booking-failures/strategy-photo-2.jpg";
 import strategyPhoto3 from "../assets/case-study/booking-failures/strategy-photo-3.jpg";
+import happyFlowGif from "../assets/case-study/booking-failures/happy-flow.gif";
 import "./CaseStudyPaywall.css";
 import "./CaseStudyBookingFailures.css";
 
@@ -447,13 +448,15 @@ export default function CaseStudyBookingFailures() {
             </div>
 
             <h3 className="cs-h2 cs-h2--sub cs-bf-irctc-heading">
+              Technical Challenges with
               <img className="cs-bf-irctc-heading__logo" src={irctcLogo} alt="" aria-hidden="true" />
-              Technical Challenges with IRCTC
+              IRCTC
             </h3>
             <div className="cs-overview-facts cs-overview-facts--two">
               {cs.technicalChallenges.map((c, i) => (
                 <Reveal as="div" className="cs-overview-fact" key={c.title} delay={i * 0.05}>
-                  <h4 className="cs-overview-fact__title">👉🏻 {c.title}</h4>
+                  <span className="cs-overview-fact__icon">{c.icon}</span>
+                  <h4 className="cs-overview-fact__title">{c.title}</h4>
                   <p className="cs-overview-fact__body">{c.body}</p>
                 </Reveal>
               ))}
