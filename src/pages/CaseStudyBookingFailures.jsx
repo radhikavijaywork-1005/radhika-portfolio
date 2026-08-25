@@ -457,7 +457,7 @@ export default function CaseStudyBookingFailures() {
                 <Reveal as="div" className="cs-overview-fact" key={c.title} delay={i * 0.05}>
                   <span className="cs-overview-fact__icon">{c.icon}</span>
                   <h4 className="cs-overview-fact__title">{c.title}</h4>
-                  <p className="cs-overview-fact__body">{c.body}</p>
+                  <p className="cs-overview-fact__body"><Bold text={c.body} /></p>
                 </Reveal>
               ))}
             </div>
@@ -582,8 +582,17 @@ export default function CaseStudyBookingFailures() {
               </div>
             ))}
 
-            <h3 className="cs-h2 cs-h2--sub">Happy Flow</h3>
-            <Placeholder label="Happy-flow GIFs across all three solutions — pending" />
+            <Reveal as="div" className="cs-bf-happy-flow-band" delay={0.04}>
+              <div className="cs-bf-happy-flow-content">
+                <h3 className="cs-h2 cs-h2--sub">Happy Flow</h3>
+              </div>
+              <div className="cs-bf-happy-flow-media">
+                <div className="cs-bf-phone-mockup">
+                  <img src={happyFlowGif} alt="Happy flow walkthrough" />
+                </div>
+                <p className="cs-bf-happy-flow-caption">GIF showing happy flow</p>
+              </div>
+            </Reveal>
 
             <h3 className="cs-h2 cs-h2--sub">Usability Test</h3>
             <Reveal as="div" className="cs-usability-row__text" delay={0.04}>

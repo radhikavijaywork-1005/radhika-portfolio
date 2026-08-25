@@ -498,6 +498,80 @@
   background: #fef9e7;
 }
 
+.cs-bf-gap-img {
+  display: block;
+  width: 100%;
+}
+
+.cs-bf-gap-img svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cs-bf-gap-img svg path,
+.cs-bf-gap-img svg rect,
+.cs-bf-gap-img svg circle {
+  stroke: none !important;
+}
+
+/* ---------- Happy Flow section (light background band with GIF on right) ---------- */
+.cs-bf-happy-flow-band {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  margin: 48px 0;
+  padding: 48px;
+  background: #f0ebff;
+  border-radius: 24px;
+}
+
+.cs-bf-happy-flow-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cs-bf-happy-flow-media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.cs-bf-phone-mockup {
+  width: 100%;
+  max-width: 280px;
+  aspect-ratio: 264 / 540;
+  border-radius: 32px;
+  overflow: hidden;
+  background: #000;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.cs-bf-phone-mockup img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.cs-bf-happy-flow-caption {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 14px;
+  color: var(--cs-soft);
+  text-align: center;
+}
+
+@media (max-width: 900px) {
+  .cs-bf-happy-flow-band {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
 @media (max-width: 720px) {
   .cs-bf-gap-band {
     grid-template-columns: 1fr;
@@ -611,6 +685,19 @@
 
 .cs-overview-facts--two {
   grid-template-columns: repeat(2, 1fr);
+}
+
+/* Matches the source design's soft highlighter-marker treatment behind
+   key phrases in the Technical Challenges cards — box-decoration-break
+   keeps the highlight as separate per-line rectangles when a bold span
+   wraps across lines, instead of one rectangle spanning the gap. */
+.cs-overview-facts--two .cs-overview-fact__body strong {
+  font-weight: 700;
+  background: rgba(250, 226, 173, 0.45);
+  padding: 1px 3px;
+  border-radius: 3px;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
 }
 
 

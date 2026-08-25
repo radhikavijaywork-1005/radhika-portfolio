@@ -122,22 +122,22 @@ export const bookingFailuresCaseStudy = {
     {
       icon: "🔗",
       title: "Handled by IRCTC",
-      body: "The credential flow (ID+Password+CAPTCHA) is managed externally by IRCTC, limiting Trainman’s ability to customize and optimize the user experience.",
+      body: "The **credential flow** (ID+Password+CAPTCHA) is **managed** externally by **IRCTC,** limiting Trainman’s ability to customize and optimize the user experience.",
     },
     {
       icon: "🔑",
       title: "Password Provided by IRCTC",
-      body: "Users get their password or a new ID from IRCTC, causing distractions in the booking flow and increasing abandonment due to forgotten or delayed credentials.",
+      body: "Users get their **password or a new ID from IRCTC**, causing distractions in the booking flow and **increasing abandonment** due to forgotten or delayed credentials.",
     },
     {
       icon: "🙈",
       title: "Hidden Password Field",
-      body: "The small input fields for IRCTC ID, password (hidden), and CAPTCHA make it difficult for users to enter information accurately, especially on mobile devices, leading to errors.",
+      body: "The **small input fields** for IRCTC ID, **password (hidden)**, and CAPTCHA make it difficult for users to enter information accurately, especially on mobile devices, leading to errors.",
     },
     {
       icon: "⏳",
       title: "Time-Based Expiration",
-      body: "IRCTC’s session time is limited, and the user may lose their session if the process takes too long (e.g., forgetting credentials, errors in entering captcha), leading to session expiry and forcing users to restart the process.",
+      body: "IRCTC’s **session time is limited,** and the user may lose their session if the process takes too long (e.g., forgetting credentials, errors in entering captcha), leading to **session expiry** and forcing users to **restart the process.**",
     },
   ],
 
