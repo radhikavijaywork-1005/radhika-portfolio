@@ -85,8 +85,8 @@ export const bookingFailuresCaseStudy = {
   },
 
   basicBookingFlow: {
-    steps: ["Search Route", "Select Train and WL Class", "Add Traveller and contact details", "Make payment"],
-    postPayment: ["Enter IRCTC credentials (password & Captcha)"],
+    steps: ["Search Route", "Select Train and WL Class", "Add Traveller and contact details"],
+    postPayment: ["Make payment", "Enter IRCTC credentials (password & Captcha)"],
     branch: { yes: "Booking Complete", no: "Booking Pending" },
   },
 

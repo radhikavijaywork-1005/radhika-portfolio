@@ -303,14 +303,17 @@ export default function CaseStudyBookingFailures() {
             <Reveal as="div" className="cs-bf-flow-section" delay={0.05}>
               <div className="cs-bf-flow-diagram">
                 <span className="cs-bf-flow-bracket-label">Pre payment Flow</span>
-                {/* Serpentine grid: row 1 reads left-to-right through the 4
+                {/* Serpentine grid: row 1 reads left-to-right through the
                     pre-payment steps, a down arrow drops from the last box
                     into row 3 directly below it (row 2 is just the arrow),
-                    then row 3 reads right-to-left back to the credentials
-                    box, which branches: Yes goes further left to Booking
-                    Complete, No drops down to Booking Pending. Every box
-                    and arrow shares one grid so columns line up exactly,
-                    same technique as the Trip Assurance WL flow stepper. */}
+                    then row 3 reads right-to-left through the post-payment
+                    chain (Make payment, then credentials), which branches:
+                    Yes continues left to Booking Complete (landing in the
+                    same column as "Search Route"), No drops down from the
+                    credentials box to Booking Pending. Row 3 reuses exactly
+                    the columns row 1 occupies so nothing is left blank —
+                    every box and arrow shares one grid, same technique as
+                    the Trip Assurance WL flow stepper. */}
                 <div className="cs-bf-flow-grid">
                   {cs.basicBookingFlow.steps.map((step, i) => (
                     <Fragment key={step}>
@@ -325,46 +328,66 @@ export default function CaseStudyBookingFailures() {
                     </Fragment>
                   ))}
 
-                  <span
-                    className="cs-bf-flow-grid__arrow"
-                    style={{ gridRow: 2, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) + 1 }}
-                  >
-                    <FlowArrow direction="down" />
-                  </span>
+                  {(() => {
+                    const lastStepCol = 2 * (cs.basicBookingFlow.steps.length - 1) + 1;
+                    const credCol = lastStepCol - 2 * (cs.basicBookingFlow.postPayment.length - 1);
+                    const yesArrowCol = credCol - 1;
+                    const yesBoxCol = credCol - 2;
+                    return (
+                      <>
+                        <span className="cs-bf-flow-grid__arrow" style={{ gridRow: 2, gridColumn: lastStepCol }}>
+                          <FlowArrow direction="down" />
+                        </span>
 
-                  <span
-                    className="cs-flow-stepper__box cs-bf-flow-cred-box"
-                    style={{ gridRow: 3, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) + 1 }}
-                  >
-                    {cs.basicBookingFlow.postPayment[0]}
-                  </span>
-                  <span
-                    className="cs-bf-flow-grid__arrow cs-bf-flow-grid__arrow--labeled"
-                    style={{ gridRow: 3, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) }}
-                  >
-                    <FlowArrow direction="left" />
-                    <em>Yes</em>
-                  </span>
-                  <span
-                    className="cs-flow-stepper__box cs-bf-flow-box--yes"
-                    style={{ gridRow: 3, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) - 1 }}
-                  >
-                    {cs.basicBookingFlow.branch.yes}
-                  </span>
+                        {cs.basicBookingFlow.postPayment.map((item, i) => (
+                          <Fragment key={item}>
+                            <span
+                              className="cs-flow-stepper__box cs-bf-flow-cred-box"
+                              style={{ gridRow: 3, gridColumn: lastStepCol - 2 * i }}
+                            >
+                              {item}
+                            </span>
+                            {i < cs.basicBookingFlow.postPayment.length - 1 && (
+                              <span
+                                className="cs-bf-flow-grid__arrow"
+                                style={{ gridRow: 3, gridColumn: lastStepCol - 2 * i - 1 }}
+                              >
+                                <FlowArrow direction="left" />
+                              </span>
+                            )}
+                          </Fragment>
+                        ))}
 
-                  <span
-                    className="cs-bf-flow-grid__arrow cs-bf-flow-grid__arrow--labeled cs-bf-flow-grid__arrow--vertical"
-                    style={{ gridRow: 4, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) + 1 }}
-                  >
-                    <FlowArrow direction="down" />
-                    <em>No</em>
-                  </span>
-                  <span
-                    className="cs-flow-stepper__box cs-bf-flow-box--no"
-                    style={{ gridRow: 5, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) + 1 }}
-                  >
-                    {cs.basicBookingFlow.branch.no}
-                  </span>
+                        <span
+                          className="cs-bf-flow-grid__arrow cs-bf-flow-grid__arrow--labeled"
+                          style={{ gridRow: 3, gridColumn: yesArrowCol }}
+                        >
+                          <FlowArrow direction="left" />
+                          <em>Yes</em>
+                        </span>
+                        <span
+                          className="cs-flow-stepper__box cs-bf-flow-box--yes"
+                          style={{ gridRow: 3, gridColumn: yesBoxCol }}
+                        >
+                          {cs.basicBookingFlow.branch.yes}
+                        </span>
+
+                        <span
+                          className="cs-bf-flow-grid__arrow cs-bf-flow-grid__arrow--labeled cs-bf-flow-grid__arrow--vertical"
+                          style={{ gridRow: 4, gridColumn: credCol }}
+                        >
+                          <FlowArrow direction="down" />
+                          <em>No</em>
+                        </span>
+                        <span
+                          className="cs-flow-stepper__box cs-bf-flow-box--no"
+                          style={{ gridRow: 5, gridColumn: credCol }}
+                        >
+                          {cs.basicBookingFlow.branch.no}
+                        </span>
+                      </>
+                    );
+                  })()}
                 </div>
               </div>
               <div className="cs-bf-flow-media">
