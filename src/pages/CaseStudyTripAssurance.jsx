@@ -9,6 +9,7 @@ import { useSoundContext } from "../context/SoundContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 import trainmanLogo from "../assets/case-study/trip-assurance/trainman-logo.svg";
+import adaniLogo from "../assets/site/adani-icon.png";
 import heroHomepage from "../assets/case-study/trip-assurance/hero-homepage.png";
 import heroSrp from "../assets/case-study/trip-assurance/hero-srp.png";
 import heroBookingForm from "../assets/case-study/trip-assurance/hero-booking-form.png";
@@ -356,7 +357,7 @@ export default function CaseStudyTripAssurance() {
 
           <Reveal as="div" className="cs-company">
             <div className="cs-company__lockup">
-              <img className="cs-company__logo cs-company__logo--icon" src={trainmanLogo} alt="" aria-hidden="true" />
+              <img className="cs-company__logo" src={adaniLogo} alt="" aria-hidden="true" />
               <span className="cs-company__name">
                 {cs.company}
                 <span className="cs-company__tag"> {cs.companyTag}</span>

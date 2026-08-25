@@ -1,6 +1,6 @@
 export const tripAssuranceCaseStudy = {
-  company: "Trainman",
-  companyTag: "(Acquired by Adani Digital Labs)",
+  company: "Adani One",
+  companyTag: "",
   title: "Reducing Waitlist Uncertainty with Trip Assurance",
   subheadPre: "A guaranteed-travel safety net for waitlisted train tickets that reached ",
   subheadStrong: "~28% opt-in",
