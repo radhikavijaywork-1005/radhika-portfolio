@@ -12,7 +12,7 @@
 .cs-trip {
   --maroon: #1c74a8;
   --maroon-rgb: 28, 116, 168;
-  --cs-trip-tint-blue: #dde2f7;
+  --cs-trip-tint-blue: #f0f3ff;
 }
 
 .dark .cs-trip {
@@ -2221,6 +2221,20 @@
     right: auto;
     left: 50%;
     transform: translateX(-50%);
+  }
+}
+
+/* Hero subhead reads as one flowing line, matching the reference —
+   the shared 62ch cap (CaseStudyPaywall.css) wraps this specific
+   sentence to two lines at the content column's ~940px width. */
+.cs-trip .cs-subhead {
+  max-width: none;
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .cs-trip .cs-subhead {
+    white-space: normal;
   }
 }
 
