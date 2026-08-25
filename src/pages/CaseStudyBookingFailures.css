@@ -1273,7 +1273,7 @@
   align-items: center;
   gap: 10px;
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: 999px;
   font-weight: 600;
   font-size: 14px;
   text-decoration: none;
@@ -1300,7 +1300,7 @@
 .cs-cta-btn--secondary {
   background: transparent;
   color: var(--ink);
-  border: 1.5px solid var(--ink);
+  border: 1px solid var(--ink);
 }
 
 .cs-cta-btn--secondary:hover {
@@ -1312,6 +1312,14 @@
 .cs-cta-btn span {
   font-size: 16px;
   line-height: 1;
+}
+
+.cs-cta-play-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: currentColor;
 }
 
 /* Subhead in one line — the shared .cs-subhead caps at 62ch, which wraps
@@ -1414,8 +1422,6 @@
 }
 
 .cs-bf .cs-overall-card__value {
-  font-family: var(--font-body);
-  font-weight: 700;
   color: var(--ink-on-dark);
 }
 

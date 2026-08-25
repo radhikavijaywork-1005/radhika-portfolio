@@ -1,6 +1,6 @@
 export const bookingFailuresCaseStudy = {
   company: "Trainman",
-  companyTag: "(Wholly owned subsidiary of Adani Digital Labs)",
+  companyTag: "(Acquired by Adani Digital Labs)",
   title: "Reducing Booking Failures: Post Payment Flow",
   subheadPre: "Simplifying the mandatory IRCTC credential step after payment to cut booking failures by ",
   subheadStrong: "~57%",

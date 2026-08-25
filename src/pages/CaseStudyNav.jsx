@@ -7,7 +7,6 @@ const defaultSections = [
   { id: "design-work", label: "Design work" },
   { id: "research", label: "Research" },
   { id: "decisions", label: "Decisions" },
-  { id: "design-iteration", label: "Design & Iteration" },
   { id: "impact", label: "Impact" },
   { id: "reflection", label: "Reflection" },
 ];

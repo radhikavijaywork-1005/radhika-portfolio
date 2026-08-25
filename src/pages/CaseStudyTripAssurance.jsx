@@ -1,4 +1,4 @@
-import { useState, useRef, Fragment } from "react";
+import { useState, useRef, useEffect, Fragment } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { tripAssuranceCaseStudy as cs } from "../data/caseStudyTripAssurance";
@@ -167,6 +167,79 @@ function Reveal({ as = "div", className, children, delay = 0, ...rest }) {
   );
 }
 
+// Counts up from 0 to the numeric part of a stat string (e.g. "~28%") once
+// scrolled into view, keeping any non-numeric prefix/suffix (~, %, etc.)
+// static — only the digits animate.
+function CountUpValue({ value, trend }) {
+  const match = value.match(/^(\D*)(\d+(?:\.\d+)?)(\D*)$/);
+  const ref = useRef(null);
+  const [display, setDisplay] = useState(match ? parseFloat(match[2]) : null);
+
+  // Intentionally its own IntersectionObserver rather than the shared
+  // useRevealOnScroll hook — that hook fires once and never again by
+  // design (matches every fade-up on the site), but this count-up should
+  // replay every time the card scrolls back into view.
+  useEffect(() => {
+    if (!match) return;
+    const el = ref.current;
+    if (!el) return;
+    const target = parseFloat(match[2]);
+    const decimals = match[2].includes(".") ? 1 : 0;
+    let raf;
+
+    const animate = () => {
+      // Random plausible starting point instead of 0, re-rolled on every
+      // replay — direction follows the trend arrow: "down" (metric
+      // decreased) starts above target and counts down, "up"/none starts
+      // below target and counts up. Echoes the arrow rather than always
+      // building from zero.
+      const startValue = trend === "down"
+        ? target * (1.3 + Math.random() * 0.5)
+        : Math.max(target * (0.35 + Math.random() * 0.35), 0);
+      const duration = 1800;
+      let start;
+      const step = (ts) => {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        // Ease-in-out cubic: quart/cubic ease-out front-loads the climb so
+        // low digits fly past in the first few frames and only the last
+        // digit looks like it's ticking — this spreads the count evenly
+        // across the whole duration so every digit visibly animates.
+        const eased = progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        setDisplay(startValue + (target - startValue) * eased);
+        if (progress < 1) raf = requestAnimationFrame(step);
+        else setDisplay(target);
+      };
+      raf = requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        cancelAnimationFrame(raf);
+        if (entry.isIntersecting) animate();
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [match?.[2], trend]);
+
+  if (!match) return <span ref={ref}>{value}</span>;
+  const decimals = match[2].includes(".") ? 1 : 0;
+  return (
+    <span ref={ref}>
+      {match[1]}
+      {display.toFixed(decimals)}
+      {match[3]}
+    </span>
+  );
+}
+
 function Bold({ text }) {
   return (
     <span>
@@ -303,8 +376,12 @@ export default function CaseStudyTripAssurance() {
 
           <Reveal as="div" className="cs-cta-group" delay={0.12}>
             <a href="https://www.figma.com/proto/9jxcUHpEVLdB8Av1qfpEXc/Radhika_Portfolio?page-id=161%3A1537&node-id=850-11893&viewport=435%2C403%2C0.02&t=aH7m7jaEBVjnhPb5-1&scaling=scale-down&content-scaling=fixed" target="_blank" rel="noopener noreferrer" className="cs-cta-btn cs-cta-btn--secondary">
-              <span>▶</span>
-              View Presentation
+              <span className="cs-cta-play-icon" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 10 10" fill="none">
+                  <path d="M2.5 1.2v7.6a.6.6 0 0 0 .93.5l6-3.8a.6.6 0 0 0 0-1l-6-3.8a.6.6 0 0 0-.93.5z" fill="currentColor" strokeLinejoin="round" />
+                </svg>
+              </span>
+              Presentation Mode
             </a>
           </Reveal>
 
@@ -1045,7 +1122,7 @@ export default function CaseStudyTripAssurance() {
               {cs.overallImpact.map((s, i) => (
                 <Reveal as="div" className="cs-overall-card" key={s.label} delay={i * 0.08}>
                   <div className="cs-overall-card__value-row">
-                    <span className="cs-overall-card__value">{s.value}</span>
+                    <span className="cs-overall-card__value"><CountUpValue value={s.value} trend={s.trend} /></span>
                     {s.trend && (
                       <span className={`cs-overall-card__trend cs-overall-card__trend--${s.trend}`}>↗</span>
                     )}

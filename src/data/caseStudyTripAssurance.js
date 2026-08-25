@@ -37,7 +37,7 @@ export const tripAssuranceCaseStudy = {
     },
     {
       label: "Timeline",
-      primary: "Year 2022",
+      primary: "Year 2023",
       detail: "3 months · MVP to launch",
     },
   ],

@@ -2161,7 +2161,7 @@
   align-items: center;
   gap: 10px;
   padding: 12px 24px;
-  border-radius: 8px;
+  border-radius: 999px;
   font-weight: 600;
   font-size: 14px;
   text-decoration: none;
@@ -2188,7 +2188,7 @@
 .cs-cta-btn--secondary {
   background: transparent;
   color: var(--ink);
-  border: 1.5px solid var(--ink);
+  border: 1px solid var(--ink);
 }
 
 .cs-cta-btn--secondary:hover {
@@ -2200,6 +2200,14 @@
 .cs-cta-btn span {
   font-size: 16px;
   line-height: 1;
+}
+
+.cs-cta-play-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: currentColor;
 }
 
 /* ---------- Overall Impact cards: same layout as CaseStudyPaywall's

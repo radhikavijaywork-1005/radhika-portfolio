@@ -1,4 +1,4 @@
-import { useState, useRef, useLayoutEffect } from "react";
+import { useState, useRef, useEffect, useLayoutEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { bookingFailuresCaseStudy as cs } from "../data/caseStudyBookingFailures";
@@ -111,6 +111,71 @@ function FlowArrow({ direction = "right", className = "" }) {
       <path d="M2 8H13.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
       <path d="M9 4L13.5 8L9 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
+  );
+}
+
+// Counts up from 0 to the numeric part of a stat string (e.g. "~57%") once
+// scrolled into view, keeping any non-numeric prefix/suffix (~, %, etc.)
+// static — only the digits animate. Replays every time the card scrolls
+// back into view (its own IntersectionObserver, not the shared
+// useRevealOnScroll hook, which fires once and never again by design).
+function CountUpValue({ value, trend }) {
+  const match = value.match(/^(\D*)(\d+(?:\.\d+)?)(\D*)$/);
+  const ref = useRef(null);
+  const [display, setDisplay] = useState(match ? parseFloat(match[2]) : null);
+
+  useEffect(() => {
+    if (!match) return;
+    const el = ref.current;
+    if (!el) return;
+    const target = parseFloat(match[2]);
+    const decimals = match[2].includes(".") ? 1 : 0;
+    let raf;
+
+    const animate = () => {
+      // Random plausible starting point, re-rolled on every replay —
+      // direction follows the trend arrow: "down" starts above target and
+      // counts down, "up"/none starts below target and counts up.
+      const startValue = trend === "down"
+        ? target * (1.3 + Math.random() * 0.5)
+        : Math.max(target * (0.35 + Math.random() * 0.35), 0);
+      const duration = 1800;
+      let start;
+      const step = (ts) => {
+        if (!start) start = ts;
+        const progress = Math.min((ts - start) / duration, 1);
+        const eased = progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+        setDisplay(startValue + (target - startValue) * eased);
+        if (progress < 1) raf = requestAnimationFrame(step);
+        else setDisplay(target);
+      };
+      raf = requestAnimationFrame(step);
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        cancelAnimationFrame(raf);
+        if (entry.isIntersecting) animate();
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(raf);
+    };
+  }, [match?.[2], trend]);
+
+  if (!match) return <span ref={ref}>{value}</span>;
+  const decimals = match[2].includes(".") ? 1 : 0;
+  return (
+    <span ref={ref}>
+      {match[1]}
+      {display.toFixed(decimals)}
+      {match[3]}
+    </span>
   );
 }
 
@@ -324,8 +389,12 @@ export default function CaseStudyBookingFailures() {
               rel="noopener noreferrer"
               className="cs-cta-btn cs-cta-btn--secondary"
             >
-              <span>▶</span>
-              View Presentation
+              <span className="cs-cta-play-icon" aria-hidden="true">
+                <svg width="12" height="12" viewBox="0 0 10 10" fill="none">
+                  <path d="M2.5 1.2v7.6a.6.6 0 0 0 .93.5l6-3.8a.6.6 0 0 0 0-1l-6-3.8a.6.6 0 0 0-.93.5z" fill="currentColor" strokeLinejoin="round" />
+                </svg>
+              </span>
+              Presentation Mode
             </a>
           </Reveal>
 
@@ -876,7 +945,7 @@ export default function CaseStudyBookingFailures() {
               {cs.overallImpact.map((s, i) => (
                 <Reveal as="div" className="cs-overall-card" key={s.label} delay={i * 0.08}>
                   <div className="cs-overall-card__value-row">
-                    <span className="cs-overall-card__value">{s.value}</span>
+                    <span className="cs-overall-card__value"><CountUpValue value={s.value} trend={s.trend} /></span>
                     {s.trend && (
                       <span className={`cs-overall-card__trend cs-overall-card__trend--${s.trend}`}>↙</span>
                     )}
