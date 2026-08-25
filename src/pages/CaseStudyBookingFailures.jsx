@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, Fragment } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { bookingFailuresCaseStudy as cs } from "../data/caseStudyBookingFailures";
@@ -11,18 +11,15 @@ import trainmanLogo from "../assets/case-study/trip-assurance/trainman-logo.svg"
 import heroPhone1 from "../assets/case-study/booking-failures/hero-1.png";
 import heroPhone2 from "../assets/case-study/booking-failures/hero-2.png";
 import heroPhone3 from "../assets/case-study/booking-failures/hero-3.png";
+import existingFlowGif from "../assets/case-study/booking-failures/existing-flow.gif";
 import irctcLogo from "../assets/case-study/booking-failures/irctc-logo.svg";
-import breakdownIrctcCris from "../assets/case-study/booking-failures/breakdown-irctc-cris.jpg";
-import breakdownPendingPage from "../assets/case-study/booking-failures/breakdown-pending-page.jpg";
-import breakdownPending10Min from "../assets/case-study/booking-failures/breakdown-pending-10min.jpg";
-import breakdownPending30Min from "../assets/case-study/booking-failures/breakdown-pending-30min.jpg";
+import breakdownIrctcCrisFull from "../assets/case-study/booking-failures/breakdown-irctc-cris-full.jpg";
+import breakdownPendingFull from "../assets/case-study/booking-failures/breakdown-pending-full.jpg";
+import breakdownPendingStatesFull from "../assets/case-study/booking-failures/breakdown-pending-states-full.jpg";
+import usabilityPhoto1 from "../assets/case-study/booking-failures/usability-photo-1.jpg";
+import usabilityPhoto2 from "../assets/case-study/booking-failures/usability-photo-2.jpg";
 import gapExisting from "../assets/case-study/booking-failures/gap-existing.jpg";
 import gapProposed from "../assets/case-study/booking-failures/gap-proposed.jpg";
-import feedbackScreenshot1 from "../assets/case-study/booking-failures/feedback-screenshot-1.jpg";
-import feedbackScreenshot2 from "../assets/case-study/booking-failures/feedback-screenshot-2.jpg";
-import feedbackScreenshot3 from "../assets/case-study/booking-failures/feedback-screenshot-3.jpg";
-import feedbackScreenshot4 from "../assets/case-study/booking-failures/feedback-screenshot-4.jpg";
-import feedbackScreenshot5 from "../assets/case-study/booking-failures/feedback-screenshot-5.jpg";
 import strategyPhoto1 from "../assets/case-study/booking-failures/strategy-photo-1.jpg";
 import strategyPhoto2 from "../assets/case-study/booking-failures/strategy-photo-2.jpg";
 import strategyPhoto3 from "../assets/case-study/booking-failures/strategy-photo-3.jpg";
@@ -67,6 +64,26 @@ function Reveal({ as = "div", className, children, delay = 0, ...rest }) {
   );
 }
 
+// One real SVG arrow, rotated per direction, instead of Unicode glyphs —
+// those render at inconsistent weights/styles depending on font coverage.
+function FlowArrow({ direction = "right", className = "" }) {
+  const rotation = { right: 0, down: 90, left: 180 }[direction];
+  return (
+    <svg
+      className={`cs-flow-stepper__arrow-svg ${className}`}
+      width="16"
+      height="16"
+      viewBox="0 0 16 16"
+      fill="none"
+      style={{ transform: `rotate(${rotation}deg)` }}
+      aria-hidden="true"
+    >
+      <path d="M2 8H13.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+      <path d="M9 4L13.5 8L9 12" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
 function Bold({ text }) {
   return (
     <span>
@@ -80,7 +97,17 @@ function Placeholder({ label, className = "" }) {
 }
 
 const feedbackAvatars = ["🙍🏻‍♂️", "🙍🏻‍♀️", "🙎🏻‍♂️", "🙎🏻‍♀️", "🧑🏻", "👩🏻", "👨🏻"];
-const userImpactScreenshots = [feedbackScreenshot1, feedbackScreenshot2, feedbackScreenshot3, feedbackScreenshot4, feedbackScreenshot5];
+
+// Real Play Store reviews (Trainman app), transcribed from the screenshots
+// gathered during research — trimmed of the device/app-version metadata line
+// so they read as compact quote cards instead of full review-console captures.
+const playStoreReviews = [
+  { name: "Deepa Mangeshikar", rating: 5, body: "Everytime I have booked my train tickets on this app... it's been a smooth, seamless experience between Trainman & IRCTC. Cancellation has been possible with just one click and the refund also has been prompt!! Loving this App." },
+  { name: "Aakib Qureshi", rating: 5, body: "Ease of doing the bookings for trains. Layout is simple and nice. Using for the first time and satisfied. Couldn't make IRCTC id on another application, but this was very very easy. Such applications should be easy so people can use them efficiently. Nice. Thanks." },
+  { name: "Joseph Daniel H", rating: 5, body: "Money refunded is good, if booking failed. Train ticket is not booking, I think the error is with IRCTC. This app is good for checking availablity of train and train routes." },
+  { name: "Vasuthuglife Life", rating: 5, body: "I have booked a ticket but failed to give correct IRCTC credentials. My fare has been debited from my account. But they hold the ticket for half an hour and give me the option to put correct credentials. I have successfully done it within half an hour. Service was awesome. Thanks trainman for such a great service." },
+  { name: "T.S. Murugesan", rating: 5, body: "Excellent, customer friendly, also assisted IRCTC account change & PW reset. Thanks." },
+];
 const feedbackJumbleAngles = [-2, 1.5, -1, 2, -1.5, 1, -2.5];
 const feedbackJitterY = [0, 22, -8, 14, 4, -14, 8];
 
@@ -276,27 +303,72 @@ export default function CaseStudyBookingFailures() {
             <Reveal as="div" className="cs-bf-flow-section" delay={0.05}>
               <div className="cs-bf-flow-diagram">
                 <span className="cs-bf-flow-bracket-label">Pre payment Flow</span>
-                <div className="cs-bf-flow-row">
+                {/* Serpentine grid: row 1 reads left-to-right through the 4
+                    pre-payment steps, a down arrow drops from the last box
+                    into row 3 directly below it (row 2 is just the arrow),
+                    then row 3 reads right-to-left back to the credentials
+                    box, which branches: Yes goes further left to Booking
+                    Complete, No drops down to Booking Pending. Every box
+                    and arrow shares one grid so columns line up exactly,
+                    same technique as the Trip Assurance WL flow stepper. */}
+                <div className="cs-bf-flow-grid">
                   {cs.basicBookingFlow.steps.map((step, i) => (
-                    <span className="cs-flow-stepper__box" key={step}>
-                      {step}
-                      {i < cs.basicBookingFlow.steps.length - 1 && <span className="cs-bf-flow-row__arrow">→</span>}
-                    </span>
+                    <Fragment key={step}>
+                      <span className="cs-flow-stepper__box" style={{ gridRow: 1, gridColumn: 2 * i + 1 }}>
+                        {step}
+                      </span>
+                      {i < cs.basicBookingFlow.steps.length - 1 && (
+                        <span className="cs-bf-flow-grid__arrow" style={{ gridRow: 1, gridColumn: 2 * i + 2 }}>
+                          <FlowArrow direction="right" />
+                        </span>
+                      )}
+                    </Fragment>
                   ))}
-                </div>
-                <span className="cs-bf-flow-down-arrow" aria-hidden="true">↓</span>
-                <span className="cs-flow-stepper__box cs-bf-flow-cred-box">{cs.basicBookingFlow.postPayment[0]}</span>
-                <div className="cs-bf-flow-outcomes">
-                  <span className="cs-flow-stepper__box cs-bf-flow-box--yes">
-                    ← Yes · {cs.basicBookingFlow.branch.yes}
+
+                  <span
+                    className="cs-bf-flow-grid__arrow"
+                    style={{ gridRow: 2, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) + 1 }}
+                  >
+                    <FlowArrow direction="down" />
                   </span>
-                  <span className="cs-flow-stepper__box cs-bf-flow-box--no">
-                    No → {cs.basicBookingFlow.branch.no}
+
+                  <span
+                    className="cs-flow-stepper__box cs-bf-flow-cred-box"
+                    style={{ gridRow: 3, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) + 1 }}
+                  >
+                    {cs.basicBookingFlow.postPayment[0]}
+                  </span>
+                  <span
+                    className="cs-bf-flow-grid__arrow cs-bf-flow-grid__arrow--labeled"
+                    style={{ gridRow: 3, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) }}
+                  >
+                    <FlowArrow direction="left" />
+                    <em>Yes</em>
+                  </span>
+                  <span
+                    className="cs-flow-stepper__box cs-bf-flow-box--yes"
+                    style={{ gridRow: 3, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) - 1 }}
+                  >
+                    {cs.basicBookingFlow.branch.yes}
+                  </span>
+
+                  <span
+                    className="cs-bf-flow-grid__arrow cs-bf-flow-grid__arrow--labeled cs-bf-flow-grid__arrow--vertical"
+                    style={{ gridRow: 4, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) + 1 }}
+                  >
+                    <FlowArrow direction="down" />
+                    <em>No</em>
+                  </span>
+                  <span
+                    className="cs-flow-stepper__box cs-bf-flow-box--no"
+                    style={{ gridRow: 5, gridColumn: 2 * (cs.basicBookingFlow.steps.length - 1) + 1 }}
+                  >
+                    {cs.basicBookingFlow.branch.no}
                   </span>
                 </div>
               </div>
               <div className="cs-bf-flow-media">
-                <Placeholder label="Existing booking flow screen recording — GIF pending" />
+                <img className="cs-bf-flow-media__gif" src={existingFlowGif} alt="Screen recording of the existing booking flow through payment" />
                 <span className="cs-bf-flow-media__caption">GIF showing existing flow</span>
               </div>
             </Reveal>
@@ -394,40 +466,14 @@ export default function CaseStudyBookingFailures() {
             </div>
 
             <h3 className="cs-h2 cs-h2--sub">Breakdown of Existing Flow</h3>
-            <div className="cs-bf-breakdown-row">
-              <div className="cs-bf-breakdown-col">
-                <img className="cs-bf-breakdown-img" src={breakdownIrctcCris} alt="Existing IRCTC CRIS login page" />
-                <p className="cs-pre-booking__label">IRCTC CRIS page</p>
-                <ul className="cs-branch-list">
-                  {cs.existingFlowAnnotations.ircteCrisPage.map((a, i) => (
-                    <li key={i}><Bold text={a.text} /></li>
-                  ))}
-                </ul>
-              </div>
-              <div className="cs-bf-breakdown-col">
-                <img className="cs-bf-breakdown-img" src={breakdownPendingPage} alt="Existing pending page" />
-                <p className="cs-pre-booking__label">Pending page</p>
-                <ul className="cs-branch-list">
-                  {cs.existingFlowAnnotations.pendingPage.map((a, i) => (
-                    <li key={i}><Bold text={a.text} /></li>
-                  ))}
-                </ul>
-              </div>
-              <div className="cs-bf-breakdown-col">
-                <div className="cs-bf-breakdown-pair">
-                  <img className="cs-bf-breakdown-img" src={breakdownPending10Min} alt="Existing pending page — 10 minute timer state" />
-                  <img className="cs-bf-breakdown-img" src={breakdownPending30Min} alt="Existing pending page — 30 minute state" />
-                </div>
-                <ul className="cs-branch-list">
-                  {cs.existingFlowAnnotations.pendingPageStates.map((a, i) => (
-                    <li key={i}><Bold text={a.text} /></li>
-                  ))}
-                </ul>
-              </div>
+            <div className="cs-bf-breakdown-row cs-bf-breakdown-row--full">
+              <img className="cs-bf-breakdown-img-full" src={breakdownIrctcCrisFull} alt="Annotated breakdown of the existing IRCTC CRIS page" />
+              <img className="cs-bf-breakdown-img-full" src={breakdownPendingFull} alt="Annotated breakdown of the existing pending page" />
+              <img className="cs-bf-breakdown-img-full" src={breakdownPendingStatesFull} alt="Annotated breakdown of the existing pending page 10-minute and 30-minute states" />
             </div>
 
             <h3 className="cs-h2 cs-h2--sub">Overall Insights</h3>
-            <div className="cs-insight-grid">
+            <div className="cs-insight-grid cs-insight-grid--one-row">
               {cs.overallInsights.map((ins, i) => (
                 <Reveal as="div" className="cs-insight-card" key={ins.title} delay={i * 0.06}>
                   <span className="cs-overview-fact__icon">{ins.icon}</span>
@@ -542,18 +588,37 @@ export default function CaseStudyBookingFailures() {
             <h3 className="cs-h2 cs-h2--sub">Happy Flow</h3>
             <Placeholder label="Happy-flow GIFs across all three solutions — pending" />
 
-            <h3 className="cs-key-results-heading">Usability Test</h3>
-            <Reveal as="p" className="cs-body" delay={0.04} style={{ whiteSpace: "pre-line" }}>
-              <Bold text={cs.usability.intro} />
-            </Reveal>
+            <h3 className="cs-h2 cs-h2--sub">Usability Test</h3>
+            <div className="cs-usability-row">
+              <Reveal as="div" className="cs-usability-row__text" delay={0.04}>
+                <ul className="cs-pointer-list">
+                  {cs.usability.findings.map((finding, i) => (
+                    <li key={i}>
+                      <span className="cs-pointer-list__mark" aria-hidden="true">👉🏻</span>
+                      <Bold text={finding} />
+                    </li>
+                  ))}
+                </ul>
+              </Reveal>
+              <Reveal as="div" className="cs-usability-row__media" delay={0.06}>
+                <div className="cs-usability-img-wrap">
+                  <img src={usabilityPhoto1} alt="Usability testing session with three participants" />
+                  <div className="cs-usability-img-overlay" aria-hidden="true" />
+                </div>
+                <div className="cs-usability-img-wrap">
+                  <img src={usabilityPhoto2} alt="Participant holding a phone showing the pending booking page" />
+                  <div className="cs-usability-img-overlay" aria-hidden="true" />
+                </div>
+              </Reveal>
+            </div>
 
-            <h3 className="cs-key-results-heading">Gap Identified</h3>
+            <h3 className="cs-h2 cs-h2--sub">Gap Identified</h3>
             <Reveal as="p" className="cs-body" delay={0.04}>
               <Bold text={cs.usability.gap} />
             </Reveal>
             <div className="cs-bf-gap-row">
               <div className="cs-bf-gap-item">
-                <img className="cs-bf-gap-img" src={gapExisting} alt="Existing forgot-password flow, requiring users to manually copy their IRCTC ID" />
+                <img className="cs-bf-gap-img" src={gapExisting} alt="Existing forgot-password flow: users manually copying the '_IRCTC' suffix out of the SMS" />
                 <span className="cs-bf-gap-label">🔨 Existing Gap</span>
               </div>
               <div className="cs-bf-gap-item">
@@ -576,7 +641,9 @@ export default function CaseStudyBookingFailures() {
                 <Reveal as="div" className="cs-overall-card" key={s.label} delay={i * 0.08}>
                   <div className="cs-overall-card__value-row">
                     <span className="cs-overall-card__value">{s.value}</span>
-                    <span className={`cs-overall-card__trend cs-overall-card__trend--${s.trend}`}>↗</span>
+                    {s.trend && (
+                      <span className={`cs-overall-card__trend cs-overall-card__trend--${s.trend}`}>↙</span>
+                    )}
                   </div>
                   <span className="cs-overall-card__label">{s.label}</span>
                   <p className="cs-overall-card__body"><Bold text={s.body} /></p>
@@ -585,11 +652,29 @@ export default function CaseStudyBookingFailures() {
             </div>
 
             <h3 className="cs-h2 cs-h2--sub">User's Feedback</h3>
-            <div className="cs-bf-testimonial-strip">
-              {userImpactScreenshots.map((src, i) => (
-                <Reveal as="img" className="cs-bf-testimonial-strip__img" key={src} src={src} alt="Real user feedback screenshot" delay={i * 0.04} />
-              ))}
-            </div>
+            <p className="cs-caption" style={{ marginTop: "-8px", marginBottom: "16px", textAlign: "left" }}>Real reviews from the Play Store, post-launch</p>
+            <Reveal as="div" className="cs-bf-review-strip" delay={0.1}>
+              <div className="cs-bf-review-strip__track">
+                {[0, 1].map((rep) => (
+                  <div className="cs-bf-review-strip__group" key={rep} aria-hidden={rep > 0}>
+                    {playStoreReviews.map((r) => (
+                      <div className="cs-bf-review-card" key={r.name}>
+                        <div className="cs-bf-review-card__head">
+                          <span className="cs-bf-review-card__avatar" aria-hidden="true">{r.name.charAt(0)}</span>
+                          <div className="cs-bf-review-card__meta">
+                            <span className="cs-bf-review-card__name">{r.name}</span>
+                            <span className="cs-bf-review-card__stars" aria-label={`${r.rating} out of 5 stars`}>
+                              {"★".repeat(r.rating)}
+                            </span>
+                          </div>
+                        </div>
+                        <p className="cs-bf-review-card__body">{r.body}</p>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            </Reveal>
           </section>
 
           {/* ---------- Reflection ---------- */}

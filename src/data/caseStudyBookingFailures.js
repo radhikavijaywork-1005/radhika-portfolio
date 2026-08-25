@@ -137,30 +137,6 @@ export const bookingFailuresCaseStudy = {
     },
   ],
 
-  existingFlowAnnotations: {
-    ircteCrisPage: [
-      { top: true, text: "Header is not matching with **existing style**" },
-      { text: "Upfront call button is **increases unnecessary calls**" },
-      { text: "Progress indicators, **not matching** design style" },
-      { text: "The placement is not ideal, gets **hidden** when the keypad opens, also it’s **too small** to be noticeable." },
-      { text: "The note is **not visible**, & the **information hierarchy** is missing" },
-      { text: "**No guidance** if user’s feel stuck, reporting will not help here" },
-      { text: "The toggle has incorrect UX copy, is too small, and has **proximity issues**, making it hard use." },
-    ],
-    pendingPage: [
-      { text: "Not matching design style" },
-      { text: "User need **payment safety** information first and bold" },
-      { text: "**Too much text** causes confusion, **delays** the user’s next step, and increases **CX calls.**" },
-      { text: "Retry booking indicates user has to **book again** and his payment is lost" },
-      { text: "**Not looking clickable**, doesn't not match design style" },
-    ],
-    pendingPageStates: [
-      { text: "Wrong use of **color & UX copy** if user can still retry his booking" },
-      { text: "Too much text causes confusion & increases CX calls regarding **refunds.**" },
-      { text: "**Wrong CTA** and subtext is not visible" },
-    ],
-  },
-
   overallInsights: [
     {
       icon: "🤔",
@@ -285,15 +261,18 @@ export const bookingFailuresCaseStudy = {
   },
 
   usability: {
-    intro:
-      "Users found the **progress bar** and **transition page** helpful in understanding the next steps after payment.\n\nThe **visible password** fields above the keyboard reduced entry errors, though users faced **challenges on smaller devices.**\n\nWhile users landing on the pending page initially felt their **payment was stuck**, the clear **CTA reassured** them that they wouldn't need to pay again.",
-    gap: "However, we identified a significant gap in the forgot password flow, where users were manually entering their **“_IRCTC”** by copying it along with their password from SMS messages received from IRCTC.",
+    findings: [
+      “Users found the **progress bar** and **transition page** helpful in understanding the next steps after payment.”,
+      “The **visible password** fields above the keyboard reduced entry errors, though users faced **challenges on smaller devices.**”,
+      “While users landing on the pending page initially felt their **payment was stuck**, the clear **CTA reassured** them that they wouldn't need to pay again.”,
+    ],
+    gap: “However, we identified a significant gap in the forgot password flow, where users were manually entering their **”_IRCTC”** by copying it along with their password from SMS messages received from IRCTC.”,
   },
 
   overallImpact: [
-    { value: "~57%", trend: "up", label: "Failure rate", body: "Failure rates dropped from **14% to 6%** by streamlining the IRCTC credential process and providing clear guidance." },
-    { value: "~87%", trend: "up", label: "Booking conversion from pending page", body: "**Clear CTAs** and step-by-step **guidance** enabled users to navigate the booking flow seamlessly, ensuring successful ticket bookings." },
-    { value: "~68%", trend: "up", label: "Pending page queries", body: "Strategic placement of **'Contact Us' links** and guided booking flow reduced CX calls significantly." },
+    { value: "~57%", trend: "down", label: "Failure rate", body: "Failure rates dropped from **14% to 6%** by streamlining the IRCTC credential process and providing clear guidance." },
+    { value: "~87%", trend: null, label: "Booking conversion from pending page", body: "**Clear CTAs** and step-by-step **guidance** enabled users to navigate the booking flow seamlessly, ensuring successful ticket bookings." },
+    { value: "~68%", trend: "down", label: "Pending page queries", body: "Strategic placement of **'Contact Us' links** and guided booking flow reduced CX calls significantly." },
   ],
   overallImpactNote: "We went live with these updates on APP (Android & iOS) first, and here are the impactful results we achieved.",
 
@@ -301,12 +280,12 @@ export const bookingFailuresCaseStudy = {
     {
       n: "01",
       title: "Tech Constraints & Collaborative Problem-Solving",
-      body: "IRCTC’s limitations were a significant challenge. Me and my team took them as a challenge and **collaborated with developers** frequently to understand their perspective on questions such as why this constraint, what we can do about it, what is possible from product and tech end to explore possible **workarounds behind each constraint.** Through frequent communication, we found ways to optimize the user experience while working within these limitations.",
+      body: "IRCTC’s platform limitations were a significant challenge. We **collaborated closely with developers** to understand each constraint and explore possible **workarounds**, finding ways to optimise the experience within these limits.",
     },
     {
       n: "02",
       title: "User Handholding Across the Booking Flow",
-      body: "Guiding users through each step of the booking process was crucial. Every step in the booking flow requires a different approach by understanding users' challenges, needs and psychology. Using principles like **cognitive load reduction,** progressive disclosure, and nudges, I tailored the flow to minimise confusion and anxiety. Clear instructions, progress indicators, and proactive guidance ensured users **felt supported** throughout the entire flow.",
+      body: "Guiding users through each step of the booking flow was crucial, and each step needed its own approach. Using **cognitive load reduction,** progressive disclosure, and nudges, I minimised confusion and anxiety — clear instructions and progress indicators kept users **feeling supported** throughout.",
     },
   ],
 };

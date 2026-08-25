@@ -114,23 +114,54 @@
   margin: 0 2px;
 }
 
-.cs-bf-flow-down-arrow {
-  color: var(--maroon);
-  font-size: 22px;
-  align-self: center;
-  line-height: 1;
-}
-
 .cs-bf-flow-cred-box {
   align-self: center;
 }
 
-.cs-bf-flow-outcomes {
+/* Serpentine grid — same technique as Trip Assurance's WL flow stepper:
+   one shared grid, every box/arrow placed by explicit gridRow/gridColumn
+   from the JSX (2i+1 for boxes, 2i+2 for arrows) so a real SVG arrow
+   (FlowArrow) always lands exactly between the two boxes it connects,
+   regardless of box width. Row 1 reads left-to-right through the 4
+   pre-payment steps; the down arrow in row 2 drops into row 3 directly
+   below the last box; row 3 then continues right-to-left with the
+   credentials box, branching further left (Yes) to Booking Complete and
+   down (No, rows 4-5) to Booking Pending. */
+.cs-bf-flow-grid {
+  display: grid;
+  row-gap: 20px;
+  column-gap: 10px;
+  align-items: center;
+  overflow-x: auto;
+}
+
+.cs-bf-flow-grid__arrow {
   display: flex;
   align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-  align-self: center;
+  justify-content: center;
+  min-width: 20px;
+  color: var(--maroon);
+}
+
+.cs-bf-flow-grid__arrow--labeled {
+  flex-direction: column;
+  gap: 2px;
+}
+
+.cs-bf-flow-grid__arrow--vertical {
+  flex-direction: column-reverse;
+}
+
+.cs-bf-flow-grid__arrow em {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 11px;
+  color: var(--maroon);
+  white-space: nowrap;
+}
+
+.cs-flow-stepper__arrow-svg {
+  display: block;
 }
 
 .cs-bf-flow-box--yes {
@@ -155,6 +186,12 @@
   margin: 0;
 }
 
+.cs-bf-flow-media__gif {
+  width: 100%;
+  max-width: 280px;
+  border-radius: 12px;
+}
+
 .cs-bf-flow-media__caption {
   font-family: var(--font-display);
   font-style: italic;
@@ -169,8 +206,7 @@
 }
 
 @media (max-width: 640px) {
-  .cs-bf-flow-row,
-  .cs-bf-flow-outcomes {
+  .cs-bf-flow-row {
     flex-wrap: wrap;
   }
 }
@@ -352,24 +388,70 @@
   color: #fff;
 }
 
-/* ---------- Existing-flow breakdown (screenshot + annotation columns) ---------- */
-.cs-bf-breakdown-row {
+/* ---------- Existing-flow breakdown: 3 full annotated composite exports
+   (screenshot + connector-line callouts already baked into each image by
+   Figma) side by side — not re-built as separate screenshot+bullet-list
+   pairs, since that duplicated content already in the source images. ---------- */
+.cs-bf-breakdown-row--full {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
+  gap: 24px;
+  align-items: start;
   margin: 24px 0 40px;
 }
 
-.cs-bf-breakdown-col {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+.cs-bf-breakdown-img-full {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  border: 1px solid var(--cs-line);
 }
 
 @media (max-width: 900px) {
-  .cs-bf-breakdown-row {
+  .cs-bf-breakdown-row--full {
     grid-template-columns: 1fr;
   }
+}
+
+/* ---------- Usability Test: intro text + 2 photos side by side ---------- */
+.cs-bf-usability-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: center;
+  margin: 24px 0 40px;
+}
+
+.cs-bf-usability-row__photos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.cs-bf-usability-row__photos img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+@media (max-width: 900px) {
+  .cs-bf-usability-row {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+/* ---------- Gap Identified panel (own lavender-toned section) ---------- */
+.cs-bf-gap-panel {
+  margin: 24px 0 40px;
+  padding: 32px;
+  border-radius: 24px;
+  background: #f8f1de;
+}
+
+.cs-bf-gap-panel .cs-key-results-heading {
+  margin-top: 0;
 }
 
 /* ---------- Gap identified (existing vs proposed side by side) ---------- */
@@ -903,19 +985,282 @@
   color: var(--cs-body);
 }
 
-/* ---------- User's Feedback testimonial strip (Impact section) ---------- */
-.cs-bf-testimonial-strip {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 24px;
+/* ---------- Overall Impact — scoped override of the shared
+   .cs-overall-grid/.cs-overall-card (CaseStudyPaywall.css). The Figma
+   source (node 228:22667 area) shows one flush warm-cream band instead
+   of three separate dark cards, so this strips the per-card background/
+   border and wraps the grid in a single panel using the same #f8f1de
+   tone already established elsewhere in this file (flow section, gap
+   row) — the case study's "yellowish-brown family" accent, not a new
+   color. Down-arrows are red (reduction metrics); the conversion-rate
+   card has no arrow since a rise there isn't a "down" trend. */
+#impact.cs-section .cs-h2 {
+  margin-bottom: 16px;
 }
 
-.cs-bf-testimonial-strip__img {
+#impact.cs-section .cs-body {
+  margin-bottom: 24px;
+}
+
+.cs-bf .cs-overall-grid {
+  background: #f8f1de;
+  border-radius: 24px;
+  padding: 40px 36px;
+  margin-top: 0;
+  gap: 40px;
+  align-items: start;
+}
+
+.cs-bf .cs-overall-card {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  background: transparent;
+  color: var(--cs-ink);
+}
+
+.cs-bf .cs-overall-card__value {
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--cs-ink);
+}
+
+.cs-bf .cs-overall-card__trend--down {
+  color: #e0483f;
+}
+
+/* Fixed-height label so the divider/body start at the same row across
+   all three columns, even when the middle heading wraps to 2 lines. */
+.cs-bf .cs-overall-card__label {
+  min-height: 2.7em;
+  display: flex;
+  align-items: flex-end;
+  font-weight: 600;
+  color: var(--cs-ink);
+  border-bottom-color: var(--cs-line);
+}
+
+.cs-bf .cs-overall-card__body {
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--cs-body);
+  opacity: 1;
+  margin: 0;
+}
+
+.cs-bf .cs-overall-card__body strong {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+@media (max-width: 640px) {
+  .cs-bf .cs-overall-grid {
+    padding: 28px 24px;
+  }
+}
+
+/* ---------- Usability Test: bullet points + side-by-side photos ---------- */
+.cs-usability-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 48px;
+  padding: 32px;
+  background: #f8f1de;
+  border-radius: 24px;
+}
+
+.cs-usability-row__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.cs-pointer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cs-pointer-list__mark {
+  flex-shrink: 0;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.cs-pointer-list li {
+  display: flex;
+  align-items: flex-start;
+  font-size: 15.5px;
+  line-height: 1.7;
+  color: var(--cs-body);
+  margin: 0;
+}
+
+.cs-pointer-list li strong {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+.cs-usability-row__media {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
   width: 100%;
-  height: auto;
+}
+
+.cs-usability-img-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 520 / 403;
   border-radius: 12px;
+  overflow: hidden;
+}
+
+.cs-usability-img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cs-usability-img-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.15);
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .cs-usability-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .cs-usability-row {
+    padding: 28px 24px;
+  }
+  .cs-usability-row__media {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- User's Feedback (Impact section) — composed as compact
+   quote cards (name, star rating, review body) instead of raw Play
+   Store screenshots, auto-scrolling horizontally so five reviews read
+   in one shallow band instead of stacking down the page. Same
+   two-copies-translated-by-50% infinite-loop technique as the Trip
+   Assurance problem strip (.cs-problem-strip in CaseStudyTripAssurance.css). ---------- */
+.cs-bf-review-strip {
+  position: relative;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.cs-bf-review-strip__track {
+  display: flex;
+  width: max-content;
+  animation: cs-bf-review-strip-scroll 38s linear infinite;
+}
+
+.cs-bf-review-strip:hover .cs-bf-review-strip__track {
+  animation-play-state: paused;
+}
+
+.cs-bf-review-strip__group {
+  display: flex;
+  flex-shrink: 0;
+  gap: 14px;
+  padding-right: 14px;
+}
+
+.cs-bf-review-card {
+  flex-shrink: 0;
+  width: 320px;
   border: 1px solid var(--cs-line);
+  background: var(--cs-card-bg);
+  border-radius: 12px;
+  padding: 16px 18px;
+}
+
+.cs-bf-review-card__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.cs-bf-review-card__avatar {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(var(--maroon-rgb), 0.12);
+  border: 1px solid var(--maroon);
+  color: var(--maroon);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.cs-bf-review-card__meta {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.cs-bf-review-card__name {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--cs-ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cs-bf-review-card__stars {
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--maroon);
+}
+
+.cs-bf-review-card__body {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--cs-body);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+}
+
+@keyframes cs-bf-review-strip-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-bf-review-strip__track {
+    animation: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .cs-bf-review-card {
+    width: 260px;
+  }
 }
 
 /* ---------- IRCTC heading logo ---------- */
@@ -952,5 +1297,23 @@
   }
   .cs-bf-breakdown-pair {
     flex-direction: column;
+  }
+}
+
+/* ---------- Overall Insights: all 4 cards in one row (horizontal scroll
+   on narrow viewports instead of wrapping to a 3+1 grid) ---------- */
+.cs-insight-grid--one-row {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1100px) {
+  .cs-insight-grid--one-row {
+    display: flex;
+    grid-template-columns: none;
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+  .cs-insight-grid--one-row > * {
+    flex: 0 0 280px;
   }
 }
