@@ -30,6 +30,7 @@ import pendingConversionPendingPage from "../assets/case-study/booking-failures/
 import pendingConversionNeedHelp from "../assets/case-study/booking-failures/pending-conversion-need-help.png";
 import pendingConversionFaq from "../assets/case-study/booking-failures/pending-conversion-faq.png";
 import pendingConversionTimeout from "../assets/case-study/booking-failures/pending-conversion-timeout.png";
+import annotationHighlight from "../assets/case-study/booking-failures/annotation-highlight.svg";
 import "./CaseStudyPaywall.css";
 import "./CaseStudyBookingFailures.css";
 
@@ -114,40 +115,13 @@ const pendingConversionAnnotationTops = [9, 26, 42, 53, 58, 67, 77];
 const ANNOTATED_PHONE_HEIGHT = 455;
 const ANNOTATED_CONNECTOR_WIDTH = 40;
 
-// Annotated-screenshot layout: one real screen on top with callout dots
-// pointing at exact UI elements, connected by elbow lines to labels that
-// flow in a normal vertical stack. Three plain-captioned screens displayed
-// below in a full-width grid row (all visible, no scroll), so the entire
-// flow is clearly readable at once without horizontal scrolling.
+// Annotated-screenshot layout: one real screen on top with dots.
+// Labels use highlight markers for visual emphasis.
 function AnnotatedFlowRow({ annotatedSrc, annotatedAlt, annotations, caption, screens }) {
-  const containerRef = useRef(null);
-  const labelRefs = useRef([]);
-  const [connectors, setConnectors] = useState({ paths: [], height: ANNOTATED_PHONE_HEIGHT });
-
-  useLayoutEffect(() => {
-    function measure() {
-      const container = containerRef.current;
-      if (!container) return;
-      const containerRect = container.getBoundingClientRect();
-      const paths = annotations.map((a, i) => {
-        const labelEl = labelRefs.current[i];
-        if (!labelEl) return null;
-        const labelRect = labelEl.getBoundingClientRect();
-        const dotY = (a.top / 100) * ANNOTATED_PHONE_HEIGHT;
-        const labelY = labelRect.top + labelRect.height / 2 - containerRect.top;
-        return `M 0 ${dotY} L ${ANNOTATED_CONNECTOR_WIDTH / 2} ${dotY} L ${ANNOTATED_CONNECTOR_WIDTH / 2} ${labelY} L ${ANNOTATED_CONNECTOR_WIDTH} ${labelY}`;
-      });
-      setConnectors({ paths, height: Math.max(containerRect.height, ANNOTATED_PHONE_HEIGHT) });
-    }
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [annotations]);
-
   return (
     <div className="cs-bf-annotated-row">
       {/* Annotated screen section at top */}
-      <div className="cs-bf-annotated-row__top" ref={containerRef}>
+      <div className="cs-bf-annotated-row__top">
         <div className="cs-bf-annotated-row__phone-wrap">
           <span className="cs-bf-annotated-row__corner" aria-hidden="true" />
           <div className="cs-bf-happy-flow__gif cs-bf-annotated-row__phone">
@@ -159,36 +133,12 @@ function AnnotatedFlowRow({ annotatedSrc, annotatedAlt, annotations, caption, sc
           <p className="cs-bf-annotated-row__caption">{caption}</p>
         </div>
 
-        <svg
-          className="cs-bf-annotated-row__connectors"
-          width={ANNOTATED_CONNECTOR_WIDTH}
-          height={connectors.height}
-          viewBox={`0 0 ${ANNOTATED_CONNECTOR_WIDTH} ${connectors.height}`}
-          aria-hidden="true"
-          vectorEffect="non-scaling-stroke"
-          shapeRendering="crispEdges"
-        >
-          {connectors.paths.map((d, i) =>
-            d ? (
-              <path
-                key={i}
-                d={d}
-                fill="none"
-                stroke="var(--cs-muted)"
-                strokeWidth="1"
-                strokeLinecap="butt"
-                strokeLinejoin="bevel"
-                vectorEffect="non-scaling-stroke"
-              />
-            ) : null
-          )}
-        </svg>
-
         <div className="cs-bf-annotated-row__labels">
           {annotations.map((a, i) => (
-            <p key={i} ref={(el) => (labelRefs.current[i] = el)} className="cs-bf-annotated-row__label">
-              <Bold text={a.text} />
-            </p>
+            <div key={i} className="cs-bf-annotated-row__label">
+              <img src={annotationHighlight} alt="" aria-hidden="true" className="cs-bf-annotated-row__highlight" />
+              <p><Bold text={a.text} /></p>
+            </div>
           ))}
         </div>
       </div>

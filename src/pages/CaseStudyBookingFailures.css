@@ -595,15 +595,15 @@
 .cs-bf-annotated-row {
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 16px;
   margin: 8px 0 24px;
 }
 
-/* Annotated screen at the top with labels and connectors */
+/* Annotated screen at the top with labels and highlight markers */
 .cs-bf-annotated-row__top {
   display: flex;
   align-items: flex-start;
-  gap: 0;
+  gap: 16px;
   padding: 0;
 }
 
@@ -666,21 +666,7 @@
   text-align: center;
 }
 
-/* Connector lines are drawn as a single SVG (see AnnotatedFlowRow) rather
-   than per-label CSS lines, because the elbow path for each annotation
-   has to run from the dot's fixed position on the phone to wherever its
-   label actually landed after the labels stack lays out naturally —
-   that landing point isn't known until render, so a static CSS line
-   can't reach it reliably. */
-.cs-bf-annotated-row__connectors {
-  flex-shrink: 0;
-  display: block;
-}
-
-/* Natural vertical flow (not absolute-positioned by %) — this is what
-   guarantees labels can never overlap regardless of how many lines any
-   one label wraps to. The gap is generous enough that even a 3-line
-   label has clear air above and below it. */
+/* Labels flow naturally with highlight markers instead of connectors */
 .cs-bf-annotated-row__labels {
   width: 250px;
   flex-shrink: 0;
@@ -692,10 +678,25 @@
 }
 
 .cs-bf-annotated-row__label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   margin: 0;
   font-size: 13px;
   line-height: 1.4;
   color: var(--cs-body);
+}
+
+.cs-bf-annotated-row__highlight {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  opacity: 0.8;
+}
+
+.cs-bf-annotated-row__label p {
+  margin: 0;
+  padding-top: 1px;
 }
 
 .cs-bf-annotated-row__label strong {
