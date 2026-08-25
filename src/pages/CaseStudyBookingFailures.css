@@ -67,13 +67,20 @@
    a GIF/screen-recording panel on the right, matching the source exactly
    instead of a single flat row. ---------- */
 .cs-bf-flow-section {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 40px;
+  align-items: start;
   margin: 20px 0 32px;
-  padding: 32px 20px;
+  padding: 32px 28px;
   background: #f8f1de;
   border-radius: 24px;
+}
+
+@media (max-width: 900px) {
+  .cs-bf-flow-section {
+    grid-template-columns: 1fr;
+  }
 }
 
 .cs-bf-flow-diagram {
@@ -665,14 +672,16 @@
 }
 
 .cs-flow-stepper__box {
-  padding: 10px 10px;
+  padding: 10px 12px;
+  max-width: 118px;
   background: var(--cs-card-bg);
   border-radius: 8px;
-  font-size: 11.5px;
+  font-size: 12px;
   font-weight: 500;
+  line-height: 1.3;
   color: var(--cs-ink);
   text-align: center;
-  white-space: nowrap;
+  white-space: normal;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 
