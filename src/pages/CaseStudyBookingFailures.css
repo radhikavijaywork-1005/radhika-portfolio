@@ -595,16 +595,19 @@
 .cs-bf-annotated-row {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 56px;
   margin: 8px 0 24px;
+  width: 100%;
 }
 
-/* Annotated screen at the top with labels and highlight markers */
+/* Annotated screen at the top with labels and connector lines */
 .cs-bf-annotated-row__top {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
+  gap: 32px;
   padding: 0;
+  position: relative;
+  width: 100%;
 }
 
 .cs-bf-annotated-row__phone-wrap {
@@ -617,31 +620,7 @@
 }
 
 .cs-bf-annotated-row__corner {
-  position: absolute;
-  top: -20px;
-  left: -4px;
-  width: 18px;
-  height: 14px;
-}
-
-.cs-bf-annotated-row__corner::before,
-.cs-bf-annotated-row__corner::after {
-  content: "";
-  position: absolute;
-  width: 14px;
-  height: 1px;
-  background: var(--cs-muted);
-  transform: rotate(-40deg);
-}
-
-.cs-bf-annotated-row__corner::before {
-  top: 0;
-  left: 0;
-}
-
-.cs-bf-annotated-row__corner::after {
-  top: 7px;
-  left: 4px;
+  display: none;
 }
 
 .cs-bf-annotated-row__phone {
@@ -666,37 +645,58 @@
   text-align: center;
 }
 
-/* Labels flow naturally with highlight markers instead of connectors */
-.cs-bf-annotated-row__labels {
-  width: 250px;
+/* Connector lines spacing — visual connectors drawn via label pseudo-elements */
+.cs-bf-annotated-row__connectors {
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  min-height: 455px;
-  gap: 22px;
+  width: 24px;
+  height: 455px;
+  position: relative;
+}
+
+/* Labels positioned absolutely to align with connector endpoints */
+.cs-bf-annotated-row__labels {
+  flex: 1;
+  position: relative;
+  height: 455px;
+  min-width: 0;
 }
 
 .cs-bf-annotated-row__label {
+  position: absolute;
+  left: 0;
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 8px;
   margin: 0;
   font-size: 13px;
   line-height: 1.4;
   color: var(--cs-body);
+  transform: translateY(-50%);
+  width: 100%;
 }
 
-.cs-bf-annotated-row__highlight {
-  width: 16px;
-  height: 16px;
+.cs-bf-annotated-row__label::before {
+  content: "";
+  position: absolute;
+  left: -24px;
+  top: 50%;
+  width: 20px;
+  height: 1px;
+  background: var(--cs-muted);
   flex-shrink: 0;
-  opacity: 0.8;
+}
+
+.cs-bf-annotated-row__label-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--cs-muted);
+  flex-shrink: 0;
 }
 
 .cs-bf-annotated-row__label p {
   margin: 0;
-  padding-top: 1px;
+  padding-top: 0;
 }
 
 .cs-bf-annotated-row__label strong {
@@ -710,6 +710,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
   width: 100%;
+  max-width: 100%;
 }
 
 @media (max-width: 900px) {
@@ -1584,3 +1585,55 @@
     flex: 0 0 280px;
   }
 }
+
+/* ---------- User Flow: Pre-payment (left) + Detailed (right) ---------- */
+.cs-bf-user-flow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  align-items: start;
+  margin: 24px 0 40px;
+  padding: 32px 24px;
+  background: #f8f1de;
+  border-radius: 24px;
+}
+
+@media (max-width: 900px) {
+  .cs-bf-user-flow {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}
+
+.cs-bf-user-flow__column {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cs-bf-user-flow__label {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--cs-body);
+  margin-bottom: 8px;
+}
+
+.cs-bf-timer-badge {
+  font-size: 11px;
+  font-weight: 600;
+  color: #e63a38;
+  border: 1px solid #e63a38;
+  padding: 4px 12px;
+  border-radius: 12px;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.cs-bf-flow-box--pending {
+  background: #fef9e7 !important;
+  border-color: #c5a33f !important;
+  color: var(--cs-ink) !important;
+}
+

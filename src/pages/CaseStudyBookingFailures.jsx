@@ -115,8 +115,7 @@ const pendingConversionAnnotationTops = [9, 26, 42, 53, 58, 67, 77];
 const ANNOTATED_PHONE_HEIGHT = 455;
 const ANNOTATED_CONNECTOR_WIDTH = 40;
 
-// Annotated-screenshot layout: one real screen on top with dots.
-// Labels use highlight markers for visual emphasis.
+// Annotated-screenshot layout: phone on left with dots, connector arrows, labels on right.
 function AnnotatedFlowRow({ annotatedSrc, annotatedAlt, annotations, caption, screens }) {
   return (
     <div className="cs-bf-annotated-row">
@@ -133,10 +132,13 @@ function AnnotatedFlowRow({ annotatedSrc, annotatedAlt, annotations, caption, sc
           <p className="cs-bf-annotated-row__caption">{caption}</p>
         </div>
 
+        {/* Connector lines spacing element */}
+        <div className="cs-bf-annotated-row__connectors" />
+
         <div className="cs-bf-annotated-row__labels">
           {annotations.map((a, i) => (
-            <div key={i} className="cs-bf-annotated-row__label">
-              <img src={annotationHighlight} alt="" aria-hidden="true" className="cs-bf-annotated-row__highlight" />
+            <div key={i} className="cs-bf-annotated-row__label" style={{ top: `${a.top}%` }}>
+              <span className="cs-bf-annotated-row__label-dot" aria-hidden="true" />
               <p><Bold text={a.text} /></p>
             </div>
           ))}
@@ -589,6 +591,66 @@ export default function CaseStudyBookingFailures() {
               <img src={strategyPhoto1} alt="Stakeholder meeting on booking flow strategy" />
               <img src={strategyPhoto2} alt="Team discussing the booking flow strategy" />
               <img src={strategyPhoto3} alt="Team collaborating on the booking flow strategy" />
+            </Reveal>
+
+            <Reveal as="h2" className="cs-h2">User Flow</Reveal>
+            <Reveal as="div" className="cs-bf-user-flow" delay={0.04}>
+              <div className="cs-bf-user-flow__column">
+                <span className="cs-bf-user-flow__label">Pre payment Flow</span>
+                <div className="cs-bf-flow-row cs-bf-flow-row--wrap">
+                  {["Search Route", "Select Train and WL Class", "Add Traveller and contact details", "Make payment"].map((step, i, arr) => (
+                    <span key={step}>
+                      <span className="cs-flow-stepper__box">{step}</span>
+                      {i < arr.length - 1 && <span className="cs-bf-flow-row__arrow">→</span>}
+                    </span>
+                  ))}
+                </div>
+                <div className="cs-bf-flow-row cs-bf-flow-row--wrap" style={{ marginTop: "12px" }}>
+                  <em style={{ fontSize: "12px", color: "var(--cs-soft)", marginRight: "8px" }}>New Page</em>
+                  <span className="cs-flow-stepper__box">Transition page with next steps</span>
+                  <span className="cs-bf-flow-row__arrow">↓</span>
+                </div>
+                <div className="cs-bf-flow-row cs-bf-flow-row--wrap">
+                  <span className="cs-flow-stepper__box">Enter IRCTC credentials<br/>(password & Captcha)</span>
+                  <div className="cs-bf-timer-badge">10min timer</div>
+                </div>
+              </div>
+
+              <div className="cs-bf-user-flow__column">
+                <span className="cs-bf-user-flow__label">Detailed Flow</span>
+                <div className="cs-bf-flow-row cs-bf-flow-row--wrap" style={{ justifyContent: "center" }}>
+                  <span className="cs-flow-stepper__box">Enter IRCTC credentials<br/>(password & Captcha)</span>
+                  <div className="cs-bf-timer-badge">10min timer</div>
+                </div>
+                <div style={{ display: "flex", justifyContent: "center", gap: "16px", margin: "12px 0" }}>
+                  <div style={{ textAlign: "center" }}>
+                    <div style={{ fontSize: "12px", marginBottom: "4px" }}>Yes</div>
+                    <span className="cs-flow-stepper__box">Submit<br/>Credentials</span>
+                  </div>
+                  <div style={{ textAlign: "center" }}>
+                    <div style={{ fontSize: "12px", marginBottom: "4px" }}>No</div>
+                    <span className="cs-flow-stepper__box">Retry<br/>Booking</span>
+                  </div>
+                </div>
+                <div style={{ display: "flex", justifyContent: "center", gap: "16px", margin: "12px 0" }}>
+                  <div style={{ textAlign: "center" }}>
+                    <span className="cs-flow-stepper__box">Getting response from IRCTC</span>
+                    <div style={{ fontSize: "11px", fontStyle: "italic", color: "var(--cs-soft)", marginTop: "4px" }}>Successful</div>
+                  </div>
+                  <div style={{ textAlign: "center" }}>
+                    <span className="cs-flow-stepper__box cs-bf-flow-box--pending">Booking Pending<br/>(Continued 10min)</span>
+                    <div style={{ fontSize: "11px", fontStyle: "italic", color: "var(--cs-soft)", marginTop: "4px" }}>No response</div>
+                  </div>
+                </div>
+                <div style={{ display: "flex", justifyContent: "center", gap: "16px", margin: "12px 0" }}>
+                  <span className="cs-flow-stepper__box cs-bf-flow-box--yes">Booking Complete</span>
+                  <span className="cs-flow-stepper__box">Complete or cancel</span>
+                </div>
+                <div style={{ textAlign: "center", margin: "12px 0" }}>
+                  <div style={{ fontSize: "11px", fontStyle: "italic", color: "var(--cs-soft)", marginBottom: "8px" }}>No response<br/>automatic cancellation after 12hrs</div>
+                  <span className="cs-flow-stepper__box cs-bf-flow-box--no">Booking Cancelled<br/>(Full refund)</span>
+                </div>
+              </div>
             </Reveal>
 
             {cs.decisions.map((d, dIdx) => (
