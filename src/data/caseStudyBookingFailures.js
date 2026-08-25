@@ -262,11 +262,11 @@ export const bookingFailuresCaseStudy = {
 
   usability: {
     findings: [
-      “Users found the **progress bar** and **transition page** helpful in understanding the next steps after payment.”,
-      “The **visible password** fields above the keyboard reduced entry errors, though users faced **challenges on smaller devices.**”,
-      “While users landing on the pending page initially felt their **payment was stuck**, the clear **CTA reassured** them that they wouldn't need to pay again.”,
+      "Users found the **progress bar** and **transition page** helpful in understanding the next steps after payment.",
+      "The **visible password** fields above the keyboard reduced entry errors, though users faced **challenges on smaller devices.**",
+      "While users landing on the pending page initially felt their **payment was stuck**, the clear **CTA reassured** them that they wouldn't need to pay again.",
     ],
-    gap: “However, we identified a significant gap in the forgot password flow, where users were manually entering their **”_IRCTC”** by copying it along with their password from SMS messages received from IRCTC.”,
+    gap: "However, we identified a significant gap in the forgot password flow, where users were manually entering their **\"_IRCTC\"** by copying it along with their password from SMS messages received from IRCTC.",
   },
 
   overallImpact: [

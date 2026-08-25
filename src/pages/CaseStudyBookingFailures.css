@@ -67,12 +67,11 @@
    a GIF/screen-recording panel on the right, matching the source exactly
    instead of a single flat row. ---------- */
 .cs-bf-flow-section {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr;
-  gap: 40px;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
   margin: 20px 0 32px;
-  padding: 32px 28px;
+  padding: 32px 20px;
   background: #f8f1de;
   border-radius: 24px;
 }
@@ -82,6 +81,7 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
+  min-width: 0;
 }
 
 .cs-bf-flow-bracket-label {
@@ -130,16 +130,18 @@
 .cs-bf-flow-grid {
   display: grid;
   row-gap: 20px;
-  column-gap: 10px;
+  column-gap: 4px;
   align-items: center;
   overflow-x: auto;
+  width: 100%;
+  min-width: 0;
 }
 
 .cs-bf-flow-grid__arrow {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 20px;
+  min-width: 16px;
   color: var(--maroon);
 }
 
@@ -197,12 +199,6 @@
   font-style: italic;
   font-size: 13px;
   color: var(--cs-soft);
-}
-
-@media (max-width: 900px) {
-  .cs-bf-flow-section {
-    grid-template-columns: 1fr;
-  }
 }
 
 @media (max-width: 640px) {
@@ -669,10 +665,10 @@
 }
 
 .cs-flow-stepper__box {
-  padding: 12px 18px;
+  padding: 10px 10px;
   background: var(--cs-card-bg);
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 11.5px;
   font-weight: 500;
   color: var(--cs-ink);
   text-align: center;
