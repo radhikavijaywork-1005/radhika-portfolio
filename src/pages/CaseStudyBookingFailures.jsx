@@ -7,6 +7,7 @@ import CaseStudyNav from "./CaseStudyNav";
 import { useSoundContext } from "../context/SoundContext";
 import { useTheme } from "../context/ThemeContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import { useScrollDepthTracking } from "../hooks/useScrollDepthTracking";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 import trainmanLogo from "../assets/case-study/trip-assurance/trainman-logo.svg";
 import heroPhone1 from "../assets/case-study/booking-failures/hero-1.png";
@@ -335,6 +336,7 @@ function getNextCaseStudy() {
 
 export default function CaseStudyBookingFailures() {
   useDocumentTitle("Reducing Booking Failures — Radhika Vijay");
+  useScrollDepthTracking("booking-failures");
   const nextCaseStudy = getNextCaseStudy();
   const [nextHovered, setNextHovered] = useState(false);
   const [activeFeedbackFilter, setActiveFeedbackFilter] = useState("all");

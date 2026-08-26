@@ -7,6 +7,7 @@ import CaseStudyNav from "./CaseStudyNav";
 import { useSoundContext } from "../context/SoundContext";
 import { useTheme } from "../context/ThemeContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import { useScrollDepthTracking } from "../hooks/useScrollDepthTracking";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 import stageLogo from "../assets/site/stage-icon.png";
 import stageLogoWhite from "../assets/site/stage-icon-white.svg";
@@ -168,6 +169,7 @@ function getNextCaseStudy() {
 
 export default function CaseStudyPaywall() {
   useDocumentTitle("STAGE Paywall Experiments — Radhika Vijay");
+  useScrollDepthTracking("paywall");
   const nextCaseStudy = getNextCaseStudy();
   const [nextHovered, setNextHovered] = useState(false);
   // Touch devices never fire hover, so the preview card (previously gated

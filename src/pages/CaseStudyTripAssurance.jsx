@@ -7,6 +7,7 @@ import CaseStudyNav from "./CaseStudyNav";
 import ManualBookingFlowDiagram from "../components/ManualBookingFlowDiagram";
 import { useSoundContext } from "../context/SoundContext";
 import { useDocumentTitle } from "../hooks/useDocumentTitle";
+import { useScrollDepthTracking } from "../hooks/useScrollDepthTracking";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
 import trainmanLogo from "../assets/case-study/trip-assurance/trainman-logo.svg";
 import adaniLogo from "../assets/site/adani-icon.png";
@@ -328,6 +329,7 @@ function getNextCaseStudy() {
 
 export default function CaseStudyTripAssurance() {
   useDocumentTitle("Trip Assurance — Radhika Vijay");
+  useScrollDepthTracking("trip-assurance");
   const nextCaseStudy = getNextCaseStudy();
   const [nextHovered, setNextHovered] = useState(false);
   const [isTouch] = useState(
