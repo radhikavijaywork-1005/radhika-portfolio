@@ -1,12 +1,11 @@
 export const traits = [
-  "Deep Thinker",
   "Story Teller",
   "Human Centered",
   "Psychology",
   "Aesthetics",
   "Observer",
-  "Empathiser",
   "Problem Solver",
+  "First Principle Thinking",
 ];
 
 export const bio = [
