@@ -47,7 +47,8 @@ import aihack2Photo from "../assets/site/achievements/aihack-2-final.png";
 import ymp1Photo from "../assets/site/achievements/ymp-1-final.png";
 import ymp2Photo from "../assets/site/achievements/ymp-2-final.png";
 import ymp3Photo from "../assets/site/achievements/ymp-3-final.png";
-import aboutQuoteDoodle from "../assets/site/about-quote-doodle-new.svg";
+import aboutQuoteDoodle from "../assets/site/about-quote-doodle-light.png";
+import aboutQuoteDoodleDark from "../assets/site/about-quote-doodle-dark.png";
 import pinCorners from "../assets/site/achievements/pin-corners.svg";
 import "./AboutMe.css";
 
@@ -402,7 +403,12 @@ export default function AboutMe() {
               startDelay={aboutQuote.sanskrit.length * 34 + 400}
             />
           </div>
-          <img className="about-quote__doodle" src={aboutQuoteDoodle} alt="" aria-hidden="true" />
+          <img
+            className="about-quote__doodle"
+            src={theme === "dark" ? aboutQuoteDoodleDark : aboutQuoteDoodle}
+            alt=""
+            aria-hidden="true"
+          />
         </Reveal>
       </section>
     </main>

@@ -1,11 +1,14 @@
 import { motion } from "framer-motion";
 import { quote } from "../data/content";
-import quoteDoodle from "../assets/site/quote-doodle-new.svg";
+import quoteDoodle from "../assets/site/quote-doodle-light.png";
+import quoteDoodleDark from "../assets/site/quote-doodle-dark.png";
 import TypewriterText from "./TypewriterText";
 import { useRevealOnScroll } from "../hooks/useRevealOnScroll";
+import { useTheme } from "../context/ThemeContext";
 
 export default function Quote() {
   const { ref, revealed } = useRevealOnScroll(0.4);
+  const { theme } = useTheme();
 
   return (
     <section className="section quote-section">
@@ -27,7 +30,13 @@ export default function Quote() {
             startDelay={quote.sanskrit.length * 34 + 400}
           />
         </div>
-        <img className="quote-doodle-gif" src={quoteDoodle} alt="" aria-hidden="true" loading="lazy" />
+        <img
+          className="quote-doodle-gif"
+          src={theme === "dark" ? quoteDoodleDark : quoteDoodle}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+        />
       </motion.div>
     </section>
   );

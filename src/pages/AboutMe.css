@@ -832,13 +832,23 @@
    issue here (was oversized relative to the settled text block, reading
    as floating below-center rather than paired with the quote). */
 .about-quote__doodle {
-  width: clamp(110px, 10vw, 176px);
+  width: clamp(165px, 15vw, 264px);
   height: auto;
   flex-shrink: 0;
-  margin-top: -10px;
+  /* Static nudge, not a real vertical-center (row stays align-items:
+     flex-start so the typewriter reveal's height changes don't jitter
+     this). Recalibrated for the 1.5x size bump. */
+  margin-top: -84px;
   pointer-events: none;
   mix-blend-mode: multiply;
   animation: doodle-float 4.5s ease-in-out infinite;
+}
+
+/* multiply always darkens — fine for a dark line drawing on the light-mode
+   cream background, but it would crush the dark asset's light strokes into
+   the dark page background instead of showing them. */
+.dark .about-quote__doodle {
+  mix-blend-mode: normal;
 }
 
 @media (prefers-reduced-motion: reduce) {

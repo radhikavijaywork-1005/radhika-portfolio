@@ -685,6 +685,29 @@
 .hero-portrait-tilt-wrap {
   position: relative;
   perspective: 700px;
+  /* A slow, ambient sway + breathing scale — gives the portrait a sense of
+     life at rest, without touching `transform` on .hero-portrait-tilt
+     itself (that element's transform is owned by the JS mouse-tilt effect;
+     animating a shared property there would fight it, the same reason the
+     CTA anchor above lives on this wrap instead of as a child of the tilt
+     element). */
+  animation: hero-portrait-breathe 7s ease-in-out infinite;
+}
+
+@keyframes hero-portrait-breathe {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+  }
+  50% {
+    transform: rotate(-1.8deg) scale(1.018);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-portrait-tilt-wrap {
+    animation: none;
+  }
 }
 
 /* Anchored to the wrap, not `.hero-portrait-tilt` itself — that element has
@@ -768,7 +791,7 @@
      (878/900 ≈ 0.976) — 293px reproduces the exact same rendered height
      the old portrait had at 340px, so the hero's vertical rhythm/spacing
      matches the live site instead of growing taller with the new art. */
-  width: 293px;
+  width: 352px;
   max-width: 100%;
   aspect-ratio: 1008 / 1200;
   -webkit-user-drag: none;
@@ -779,6 +802,7 @@
   will-change: transform;
   filter: drop-shadow(0 14px 20px rgba(26, 53, 45, 0.14));
 }
+
 
 .hero-portrait-tilt__canvas {
   display: block;
@@ -1552,14 +1576,25 @@
    quote lengths — not a dynamic recenter, so it doesn't reintroduce the
    typewriter jitter that align-items: flex-start was fixing. */
 .quote-doodle-gif {
-  width: clamp(110px, 10vw, 176px);
+  width: clamp(165px, 15vw, 264px);
   height: auto;
   aspect-ratio: 1 / 1;
   flex-shrink: 0;
-  margin-top: -10px;
+  /* Static nudge, not a real vertical-center — align-items stays flex-start
+     on the row (see .quote-inner) so the typewriter reveal's height changes
+     don't jitter this. Recalibrated for the 1.5x size bump: was -10px when
+     the doodle rendered ~224px shorter relative to the copy block. */
+  margin-top: -57px;
   pointer-events: none;
   mix-blend-mode: multiply;
   animation: doodle-float 4.5s ease-in-out infinite;
+}
+
+/* multiply always darkens — fine for a dark line drawing on the light-mode
+   cream background, but it would crush the dark asset's light strokes into
+   the dark page background instead of showing them. */
+.dark .quote-doodle-gif {
+  mix-blend-mode: normal;
 }
 
 /* Slow ambient bob + a touch of rotation — a placeholder motion until the
