@@ -46,7 +46,7 @@ import logoConfirmtkt from "../assets/case-study/trip-assurance/logos/confirmtkt
 import logoMakeMyTrip from "../assets/case-study/trip-assurance/logos/makemytrip.svg";
 import logoMakeMyTripIcon from "../assets/case-study/trip-assurance/logos/makemytrip-icon.svg";
 import logoRailofy from "../assets/case-study/trip-assurance/logos/railofy.svg";
-import avatarProduct from "../assets/case-study/trip-assurance/avatar-product.svg";
+import avatarProduct from "../assets/case-study/trip-assurance/avatar-product-pt.svg";
 import avatarBusiness from "../assets/case-study/trip-assurance/avatar-business.svg";
 import avatarTech from "../assets/case-study/trip-assurance/avatar-tech.svg";
 import avatarMarketing from "../assets/case-study/trip-assurance/avatar-marketing.svg";
