@@ -83,7 +83,7 @@ export const experience = [
     logoKey: "adani",
     hoverImageKey: "adani",
     description:
-      "Founded and led the design team through Trainman's acquisition by Adani. Redesigned the booking flow and cut payment failures 57%, driving 4x growth in daily bookings.",
+      "Founded and led the design team through Trainman's acquisition by Adani. Cut post-payment booking failures 57%, and separately led an end-to-end booking flow redesign that drove 4x growth in daily bookings.",
   },
   {
     company: "P'ART",

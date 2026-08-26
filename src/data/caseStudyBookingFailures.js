@@ -42,26 +42,17 @@ export const bookingFailuresCaseStudy = {
     },
   ],
 
-  approach: [
-    { n: "1", title: "Define", body: "Understand problem, Define problem & Challenges" },
-    { n: "2", title: "Research", body: "Understanding WL flow, User pain points & challenges, Target Users, Competitive Analysis" },
-    { n: "3", title: "Strategy", body: "User Goals, Business Goals, Solutions" },
-    { n: "4", title: "Ideation & Design", body: "Learning Key Metrics & Trends, Define User Flow, UI mockups & prototypes" },
-    { n: "5", title: "Prototype & Testing", body: "Prototype, User & Stakeholder Testing" },
-    { n: "6", title: "Impacts & Feedbacks", body: "Observe impacts after launch, Collecting user feedbacks" },
-  ],
-
   overview:
     "**Trainman** is an IRCTC authorised online **train ticket booking platform in India.** It offers helpful technology like waitlist predictions, live train tracking, and quick refunds.",
 
   overviewFacts: [
     {
-      icon: "🙋🏻‍♂️",
+      icon: "🎯",
       title: "Prediction Model",
       body: "High-accuracy waitlist predictions to help users make informed booking decisions.",
     },
     {
-      icon: "🤖",
+      icon: "📍",
       title: "Real-Time Tracking",
       body: "Provides an intuitive booking experience along with live train tracking.",
     },
@@ -104,8 +95,8 @@ export const bookingFailuresCaseStudy = {
   ],
 
   feedbackCategories: [
-    { key: "credential", icon: "🫤", title: "IRCTC Credential Challenges" },
-    { key: "pending", icon: "👩🏻‍🚀", title: "Pending Page Confusion" },
+    { key: "credential", icon: "🔐", title: "IRCTC Credential Challenges" },
+    { key: "pending", icon: "⏳", title: "Pending Page Confusion" },
   ],
 
   userFeedback: [
@@ -130,7 +121,7 @@ export const bookingFailuresCaseStudy = {
       body: "Users get their **password or a new ID from IRCTC**, causing distractions in the booking flow and **increasing abandonment** due to forgotten or delayed credentials.",
     },
     {
-      icon: "🙈",
+      icon: "🔒",
       title: "Hidden Password Field",
       body: "The **small input fields** for IRCTC ID, **password (hidden)**, and CAPTCHA make it difficult for users to enter information accurately, especially on mobile devices, leading to errors.",
     },
@@ -143,7 +134,7 @@ export const bookingFailuresCaseStudy = {
 
   overallInsights: [
     {
-      icon: "🤔",
+      icon: "❓",
       title: "Lack of Awareness",
       body: "Many users are unaware of the mandatory IRCTC step after payment. This lack of awareness leads to confusion, delays, and increased drop-off rates.",
     },
@@ -153,7 +144,7 @@ export const bookingFailuresCaseStudy = {
       body: "A significant portion of users drop off at the IRCTC credential page due to forgotten or wrong passwords, incorrect IDs, timeout and captcha issues.",
     },
     {
-      icon: "😣️",
+      icon: "🌀",
       title: "Pending Page Confusion",
       body: "Passengers often don't know in advance whether their ticket will confirm, leading to last-minute changes or cancellations.",
     },
@@ -200,7 +191,7 @@ export const bookingFailuresCaseStudy = {
       title: "Booking Flow Education",
       solutionName: "Booking Flow Education",
       userFlow: {
-        body: "We introduce a progress bar and a transition page right after payment, walking users through the mandatory IRCTC step instead of dropping them into it cold.",
+        body: "I introduced a progress bar and a transition page right after payment, walking users through the mandatory IRCTC step instead of dropping them into it cold.",
         steps: ["Search Route", "Select Train and WL Class", "Add Traveller and contact details", "Make payment", "Transition page with next steps", "Enter IRCTC credentials (password & Captcha)"],
       },
       iterations: [
@@ -213,7 +204,7 @@ export const bookingFailuresCaseStudy = {
       title: "Simplify IRCTC Credential",
       solutionName: "Simplify IRCTC Credential",
       userFlow: {
-        body: "Submit Credentials feeds into a decision tree that waits for a response from IRCTC: Complete, Retry Booking, or Session timeout, each with its own recovery path back to a confirmed or cancelled booking.",
+        body: "I designed Submit Credentials to feed into a decision tree that waits for a response from IRCTC: Complete, Retry Booking, or Session timeout, each with its own recovery path back to a confirmed or cancelled booking.",
       },
       iterations: [
         "User can easily reset password without leaving the booking flow",
@@ -231,7 +222,7 @@ export const bookingFailuresCaseStudy = {
       phase: "03",
       title: "Pending Conversion",
       solutionName: "Pending Conversion",
-      pitch: "We made sure to maintain design consistency similar to the booking completion screen, ensuring users feel familiar and not as though they've landed on a foreign screen.",
+      pitch: "I made sure to maintain design consistency similar to the booking completion screen, ensuring users feel familiar and not as though they've landed on a foreign screen.",
       iterations: [
         "**Booking ID** upfront- making it easier for users to track with the **CX team.**",
         "**Steps** to navigate the completed and next steps",

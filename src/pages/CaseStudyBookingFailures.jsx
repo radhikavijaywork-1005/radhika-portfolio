@@ -309,7 +309,7 @@ function AnnotatedFlowRow({ annotatedSrc, annotatedAlt, annotations, caption, sc
   );
 }
 
-const feedbackAvatars = ["🙍🏻‍♂️", "🙍🏻‍♀️", "🙎🏻‍♂️", "🙎🏻‍♀️", "🧑🏻", "👩🏻", "👨🏻"];
+const feedbackAvatars = ["❝"];
 
 // Real Play Store reviews (Trainman app), transcribed from the screenshots
 // gathered during research — trimmed of the device/app-version metadata line
@@ -442,19 +442,6 @@ export default function CaseStudyBookingFailures() {
                       <Bold text={s.text} />
                     </p>
                   </div>
-                </Reveal>
-              ))}
-            </div>
-
-            <Reveal as="h2" className="cs-h2" delay={0.06}>
-              Project Approach
-            </Reveal>
-            <div className="cs-approach-stepper">
-              {cs.approach.map((step, i) => (
-                <Reveal as="div" className="cs-approach-step" key={step.n} delay={i * 0.04}>
-                  <span className="cs-approach-step__n">{step.n}</span>
-                  <h4 className="cs-approach-step__title">{step.title}</h4>
-                  <p className="cs-approach-step__body">{step.body}</p>
                 </Reveal>
               ))}
             </div>
@@ -763,7 +750,7 @@ export default function CaseStudyBookingFailures() {
 
                 {d.phase === "01" && (
                   <>
-                    <Reveal as="p" className="cs-body cs-userflow-body" delay={0.06}>
+                    <Reveal as="p" className="cs-body cs-userflow-body cs-bf-sol1-userflow-body" delay={0.06}>
                       {d.userFlow.body}
                     </Reveal>
                     <div className="cs-bf-solution1-screens">

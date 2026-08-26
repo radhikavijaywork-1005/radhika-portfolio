@@ -36,6 +36,10 @@
   --cs-soft: #464646;
   --cs-muted: #8a8a8a;
   --cs-line: #d8d8d8;
+  /* Dedicated stroke for designed screens/GIFs — deliberately darker and
+     more visible than --cs-line (which is a near-invisible hairline meant
+     for subtle dividers, not a frame you're supposed to see). */
+  --cs-screen-stroke: #6b6b6b;
 }
 
 .dark .cs {
@@ -47,6 +51,7 @@
   --cs-soft: #b0ab9e;
   --cs-muted: #93938d;
   --cs-line: rgba(220, 232, 214, 0.32);
+  --cs-screen-stroke: #7d7d7d;
 }
 
 /* ---------- Shared grid ---------- */
@@ -679,7 +684,7 @@
 }
 
 .cs-sheet-img {
-  border: 1px solid var(--cs-line);
+  border: 1px solid var(--cs-screen-stroke);
 }
 
 .cs-flow-img-wrap {
@@ -1285,7 +1290,7 @@
   aspect-ratio: 230 / 498;
   object-fit: cover;
   -webkit-user-drag: none;
-  border: 4px solid #969696;
+  border: 1px solid var(--cs-screen-stroke);
   border-radius: 12px;
   margin-bottom: 12px;
 }
@@ -1412,7 +1417,7 @@
 .cs-spotlight__img-wrap img,
 .cs-spotlight__img-wrap video {
   width: 100%;
-  border: 4px solid #969696;
+  border: 1px solid var(--cs-screen-stroke);
   border-radius: 12px;
   display: block;
   object-fit: cover;

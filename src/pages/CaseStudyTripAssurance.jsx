@@ -434,19 +434,6 @@ export default function CaseStudyTripAssurance() {
               ))}
             </div>
 
-            <Reveal as="h2" className="cs-h2" delay={0.06}>
-              Project Approach
-            </Reveal>
-            <div className="cs-approach-stepper">
-              {cs.approach.map((step, i) => (
-                <Reveal as="div" className="cs-approach-step" key={step.n} delay={i * 0.04}>
-                  <span className="cs-approach-step__n">{step.n}</span>
-                  <h4 className="cs-approach-step__title">{step.title}</h4>
-                  <p className="cs-approach-step__body">{step.body}</p>
-                </Reveal>
-              ))}
-            </div>
-
             <Reveal as="h2" id="overview" className="cs-h2" delay={0.05}>
               Overview of Trainman
             </Reveal>
@@ -831,7 +818,7 @@ export default function CaseStudyTripAssurance() {
 
                 <div className="cs-goal-row">
                   <div className="cs-goal">
-                    <span className="cs-goal__icon">🙋🏻‍♂️</span>
+                    <span className="cs-goal__icon">👤</span>
                     <div>
                       <span className="cs-goal__label">User Goal:</span>
                       <p className="cs-goal__body"><Bold text={d.userGoal} /></p>
@@ -857,7 +844,7 @@ export default function CaseStudyTripAssurance() {
 
                 {d.platformMetrics && (
                   <div className="cs-metrics-block cs-metrics-block--platform">
-                    <span className="cs-phase__how-label cs-phase__how-label--metric">Key Platform Metrics 📊</span>
+                    <span className="cs-phase__how-label cs-phase__how-label--metric">Key Platform Metrics</span>
                     <div className="cs-stat-row cs-stat-row--platform">
                       {d.platformMetrics.map((m) => (
                         <div className="cs-stat" key={m.label}>
@@ -1151,7 +1138,7 @@ export default function CaseStudyTripAssurance() {
               ))}
             </div>
 
-            <h3 className="cs-h2 cs-h2--sub">What Travellers Shared ❤️</h3>
+            <h3 className="cs-h2 cs-h2--sub">What Travellers Shared</h3>
             <div className="cs-quote-grid cs-quote-grid--row">
               {cs.testimonials.map((t) => (
                 <div className="cs-quote-card" key={t.name}>
@@ -1178,7 +1165,7 @@ export default function CaseStudyTripAssurance() {
                 <ul className="cs-pointer-list">
                   {cs.feedbackInsights.map((item, i) => (
                     <Reveal as="li" key={i} delay={i * 0.04}>
-                      <span className="cs-pointer-list__mark" aria-hidden="true">👉🏻</span>
+                      <span className="cs-pointer-list__mark" aria-hidden="true">→</span>
                       <Bold text={item} />
                     </Reveal>
                   ))}

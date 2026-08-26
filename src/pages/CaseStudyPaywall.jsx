@@ -19,6 +19,7 @@ import sheetImg from "../assets/case-study/paywall/calling-sheet-composite.jpg";
 import futureImg from "../assets/case-study/paywall/future.png";
 import quoteImg from "../assets/case-study/paywall/Quote.png";
 import var1Img from "../assets/case-study/paywall/paywall_var_1.png";
+import var1FlatImg from "../assets/case-study/paywall/paywall_var_1_flat.png";
 import var2Img from "../assets/case-study/paywall/paywall_var_2.png";
 import var3Img from "../assets/case-study/paywall/paywall_var_3.png";
 import var4Img from "../assets/case-study/paywall/paywall_var_4.png";
@@ -31,7 +32,7 @@ import intentPaywallVideo from "../assets/case-study/paywall/intentpaywall.mp4";
 import specialAccessVideo from "../assets/case-study/paywall/special-access.mp4";
 import "./CaseStudyPaywall.css";
 
-const variantImages = [var1Img, var2Img, var3Img, var4Img, var5Img];
+const variantImages = [var1FlatImg, var2Img, var3Img, var4Img, var5Img];
 const spotlightVideos = { "02": intentPaywallVideo, "03": specialAccessVideo };
 
 const fadeUp = {

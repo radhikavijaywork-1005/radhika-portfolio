@@ -9,10 +9,14 @@ export default function Marquee({ items, speed = 48 }) {
       >
         {Array.from({ length: REPEATS }).map((_, rep) => (
           <div className="marquee__group" key={rep} aria-hidden={rep > 0}>
-            {items.map((item) => (
-              <span className="marquee__item" key={`${rep}-${item}`}>
+            {items.map((item, i) => (
+              <span
+                className="marquee__item"
+                key={`${rep}-${item}`}
+                style={{ "--bob-delay": `${(i % 5) * 0.4}s` }}
+              >
                 {item}
-                <span className="marquee__sep">◇</span>
+                <span className="marquee__sep">~</span>
               </span>
             ))}
           </div>

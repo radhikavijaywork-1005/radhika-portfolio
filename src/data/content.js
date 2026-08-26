@@ -12,7 +12,7 @@ export const profile = {
   pillGreeting: "Hi, I'm Radhika",
   title: "Product Designer & Builder",
   subhead:
-    "strategising and designing growth-focused experiences with AI-enabled product execution",
+    "7+ years across consumer products, turning ambiguous problems into shipped growth products, grounded in experimentation, and increasingly built with AI",
   currentCompany: { label: "STAGE", note: "Currently driving growth at" },
   previousCompany: { label: "Adani", note: "Previously worked at" },
   links: {
@@ -78,13 +78,12 @@ export const work = [
 ];
 
 export const skills = [
-  "UX Researcher",
-  "UI/UX Expertise",
-  "User Testing",
-  "Interaction Design",
-  "Team Player",
-  "Leadership",
-  "Growth Mindset",
+  "Growth Experimentation",
+  "Monetisation Strategy",
+  "AI-Assisted Building",
+  "0→1 Product Design",
+  "Behavioural Research",
+  "Cross-Functional Strategy",
 ];
 
 export const quote = {

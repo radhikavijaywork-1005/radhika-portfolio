@@ -42,26 +42,17 @@ export const tripAssuranceCaseStudy = {
     },
   ],
 
-  approach: [
-    { n: "1", title: "Define", body: "Understand & define the problem, business goals" },
-    { n: "2", title: "Research", body: "Understand WL flow, user goals, key metrics & trends" },
-    { n: "3", title: "Strategy", body: "Target users, competitive analysis, solutions" },
-    { n: "4", title: "Ideation & Design", body: "Define user flow, UI mockups & prototypes" },
-    { n: "5", title: "Prototype & Testing", body: "User & stakeholder testing, feedback" },
-    { n: "6", title: "Impacts & Feedbacks", body: "Observe impacts after launch, collect user feedback" },
-  ],
-
   overview:
     "**Trainman** is an IRCTC authorised online **train ticket booking platform in India.** It offers helpful technology like waitlist predictions, live train tracking, and quick refunds.",
 
   overviewFacts: [
     {
-      icon: "🙋🏻‍♂️",
+      icon: "🎯",
       title: "Prediction Model",
       body: "High-accuracy waitlist predictions to help users make informed booking decisions.",
     },
     {
-      icon: "🤖",
+      icon: "📍",
       title: "Real-Time Tracking",
       body: "Provides an intuitive booking experience along with live train tracking.",
     },
@@ -86,7 +77,7 @@ export const tripAssuranceCaseStudy = {
       body: "Uncertainty and anxiety due to unclear train ticket confirmation until the last minute.",
     },
     {
-      icon: "😐",
+      icon: "🚧",
       title: "Limited Alternatives",
       body: "Limited alternatives or backup options, leading to canceled or delayed travel plans if train tickets remain waitlisted.",
     },
@@ -122,7 +113,7 @@ export const tripAssuranceCaseStudy = {
       body: "Almost every passenger faced challenges with waitlisted train tickets, causing stress or disrupted plans.",
     },
     {
-      icon: "🤔",
+      icon: "❓",
       title: "Unsure about Travel",
       body: "Passengers often don't know in advance whether their ticket will confirm, leading to last-minute changes or cancellations.",
     },
@@ -243,7 +234,7 @@ export const tripAssuranceCaseStudy = {
     { value: "31%", label: "of tickets remain waitlisted post-chart preparation" },
   ],
 
-  userFlowDesc: "We aligned the user flow with the Habit Loop — using cues to introduce Trip Assurance, cravings for a worry-free journey, responses to opt in, and rewards like flights for waitlisted tickets.",
+  userFlowDesc: "I aligned the user flow with the Habit Loop — using cues to introduce Trip Assurance, cravings for a worry-free journey, responses to opt in, and rewards like flights for waitlisted tickets.",
 
   designVariants: [
     { label: "1 · Homepage", title: "Cue — visibility on the homepage banner grabs attention upfront" },
@@ -299,7 +290,7 @@ export const tripAssuranceCaseStudy = {
         { value: "31%", label: "Remains Waitlisted", desc: "Post-Chart Waitlisted Tickets" },
       ],
       userFlow: {
-        body: "We aligned the user flow with the Habit Loop — using cues to introduce Trip Assurance, cravings for a worry-free journey, responses to opt in, and rewards like flights for waitlisted tickets.",
+        body: "I aligned the user flow with the Habit Loop — using cues to introduce Trip Assurance, cravings for a worry-free journey, responses to opt in, and rewards like flights for waitlisted tickets.",
         steps: [
           { title: "Search Route", tag: "Introducing Trip Assurance", loop: "Cues" },
           { title: "Select Train and WL Class", tag: "Assured Journey Details", loop: "Cravings" },
@@ -361,15 +352,15 @@ export const tripAssuranceCaseStudy = {
       branches: [
         {
           title: "Chart Not Prepared",
-          role: "👩🏻‍💼 Customer Support",
+          role: "Customer Support",
           steps: ["Connect with user and collect details like travel date, full name, etc.", "Pre-book cheapest flight available for the travel date."],
         },
         {
           title: "Chart Prepared",
           role: "",
           steps: [
-            "**Confirmed ticket → 👨🏻‍💻 Tech:** automate refund of Trip Assurance fee into TM wallet.",
-            "**Waitlisted ticket → 👩🏻‍💼 Customer Support:** connect with user & share flight ticket on shared contact details. Upload to portal so the user can download from the app too.",
+            "**Confirmed ticket → Tech:** automate refund of Trip Assurance fee into TM wallet.",
+            "**Waitlisted ticket → Customer Support:** connect with user & share flight ticket on shared contact details. Upload to portal so the user can download from the app too.",
           ],
         },
       ],
