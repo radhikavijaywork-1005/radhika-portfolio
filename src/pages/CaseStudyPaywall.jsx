@@ -17,6 +17,8 @@ import flowImg from "../assets/case-study/paywall/flow.png";
 import indianmanImg from "../assets/case-study/paywall/indianman.png";
 import flowGif from "../assets/case-study/paywall/flow.gif";
 import sheetImg from "../assets/case-study/paywall/calling-sheet-composite.jpg";
+import variantsSheetImg from "../assets/case-study/paywall/variants-sheet.png";
+import pastExperimentsImg from "../assets/case-study/paywall/past-experiments-collage.png";
 import futureImg from "../assets/case-study/paywall/future.png";
 import quoteImg from "../assets/case-study/paywall/Quote.png";
 import var1Img from "../assets/case-study/paywall/paywall_var_1.png";
@@ -35,6 +37,16 @@ import "./CaseStudyPaywall.css";
 
 const variantImages = [var1FlatImg, var2Img, var3Img, var4Img, var5Img];
 const spotlightVideos = { "02": intentPaywallVideo, "03": specialAccessVideo };
+
+const navSections = [
+  { id: "summary", label: "Summary" },
+  { id: "problem", label: "Problem" },
+  { id: "research", label: "Research" },
+  { id: "strategy", label: "Strategy" },
+  { id: "decisions", label: "Decisions" },
+  { id: "impact", label: "Impact" },
+  { id: "reflection", label: "Reflection" },
+];
 
 const fadeUp = {
   hidden: { opacity: 0, transform: "translateY(20px)" },
@@ -182,6 +194,7 @@ export default function CaseStudyPaywall() {
   const { playHover, playClick } = useSoundContext();
   const variantDrag = useDragScroll();
   const { theme } = useTheme();
+  const [activeStrategyTab, setActiveStrategyTab] = useState(cs.strategy.tabs[0].key);
   const stageLogoSrc = theme === "dark" ? stageLogoWhite : stageLogo;
   const highlight05Src = theme === "dark" ? highlight05Dark : highlight05;
   const navigate = useNavigate();
@@ -246,7 +259,7 @@ export default function CaseStudyPaywall() {
           </Reveal>
         </section>
 
-        <CaseStudyNav />
+        <CaseStudyNav sections={navSections} />
 
         <div className="cs-content">
           {/* ---------- Summary ---------- */}
@@ -317,12 +330,15 @@ export default function CaseStudyPaywall() {
             </Reveal>
           </section>
 
-          {/* ---------- Design work ---------- */}
-          <section id="design-work" className="cs-section">
+          {/* ---------- Research ---------- */}
+          <section id="research" className="cs-section">
             <Reveal as="h2" className="cs-h2">
-              Existing App flow
+              Research &amp; Insights
             </Reveal>
 
+            <Reveal as="h3" className="cs-h2 cs-h2--sub" delay={0.03}>
+              a. Understanding the existing flow
+            </Reveal>
             <Reveal as="div" className="cs-flow-img-wrap" delay={0.06}>
               <img className="cs-flow-img" src={flowImg} alt="Existing app flow: Meta Ads to Download App to Sign-up to Genre Selection to Paywall to Checkout. ~98% of acquisition happens from Meta ads." />
             </Reveal>
@@ -348,8 +364,8 @@ export default function CaseStudyPaywall() {
               </Reveal>
             </div>
 
-            <Reveal as="h2" className="cs-h2" delay={0.05}>
-              Breakdown of existing screen
+            <Reveal as="h3" className="cs-h2 cs-h2--sub" delay={0.05}>
+              b. Breakdown of the existing screen
             </Reveal>
 
             <Reveal as="div" className="cs-breakdown-block" delay={0.02}>
@@ -372,12 +388,9 @@ export default function CaseStudyPaywall() {
                 ))}
               </div>
             </Reveal>
-          </section>
 
-          {/* ---------- Research ---------- */}
-          <section id="research" className="cs-section">
-            <Reveal as="h2" className="cs-h2">
-              Research
+            <Reveal as="h3" className="cs-h2 cs-h2--sub" delay={0.05}>
+              c. User research
             </Reveal>
             <Reveal as="p" className="cs-body" delay={0.05}>
               {cs.research.body}
@@ -409,8 +422,8 @@ export default function CaseStudyPaywall() {
               </div>
             </Reveal>
 
-            <Reveal as="h2" className="cs-h2" delay={0.05}>
-              Insights
+            <Reveal as="h3" className="cs-h2 cs-h2--sub" delay={0.05}>
+              d. Insights
             </Reveal>
             <div className="cs-insight-grid">
               {cs.insights.map((ins, i) => (
@@ -421,6 +434,185 @@ export default function CaseStudyPaywall() {
                 </Reveal>
               ))}
             </div>
+
+            <Reveal as="h3" className="cs-h2 cs-h2--sub" delay={0.05}>
+              e. What past experiments already told us
+            </Reveal>
+            <Reveal as="p" className="cs-body" delay={0.04}>
+              <Bold text={cs.pastExperiments.intro} />
+            </Reveal>
+            <Reveal as="div" className="cs-past-experiments-img-wrap" delay={0.06}>
+              <img className="cs-past-experiments-img" src={pastExperimentsImg} alt="Collage of past paywall experiment variants tested over 18 months" />
+            </Reveal>
+            <Reveal as="p" className="cs-body" delay={0.05}>
+              {cs.pastExperiments.learningsIntro}
+            </Reveal>
+            <div className="cs-oi-grid">
+              {cs.pastExperiments.learnings.map((l, i) => (
+                <Reveal as="div" className="cs-oi-item" key={l.n} delay={(i % 4) * 0.06}>
+                  <div className="cs-oi-item__head">
+                    <span className="cs-breakdown-item__n">{l.n}</span>
+                    <h3 className="cs-oi-item__title">{l.title}</h3>
+                  </div>
+                  <div className="cs-oi-item__row">
+                    <span className="cs-oi-item__label">Observed</span>
+                    <p className="cs-oi-item__observed">{l.observed}</p>
+                  </div>
+                  <div className="cs-oi-item__row">
+                    <span className="cs-oi-item__label cs-oi-item__label--inferred">Inferred</span>
+                    <p className="cs-oi-item__inferred">{l.inferred}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </section>
+
+          {/* ---------- Strategy ---------- */}
+          <section id="strategy" className="cs-section">
+            <Reveal as="h2" className="cs-h2">
+              Strategy
+            </Reveal>
+
+            <Reveal as="div" className="cs-principle" delay={0.04}>
+              <span className="cs-principle__eyebrow">{cs.strategy.principleEyebrow}</span>
+              <p className="cs-principle__statement">{cs.strategy.principleStatement}</p>
+              <p className="cs-principle__note">{cs.strategy.principleNote}</p>
+            </Reveal>
+
+            <div className="cs-strategy-tabs" role="tablist" aria-label="Strategy stages">
+              {cs.strategy.tabs.map((t) => (
+                <button
+                  key={t.key}
+                  type="button"
+                  role="tab"
+                  aria-selected={activeStrategyTab === t.key}
+                  className={`cs-strategy-tab${activeStrategyTab === t.key ? " is-active" : ""}`}
+                  onClick={() => setActiveStrategyTab(t.key)}
+                  onMouseEnter={playHover}
+                >
+                  <span aria-hidden="true">{t.icon}</span> {t.label}
+                </button>
+              ))}
+            </div>
+
+            {activeStrategyTab === "universe" && (
+              <div className="cs-strategy-panel">
+                <Reveal as="p" className="cs-body" delay={0.04}>
+                  <Bold text={cs.strategy.universeIntro} />
+                </Reveal>
+
+                <Reveal as="p" className="cs-body" delay={0.06}>
+                  <Bold text={cs.strategy.universeCriterion} />
+                </Reveal>
+
+                <div className="cs-priority-legend cs-priority-legend--shared">
+                  <span><i className="cs-priority-legend__dot cs-priority-legend__dot--p1" />Priority 1</span>
+                  <span><i className="cs-priority-legend__dot cs-priority-legend__dot--p2" />Priority 2</span>
+                  <span><i className="cs-priority-legend__dot cs-priority-legend__dot--neutral" />On the table, unranked</span>
+                </div>
+
+                <div className="cs-priority-grid">
+                  <div className="cs-priority-grid__col">
+                    {[cs.strategy.commsUniverse[0], cs.strategy.commsUniverse[2], cs.strategy.commsUniverse[3]].map((group, i) => (
+                      <Reveal as="div" className="cs-priority-block" key={group.title} delay={i * 0.06}>
+                        <h4 className="cs-priority-block__title">{group.title}</h4>
+                        <div className={`cs-priority-tags${group.title === "Plan communication" ? " cs-priority-tags--grid" : ""}`}>
+                          {group.items.map((item) => (
+                            <span
+                              className={`cs-tag cs-tag--${item.tier || "neutral"}`}
+                              key={item.text}
+                            >
+                              {item.text}
+                            </span>
+                          ))}
+                        </div>
+                      </Reveal>
+                    ))}
+                  </div>
+                  <Reveal as="div" className="cs-priority-block cs-priority-grid__col--fill" delay={0.06}>
+                    <h4 className="cs-priority-block__title">{cs.strategy.commsUniverse[1].title}</h4>
+                    <div className="cs-priority-tags cs-priority-tags--grid">
+                      {cs.strategy.commsUniverse[1].items.map((item) => (
+                        <span
+                          className={`cs-tag cs-tag--${item.tier || "neutral"}`}
+                          key={item.text}
+                        >
+                          {item.text}
+                        </span>
+                      ))}
+                    </div>
+                  </Reveal>
+                </div>
+              </div>
+            )}
+
+            {activeStrategyTab === "variants" && (
+              <div className="cs-strategy-panel">
+                <Reveal as="p" className="cs-body" delay={0.04}>
+                  {cs.strategy.variantCompositionIntro}
+                </Reveal>
+
+                <Reveal as="div" className="cs-sheet-img-wrap cs-sheet-img-wrap--variants" delay={0.1}>
+                  <img className="cs-sheet-img cs-sheet-img--variants" src={variantsSheetImg} alt="Original variant-composition sheet mapping fixed and optional elements to the final tested variants" />
+                  <span className="cs-caption">Variant composition sheet</span>
+                </Reveal>
+              </div>
+            )}
+
+            {activeStrategyTab === "structure" && (
+              <div className="cs-strategy-panel">
+                <Reveal as="p" className="cs-body" delay={0.04}>
+                  {cs.strategy.structureIntro}
+                </Reveal>
+                <Reveal as="div" className="cs-paywall-phone-row" delay={0.06}>
+                  <div className="cs-paywall-phone">
+                    {cs.strategy.structure.blocks.map((b) => (
+                      <div className="cs-wf-block" key={b.title}>
+                        <span className="cs-wf-block__label">{b.code}. {b.title}</span>
+                        {b.type === "image" && (
+                          <div className="cs-wf-image">
+                            <svg viewBox="0 0 100 60" preserveAspectRatio="none" aria-hidden="true">
+                              <line x1="0" y1="0" x2="100" y2="60" />
+                              <line x1="100" y1="0" x2="0" y2="60" />
+                            </svg>
+                            <div className="cs-wf-lines cs-wf-lines--inline">
+                              <span className="cs-wf-line" style={{ width: "70%" }} />
+                              <span className="cs-wf-line" style={{ width: "45%" }} />
+                            </div>
+                          </div>
+                        )}
+                        {b.type === "text" && (
+                          <div className="cs-wf-lines cs-wf-lines--plan">
+                            <span className="cs-wf-line cs-wf-line--lg" style={{ width: "55%" }} />
+                            <span className="cs-wf-line" style={{ width: "85%" }} />
+                            <span className="cs-wf-line" style={{ width: "60%" }} />
+                            <span className="cs-wf-line" style={{ width: "70%" }} />
+                            <span className="cs-wf-line" style={{ width: "40%" }} />
+                          </div>
+                        )}
+                        {b.type === "video" && (
+                          <div className="cs-wf-video">
+                            <span className="cs-wf-video__play" />
+                          </div>
+                        )}
+                        {b.type === "button" && <div className="cs-wf-button" />}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="cs-paywall-phone__legend">
+                    {cs.strategy.structure.blocks.map((b) => (
+                      <div className="cs-breakdown-item" key={b.title}>
+                        <span className="cs-breakdown-item__n">{b.code}</span>
+                        <div>
+                          <h3 className="cs-breakdown-item__title">{b.title}</h3>
+                          <p className="cs-breakdown-item__body">{b.note}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </Reveal>
+              </div>
+            )}
           </section>
 
           {/* ---------- Decisions / Phases ---------- */}
@@ -451,6 +643,33 @@ export default function CaseStudyPaywall() {
                 <Reveal as="p" className="cs-phase__how-body" delay={0.1}>
                   <Bold text={d.howTested} />
                 </Reveal>
+
+                {d.intentLogic && (
+                  <Reveal as="div" className="cs-intent-logic" delay={0.12}>
+                    <span className="cs-intent-logic__label">{d.intentLogic.title}</span>
+                    <p className="cs-intent-logic__intro">
+                      <Bold text={d.intentLogic.intro} />
+                    </p>
+                    <div className="cs-intent-logic__decisions">
+                      {d.intentLogic.decisions.map((dec) => (
+                        <div className="cs-intent-logic__item" key={dec.n}>
+                          <span className="cs-intent-logic__n">{dec.n}</span>
+                          <div>
+                            <h4 className="cs-intent-logic__item-title">{dec.title}</h4>
+                            <p className="cs-intent-logic__item-body">{dec.body}</p>
+                            {dec.subItems && (
+                              <ul className="cs-intent-logic__sublist">
+                                {dec.subItems.map((sub) => (
+                                  <li key={sub}><Bold text={sub} /></li>
+                                ))}
+                              </ul>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </Reveal>
+                )}
 
                 {d.variants && (
                   <Reveal as="div" className="cs-phase1-card" delay={0.1}>

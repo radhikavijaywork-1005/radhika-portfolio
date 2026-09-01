@@ -20,6 +20,7 @@ import { skills } from "./data/content";
 const CaseStudyPaywall = lazy(() => import("./pages/CaseStudyPaywall"));
 const CaseStudyTripAssurance = lazy(() => import("./pages/CaseStudyTripAssurance"));
 const CaseStudyBookingFailures = lazy(() => import("./pages/CaseStudyBookingFailures"));
+const CaseStudyStageChatbot = lazy(() => import("./pages/CaseStudyStageChatbot"));
 const AboutMe = lazy(() => import("./pages/AboutMe"));
 const WorkPage = lazy(() => import("./pages/WorkPage"));
 const PlaygroundPage = lazy(() => import("./pages/PlaygroundPage"));
@@ -155,6 +156,7 @@ function App() {
           <Route path="/work/paywall-experiments" element={<CaseStudyPaywall />} />
           <Route path="/work/trip-assurance" element={<CaseStudyTripAssurance />} />
           <Route path="/work/booking-failures" element={<CaseStudyBookingFailures />} />
+          <Route path="/work/character-chatbot" element={<CaseStudyStageChatbot />} />
           <Route path="/preview/motion" element={<PreviewMotion />} />
           <Route path="/preview/futuristic" element={<PreviewFuturistic />} />
           <Route path="/preview/sand" element={<PreviewSand />} />

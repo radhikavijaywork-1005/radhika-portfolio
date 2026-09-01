@@ -427,9 +427,179 @@
   background: var(--cs-muted-bg, rgba(0, 0, 0, 0.05));
 }
 
+.cc-flag--upcoming {
+  color: var(--maroon);
+  background: rgba(var(--maroon-rgb), 0.12);
+}
+
+/* ---------- Fact-grid column variants ---------- */
+.cs-overview-facts--two {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cs-overview-facts--four {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 900px) {
+  .cs-overview-facts--four {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .cs-overview-facts--two,
+  .cs-overview-facts--four {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Plain bullet list inside a fact card ---------- */
+.cs-branch-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cs-branch-list li {
+  font-size: 13.5px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: var(--cs-body);
+  padding-left: 14px;
+  position: relative;
+}
+
+.cs-branch-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--maroon);
+  opacity: 0.55;
+}
+
+/* ---------- Figma plugin teaser card ---------- */
+.cc-plugin-teaser {
+  margin-top: 28px;
+  padding: 24px;
+  border: 1px dashed rgba(var(--maroon-rgb), 0.45);
+  border-radius: 12px;
+  background: rgba(var(--maroon-rgb), 0.05);
+}
+
+.cc-plugin-teaser__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.cc-plugin-teaser__title {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  color: var(--cs-ink);
+  margin: 0;
+}
+
+.cc-plugin-teaser__body {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: var(--cs-body);
+  margin: 0 0 10px;
+}
+
+.cc-plugin-teaser__note {
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--cs-soft);
+  margin: 0;
+}
+
 @media (max-width: 640px) {
   .cc-flow__step {
     font-size: 12px;
     padding: 8px 12px;
   }
+}
+
+/* General cultural/market context, distinguished from sourced project facts
+   above it — smaller and softer, so a reader can tell at a glance which
+   claims are backed by this project's own data vs. broader context. */
+.cs-body--soft {
+  font-size: 14px;
+  font-style: italic;
+  color: var(--cs-soft);
+}
+
+/* ---------- Reasoning ladder — Signal → Principle → Decision ---------- */
+.cc-ladder {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+}
+
+.cc-ladder__step {
+  display: flex;
+  gap: 20px;
+}
+
+.cc-ladder__marker {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.cc-ladder__n {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1.5px solid var(--maroon);
+  color: var(--maroon);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 14px;
+  background: var(--cs-card-bg);
+}
+
+.cc-ladder__line {
+  width: 1.5px;
+  flex: 1;
+  min-height: 32px;
+  background: rgba(var(--maroon-rgb), 0.3);
+  margin: 4px 0;
+}
+
+.cc-ladder__content {
+  padding-bottom: 28px;
+}
+
+.cc-ladder__label {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--maroon);
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.cc-ladder__body {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--cs-body);
+  max-width: 56ch;
 }

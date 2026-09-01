@@ -374,7 +374,7 @@
   z-index: 1;
   font-size: 14.5px;
   line-height: 1.5;
-  color: var(--cs-ink);
+  color: var(--cs-soft);
 }
 
 @media (max-width: 720px) {

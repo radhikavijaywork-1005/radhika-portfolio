@@ -142,6 +142,180 @@ export const paywallCaseStudy = {
     },
   ],
 
+  pastExperiments: {
+    intro:
+      "Alongside these calls, I went back through **18 months of past paywall experiments** (Amplitude data, App/Play Store reviews, and calling-sheet notes that had never been synthesised together) to separate what we already knew from what we were still guessing at.",
+    learningsIntro: "Five patterns kept surfacing across that history, none of which had been acted on together:",
+    learnings: [
+      {
+        n: "01",
+        title: "Plan info & trial behaviour",
+        observed: "Incomplete plan info let mandates continue unnoticed.",
+        inferred: "Explain the trial clearly and simply.",
+      },
+      {
+        n: "02",
+        title: "Visual & UI",
+        observed: "Green CTAs and clear pricing lifted conversion, dense reviews didn't.",
+        inferred: "Use clear pricing and a green button. Skip the long reviews.",
+      },
+      {
+        n: "03",
+        title: "Video",
+        observed: "Autoplay video lifted conversion, but users didn't relate to the face.",
+        inferred: "Keep the video, use a more relatable face.",
+      },
+      {
+        n: "04",
+        title: "Paywall timing",
+        observed: "Paywall shown right after login converted better than after a click.",
+        inferred: "Show the paywall right after login, by default.",
+      },
+      {
+        n: "05",
+        title: "Untested surface",
+        observed: "The content page right after the trailer plays had never been tested.",
+        inferred: "Worth testing next.",
+      },
+    ],
+  },
+
+  strategy: {
+    principleEyebrow: "The principle",
+    principleStatement: "Earn trust before asking for it.",
+    principleNote:
+      "Research kept pointing to the same failure: users were asked to pay before they understood what they were paying for. So content and clarity had to come before price, urgency, or sales language, every time. That single rule is what the three decisions below actually enforce.",
+
+    tabs: [
+      { key: "universe", icon: "🗂️", label: "Comms Universe" },
+      { key: "variants", icon: "⚙️", label: "Variant Composition" },
+      { key: "structure", icon: "📱", label: "Screen Structure" },
+    ],
+
+    universeLabel: "Every plan-comms and nurturing element on the table, prioritised in place",
+    universeIntro:
+      "I started by listing **everything the paywall could possibly say**, then prioritised right on that same list.",
+    universeCriterion:
+      "**Priority 1 answered one of three research insights directly:** trial clarity, content value, or seeing before paying. Everything else waited, or was shelved.",
+    commsUniverse: [
+      {
+        title: "Plan communication",
+        items: [
+          { text: "₹1 for 7 days", tier: "p1" },
+          { text: "Offer only for today", tier: "p1" },
+          { text: "Cancel anytime", tier: "p1" },
+          { text: "₹199 anchoring", tier: "p2" },
+          { text: "₹199 for x months", tier: "p2" },
+          { text: "Less than ₹3/day", tier: "p2" },
+          { text: "Trial only for you", tier: null },
+          { text: "Offer only for you", tier: null },
+          { text: "No hidden charges", tier: null },
+          { text: "Recharges every 3 months", tier: null },
+        ],
+      },
+      {
+        title: "Nurturing elements",
+        items: [
+          { text: "No. of shows", tier: "p1" },
+          { text: "Regional subscriber count (Haryanvi/Rajasthani/Bhojpuri)", tier: "p1" },
+          { text: "Show/movie from the ad, reinforced", tier: "p1" },
+          { text: "Library depth, visual", tier: "p2" },
+          { text: "Quality is HD", tier: "p2" },
+          { text: "Refund info", tier: "p2" },
+          { text: "Social proof", tier: "p2" },
+          { text: "Hours of content", tier: null },
+          { text: "Genres available", tier: null },
+          { text: "Popular titles", tier: null },
+          { text: "Films, webshows, stand-up", tier: null },
+          { text: "Download & watch offline", tier: null },
+          { text: "Watch ad-free", tier: null },
+          { text: "Local dialect / your language", tier: null },
+          { text: "Across devices, mobile & TV", tier: null },
+          { text: "Highly rated content", tier: null },
+          { text: "Famous shows & artists", tier: null },
+          { text: "Local film fraternity contribution", tier: null },
+          { text: "Dedicated customer support", tier: null },
+          { text: "Data-saving streaming", tier: null },
+          { text: "User testimonials", tier: null },
+        ],
+      },
+      {
+        title: "Video",
+        items: [
+          { text: "Neeraj Chopra (investor & brand ambassador)", tier: "p1" },
+          { text: "Trial plan script in dialect", tier: "p1" },
+        ],
+      },
+      {
+        title: "CTA",
+        items: [
+          { text: "Input with Start Trial", tier: "p1" },
+          { text: "Input with price", tier: "p2" },
+          { text: "Input with trial days", tier: "p2" },
+        ],
+      },
+    ],
+
+    variantCompositionLabel: "Composing that priority list into testable variants",
+    variantCompositionIntro:
+      "Those priorities became building blocks, some fixed on every variant, some optional. Each variant is a specific combination of blocks, not a separate design.",
+    variantRows: [
+      {
+        code: "A",
+        title: "Plan",
+        detail: "₹1/7 days, offer today, cancel anytime, ₹199 anchoring",
+        optional: [
+          { code: "A1", title: "₹199 for x months" },
+          { code: "A2", title: "Less than ₹3/day" },
+        ],
+      },
+      {
+        code: "B",
+        title: "Nurturing",
+        detail: "No. of shows, regional subscribers, ad show reinforced",
+        optional: [
+          { code: "B1", title: "Library depth, visual" },
+          { code: "B2", title: "Quality is HD" },
+          { code: "B3", title: "Refund info" },
+          { code: "B4", title: "Social proof" },
+        ],
+      },
+      {
+        code: "C",
+        title: "Video",
+        detail: "Neeraj Chopra, trial script in dialect",
+        optional: [],
+      },
+      {
+        code: "D",
+        title: "CTA",
+        detail: "Input to start trial",
+        optional: [
+          { code: "D1", title: "Input with price" },
+          { code: "D2", title: "Input with trial days" },
+        ],
+      },
+    ],
+    variantFormulasLabel: "Final variants",
+    variantFormulas: [
+      { codes: ["A1"] },
+      { codes: ["A1", "B3"] },
+      { codes: ["B1", "B2"] },
+      { codes: ["B1", "B4"] },
+    ],
+
+    structureIntro:
+      "Then I fixed the order across the four CMS blocks the paywall was built from: header, plan, video, and CTA.",
+    structure: {
+      blocks: [
+        { code: "1", title: "Header", type: "image", note: "Content depth and nurturing signals lead the screen. Density varied by variant, to isolate whether more signal actually helped." },
+        { code: "2", title: "Plan", type: "text", note: "Plan terms come right after, kept crisp, written to nurture trust rather than scare the user away." },
+        { code: "3", title: "Video", type: "video", note: "Neeraj Chopra's video stayed in every variant, never dropped or swapped." },
+        { code: "4", title: "CTA", type: "button", note: "Copy stayed constant across every variant, so any conversion delta traces to plan clarity, not a stronger call-to-action." },
+      ],
+    },
+  },
+
   decisions: [
     {
       phase: "01",
@@ -176,7 +350,28 @@ export const paywallCaseStudy = {
       hypothesis:
         "The user's source intent is the strongest signal we have. A paywall that knows what title or genre they came from a Meta ad to see should outperform a generic one.",
       howTested:
-        "Layered **Intent Reinforcement** on top of the Phase 1 winner - surfacing a small, contextual reminder of the source title at paywall entry.",
+        "Layered **Intent Reinforcement** onto the winning paywall, surfacing a small, contextual reminder of the source title at paywall entry.",
+      intentLogic: {
+        title: "Logic behind intent reinforcement",
+        intro: "Intent turned into **two real decisions**, not a checklist of tactics.",
+        decisions: [
+          {
+            n: "01",
+            title: "Exact ad match",
+            body: "The trailer or clip tied to the ad the user clicked, matched via marketing ID. This is the literal intent signal.",
+          },
+          {
+            n: "02",
+            title: "Content depth",
+            body: "Surfaced to justify the price, built from three supporting pieces working together:",
+            subItems: [
+              "Dialect-matched catalogue, **top 10 shows** from the user's **own dialect**, not a generic list",
+              "Synced with marketing, titles match whatever **performance marketing** is pushing **that week**",
+              "Value before price, **content depth** sequenced **above plan comms** so they're read together",
+            ],
+          },
+        ],
+      },
       eyebrow: "Phase 2",
       spotlightTitle: "Intent paywall",
       spotlightBody:

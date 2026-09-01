@@ -35,11 +35,17 @@
   --cs-body: #323232;
   --cs-soft: #464646;
   --cs-muted: #8a8a8a;
+  --cs-muted-rgb: 138, 138, 138;
   --cs-line: #d8d8d8;
   /* Dedicated stroke for designed screens/GIFs — deliberately darker and
      more visible than --cs-line (which is a near-invisible hairline meant
      for subtle dividers, not a frame you're supposed to see). */
   --cs-screen-stroke: #6b6b6b;
+  /* Dedicated green for "Inferred" callouts (Observed vs Inferred pattern) —
+     needs its own rgb triplet for the tint background, global --forest-soft
+     has no matching --rgb var and reads too close to --cs-body at this size. */
+  --cs-green: #2f6b4f;
+  --cs-green-rgb: 47, 107, 79;
 }
 
 .dark .cs {
@@ -50,8 +56,11 @@
   --cs-body: #cfcabe;
   --cs-soft: #b0ab9e;
   --cs-muted: #93938d;
+  --cs-muted-rgb: 147, 147, 141;
   --cs-line: rgba(220, 232, 214, 0.32);
   --cs-screen-stroke: #7d7d7d;
+  --cs-green: #7cbf9e;
+  --cs-green-rgb: 124, 191, 158;
 }
 
 /* ---------- Shared grid ---------- */
@@ -683,6 +692,17 @@
   isolation: isolate;
 }
 
+.cs-sheet-img-wrap--variants {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.cs-sheet-img--variants {
+  width: 100%;
+  max-width: 100%;
+}
+
 .cs-sheet-img {
   border: 1px solid var(--cs-screen-stroke);
 }
@@ -948,6 +968,104 @@
   }
 }
 
+.cs-past-experiments-img-wrap {
+  margin: 24px 0 28px;
+  max-width: 832px;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--cs-line);
+}
+
+.cs-past-experiments-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* Observed -> Inferred: a 2-column grid of compact cards (1+2 in the first
+   row, 3+4 in the second, 5 spanning both) instead of a single vertical
+   list — reads like a table of findings. Observed and Inferred are two
+   plain-English lines stacked inside each card, not one run-on sentence. */
+.cs-oi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  padding-top: 4px;
+}
+
+.cs-oi-item {
+  padding: 20px 24px;
+  border: 0.5px solid var(--cs-muted);
+  border-radius: 12px;
+  background: var(--cs-card-bg);
+}
+
+.cs-oi-item:nth-child(5) {
+  grid-column: 1 / -1;
+}
+
+.cs-oi-item__head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.cs-oi-item__title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--cs-ink);
+}
+
+.cs-oi-item__row {
+  margin-bottom: 10px;
+}
+
+.cs-oi-item__row:last-child {
+  margin-bottom: 0;
+}
+
+.cs-oi-item__label {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 10.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--cs-muted);
+  margin-bottom: 3px;
+}
+
+.cs-oi-item__label--inferred {
+  color: var(--cs-green);
+}
+
+.cs-oi-item__observed {
+  font-size: 13.5px;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--cs-soft);
+  margin: 0;
+}
+
+.cs-oi-item__inferred {
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.45;
+  color: var(--cs-green);
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .cs-oi-grid {
+    grid-template-columns: 1fr;
+  }
+  .cs-oi-item:nth-child(5) {
+    grid-column: 1;
+  }
+}
+
 /* ---------- Research ---------- */
 /* Numbered pills — real <ol> markers, matching Figma's "1. Barriers"
    style instead of a plain unordered tag row. */
@@ -1106,6 +1224,797 @@
   }
   .cs-insight-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- Strategy ---------- */
+/* The narrowing itself as a stat funnel — proves this tab documents a
+   decision (36 things considered, down to 9 that mattered) instead of
+   reading as a flat inventory dump once the chip grid follows it. */
+.cs-universe-funnel {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin: 28px 0 20px;
+}
+
+.cs-universe-funnel__step {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.cs-universe-funnel__arrow {
+  color: var(--cs-muted);
+  flex-shrink: 0;
+}
+
+/* Comms Universe layout: Plan, Video, and CTA are all short lists, so they
+   stack in a flex column on the left instead of each getting a mostly-
+   empty card of their own. The right card (Nurturing elements, the long
+   list) is a flex sibling of that column, not a grid-spanning item —
+   flexbox's default stretch reliably equalises both sides' rendered
+   height to whichever is taller, which CSS Grid's auto-row-sizing plus a
+   spanning item didn't do consistently. */
+.cs-priority-grid {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  margin: 0 0 24px;
+  padding: 20px;
+  background: rgb(245, 245, 245);
+  border-radius: 24px;
+}
+
+.dark .cs-priority-grid {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.cs-priority-grid__col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.cs-priority-grid__col--fill {
+  flex: 1;
+}
+
+@media (max-width: 720px) {
+  .cs-priority-grid {
+    flex-direction: column;
+  }
+}
+
+.cs-priority-block {
+  padding: 16px 18px;
+  border: 0.5px solid var(--cs-muted);
+  border-radius: 12px;
+  background: var(--cs-card-bg);
+}
+
+.cs-priority-block__title {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 15px;
+  color: var(--cs-ink);
+  margin-bottom: 10px;
+}
+
+.cs-priority-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Nurturing elements' list runs to 21 items — most under ~20 characters,
+   so letting them wrap 1-per-line (flex's default here, since few pairs
+   are short enough to share a row on their own) wastes a lot of vertical
+   space. Forcing 2 explicit columns halves that height regardless of each
+   item's individual width. */
+.cs-priority-tags--grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.cs-priority-tags--grid .cs-tag {
+  text-align: left;
+}
+
+@media (max-width: 480px) {
+  .cs-priority-tags--grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.cs-tag {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.3;
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+
+.cs-tag--p1 {
+  font-weight: 600;
+  color: var(--maroon);
+  background: rgba(var(--maroon-rgb), 0.1);
+  border: 1px solid rgba(var(--maroon-rgb), 0.25);
+}
+
+.cs-tag--p2 {
+  font-weight: 500;
+  color: var(--cs-soft);
+  background: rgba(var(--cs-muted-rgb), 0.14);
+  border: 1px solid rgba(var(--cs-muted-rgb), 0.3);
+}
+
+.cs-priority-legend {
+  display: flex;
+  gap: 20px;
+  font-size: 12px;
+  color: var(--cs-muted);
+}
+
+.cs-priority-legend--shared {
+  margin: 0 0 12px;
+}
+
+.cs-priority-legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.cs-priority-legend__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.cs-priority-legend__dot--p1 {
+  background: var(--maroon);
+}
+
+.cs-priority-legend__dot--p2 {
+  background: var(--cs-muted);
+  opacity: 0.6;
+}
+
+.cs-tag--neutral {
+  font-weight: 300;
+  color: var(--cs-muted);
+  background: transparent;
+  border: 1px solid var(--cs-line);
+}
+
+/* Variant composition: each row pairs a Fixed element with its matching
+   Optional add-ons (Plan -> E, Nurturing -> F, CTA -> G, per the source
+   sheet's own grouping), instead of two independent columns that scrolled
+   past each other at different rates. Video (C) has no optional row, so
+   its right side is just empty space, not a fabricated pairing. */
+.cs-variant-composition-wrap {
+  padding: 28px;
+  margin: 24px 0 48px;
+  background: rgb(245, 245, 245);
+  border-radius: 24px;
+}
+
+.dark .cs-variant-composition-wrap {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.cs-variant-matrix-wrap {
+  position: relative;
+}
+
+.cs-variant-matrix-head {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  margin: 14px 0 8px;
+}
+
+.cs-variant-matrix__eyebrow {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--cs-muted);
+}
+
+.cs-variant-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.cs-variant-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: stretch;
+  gap: 32px;
+}
+
+.cs-variant-row__optional {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cs-variant-chip--chosen {
+  background: rgba(var(--cs-muted-rgb), 0.14);
+  border-color: rgba(var(--cs-muted-rgb), 0.3);
+}
+
+@media (max-width: 720px) {
+  .cs-variant-matrix-head,
+  .cs-variant-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+}
+
+.cs-variant-chip {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  background: var(--cs-card-bg);
+  border: 1px solid var(--cs-line);
+}
+
+.cs-variant-chip--fixed {
+  border-color: rgba(var(--maroon-rgb), 0.25);
+}
+
+.cs-variant-chip--optional {
+  padding: 8px 12px;
+}
+
+.cs-variant-chip__code {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(var(--maroon-rgb), 0.1);
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--maroon);
+}
+
+.cs-variant-chip__title {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--cs-ink);
+}
+
+.cs-variant-chip__detail {
+  display: block;
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--cs-muted);
+  margin-top: 2px;
+}
+
+/* Formula rows collapse the repeated fixed core (A+B+C+D, identical in
+   every row and carrying no new information) into a single "Base" chip
+   defined once above, and show what's actually added by its real name,
+   not a bare letter that forces a scroll back up to the matrix to decode. */
+.cs-variant-formulas-section {
+  margin-top: 14px;
+}
+
+.cs-variant-formulas__label {
+  margin: 0 0 4px;
+}
+
+.cs-variant-formulas__hint {
+  font-size: 12px;
+  color: var(--cs-muted);
+  margin: 0 0 10px;
+}
+
+.cs-variant-formulas {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.cs-variant-formula {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 8px 12px;
+  border: 1px solid var(--cs-line);
+  border-radius: 10px;
+  background: var(--cs-card-bg);
+}
+
+.cs-variant-formula--clickable {
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s ease;
+}
+
+.cs-variant-formula--clickable:hover {
+  border-color: rgba(var(--maroon-rgb), 0.35);
+}
+
+.cs-variant-formula--clickable.is-active {
+  border-color: var(--maroon);
+  box-shadow: 0 0 0 1px var(--maroon);
+}
+
+.cs-variant-formula__code-title {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 12.5px;
+  color: var(--cs-muted);
+  opacity: 0.85;
+}
+
+.cs-variant-formula__code {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 12.5px;
+  color: var(--cs-green);
+  background: rgba(var(--cs-green-rgb), 0.09);
+  border: 1px solid rgba(var(--cs-green-rgb), 0.22);
+  padding: 4px 10px;
+  border-radius: 8px;
+}
+
+.cs-variant-formula__code--base {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--maroon);
+  background: rgba(var(--maroon-rgb), 0.1);
+  border-color: rgba(var(--maroon-rgb), 0.25);
+}
+
+/* The governing principle, shown as its own visual statement before the
+   tabs — not a text line buried in body copy. Large serif type for the
+   rule itself (reads with the same weight as a section heading), then a
+   smaller note underneath grounding it in the research that forced it.
+   Everything in the three tabs below is downstream of this one line. */
+.cs-principle {
+  padding: 28px 32px;
+  margin: 24px 0 32px;
+  border-left: 3px solid var(--maroon);
+  background: rgba(var(--maroon-rgb), 0.04);
+  border-radius: 0 16px 16px 0;
+}
+
+.cs-principle__eyebrow {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  margin-bottom: 10px;
+}
+
+.cs-principle__statement {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: clamp(24px, 3vw, 32px);
+  line-height: 1.25;
+  color: var(--cs-ink);
+  margin: 0 0 14px;
+}
+
+.cs-principle__note {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.55;
+  color: var(--cs-soft);
+  max-width: 640px;
+  margin: 0;
+}
+
+/* Strategy tabs: the three decisions (what could be said, composing
+   variants, order & structure) as switchable panels instead of stacked
+   lettered sections — same tablist pattern as the Booking Failures
+   feedback filter, restyled to this page's maroon accent. */
+.cs-strategy-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 32px 0 32px;
+}
+
+.cs-strategy-tab {
+  position: relative;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: 1px solid var(--cs-line);
+  background: var(--cs-card-bg);
+  color: var(--cs-soft);
+  font-family: var(--font-body);
+  font-size: 13.5px;
+  font-weight: 500;
+  cursor: pointer;
+  overflow: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease;
+}
+
+.cs-strategy-tab:hover {
+  border-color: rgba(var(--maroon-rgb), 0.3);
+}
+
+.cs-strategy-tab.is-active {
+  background: rgba(var(--maroon-rgb), 0.1);
+  border-color: rgba(var(--maroon-rgb), 0.3);
+  color: var(--maroon);
+  font-weight: 600;
+}
+
+/* A slow light-sweep on the unpicked tabs only — a quiet "this is
+   clickable" signal without a hover/focus state, since the active tab
+   already reads as selected via its filled background. */
+.cs-strategy-tab:not(.is-active)::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(115deg, transparent, rgba(var(--maroon-rgb), 0.08), transparent);
+  animation: cs-tab-shimmer 6.5s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.cs-strategy-tab:nth-of-type(2):not(.is-active)::after {
+  animation-delay: 1s;
+}
+
+.cs-strategy-tab:nth-of-type(3):not(.is-active)::after {
+  animation-delay: 2s;
+}
+
+@keyframes cs-tab-shimmer {
+  0% {
+    left: -60%;
+  }
+  45%,
+  100% {
+    left: 130%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cs-strategy-tab:not(.is-active)::after {
+    animation: none;
+  }
+}
+
+.cs-priority-legend__dot--neutral {
+  background: transparent;
+  border: 1px solid var(--cs-muted);
+}
+
+/* Paywall structure as an actual low-fi wireframe inside a phone frame —
+   image-placeholder, text lines, a video icon, and a button shape, the
+   same visual grammar as a real wireframing tool — instead of plain
+   colour-coded rectangles standing in for content that was never drawn. */
+/* Grid, not flex: the phone's four blocks and the four legend entries are
+   subgrids sharing the SAME row tracks, so row heights are computed once
+   across both columns (max of block content vs. legend text) — the two
+   sides can't drift out of sync the way two independently-flowing flex
+   columns did. */
+.cs-paywall-phone-row {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  grid-template-rows: repeat(4, auto);
+  column-gap: 40px;
+  margin: 24px 0 8px;
+  padding: 28px;
+  background: rgb(245, 245, 245);
+  border-radius: 24px;
+}
+
+.dark .cs-paywall-phone-row {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.cs-paywall-phone {
+  grid-column: 1;
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-rows: subgrid;
+  row-gap: 20px;
+  position: relative;
+  padding: 52px 14px 22px;
+  background: var(--cs-ink);
+  border-radius: 36px;
+  box-shadow: 0 0 0 2px var(--cs-line);
+}
+
+.cs-paywall-phone::before {
+  content: "";
+  position: absolute;
+  top: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 6px;
+  border-radius: 4px;
+  background: rgba(var(--cs-muted-rgb), 0.5);
+}
+
+.cs-wf-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: var(--cs-card-bg);
+  border-radius: 14px;
+}
+
+.cs-wf-block__label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--cs-muted);
+}
+
+.cs-wf-image {
+  position: relative;
+  height: 46px;
+  border-radius: 8px;
+  border: 1px solid var(--cs-line);
+  background: rgba(var(--cs-muted-rgb), 0.08);
+  overflow: hidden;
+}
+
+.cs-wf-image svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  stroke: var(--cs-line);
+  stroke-width: 1;
+}
+
+.cs-wf-lines--inline {
+  position: absolute;
+  left: 8px;
+  bottom: 8px;
+  gap: 5px;
+}
+
+.cs-wf-lines {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.cs-wf-lines--plan {
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.cs-wf-line {
+  display: block;
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(var(--cs-muted-rgb), 0.25);
+}
+
+.cs-wf-line--lg {
+  height: 11px;
+  border-radius: 4px;
+  background: rgba(var(--maroon-rgb), 0.3);
+}
+
+.cs-wf-video {
+  height: 60px;
+  border-radius: 8px;
+  border: 1px solid var(--cs-line);
+  background: rgba(var(--cs-muted-rgb), 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-wf-video__play {
+  width: 0;
+  height: 0;
+  border-top: 7px solid transparent;
+  border-bottom: 7px solid transparent;
+  border-left: 11px solid rgba(var(--cs-muted-rgb), 0.5);
+  margin-left: 3px;
+}
+
+.cs-wf-button {
+  height: 34px;
+  border-radius: 999px;
+  background: var(--maroon);
+}
+
+.cs-paywall-phone__legend {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  display: grid;
+  grid-template-rows: subgrid;
+  row-gap: 20px;
+  align-items: center;
+  min-width: 240px;
+}
+
+@media (max-width: 640px) {
+  .cs-paywall-phone-row {
+    grid-template-columns: 1fr;
+    grid-template-rows: none;
+    row-gap: 32px;
+  }
+  .cs-paywall-phone {
+    grid-row: auto;
+  }
+  .cs-paywall-phone__legend {
+    grid-column: 1;
+    grid-row: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+}
+
+.cs-intent-logic {
+  padding: 28px 32px;
+  margin: 4px 0 28px;
+  background: rgba(var(--cs-muted-rgb), 0.05);
+  border: 1px solid var(--cs-line);
+  border-radius: 16px;
+}
+
+.dark .cs-intent-logic {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.cs-intent-logic__label {
+  display: block;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
+  color: var(--cs-soft);
+  margin-bottom: 12px;
+}
+
+.cs-intent-logic__intro {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--cs-ink);
+  margin: 0;
+}
+
+.cs-intent-logic__intro strong {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+.cs-intent-logic__decisions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin: 20px 0 0;
+}
+
+.cs-intent-logic__item {
+  display: flex;
+  gap: 16px;
+}
+
+.cs-intent-logic__sublist {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cs-intent-logic__sublist li {
+  position: relative;
+  padding-left: 16px;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--cs-soft);
+}
+
+.cs-intent-logic__sublist li::before {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 8px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--cs-soft);
+}
+
+.cs-intent-logic__sublist li strong {
+  font-weight: 600;
+  color: var(--cs-ink);
+}
+
+.cs-intent-logic__n {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: rgba(var(--maroon-rgb), 0.1);
+  border: 0.5px solid var(--cs-line);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--maroon);
+}
+
+.cs-intent-logic__item-title {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14.5px;
+  color: var(--cs-ink);
+  margin-bottom: 4px;
+}
+
+.cs-intent-logic__item-body {
+  font-size: 13.5px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--cs-body);
+  margin: 0;
+}
+
+
+@media (max-width: 640px) {
+  .cs-priority-grid {
+    grid-template-columns: 1fr;
+  }
+  .cs-structure-flow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .cs-structure-flow__step {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .cs-intent-logic {
+    padding: 20px;
+  }
+  .cs-structure-flow__arrow {
+    transform: rotate(90deg);
   }
 }
 

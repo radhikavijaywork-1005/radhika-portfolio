@@ -1,6 +1,6 @@
 # Session progress notes (updated 2026-08-07)
 
-For picking up in a fresh conversation. Read this first, then check the specific files mentioned.
+For picking up in a fresh conversation. Read this first, then check the specific files mentioned. Also check `DOMAIN_PURCHASE_AND_DEPLOY_NOTES.md` in this same root for the most recent session (2026-08-24 to 2026-08-27) covering the custom domain decision, deploy pipeline fix, and hero 3D experiments.
 
 ## Backlog — 2026-08-07 (from user's own list, not yet started unless noted)
 

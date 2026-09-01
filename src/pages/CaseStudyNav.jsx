@@ -6,6 +6,7 @@ const defaultSections = [
   { id: "problem", label: "Problem" },
   { id: "design-work", label: "Design work" },
   { id: "research", label: "Research" },
+  { id: "strategy", label: "Strategy" },
   { id: "decisions", label: "Decisions" },
   { id: "impact", label: "Impact" },
   { id: "reflection", label: "Reflection" },
