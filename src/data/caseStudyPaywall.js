@@ -32,7 +32,7 @@ export const paywallCaseStudy = {
     {
       icon: "🔍",
       label: "Approach",
-      text: "Studied user behaviour through qualitative, quantitative, and past experiment data, then ran **3 phased experiments,** each testing a different part of the paywall.",
+      text: "Talked to users, dug through 18 months of past experiments, then ran **3 phased experiments** across plan clarity, intent, and content value.",
     },
     {
       icon: "📊",
@@ -64,7 +64,7 @@ export const paywallCaseStudy = {
 
   problemStats: [
     { value: "~8%", label: "Trial Rate", sublabel: "Conversions only" },
-    { value: "~75%", label: "of new users dropped", sublabel: "before ever trying" },
+    { value: "~75%", label: "drop at the paywall", sublabel: "before starting a trial" },
   ],
   problemBody:
     "Despite being the platform's primary monetisation model, trial conversions were stuck at **8-10%** even after multiple paywall experiments. My aim was to identify the **friction points and improve trial activation and conversion.**",
@@ -110,8 +110,8 @@ export const paywallCaseStudy = {
   ],
 
   research: {
-    body: "To get the concrete problems, I ran user calls with 3 months of trial cohort users across Haryanvi, Rajasthani, and Bhojpuri dialects, and also analysed the from App/Play Store reviews.",
-    body2: "Each call was coded against 5 parameters.",
+    body: "I got on calls with 3 months of trial-cohort users across Haryanvi, Rajasthani, and Bhojpuri, and read through App and Play Store reviews alongside them, to hear the friction in their own words before I looked at a single chart.",
+    body2: "To keep the calls comparable, I coded each one against the same 5 parameters:",
     params: ["1. Barriers", "2. Decision factor", "3. Value Perception", "4. Trust Elements", "5. User Expectation"],
     quotes: [
       { text: "₹1 mein kitne din dekh sakte hai? ₹199 kya khudse kat lega?", name: "Manoj", loc: "Hisar" },
@@ -126,17 +126,17 @@ export const paywallCaseStudy = {
 
   insights: [
     {
-      n: "01",
+      icon: "❗️",
       title: "The problem was clarity, not price.",
       body: "Users didn't reject the ₹1 trial cost, they didn't understand when or how ₹199 would be auto-deducted and Tier 2/3 users specifically worried it signaled fraud.",
     },
     {
-      n: "02",
+      icon: "🤔",
       title: "Unsure of the value they'll get after subscribing.",
       body: "Content availability was unclear - number of titles, dialects, or shows. Paying ₹x felt like a gamble.",
     },
     {
-      n: "03",
+      icon: "👀",
       title: "Users were asked to pay before seeing anything.",
       body: "They thought the app was free but encountered a paywall immediately, before viewing any content, and left.",
     },
@@ -145,37 +145,31 @@ export const paywallCaseStudy = {
   pastExperiments: {
     intro:
       "Alongside these calls, I went back through **18 months of past paywall experiments** (Amplitude data, App/Play Store reviews, and calling-sheet notes that had never been synthesised together) to separate what we already knew from what we were still guessing at.",
-    learningsIntro: "Five patterns kept surfacing across that history, none of which had been acted on together:",
+    learningsIntro: "Four patterns kept surfacing across that history, none of which had been acted on together:",
     learnings: [
       {
-        n: "01",
+        icon: "🧾",
         title: "Plan info & trial behaviour",
-        observed: "Incomplete plan info let mandates continue unnoticed.",
-        inferred: "Explain the trial clearly and simply.",
+        observed: "Incomplete plan info → mandates continuing unnoticed.",
+        inferred: "Make plan info complete and easy to scan.",
       },
       {
-        n: "02",
+        icon: "🎨",
         title: "Visual & UI",
         observed: "Green CTAs and clear pricing lifted conversion, dense reviews didn't.",
         inferred: "Use clear pricing and a green button. Skip the long reviews.",
       },
       {
-        n: "03",
+        icon: "⏯️",
         title: "Video",
         observed: "Autoplay video lifted conversion, but users didn't relate to the face.",
         inferred: "Keep the video, use a more relatable face.",
       },
       {
-        n: "04",
+        icon: "⏱️",
         title: "Paywall timing",
         observed: "Paywall shown right after login converted better than after a click.",
         inferred: "Show the paywall right after login, by default.",
-      },
-      {
-        n: "05",
-        title: "Untested surface",
-        observed: "The content page right after the trailer plays had never been tested.",
-        inferred: "Worth testing next.",
       },
     ],
   },
@@ -216,7 +210,7 @@ export const paywallCaseStudy = {
       {
         title: "Nurturing elements",
         items: [
-          { text: "No. of shows", tier: "p1" },
+          { text: "Library depth in number", tier: "p1" },
           { text: "Regional subscriber count (Haryanvi/Rajasthani/Bhojpuri)", tier: "p1" },
           { text: "Show/movie from the ad, reinforced", tier: "p1" },
           { text: "Library depth, visual", tier: "p2" },
@@ -258,7 +252,7 @@ export const paywallCaseStudy = {
 
     variantCompositionLabel: "Composing that priority list into testable variants",
     variantCompositionIntro:
-      "Those priorities became building blocks, some fixed on every variant, some optional. Each variant is a specific combination of blocks, not a separate design.",
+      "Then I finalised the variants based on the priority comms and elements to test.",
     variantRows: [
       {
         code: "A",
@@ -305,12 +299,12 @@ export const paywallCaseStudy = {
     ],
 
     structureIntro:
-      "Then I fixed the order across the four CMS blocks the paywall was built from: header, plan, video, and CTA.",
+      "Then, to work with the CMS constraint, I fixed the order and placement of the sections: header, plan, video, and CTA.",
     structure: {
       blocks: [
-        { code: "1", title: "Header", type: "image", note: "Content depth and nurturing signals lead the screen. Density varied by variant, to isolate whether more signal actually helped." },
-        { code: "2", title: "Plan", type: "text", note: "Plan terms come right after, kept crisp, written to nurture trust rather than scare the user away." },
-        { code: "3", title: "Video", type: "video", note: "Neeraj Chopra's video stayed in every variant, never dropped or swapped." },
+        { code: "1", title: "Header", type: "image", note: "Content depth and nurturing signals lead the screen. How much of it to show was the one thing that varied by variant, testing whether more signal built trust or just added clutter." },
+        { code: "2", title: "Plan", type: "text", note: "Clear and simple plan communication, with nurturing elements to build trust." },
+        { code: "3", title: "Video", type: "video", note: "Neeraj Chopra's video stayed fixed across all five Phase 1 variants, isolating header and plan as the only variables." },
         { code: "4", title: "CTA", type: "button", note: "Copy stayed constant across every variant, so any conversion delta traces to plan clarity, not a stronger call-to-action." },
       ],
     },
@@ -388,7 +382,7 @@ export const paywallCaseStudy = {
       title: "Value Proposition",
       hypothesis: "If we let users watch the exact title they came for up to its hook point, they'd be likely to convert better",
       howTested:
-        "Our first instinct was to change the main flow - let the user watch the content they came for up to the hook point, then pitch trial.\n\nBut when we looked at the data, **70% users converts after seeing 1st paywall view, 28% from the 2nd, and 14% from the 3rd.** So changing the main flow would've meant risking the trials we were already getting.\n\nSo we tested this on the **3rd paywall view** instead. We **tracked the deeplink the user came** from, and let them watch that content behind a Special Access gate -right up to the hook point.",
+        "Our first instinct was to change the main flow - let the user watch the content they came for up to the hook point, then pitch trial.\n\nBut when we looked at the data, **70% users converts after seeing 1st paywall view, 28% from the 2nd, and 14% from the 3rd.** So changing the main flow would've meant risking the trials we were already getting.\n\nSo we tested this on the **3rd paywall view** instead, using the same ad-match signal from Phase 2 to gate that exact content behind Special Access, right up to the hook point.",
       eyebrow: "Phase 3",
       spotlightTitle: "Special Access",
       spotlightBody:
@@ -433,7 +427,7 @@ export const paywallCaseStudy = {
 
   futureScope: [
     "Multiple experiments across **trial vs monthly plans** to find the right entry price",
-    "Launched **quarterly and yearly plans** - moving beyond the single 3-month plan Live",
+    "Launched **quarterly and yearly plans (Live)** - moving beyond the single 3-month plan",
     "Experimenting with the **decoy effect** on the trial paywall to frame value better",
     "**Theme-based** trial paywalls matching the paywall to the cultural events and festivals",
     "**Gamification on paywalls** - spin-the-wheel, surprise gifts, and reward-led nudges",

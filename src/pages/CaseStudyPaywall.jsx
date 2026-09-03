@@ -427,8 +427,8 @@ export default function CaseStudyPaywall() {
             </Reveal>
             <div className="cs-insight-grid">
               {cs.insights.map((ins, i) => (
-                <Reveal as="div" className="cs-insight-card" key={ins.n} delay={i * 0.06}>
-                  <span className="cs-insight-card__n">{ins.n}</span>
+                <Reveal as="div" className="cs-insight-card" key={ins.title} delay={i * 0.06}>
+                  <span className="cs-overview-fact__icon">{ins.icon}</span>
                   <h4 className="cs-insight-card__title">{ins.title}</h4>
                   <p className="cs-insight-card__body">{ins.body}</p>
                 </Reveal>
@@ -447,21 +447,17 @@ export default function CaseStudyPaywall() {
             <Reveal as="p" className="cs-body" delay={0.05}>
               {cs.pastExperiments.learningsIntro}
             </Reveal>
-            <div className="cs-oi-grid">
+            <div className="cs-oi-list">
               {cs.pastExperiments.learnings.map((l, i) => (
-                <Reveal as="div" className="cs-oi-item" key={l.n} delay={(i % 4) * 0.06}>
-                  <div className="cs-oi-item__head">
-                    <span className="cs-breakdown-item__n">{l.n}</span>
-                    <h3 className="cs-oi-item__title">{l.title}</h3>
-                  </div>
-                  <div className="cs-oi-item__row">
-                    <span className="cs-oi-item__label">Observed</span>
-                    <p className="cs-oi-item__observed">{l.observed}</p>
-                  </div>
-                  <div className="cs-oi-item__row">
-                    <span className="cs-oi-item__label cs-oi-item__label--inferred">Inferred</span>
-                    <p className="cs-oi-item__inferred">{l.inferred}</p>
-                  </div>
+                <Reveal as="div" className="cs-oi-row" key={l.title} delay={(i % 5) * 0.04}>
+                  <span className="cs-overview-fact__icon">{l.icon}</span>
+                  <h3 className="cs-oi-row__title">{l.title}</h3>
+                  <p className="cs-oi-row__text">
+                    <span className="cs-oi-item__label">Observed</span> {l.observed}
+                  </p>
+                  <p className="cs-oi-row__text">
+                    <span className="cs-oi-item__label cs-oi-item__label--inferred">Inferred</span> {l.inferred}
+                  </p>
                 </Reveal>
               ))}
             </div>

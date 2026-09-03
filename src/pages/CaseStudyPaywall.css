@@ -158,7 +158,7 @@
 }
 
 .cs-title {
-  font-size: clamp(30px, 4.2vw, 44px);
+  font-size: clamp(32px, 4.2vw, 44px);
   line-height: 1.125;
   letter-spacing: -0.01em;
   color: var(--maroon);
@@ -166,7 +166,7 @@
 }
 
 .cs-subhead {
-  font-size: clamp(15px, 1.7vw, 18px);
+  font-size: clamp(16px, 1.7vw, 20px);
   line-height: 1.4;
   letter-spacing: 0.015em;
   color: var(--cs-body);
@@ -352,7 +352,7 @@
 }
 
 .cs-body {
-  font-size: 15.5px;
+  font-size: 15px;
   line-height: 1.7;
   color: var(--cs-body);
   margin-bottom: 16px;
@@ -921,6 +921,7 @@
 
 .cs-breakdown-item {
   display: flex;
+  align-items: flex-start;
   gap: 24px;
 }
 
@@ -982,47 +983,54 @@
   height: auto;
 }
 
-/* Observed -> Inferred: a 2-column grid of compact cards (1+2 in the first
-   row, 3+4 in the second, 5 spanning both) instead of a single vertical
-   list — reads like a table of findings. Observed and Inferred are two
-   plain-English lines stacked inside each card, not one run-on sentence. */
-.cs-oi-grid {
+/* Observed -> Inferred: a compact single-column list, one thin divider
+   row per finding, instead of 5 padded bordered cards — same content,
+   roughly half the vertical height. */
+.cs-oi-list {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 16px;
   padding-top: 4px;
 }
 
-.cs-oi-item {
-  padding: 20px 24px;
+.cs-oi-row {
+  padding: 24px;
   border: 0.5px solid var(--cs-muted);
   border-radius: 12px;
   background: var(--cs-card-bg);
 }
 
-.cs-oi-item:nth-child(5) {
+.cs-oi-row:nth-child(5) {
   grid-column: 1 / -1;
 }
 
-.cs-oi-item__head {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+.cs-oi-row .cs-overview-fact__icon {
   margin-bottom: 14px;
 }
 
-.cs-oi-item__title {
+.cs-oi-row__title {
   font-family: var(--font-body);
   font-weight: 600;
   font-size: 15px;
   color: var(--cs-ink);
+  margin-bottom: 8px;
 }
 
-.cs-oi-item__row {
-  margin-bottom: 10px;
+.cs-oi-row__text {
+  font-size: 13.5px;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--cs-soft);
+  margin: 0 0 6px;
 }
 
-.cs-oi-item__row:last-child {
+.cs-oi-row__text:last-child {
+  margin-bottom: 0;
+}
+
+.cs-oi-row__text .cs-oi-item__label {
+  display: inline;
+  margin-right: 6px;
   margin-bottom: 0;
 }
 
@@ -1034,34 +1042,18 @@
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--cs-muted);
-  margin-bottom: 3px;
+  margin-bottom: 4px;
 }
 
 .cs-oi-item__label--inferred {
   color: var(--cs-green);
 }
 
-.cs-oi-item__observed {
-  font-size: 13.5px;
-  font-weight: 300;
-  line-height: 1.45;
-  color: var(--cs-soft);
-  margin: 0;
-}
-
-.cs-oi-item__inferred {
-  font-size: 13.5px;
-  font-weight: 500;
-  line-height: 1.45;
-  color: var(--cs-green);
-  margin: 0;
-}
-
 @media (max-width: 640px) {
-  .cs-oi-grid {
+  .cs-oi-list {
     grid-template-columns: 1fr;
   }
-  .cs-oi-item:nth-child(5) {
+  .cs-oi-row:nth-child(5) {
     grid-column: 1;
   }
 }
@@ -1151,7 +1143,7 @@
 
 .cs-quote-card__text {
   font-size: 14px;
-  line-height: 1.7;
+  line-height: 1.6;
   color: var(--cs-ink);
   margin-bottom: 8px;
   font-style: italic;
@@ -1386,9 +1378,10 @@
 
 .cs-tag--neutral {
   font-weight: 300;
-  color: var(--cs-muted);
+  color: var(--cs-soft);
   background: transparent;
-  border: 1px solid var(--cs-line);
+  border: 0.5px solid var(--cs-line);
+  opacity: 0.6;
 }
 
 /* Variant composition: each row pairs a Fixed element with its matching
@@ -1886,7 +1879,7 @@
 }
 
 .cs-intent-logic {
-  padding: 28px 32px;
+  padding: 28px clamp(20px, 6vw, 65px);
   margin: 4px 0 28px;
   background: rgba(var(--cs-muted-rgb), 0.05);
   border: 1px solid var(--cs-line);
@@ -1968,8 +1961,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
   border-radius: 50%;
   background: rgba(var(--maroon-rgb), 0.1);
@@ -2241,7 +2234,7 @@
 .cs-clarity-block__title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(24px, 3vw, 34px);
+  font-size: clamp(24px, 3vw, 36px);
   color: var(--cs-ink);
   margin-bottom: 24px;
 }
@@ -2300,7 +2293,7 @@
 .cs-spotlight__title {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: clamp(24px, 3vw, 34px);
+  font-size: clamp(24px, 3vw, 36px);
   color: var(--cs-ink);
   margin-bottom: 16px;
 }
@@ -2399,7 +2392,7 @@
   order: 1;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(26px, 3.4vw, 34px);
+  font-size: clamp(28px, 3.4vw, 36px);
   color: var(--maroon);
   line-height: 1.25;
 }
@@ -2611,8 +2604,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   flex-shrink: 0;
   border-radius: 50%;
   background: var(--cs-card-bg);
@@ -2678,7 +2671,7 @@
   align-items: center;
   gap: 10px;
   font-family: var(--font-display);
-  font-size: clamp(20px, 2.6vw, 27px);
+  font-size: clamp(20px, 2.6vw, 28px);
   color: var(--cs-ink);
   width: fit-content;
   text-decoration: underline;
